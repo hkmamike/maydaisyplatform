@@ -1,52 +1,92 @@
 import React, { Component } from 'react';
-import {BrowserRouter as Router, Route, Link } from 'react-router-dom';
+import { BrowserRouter, Route, Link, Redirect, Switch } from 'react-router-dom';
 
-//components
+//auth
+import Login from './components/pages/login'
+import Register from './components/pages/register'
+
+import { firebaseAuth } from './components/config/constants'
+
+//content components
 import Header from './components/headerComponents/header';
 import Footer from './components/footerComponents/footer';
 import Homepage from './components/pages/homePage';
 import Packages from './components/pages/packages';
-import Login from './components/pages/login';
+import Subscriptions from './components/protected/subscriptions'
 
 //includes
 import './assets/css/default.min.css';
 import * as firebase from 'firebase';
 
-class App extends Component {
- 
+function PrivateRoute ({component: Component, authed, ...rest}) {
+  return (
+    <Route {...rest} render={(props) => authed === true? 
+        <Component {...props} />
+        : <Redirect to={{pathname: '/login', state: {from: props.location}}} />}
+    />
+  )
+}
+function PublicRoute ({component: Component, authed, ...rest}) {
+  return (
+    <Route {...rest} render={(props) => authed === false?
+        <Component {...props} />
+        : <Redirect to='/subscriptions' />}
+    />
+  )
+}
+
+export default class App extends Component {
   constructor() {
     super();
     this.state = {
-      speed: 10
-    };
+      authed: false,
+      loading: true,
+    }
   }
 
-  componentDidMount() {
-    const rootRef = firebase.database().ref().child('react');
-    const speedRef = rootRef.child('speed');
-    speedRef.on('value', snap => {
-      this.setState({
-        speed: snap.val()
-      });
-    });
+  componentDidMount () {
+    this.removeListener = firebaseAuth().onAuthStateChanged((user) => {
+      if (user) {
+        this.setState({
+          authed: true,
+          loading: false,
+          UserID: firebase.auth().currentUser
+        })
+      } else {
+        this.setState({
+          authed: false,
+          loading: false,
+          UserID: null
+        })
+      }      
+    })
+  }
+
+  componentWillUnmount () {
+    this.removeListener()
   }
 
   render() {
     return (
-      <Router>
+      <BrowserRouter>
 
         <div className="App">
-          <h1>{this.state.speed}</h1>
-          <Header/>
-            <Route exact path='/' component={Homepage} />
-            <Route exact path='/packages' component={Packages} />
-            <Route exact path='/login' component={Login} />
+
+          <Header authed={this.state.authed} />
+
+          <Switch>
+            <Route path='/' exact component={Homepage} />
+            <PublicRoute authed={this.state.authed} path='/login' component={Login} />
+            <Route authed={this.state.authed} path='/register' component={Register} />
+            <Route authed={this.state.authed} path='/packages' component={Packages} />
+            <PrivateRoute authed={this.state.authed} path='/subscriptions' component={Subscriptions} />
+            <Route render={() => <h3>Uhoh...we couldn't find your page</h3>} />
+          </Switch>
+
           <Footer/>
         </div>
       
-      </Router>
+      </BrowserRouter>
     );
   }
 }
-
-export default App;
