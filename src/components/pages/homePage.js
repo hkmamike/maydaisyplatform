@@ -1,18 +1,23 @@
 import React, { Component } from 'react';
 
 
-class Homepage extends Component {
+export default class Homepage extends Component {
  render() {
     return (
-      <div className="container-fluid no-padding">
+      <div className="no-padding">
         <div className="home-image-container">
           <div className="home-image"></div>
         </div>
-        <p> is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum.</p>
+
+        <div className="home-how-it-works">
+          <div className="row">
+            <div className="small-12 medium-4 large-4 columns">...</div>
+            <div className="small-12 medium-4 large-4 columns">...</div>
+            <div className="small-12 medium-4 large-4 columns">...</div>
+          </div>
+        </div>
 
       </div>
     );
   }
 }
-
-export default Homepage;

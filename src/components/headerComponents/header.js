@@ -1,8 +1,14 @@
 import React, { Component } from 'react';
-import { Link } from 'react-router-dom';
-import { logout } from '../helpers/auth'
+import { BrowserRouter, Route, Link } from 'react-router-dom';
+import { logout } from '../helpers/auth';
+// import Foundation from 'react-foundation';
+
+const ButtonToNavigate = ({ title, history }) => (
+    <button className="button" onClick={() => history.push('/login')}>Login</button>
+  );
 
 export default class Header extends Component {
+
  render() {
     return (
       <header>
@@ -18,7 +24,7 @@ export default class Header extends Component {
                     <button onClick={() => {logout()}} className="button radius">Logout</button>
                     :
                     <span>
-                        <button className="custom-button-class"> <Link to="/login">Login / Signup</Link></button>
+                        <Route path="/" render={(props) => <ButtonToNavigate {...props}/>} />
                     </span>}
                 </li>
             </ul>

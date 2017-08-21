@@ -25,9 +25,13 @@ header {
     }
 
     nav button {
-        background-color: $darkpink;
-        margin: 5px;
-        height: 50px;
+        margin: 5px !important;
+        height: 50px !important;
+        background-color: $darkpink !important;
+        font-weight: bold !important;
+        &:hover {
+            background-color: $darkpinkhover !important;
+        }
     }
 
     nav {
@@ -58,7 +62,7 @@ header {
 }
 
 .bar-pink {
-    background-color: $pink;
+    background-color: $darkpink;
     color: $white;
     padding: 10px;
     text-align: center;
@@ -77,7 +81,7 @@ header {
 }
 
 .footer-contact {
-    height: 200px;
+    min-height: 200px;
     width: 100%;
     padding:20px;
     color: $white;

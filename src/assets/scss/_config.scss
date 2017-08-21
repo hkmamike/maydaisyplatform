@@ -6,6 +6,7 @@ $red: #ff1755;
 $teal: #44bab5;
 $orange: #f78536;
 $darkpink: #d8247f;
+$darkpinkhover: #b51f6d;
 $darkteal: #497285;
 // $pink: #ff93c9;
 $pink: #fcb3ca;
@@ -42,7 +43,7 @@ a {
     cursor: pointer;
 
     &:hover {
-        color: $red;
+        color: $darkteal;
         @include transition (.4s ease-in-out);
     }
 }
