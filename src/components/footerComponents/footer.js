@@ -9,7 +9,7 @@ class Footer extends Component {
         <div className="bar-pink">
           <div className="row">
             <div className="large-12 columns">
-                JOIN THE ONEBLOOM MOVEMENT <u><i className="fi fi-torsos-all"></i></u>
+                JOIN THE ONEBLOOM MOVEMENT NOW <u><i className="fi fi-torsos-all"></i></u>
             </div>
           </div>
         </div>
@@ -21,8 +21,8 @@ class Footer extends Component {
                 <div className="display-table">
                   <div className="align">
                     <h4> Support Contact </h4>
-                    email: mikebrianleung@gmail.com <br/>
-                    tel: 852-9346-8427
+                    email<strong>:</strong> mikebrianleung@gmail.com <br/>
+                    whatsapp & tel<strong>:</strong> 852-9346-8427
                   </div>
                 </div>
               </div>

@@ -15,10 +15,10 @@ export default class Header extends Component {
             <ul>
                 <li className="last">
                     {this.props.authed?
-                    <button onClick={() => {logout()}} className="btn btn-primary">Logout</button>
+                    <button onClick={() => {logout()}} className="button radius">Logout</button>
                     :
                     <span>
-                        <button className="btn btn-primary"> <Link to="/login">Login / Signup</Link></button>
+                        <button className="custom-button-class"> <Link to="/login">Login / Signup</Link></button>
                     </span>}
                 </li>
             </ul>
