@@ -24,13 +24,15 @@ header {
         padding: 0;
     }
 
-    nav button {
+    nav .button {
         margin: 5px !important;
         height: 50px !important;
         background-color: $darkpink !important;
         font-weight: bold !important;
+        color: $white !important;
         &:hover {
             background-color: $darkpinkhover !important;
+
         }
     }
 
@@ -102,14 +104,6 @@ header {
     .row {
         vertical-align: middle;
     }
-
-    // .display-table {
-    //     display: table;
-    //     .align {
-    //         display: table-cell;
-    //         vertical-align: middle;
-    //     }
-    // }
 }
 
 .footer-end {

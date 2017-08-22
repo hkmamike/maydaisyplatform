@@ -2,21 +2,24 @@ import React, { Component } from 'react';
 import { BrowserRouter, Route, Link, Redirect, Switch } from 'react-router-dom';
 
 //auth
-import Login from './components/pages/login'
-import Register from './components/pages/register'
+import Login from './components/pages/login';
+import Register from './components/pages/register';
 
-import { firebaseAuth } from './components/config/constants'
+import { firebaseAuth } from './components/config/constants';
 
 //content components
 import Header from './components/headerComponents/header';
 import Footer from './components/footerComponents/footer';
 import Homepage from './components/pages/homePage';
 import Packages from './components/pages/packages';
-import Subscriptions from './components/protected/subscriptions'
+import Subscriptions from './components/protected/subscriptions';
 
 //includes
 import './assets/css/default.min.css';
 import * as firebase from 'firebase';
+
+import { Button } from 'react-bootstrap';
+
 
 function PrivateRoute ({component: Component, authed, ...rest}) {
   return (
@@ -87,6 +90,6 @@ export default class App extends Component {
         </div>
       
       </BrowserRouter>
-    );
+    )
   }
 }

@@ -11,13 +11,13 @@ export default class Homepage extends Component {
 
         <div className="home-how-it-works">
           <div className="row">
-            <div className="small-12 medium-4 large-4 columns">...</div>
-            <div className="small-12 medium-4 large-4 columns">...</div>
-            <div className="small-12 medium-4 large-4 columns">...</div>
+            <div className="large-4 columns">...</div>
+            <div className="large-4 columns">...</div>
+            <div className="large-4 columns">...</div>
           </div>
         </div>
 
       </div>
-    );
+    )
   }
 }

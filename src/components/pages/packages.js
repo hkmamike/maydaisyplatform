@@ -1,10 +1,10 @@
 import React, { Component } from 'react';
 
 
-class Packages extends Component {
+export default class Packages extends Component {
  render() {
     return (
-      <div className="container-fluid">
+      <div>
       
         <h1>Packages</h1>
 
@@ -14,5 +14,3 @@ class Packages extends Component {
     );
   }
 }
-
-export default Packages;
