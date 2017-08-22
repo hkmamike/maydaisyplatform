@@ -12,6 +12,8 @@ import Header from './components/headerComponents/header';
 import Footer from './components/footerComponents/footer';
 import Homepage from './components/pages/homePage';
 import Packages from './components/pages/packages';
+import SignUps from './components/pages/signUps';
+
 import Subscriptions from './components/protected/subscriptions';
 
 //includes
@@ -85,6 +87,8 @@ export default class App extends Component {
             <PrivateRoute authed={this.state.authed} path='/subscriptions' component={Subscriptions} />
             <Route render={() => <h3>Uhoh...we couldn't find your page</h3>} />
           </Switch>
+
+          <SignUps/>
 
           <Footer/>
         </div>

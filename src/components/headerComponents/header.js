@@ -5,7 +5,7 @@ import { Button } from 'react-bootstrap';
 
 const ButtonToNavigate = ({ title, history }) => (
     <Button bsStyle="" className="button" onClick={() => history.push('/login')}>Login</Button>
-  );
+);
 
 export default class Header extends Component {
 
