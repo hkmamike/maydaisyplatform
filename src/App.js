@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { BrowserRouter, Route, Link, Redirect, Switch } from 'react-router-dom';
+import { BrowserRouter, Route, Redirect, Switch } from 'react-router-dom';
 
 //auth
 import Login from './components/pages/login';
@@ -19,8 +19,6 @@ import Subscriptions from './components/protected/subscriptions';
 //includes
 import './assets/css/default.min.css';
 import * as firebase from 'firebase';
-
-import { Button } from 'react-bootstrap';
 
 
 function PrivateRoute ({component: Component, authed, ...rest}) {

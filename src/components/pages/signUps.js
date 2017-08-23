@@ -1,30 +1,42 @@
-import React, { Component } from 'react'
-import * as firebase from 'firebase';
+import React, { Component } from 'react';
+import { base } from '../config/constants';
 
 export default class SignUps extends Component {
 
   constructor() {
     super();
     this.state = {
-        signUpsData: null
+        signUpsData: {}
     }
   }
 
-  componentDidMount () {
-    const signUpsRef = firebase.database().ref().child('signUp/hongKong/areas');
-    signUpsRef.on('value', snap => {
-      this.setState({
-        signUpsData : snap.val()
-      });
+  componentDidMount() {
+    this.signUpsDataRef = base.bindToState('signUp/hongKong/areas', {
+      context: this,
+      state: 'signUpsData'
     });
+  }
+
+  componentWillUnmount() {
+    base.removeBinding(this.signUpsDataRef);
   } 
 
   render () {
 
+    var data = this.state.signUpsData;
+
+    var content = Object.keys(data).map(function(key) {
+        return (
+            <div key={key}>
+                <span>{key}: {data[key].signUpCount}</span>
+            </div>
+        )
+    })
+
     return (
-      <div>
-        Subscriptions. PlanName is
-      </div>
+        <div>
+            {content}
+        </div>
     )
   }
 

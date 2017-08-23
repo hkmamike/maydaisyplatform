@@ -1,3 +1,4 @@
+import Rebase from 're-base';
 import * as firebase from 'firebase';
 
 const config = {
@@ -9,7 +10,10 @@ const config = {
     messagingSenderId: "379070404951"
 };
 
-firebase.initializeApp(config);
+const app = firebase.initializeApp(config);
+const base = Rebase.createClass(app.database())
 
 export const ref = firebase.database().ref()
 export const firebaseAuth = firebase.auth
+
+export { base }

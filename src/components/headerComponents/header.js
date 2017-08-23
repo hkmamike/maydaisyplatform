@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { BrowserRouter, Route, Link } from 'react-router-dom';
+import { Route, Link } from 'react-router-dom';
 import { logout } from '../helpers/auth';
 import { Button } from 'react-bootstrap';
 
