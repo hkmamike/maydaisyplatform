@@ -11,6 +11,8 @@ header {
     background: $white;
     color: $black;
     height: 70px;
+    border-bottom: solid $lightGrey;
+    border-width: 1px;
     .logo a {
         position: absolute;
         top: 50%;
@@ -66,13 +68,16 @@ header {
         background-color:rgba(250,250,250,0.9);
         text-align: center;
         float: right;
-        min-height: 230px;
+        min-height: 200px;
         min-width: 260px;
         max-height: 300px;
         max-width: 400px;
         padding: 20px;
         margin-right: 20px;
         margin-left: 20px;
+        @media (max-width: 600px) {
+            @include translateY(20%);
+        }
         @include translateY(70%);
         .home-image-title {
             color: $darkGrey;
@@ -83,7 +88,7 @@ header {
             font-size: 80%;
         }
         .home-image-select {
-            margin-top: 30px;
+            margin-top: 15px;
             width: 240px;
         }
         .dropdown {
@@ -91,6 +96,17 @@ header {
                 width: 240px;
                 max-height: 250px;
                 overflow: scroll;
+            }
+        }
+        .button {
+            margin-left: 10px !important;
+            margin-top: 15px !important;
+            height: 35px !important;
+            background-color: $darkpink !important;
+            font-weight: bold !important;
+            color: $white !important;
+            &:hover {
+                background-color: $darkpinkhover !important;
             }
         }
     }
@@ -142,21 +158,23 @@ header {
 }
 
 .footer-contact {
-    min-height: 200px;
+    height: 100%;
     width: 100%;
-    padding:20px;
+    padding:10px;
     color: $white;
     text-align: center;
-    background-image: url('https://firebasestorage.googleapis.com/v0/b/onebloom-cfa9d.appspot.com/o/Footer.png?alt=media&token=a49c4be7-5752-4ff1-bb77-aa60095932f1');
-    background-position: center center;
-    background-repeat: no-repeat;
-    background-size: cover;
-    background-color: $lightGrey;
-    .footer-contact-box {
-        background-color:rgba(0,0,0,0.7);
-        height: 100%;
-        width: 100%;
-        padding:32px;
+    background-color:rgba(0,0,0,0.7);
+    ul,li {
+        list-style: none;
+        padding: 0;
+        margin-left: 0;
+        margin-top: 10px;
+        font-size: 80%
+    }
+    .footer-title {
+        margin-top: 15px;
+        font-weight: bold;
+        font-size: 85%
     }
 }
 .footer-end {

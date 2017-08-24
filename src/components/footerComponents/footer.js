@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import { Grid, Row, Col } from 'react-bootstrap';
 
 export default class Footer extends Component {
  render() {
@@ -10,15 +11,32 @@ export default class Footer extends Component {
         </div>
 
         <div className="footer-contact">
-          <div className="footer-contact-box">
-            <div className="display-table">
-              <div className="align">
-                <h4> Support Contact </h4>
-                email<strong>:</strong> mikebrianleung@gmail.com <br/>
-                whatsapp & tel<strong>:</strong> 852-9346-8427
-              </div>
-            </div>
-          </div>    
+          <Grid>
+            <Row className="show-grid">
+              <Col xsHidden sm={4}>
+                <div className="footer-title">Company</div>
+                <ul className="foote-list">
+                  <li>About</li>
+                  <li>Careers</li>
+                  <li>Contact Us</li>
+                </ul>
+              </Col>
+              <Col xs={6} sm={4}>
+                <div className="footer-title">Support</div>
+                <ul className="foote-list">
+                  <li>FAQ</li>
+                  <li>Contact Us</li>
+                </ul>
+              </Col>
+              <Col xs={6} sm={4}>
+                <div className="footer-title">Terms</div>
+                <ul className="foote-list">
+                  <li>Terms of Services</li>
+                  <li>Privacy Policy</li>
+                </ul>
+              </Col>
+            </Row>
+          </Grid>
         </div>
 
         <div className="footer-end">
