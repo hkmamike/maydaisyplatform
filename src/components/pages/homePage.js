@@ -166,6 +166,10 @@ export default class Homepage extends Component {
           <div className="home-about-text"> One Bloom is a movment of lasting love. Through a weekly mystery flower design and delivery service, we make the expression of love persisting, fun, affordable, and full of surprises. We can deliver the weekly flowers to you (so you can deliver them in person), or deliver them directly to your loved one. To lower the price, we begin to invite customers to subscribe when 100 customers have shown interest in an area. Check out which areas we are delivering to now!</div>
         </div>
 
+        <div className="bar-pink">
+          Join the OneBloom movement <u><i className="fi fi-torsos-all"></i></u>
+        </div>
+
       </div>
     )
   }

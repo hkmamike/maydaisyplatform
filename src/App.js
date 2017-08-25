@@ -86,7 +86,7 @@ export default class App extends Component {
             <Route authed={this.state.authed} path='/register' component={Register} />
 
 
-            <Route path='/signups' exact render={(props) => (<SignUps {...props} selectRegion={selectRegion}/>)}/>
+            <Route path='/signups' exact render={(props) => (<SignUps {...props} selectRegion={selectRegion} onRegionSelection={this.handleRegionSelection}/>)}/>
 
 
             <Route authed={this.state.authed} path='/packages' component={Packages} />

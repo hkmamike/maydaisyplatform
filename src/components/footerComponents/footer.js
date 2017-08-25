@@ -6,10 +6,6 @@ export default class Footer extends Component {
     return (
       <footer>
 
-        <div className="bar-pink">
-          JOIN THE ONEBLOOM MOVEMENT NOW <u><i className="fi fi-torsos-all"></i></u>
-        </div>
-
         <div className="footer-contact">
           <Grid>
             <Row className="show-grid">
