@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
+import { FormGroup, FormControl, ControlLabel, Grid, Row, Col, DropdownButton, MenuItem, Button, Glyphicon } from 'react-bootstrap';
 import { base } from '../config/constants';
-import { FormGroup, FormControl, ControlLabel, Grid, Row, Col, DropdownButton, MenuItem } from 'react-bootstrap';
+// import { submitSignUp } from '../helpers/regionSignUp';
 
 class GreetingInBusinessHeader extends React.Component {
   render() {
@@ -27,6 +28,27 @@ class GreetingSignUpHeader extends React.Component {
     )
   }
 }
+class SubmitButton extends React.Component {
+  render() {
+    return (
+      <Button type="submit" className="region-select-submit-button">Submit</Button>
+    )
+  }
+}
+class SubmitButtonLoading extends React.Component {
+  render() {
+    return (
+      <Button type="submit" className="region-select-submit-button" disabled>...</Button>
+    )
+  }
+}
+class SubmitButtonSubmited extends React.Component {
+  render() {
+    return (
+      <Button type="submit" className="region-select-submit-button" disabled>Submitted <Glyphicon glyph="ok" className="icons"/></Button>
+    )
+  }
+}
 class GreetingSignUp extends React.Component {
 
   constructor() {
@@ -42,7 +64,9 @@ class GreetingSignUp extends React.Component {
     this.state = {
       name: '',
       email: '',
-      phone: ''
+      phone: '',
+      loading: false,
+      formSubmitted: false
     }
   }
 
@@ -51,153 +75,170 @@ class GreetingSignUp extends React.Component {
     if (nameLength >= 2) return 'success';
     else if (nameLength > 0) return 'warning';
   }
-
   getEmailValidationState() {
     const emailLength = this.state.email.length;
     const email = this.state.email;
     if (email.indexOf("@") >= 0 && email.indexOf(".") >= 0) return 'success';
     else if (emailLength > 0) return 'warning';
   }
-
   getPhoneValidationState() {
     const phoneLength = this.state.phone.length;
     if (phoneLength >= 8) return 'success';
     else if (phoneLength > 0) return 'warning';
   }
-
   getSelectValidationState() {
     const regionSelected = this.props.selectRegion;
-    if (regionSelected != "Select Region") return 'success';
+    if (regionSelected !== "Select Region") return 'success';
   }
-
-
+  
   handleNameChange(e) {
     this.setState({ name: e.target.value });
   }
-
   handleEmailChange(e) {
     this.setState({ email: e.target.value });
   }
-
   handlePhoneChange(e) {
     this.setState({ phone: e.target.value });
   }
-
   handleSelect = (eventKey) => {
     this.props.onRegionSelection(eventKey);
+  }
+
+  submitSignUp (selectRegion, name, email, phone) {
+    var immediatelyAvailableReference = base.push(`signUp/hongKong/areas/${selectRegion}/records`, {
+      data: {name: name, email: email, phone: phone, date: new Date()}
+    });
+    //available immediately, you don't have to wait for the callback to be called 
+    // var generatedKey = immediatelyAvailableReference.key;
+    this.setState({loading: false, formSubmitted: true});
+  }
+
+  handleSubmit = (e) => {
+    e.preventDefault()
+    this.submitSignUp(this.props.selectRegion, this.state.name, this.state.email, this.state.phone)
+    this.setState({loading: true});
   }
 
   render() {
 
     var selectRegion = this.props.selectRegion;
 
+    let submitButton = null;
+    if (this.state.loading===false && this.state.formSubmitted===false) {
+      submitButton = <SubmitButton/>;
+    } else if (this.state.true===false && this.state.formSubmitted===false) {
+      submitButton = <SubmitButtonLoading/>;
+    } else {
+      submitButton = <SubmitButtonSubmited/>;
+    }
+
     return (
       <div className="region-signup-grid">
         <Grid>
           <Row className="show-grid">
             <Col md={5} className="region-select-shade">
-              <form className="region-signup-form">
+              <form className="region-signup-form" onSubmit={this.handleSubmit}>
                 <h2 className="form-title"><strong>Sign Up Form</strong></h2>
                 <FormGroup controlId="region-signup-form-region" validationState={this.getSelectValidationState()}>
                   <ControlLabel>Receipient's Region : </ControlLabel>
                   <DropdownButton title={selectRegion} className="region-signup-select" id="bg-nested-dropdown" onSelect={this.handleSelect}>
-                    <MenuItem eventKey="Hong Kong - Aberdeen">Hong Kong - Aberdeen</MenuItem>
-                    <MenuItem eventKey="Hong Kong - Admiralty">Hong Kong - Admiralty</MenuItem>
-                    <MenuItem eventKey="Hong Kong - Ap Lei Chau">Hong Kong - Ap Lei Chau</MenuItem>
-                    <MenuItem eventKey="Hong Kong - Causeway Bay">Hong Kong - Causeway Bay</MenuItem>
-                    <MenuItem eventKey="Hong Kong - Central">Hong Kong - Central</MenuItem>
-                    <MenuItem eventKey="Hong Kong - Chai Wan">Hong Kong - Chai Wan</MenuItem>
-                    <MenuItem eventKey="Hong Kong - Deep Water Bay">Hong Kong - Deep Water Bay</MenuItem>
-                    <MenuItem eventKey="Hong Kong - Fortress Hill">Hong Kong - Fortress Hill</MenuItem>
-                    <MenuItem eventKey="Hong Kong - Happy Valley">Hong Kong - Happy Valley</MenuItem>
-                    <MenuItem eventKey="Hong Kong - Heng Fa Chuen">Hong Kong - Heng Fa Chuen</MenuItem>
-                    <MenuItem eventKey="Hong Kong - Kennedy Town">Hong Kong - Kennedy Town</MenuItem>
-                    <MenuItem eventKey="Hong Kong - Mid-Level">Hong Kong - Mid-Level</MenuItem>
-                    <MenuItem eventKey="Hong Kong - North Point">Hong Kong - North Point</MenuItem>
-                    <MenuItem eventKey="Hong Kong - Pok Fu Lam">Hong Kong - Pok Fu Lam</MenuItem>
-                    <MenuItem eventKey="Hong Kong - Quarry Bay">Hong Kong - Quarry Bay</MenuItem>
-                    <MenuItem eventKey="Hong Kong - Repulse Bay">Hong Kong - Repulse Bay</MenuItem>
-                    <MenuItem eventKey="Hong Kong - Sai Wan Ho">Hong Kong - Sai Wan Ho</MenuItem>
-                    <MenuItem eventKey="Hong Kong - Sai Ying Pun">Hong Kong - Sai Ying Pun</MenuItem>
-                    <MenuItem eventKey="Hong Kong - Admiralty">Hong Kong - Admiralty</MenuItem>
-                    <MenuItem eventKey="Hong Kong - Shau Kei Wan">Hong Kong - Shau Kei Wan</MenuItem>
-                    <MenuItem eventKey="Hong Kong - Shek O">Hong Kong - Shek O</MenuItem>
-                    <MenuItem eventKey="Hong Kong - Shek Tong Tsui">Hong Kong - Shek Tong Tsui</MenuItem>
-                    <MenuItem eventKey="Hong Kong - Sheung Wan">Hong Kong - Sheung Wan</MenuItem>
-                    <MenuItem eventKey="Hong Kong - Siu Sai Wan">Hong Kong - Siu Sai Wan</MenuItem>
-                    <MenuItem eventKey="Hong Kong - Stanley">Hong Kong - Stanley</MenuItem>
-                    <MenuItem eventKey="Hong Kong - Tai Hang">Hong Kong - Tai Hang</MenuItem>
-                    <MenuItem eventKey="Hong Kong - Tai Koo">Hong Kong - Tai Koo</MenuItem>
-                    <MenuItem eventKey="Hong Kong - Tin Hau">Hong Kong - Tin Hau</MenuItem>
-                    <MenuItem eventKey="Hong Kong - Wan Chai">Hong Kong - Wan Chai</MenuItem>
-                    <MenuItem eventKey="Hong Kong - Wong Chuk Hang">Hong Kong - Wong Chuk Hang</MenuItem>
-                    <MenuItem eventKey="Kowloon - Cheung Sha Wan">Kowloon - Cheung Sha Wan</MenuItem>
-                    <MenuItem eventKey="Kowloon - Choi Hung">Kowloon - Choi Hung</MenuItem>
-                    <MenuItem eventKey="Kowloon - Diamond Hill">Kowloon - Diamond Hill</MenuItem>
-                    <MenuItem eventKey="Kowloon - Ho Man Tin">Kowloon - Ho Man Tin</MenuItem>
-                    <MenuItem eventKey="Kowloon - Hung Hom">Kowloon - Hung Hom</MenuItem>
-                    <MenuItem eventKey="Kowloon - Jordan">Kowloon - Jordan</MenuItem>
-                    <MenuItem eventKey="Kowloon - Kai Tak">Kowloon - Kai Tak</MenuItem>
-                    <MenuItem eventKey="Kowloon -  Kowloon Bay">Kowloon -  Kowloon Bay</MenuItem>
-                    <MenuItem eventKey="Kowloon - Kowloon City">Kowloon - Kowloon City</MenuItem>
-                    <MenuItem eventKey="Kowloon - Kowloon Tong">Kowloon - Kowloon Tong</MenuItem>
-                    <MenuItem eventKey="Kowloon - Kwun Tong">Kowloon - Kwun Tong</MenuItem>
-                    <MenuItem eventKey="Kowloon - Lai Chi Kok">Kowloon - Lai Chi Kok</MenuItem>
-                    <MenuItem eventKey="Kowloon - Lam Tin">Kowloon - Lam Tin</MenuItem>
-                    <MenuItem eventKey="Kowloon - Lei Yue Mun">Kowloon - Lei Yue Mun</MenuItem>
-                    <MenuItem eventKey="Kowloon - Lok Fu">Kowloon - Lok Fu</MenuItem>
-                    <MenuItem eventKey="Kowloon - Mei Foo">Kowloon - Mei Foo</MenuItem>
-                    <MenuItem eventKey="Kowloon - Mong Kok">Kowloon - Mong Kok</MenuItem>
-                    <MenuItem eventKey="Kowloon - Ngau Chi Wan">Kowloon - Ngau Chi Wan</MenuItem>
-                    <MenuItem eventKey="Kowloon - Nagu Tau Kok">Kowloon - Nagu Tau Kok</MenuItem>
-                    <MenuItem eventKey="Kowloon - Prince Edward">Kowloon - Prince Edward</MenuItem>
-                    <MenuItem eventKey="Kowloon - San Po Kong">Kowloon - San Po Kong</MenuItem>
-                    <MenuItem eventKey="Kowloon - Sham Shui Po">Kowloon - Sham Shui Po</MenuItem>
-                    <MenuItem eventKey="Kowloon - Tai Kok Tsui">Kowloon - Tai Kok Tsui</MenuItem>
-                    <MenuItem eventKey="Kowloon - To Kwa Wan">Kowloon - To Kwa Wan</MenuItem>
-                    <MenuItem eventKey="Kowloon - Tsim Shui Tsui">Kowloon - Tsim Shui Tsui</MenuItem>
-                    <MenuItem eventKey="Kowloon - Tsz Wan Shan">Kowloon - Tsz Wan Shan</MenuItem>
-                    <MenuItem eventKey="Kowloon - Wong Tai Sin">Kowloon - Wong Tai Sin</MenuItem>
-                    <MenuItem eventKey="Kowloon - Yau Ma Tei">Kowloon - Yau Ma Tei</MenuItem>
-                    <MenuItem eventKey="Kowloon - Yau Tong">Kowloon - Yau Tong</MenuItem>
-                    <MenuItem eventKey="New Territories - Chek Lap Kok">New Territories - Chek Lap Kok</MenuItem>
-                    <MenuItem eventKey="New Territories - Cheung Chau">New Territories - Cheung Chau</MenuItem>
-                    <MenuItem eventKey="New Territories - Discovery Bay">New Territories - Discovery Bay</MenuItem>
-                    <MenuItem eventKey="New Territories - Fanling">New Territories - Fanling</MenuItem>
-                    <MenuItem eventKey="New Territories - Fo Tan">New Territories - Fo Tan</MenuItem>
-                    <MenuItem eventKey="New Territories - Kwai Fong">New Territories - Kwai Fong</MenuItem>
-                    <MenuItem eventKey="New Territories - Kwai Chung">New Territories - Kwai Chung</MenuItem>
-                    <MenuItem eventKey="New Territories - Cheung Chau">New Territories - Cheung Chau</MenuItem>
-                    <MenuItem eventKey="New Territories - Lai King">New Territories - Lai King</MenuItem>
-                    <MenuItem eventKey="New Territories - Lamma Island">New Territories - Lamma Island</MenuItem>
-                    <MenuItem eventKey="New Territories - Lantau Island">New Territories - Lantau Island</MenuItem>
-                    <MenuItem eventKey="New Territories - Lau Fau Shan">New Territories - Lau Fau Shan</MenuItem>
-                    <MenuItem eventKey="New Territories - Lo Wu">New Territories - Lo Wu</MenuItem>
-                    <MenuItem eventKey="New Territories - Lok Ma Chau">New Territories - Lok Ma Chau</MenuItem>
-                    <MenuItem eventKey="New Territories - Ma On Shan">New Territories - Ma On Shan</MenuItem>
-                    <MenuItem eventKey="New Territories - Ma Wan">New Territories - Ma Wan</MenuItem>
-                    <MenuItem eventKey="New Territories - Peng Chau">New Territories - Peng Chau</MenuItem>
-                    <MenuItem eventKey="New Territories - Cheung Chau">New Territories - Cheung Chau</MenuItem>
-                    <MenuItem eventKey="New Territories - Sai Kung">New Territories - Sai Kung</MenuItem>
-                    <MenuItem eventKey="New Territories - Sha Tau Kok">New Territories - Sha Tau Kok</MenuItem>
-                    <MenuItem eventKey="New Territories - Sha Tin">New Territories - Sha Tin</MenuItem>
-                    <MenuItem eventKey="New Territories - Sham Tseng">New Territories - Sham Tseng</MenuItem>
-                    <MenuItem eventKey="New Territories - Siu Lek Yuen">New Territories - Siu Lek Yuen</MenuItem>
-                    <MenuItem eventKey="New Territories - Ta Kwu Ling">New Territories - Ta Kwu Ling</MenuItem>
-                    <MenuItem eventKey="New Territories - Tai O">New Territories - Tai O</MenuItem>
-                    <MenuItem eventKey="New Territories - Tai Po">New Territories - Tai Po</MenuItem>
-                    <MenuItem eventKey="New Territories - Tai Wai">New Territories - Tai Wai</MenuItem>
-                    <MenuItem eventKey="New Territories - Tai Wo">New Territories - Tai Wo</MenuItem>
-                    <MenuItem eventKey="New Territories - Tai Wo Hau">New Territories - Tai Wo Hau</MenuItem>
-                    <MenuItem eventKey="New Territories - Tin Shui Wai">New Territories - Tin Shui Wai</MenuItem>
-                    <MenuItem eventKey="New Territories - Tiu Keng Leng">New Territories - Tiu Keng Leng</MenuItem>
-                    <MenuItem eventKey="New Territories - Tseung Kwan O">New Territories - Tseung Kwan O</MenuItem>
-                    <MenuItem eventKey="New Territories - Tsing Yi">New Territories - Tsing Yi</MenuItem>
-                    <MenuItem eventKey="New Territories - Tsuen Wan">New Territories - Tsuen Wan</MenuItem>
-                    <MenuItem eventKey="New Territories - Tuen Mun">New Territories - Tuen Mun</MenuItem>
-                    <MenuItem eventKey="New Territories - Tung Chung">New Territories - Tung Chung</MenuItem>
-                    <MenuItem eventKey="New Territories - Wu Kai Sha">New Territories - Wu Kai Sha</MenuItem>
-                    <MenuItem eventKey="New Territories - Yueng Long">New Territories - Yueng Long</MenuItem>
+                    <MenuItem eventKey="HK - Aberdeen">HK - Aberdeen</MenuItem>
+                    <MenuItem eventKey="HK - Admiralty">HK - Admiralty</MenuItem>
+                    <MenuItem eventKey="HK - Ap Lei Chau">HK - Ap Lei Chau</MenuItem>
+                    <MenuItem eventKey="HK - Causeway Bay">HK - Causeway Bay</MenuItem>
+                    <MenuItem eventKey="HK - Central">HK - Central</MenuItem>
+                    <MenuItem eventKey="HK - Chai Wan">HK - Chai Wan</MenuItem>
+                    <MenuItem eventKey="HK - Deep Water Bay">HK - Deep Water Bay</MenuItem>
+                    <MenuItem eventKey="HK - Fortress Hill">HK - Fortress Hill</MenuItem>
+                    <MenuItem eventKey="HK - Happy Valley">HK - Happy Valley</MenuItem>
+                    <MenuItem eventKey="HK - Heng Fa Chuen">HK - Heng Fa Chuen</MenuItem>
+                    <MenuItem eventKey="HK - Kennedy Town">HK - Kennedy Town</MenuItem>
+                    <MenuItem eventKey="HK - Mid-Level">HK - Mid-Level</MenuItem>
+                    <MenuItem eventKey="HK - North Point">HK - North Point</MenuItem>
+                    <MenuItem eventKey="HK - Pok Fu Lam">HK - Pok Fu Lam</MenuItem>
+                    <MenuItem eventKey="HK - Quarry Bay">HK - Quarry Bay</MenuItem>
+                    <MenuItem eventKey="HK - Repulse Bay">HK - Repulse Bay</MenuItem>
+                    <MenuItem eventKey="HK - Sai Wan Ho">HK - Sai Wan Ho</MenuItem>
+                    <MenuItem eventKey="HK - Sai Ying Pun">HK - Sai Ying Pun</MenuItem>
+                    <MenuItem eventKey="HK - Admiralty">HK - Admiralty</MenuItem>
+                    <MenuItem eventKey="HK - Shau Kei Wan">HK - Shau Kei Wan</MenuItem>
+                    <MenuItem eventKey="HK - Shek O">HK - Shek O</MenuItem>
+                    <MenuItem eventKey="HK - Shek Tong Tsui">HK - Shek Tong Tsui</MenuItem>
+                    <MenuItem eventKey="HK - Sheung Wan">HK - Sheung Wan</MenuItem>
+                    <MenuItem eventKey="HK - Siu Sai Wan">HK - Siu Sai Wan</MenuItem>
+                    <MenuItem eventKey="HK - Stanley">HK - Stanley</MenuItem>
+                    <MenuItem eventKey="HK - Tai Hang">HK - Tai Hang</MenuItem>
+                    <MenuItem eventKey="HK - Tai Koo">HK - Tai Koo</MenuItem>
+                    <MenuItem eventKey="HK - Tin Hau">HK - Tin Hau</MenuItem>
+                    <MenuItem eventKey="HK - Wan Chai">HK - Wan Chai</MenuItem>
+                    <MenuItem eventKey="HK - Wong Chuk Hang">HK - Wong Chuk Hang</MenuItem>
+                    <MenuItem eventKey="KL - Cheung Sha Wan">KL - Cheung Sha Wan</MenuItem>
+                    <MenuItem eventKey="KL - Choi Hung">KL - Choi Hung</MenuItem>
+                    <MenuItem eventKey="KL - Diamond Hill">KL - Diamond Hill</MenuItem>
+                    <MenuItem eventKey="KL - Ho Man Tin">KL - Ho Man Tin</MenuItem>
+                    <MenuItem eventKey="KL - Hung Hom">KL - Hung Hom</MenuItem>
+                    <MenuItem eventKey="KL - Jordan">KL - Jordan</MenuItem>
+                    <MenuItem eventKey="KL - Kai Tak">KL - Kai Tak</MenuItem>
+                    <MenuItem eventKey="KL -  Kowloon Bay">KL -  Kowloon Bay</MenuItem>
+                    <MenuItem eventKey="KL - Kowloon City">KL - Kowloon City</MenuItem>
+                    <MenuItem eventKey="KL - Kowloon Tong">KL - Kowloon Tong</MenuItem>
+                    <MenuItem eventKey="KL - Kwun Tong">KL - Kwun Tong</MenuItem>
+                    <MenuItem eventKey="KL - Lai Chi Kok">KL - Lai Chi Kok</MenuItem>
+                    <MenuItem eventKey="KL - Lam Tin">KL - Lam Tin</MenuItem>
+                    <MenuItem eventKey="KL - Lei Yue Mun">KL - Lei Yue Mun</MenuItem>
+                    <MenuItem eventKey="KL - Lok Fu">KL - Lok Fu</MenuItem>
+                    <MenuItem eventKey="KL - Mei Foo">KL - Mei Foo</MenuItem>
+                    <MenuItem eventKey="KL - Mong Kok">KL - Mong Kok</MenuItem>
+                    <MenuItem eventKey="KL - Ngau Chi Wan">KL - Ngau Chi Wan</MenuItem>
+                    <MenuItem eventKey="KL - Nagu Tau Kok">KL - Nagu Tau Kok</MenuItem>
+                    <MenuItem eventKey="KL - Prince Edward">KL - Prince Edward</MenuItem>
+                    <MenuItem eventKey="KL - San Po Kong">KL - San Po Kong</MenuItem>
+                    <MenuItem eventKey="KL - Sham Shui Po">KL - Sham Shui Po</MenuItem>
+                    <MenuItem eventKey="KL - Tai Kok Tsui">KL - Tai Kok Tsui</MenuItem>
+                    <MenuItem eventKey="KL - To Kwa Wan">KL - To Kwa Wan</MenuItem>
+                    <MenuItem eventKey="KL - Tsim Shui Tsui">KL - Tsim Shui Tsui</MenuItem>
+                    <MenuItem eventKey="KL - Tsz Wan Shan">KL - Tsz Wan Shan</MenuItem>
+                    <MenuItem eventKey="KL - Wong Tai Sin">KL - Wong Tai Sin</MenuItem>
+                    <MenuItem eventKey="KL - Yau Ma Tei">KL - Yau Ma Tei</MenuItem>
+                    <MenuItem eventKey="KL - Yau Tong">KL - Yau Tong</MenuItem>
+                    <MenuItem eventKey="NT - Chek Lap Kok">NT - Chek Lap Kok</MenuItem>
+                    <MenuItem eventKey="NT - Cheung Chau">NT - Cheung Chau</MenuItem>
+                    <MenuItem eventKey="NT - Discovery Bay">NT - Discovery Bay</MenuItem>
+                    <MenuItem eventKey="NT - Fanling">NT - Fanling</MenuItem>
+                    <MenuItem eventKey="NT - Fo Tan">NT - Fo Tan</MenuItem>
+                    <MenuItem eventKey="NT - Kwai Fong">NT - Kwai Fong</MenuItem>
+                    <MenuItem eventKey="NT - Kwai Chung">NT - Kwai Chung</MenuItem>
+                    <MenuItem eventKey="NT - Cheung Chau">NT - Cheung Chau</MenuItem>
+                    <MenuItem eventKey="NT - Lai King">NT - Lai King</MenuItem>
+                    <MenuItem eventKey="NT - Lamma Island">NT - Lamma Island</MenuItem>
+                    <MenuItem eventKey="NT - Lantau Island">NT - Lantau Island</MenuItem>
+                    <MenuItem eventKey="NT - Lau Fau Shan">NT - Lau Fau Shan</MenuItem>
+                    <MenuItem eventKey="NT - Lo Wu">NT - Lo Wu</MenuItem>
+                    <MenuItem eventKey="NT - Lok Ma Chau">NT - Lok Ma Chau</MenuItem>
+                    <MenuItem eventKey="NT - Ma On Shan">NT - Ma On Shan</MenuItem>
+                    <MenuItem eventKey="NT - Ma Wan">NT - Ma Wan</MenuItem>
+                    <MenuItem eventKey="NT - Peng Chau">NT - Peng Chau</MenuItem>
+                    <MenuItem eventKey="NT - Cheung Chau">NT - Cheung Chau</MenuItem>
+                    <MenuItem eventKey="NT - Sai Kung">NT - Sai Kung</MenuItem>
+                    <MenuItem eventKey="NT - Sha Tau Kok">NT - Sha Tau Kok</MenuItem>
+                    <MenuItem eventKey="NT - Sha Tin">NT - Sha Tin</MenuItem>
+                    <MenuItem eventKey="NT - Sham Tseng">NT - Sham Tseng</MenuItem>
+                    <MenuItem eventKey="NT - Siu Lek Yuen">NT - Siu Lek Yuen</MenuItem>
+                    <MenuItem eventKey="NT - Ta Kwu Ling">NT - Ta Kwu Ling</MenuItem>
+                    <MenuItem eventKey="NT - Tai O">NT - Tai O</MenuItem>
+                    <MenuItem eventKey="NT - Tai Po">NT - Tai Po</MenuItem>
+                    <MenuItem eventKey="NT - Tai Wai">NT - Tai Wai</MenuItem>
+                    <MenuItem eventKey="NT - Tai Wo">NT - Tai Wo</MenuItem>
+                    <MenuItem eventKey="NT - Tai Wo Hau">NT - Tai Wo Hau</MenuItem>
+                    <MenuItem eventKey="NT - Tin Shui Wai">NT - Tin Shui Wai</MenuItem>
+                    <MenuItem eventKey="NT - Tiu Keng Leng">NT - Tiu Keng Leng</MenuItem>
+                    <MenuItem eventKey="NT - Tseung Kwan O">NT - Tseung Kwan O</MenuItem>
+                    <MenuItem eventKey="NT - Tsing Yi">NT - Tsing Yi</MenuItem>
+                    <MenuItem eventKey="NT - Tsuen Wan">NT - Tsuen Wan</MenuItem>
+                    <MenuItem eventKey="NT - Tuen Mun">NT - Tuen Mun</MenuItem>
+                    <MenuItem eventKey="NT - Tung Chung">NT - Tung Chung</MenuItem>
+                    <MenuItem eventKey="NT - Wu Kai Sha">NT - Wu Kai Sha</MenuItem>
+                    <MenuItem eventKey="NT - Yueng Long">NT - Yueng Long</MenuItem>
                   </DropdownButton>
                   <FormControl.Feedback />
                 </FormGroup>
@@ -216,6 +257,7 @@ class GreetingSignUp extends React.Component {
                   <FormControl className="region-signup-form-field" type="text" value={this.state.phone} placeholder="phone" onChange={this.handlePhoneChange}/>
                   <FormControl.Feedback />
                 </FormGroup>
+                {submitButton}
               </form>
               <div className="helper-text"><sup><strong>*</strong></sup>We will notify you via email when your region opens.</div>
             </Col>

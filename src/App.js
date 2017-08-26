@@ -39,7 +39,7 @@ export default class App extends Component {
     this.state = {
       authed: false,
       loading: true,
-      selectRegion: 'Select Region'
+      selectRegion: 'HK - Central'
     }
   }
 

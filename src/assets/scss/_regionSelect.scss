@@ -12,7 +12,6 @@
         width: 300px;
         padding-left: 10px;
         padding-right: 10px;
-        padding-top: 20px;
         padding-bottom: 30px;
         @media (max-width: 320px) {
             margin-right: 10px;
@@ -32,6 +31,18 @@
             top: 0 !important;
             font-size: 150%;
             color: $darkpink;
+        }
+    }
+    .region-select-submit-button {
+        padding: 5px !important;
+        background-color: $darkpink !important;
+        font-weight: bold !important;
+        color: $white !important;
+        width: 250px;
+        border-color: $darkpink !important;
+        background-image: none !important;
+        &:hover {
+            background-color: $darkpinkhover !important;
         }
     }
 }
