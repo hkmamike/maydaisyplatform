@@ -1,20 +1,45 @@
 import React, { Component } from 'react';
+import { Route } from 'react-router-dom';
 import { FormGroup, FormControl, ControlLabel, Grid, Row, Col, DropdownButton, MenuItem, Button, Glyphicon } from 'react-bootstrap';
 import { base } from '../config/constants';
+
+const ButtonToLogin = ({ title, history }) => (
+  <Button bsStyle="" className="button" onClick={() => history.push('/login')}>Login</Button>
+);
+
+const ButtonToGallery = ({ title, history }) => (
+  <Button bsStyle="" className="button" onClick={() => history.push('/gallery')}>Gallery</Button>
+);
 
 class GreetingInBusinessHeader extends React.Component {
   render() {
     return (
-      <div className="text-section">
-        <div className="section-title">Sign Up</div>
-        <div className="section-subtitle"><strong>{this.props.selectRegion}</strong> is open for subscription. Subscribe now!</div>
-      </div>
+      <div></div>
     )
   }
 }
 class GreetingInBusiness extends React.Component {
   render() {
-    return <div>{this.props.selectRegion} is open for subscription. Subscribe now!</div>;
+    return (
+
+        <Grid>
+          <Row className="show-grid">
+            <Col md={5} className="region-subscribe-shade">
+              <h2 className="section-title"><strong>Subscribe</strong></h2>
+              <div className="section-subtitle">One Bloom is delivering to <strong>{this.props.selectRegion}</strong> ! Please log in to subscribe. These are the available plans in the region:</div>
+              <ul className="section-list">
+                <li>Weekly Mystery Flower by designer (Monday) - HKD53 per week</li>
+                <li>Weekly Mystery Rose by designer (Monday) - HKD53 per week</li>
+              </ul>
+              <div className="subscribe-buttons">
+                <Route path="/" render={(props) => <ButtonToLogin {...props}/>} />
+                <Route path="/" render={(props) => <ButtonToGallery {...props}/>} />
+              </div>
+            </Col>
+          </Row>
+        </Grid>
+
+    )
   }
 }
 class GreetingSignUpHeader extends React.Component {
