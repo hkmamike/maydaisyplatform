@@ -28,7 +28,7 @@ class GreetingSignUpHeader extends React.Component {
     )
   }
 }
-class GreetingOpps extends React.Component {
+class GreetingDefault extends React.Component {
   render() {
     return (
       <div className="text-section">
@@ -91,6 +91,7 @@ class GreetingSignUp extends React.Component {
   }
   handleSelect = (eventKey) => {
     this.props.onRegionSelection(eventKey);
+    this.props.onRegionReselect();
   }
 
   submitSignUp (selectRegion, name, email, phone) {
@@ -282,11 +283,13 @@ export default class SignUps extends Component {
 
   constructor() {
     super();
-    this.handleSelect = this.handleSelect.bind(this);
+    // this.handleSelect = this.handleSelect.bind(this);
+    this.handleRegionReselect = this.handleRegionReselect.bind(this);
     this.state = {
         signUpsData: {},
         regionStatus: '',
-        regionUnlocked: false
+        regionUnlocked: false,
+        regionReselect: false
     }
   }
 
@@ -303,10 +306,21 @@ export default class SignUps extends Component {
 
   componentWillUnmount() {
     base.removeBinding(this.signUpsDataRef);
-  } 
+    base.removeBinding(this.selectRegionRef);
+  }
 
-  handleSelect = (eventKey) => {
-    this.props.onRegionSelection(eventKey);
+  // handleSelect = (eventKey) => {
+  //   this.props.onRegionSelection(eventKey);
+  //   base.removeBinding(this.selectRegionRef);
+  //   console.log(this.props.selectRegion);
+  //   this.selectRegionRef = base.bindToState(`signUp/hongKong/areas/${this.props.selectRegion}/status`, {
+  //     context: this,
+  //     state: 'regionStatus'
+  //   });
+  // }
+
+  handleRegionReselect() {
+    this.setState({regionReselect: true});
   }
 
   render () {
@@ -314,7 +328,7 @@ export default class SignUps extends Component {
     var data = this.state.signUpsData;
     var regionStatus = this.state.regionStatus;
     var selectRegion = this.props.selectRegion;
-
+    var regionReselect = this.state.regionReselect;
 
     var content = Object.keys(data).map(function(key) {
         return (
@@ -326,15 +340,15 @@ export default class SignUps extends Component {
 
     let greeting = null;
     let greetingHeader = null;
-    if (regionStatus==="delivering") {
+    if (regionStatus==="delivering" && regionReselect===false) {
       greetingHeader = <GreetingInBusinessHeader selectRegion={selectRegion} />;
       greeting = <GreetingInBusiness selectRegion={selectRegion} />;
-    } else if (regionStatus==="collecting sign ups") {
+    } else if (regionStatus==="collecting sign ups" && regionReselect===false) {
       greetingHeader = <GreetingSignUpHeader selectRegion={selectRegion} />;
-      greeting = <GreetingSignUp selectRegion={selectRegion} onRegionSelection={this.props.onRegionSelection}/>;
+      greeting = <GreetingSignUp selectRegion={selectRegion} onRegionSelection={this.props.onRegionSelection} onRegionReselect={this.handleRegionReselect}/>;
     } else {
-      greetingHeader = <GreetingOpps/>;
-      greeting = <GreetingSignUp selectRegion={selectRegion} onRegionSelection={this.props.onRegionSelection}/>;
+      greetingHeader = <GreetingDefault/>;
+      greeting = <GreetingSignUp selectRegion={selectRegion} onRegionSelection={this.props.onRegionSelection} onRegionReselect={this.handleRegionReselect}/>;
     }
 
     return (
