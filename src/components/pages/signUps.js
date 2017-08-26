@@ -1,7 +1,6 @@
 import React, { Component } from 'react';
 import { FormGroup, FormControl, ControlLabel, Grid, Row, Col, DropdownButton, MenuItem, Button, Glyphicon } from 'react-bootstrap';
 import { base } from '../config/constants';
-// import { submitSignUp } from '../helpers/regionSignUp';
 
 class GreetingInBusinessHeader extends React.Component {
   render() {
@@ -91,7 +90,7 @@ class GreetingSignUp extends React.Component {
   }
   handleSelect = (eventKey) => {
     this.props.onRegionSelection(eventKey);
-    this.props.onRegionReselect();
+    this.props.onRegionReselect(eventKey);
   }
 
   submitSignUp (selectRegion, name, email, phone) {
@@ -283,7 +282,6 @@ export default class SignUps extends Component {
 
   constructor() {
     super();
-    // this.handleSelect = this.handleSelect.bind(this);
     this.handleRegionReselect = this.handleRegionReselect.bind(this);
     this.state = {
         signUpsData: {},
@@ -298,29 +296,26 @@ export default class SignUps extends Component {
       context: this,
       state: 'signUpsData'
     });
-    this.selectRegionRef = base.bindToState(`signUp/hongKong/areas/${this.props.selectRegion}/status`, {
+
+    base.fetch(`signUp/hongKong/areas/${this.props.selectRegion}/status`, {
       context: this,
-      state: 'regionStatus'
+      then(data) {
+        this.setState({regionStatus: data});
+      }
     });
   }
 
   componentWillUnmount() {
     base.removeBinding(this.signUpsDataRef);
-    base.removeBinding(this.selectRegionRef);
   }
 
-  // handleSelect = (eventKey) => {
-  //   this.props.onRegionSelection(eventKey);
-  //   base.removeBinding(this.selectRegionRef);
-  //   console.log(this.props.selectRegion);
-  //   this.selectRegionRef = base.bindToState(`signUp/hongKong/areas/${this.props.selectRegion}/status`, {
-  //     context: this,
-  //     state: 'regionStatus'
-  //   });
-  // }
-
-  handleRegionReselect() {
-    this.setState({regionReselect: true});
+  handleRegionReselect(region) {
+    base.fetch(`signUp/hongKong/areas/${region}/status`, {
+      context: this,
+      then(data) {
+        this.setState({regionStatus: data});
+      }
+    });
   }
 
   render () {
