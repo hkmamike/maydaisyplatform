@@ -7,8 +7,8 @@ class GreetingInBusinessHeader extends React.Component {
   render() {
     return (
       <div className="text-section">
-        <div className="section-title">Sign Up - One Bloom Movement</div>
-        <div className="section-subtitle">Thank you for showing interest! Your receipient's area: <strong>{this.props.selectRegion}</strong> is still collecting sign ups. Service in this area will begin when 100-200 sign ups are collected. Rolling out One Bloom by region helps to keep the price affordable for all lovers. Fill out the form below and we will send you an invitation when the time comes!</div>
+        <div className="section-title">Sign Up</div>
+        <div className="section-subtitle"><strong>{this.props.selectRegion}</strong> is open for subscription. Subscribe now!</div>
       </div>
     )
   }
@@ -22,30 +22,19 @@ class GreetingSignUpHeader extends React.Component {
   render() {
     return (
       <div className="text-section">
-        <div className="section-title">Sign Up - One Bloom Movement</div>
+        <div className="section-title">Sign Up</div>
         <div className="section-subtitle">Thank you for showing interest! Your receipient's area: <strong>{this.props.selectRegion}</strong> is still collecting sign ups. Service in this area will begin when 150 sign ups are collected. Rolling out One Bloom by region helps to keep the price affordable to all lovers. Fill out this form and we will send you an invitation when the time comes!</div>
       </div>
     )
   }
 }
-class SubmitButton extends React.Component {
+class GreetingOpps extends React.Component {
   render() {
     return (
-      <Button type="submit" className="region-select-submit-button">Submit</Button>
-    )
-  }
-}
-class SubmitButtonLoading extends React.Component {
-  render() {
-    return (
-      <Button type="submit" className="region-select-submit-button" disabled>...</Button>
-    )
-  }
-}
-class SubmitButtonSubmited extends React.Component {
-  render() {
-    return (
-      <Button type="submit" className="region-select-submit-button" disabled>Submitted <Glyphicon glyph="ok" className="icons"/></Button>
+      <div className="text-section">
+        <div className="section-title">Sign Up</div>
+        <div className="section-subtitle">Thank you for showing interest! Service in each area will begin when 150 sign ups are collected. Rolling out One Bloom by region helps to keep the price affordable to all lovers. Fill out this form and we will send you an invitation when the time comes!</div>;
+      </div>
     )
   }
 }
@@ -267,9 +256,25 @@ class GreetingSignUp extends React.Component {
     )
   }
 }
-class GreetingOpps extends React.Component {
+class SubmitButton extends React.Component {
   render() {
-    return <div>One bloom services will roll out one region at a time. We will begin to send out invitation when we collect 100 sign ups in an area.</div>;
+    return (
+      <Button type="submit" className="region-select-submit-button">Submit</Button>
+    )
+  }
+}
+class SubmitButtonLoading extends React.Component {
+  render() {
+    return (
+      <Button type="submit" className="region-select-submit-button" disabled>...</Button>
+    )
+  }
+}
+class SubmitButtonSubmited extends React.Component {
+  render() {
+    return (
+      <Button type="submit" className="region-select-submit-button" disabled>Submitted <Glyphicon glyph="ok" className="icons"/></Button>
+    )
   }
 }
 
@@ -321,14 +326,15 @@ export default class SignUps extends Component {
 
     let greeting = null;
     let greetingHeader = null;
-    if (regionStatus==="in business") {
+    if (regionStatus==="delivering") {
       greetingHeader = <GreetingInBusinessHeader selectRegion={selectRegion} />;
       greeting = <GreetingInBusiness selectRegion={selectRegion} />;
     } else if (regionStatus==="collecting sign ups") {
       greetingHeader = <GreetingSignUpHeader selectRegion={selectRegion} />;
       greeting = <GreetingSignUp selectRegion={selectRegion} onRegionSelection={this.props.onRegionSelection}/>;
     } else {
-      greeting = <GreetingOpps/>;
+      greetingHeader = <GreetingOpps/>;
+      greeting = <GreetingSignUp selectRegion={selectRegion} onRegionSelection={this.props.onRegionSelection}/>;
     }
 
     return (
