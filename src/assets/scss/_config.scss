@@ -37,12 +37,14 @@ h1, h2, h3, h4, h5, h6 {
 }
 
 a {
-    text-decoration: none;
+    text-decoration: none !important;
     @include transition (.4s ease-in-out);
+    color: $white;
     cursor: pointer;
 
     &:hover {
         color: $darkteal;
+        text-decoration: none !important;
         @include transition (.4s ease-in-out);
     }
 }

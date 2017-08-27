@@ -1,0 +1,58 @@
+.login-image {
+    min-height: 740px;
+    width: 100%;
+    background-image: url('https://firebasestorage.googleapis.com/v0/b/onebloom-cfa9d.appspot.com/o/background-flower1.jpg?alt=media&token=cae14480-2554-4660-beec-a64cb378e9f8');
+    background-position: center center;
+    background-repeat: no-repeat;
+    background-size: cover;
+    background-color: $lightGrey;
+    .login-image-prompt {
+        background-color:rgba(250,250,250,0.9);
+        min-height: 200px;
+        min-width: 260px;
+        // max-height: 300px;
+        max-width: 450px;
+        padding: 20px;
+        margin: auto;
+        float: inherit !important;
+        @media (max-width: 600px) {
+            @include translateY(10%);
+        }
+        @media (min-width: 601px) {
+            @include translateY(50%);
+        }
+        .login-title {
+            text-align: center;
+        }
+        .login-subtitle {
+            text-align: center;
+            font-size: 85%;
+            margin-bottom: 20px;
+        }
+        .login-error {
+            text-align: center;
+            border-radius: 0;
+            font-size: 75%;
+            margin-bottom: 0 !important;
+            padding: 5px !important;
+        }
+        .login-form-field {
+            background-color: $white !important;
+            border-radius: 0 !important;
+            height: 55px !important;
+            padding: 8px !important;
+
+        }
+        .button {
+            margin: 5px !important;
+            height: 50px !important;
+            border-color: $darkpink !important;
+            background-color: $darkpink !important;
+            font-weight: bold !important;
+            color: $white !important;
+            &:hover {
+                background-color: $darkpinkhover !important;
+            }
+        }
+    }
+}

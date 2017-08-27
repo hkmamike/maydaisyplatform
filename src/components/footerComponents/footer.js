@@ -37,10 +37,9 @@ export default class Footer extends Component {
 
         <div className="footer-end">
           <div className="footer-social">
-              <i className="fi fi-social-facebook"></i>
-              <i className="fi fi-social-twitter"></i>
-              <i className="fi fi-social-instagram"></i>
-              <i className="fi fi-social-linkedin"></i>
+              <i className="fa fa-facebook-official"></i>
+              <i className="fa fa-twitter"></i>
+              <i className="fa fa-instagram"></i>
           </div>
           &copy; <span className="footer-company-name">One Bloom Co.</span> 2017.
         </div>
