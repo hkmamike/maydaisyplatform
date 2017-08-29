@@ -3,10 +3,10 @@
     width: 100%;
     background-size: cover;
     background-color: $lightGrey;
-    .loggedin-content {
+    .loggedin-margin-box  {
         margin-left: 10px;
         margin-right: 10px;
-        .loggedin-margin-box {
+        .loggedin-content {
             color: $darkGrey;
             background-color:rgba(250,250,250,0.8);
             min-height: 200px;

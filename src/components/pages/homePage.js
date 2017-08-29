@@ -145,7 +145,7 @@ export default class Homepage extends Component {
             <Row className="show-grid">
               <Col sm={4}><Glyphicon glyph="list-alt" className="icons"/>
                 <h3 className="icon-title">Subscribe</h3>
-                <div className="icon-description">Send weekly flowers to your loved one. A local forist will pick the season's best flowers and design the arrangement for you. Surprise!</div>
+                <div className="icon-description">Send weekly flowers to your loved one. A local forist will pick the season's best flowers and design the gift for you. Surprise!</div>
               </Col>
               <Col sm={4}><Glyphicon glyph="question-sign" className="icons"/>
                 <h3 className="icon-title">Receive Update</h3>
@@ -163,7 +163,7 @@ export default class Homepage extends Component {
 
         <div className="home-about">
           <h2> About <span className="home-company-name">Us</span></h2>
-          <div className="home-about-text"> One Bloom is a movment of lasting love. Through a weekly mystery flower design and delivery service, we make the expression of love persisting, fun, affordable, and full of surprises. We can deliver the weekly flowers to you (so you can deliver them in person), or deliver them directly to your loved one. To lower the price, we begin to invite customers to subscribe when 100 customers have shown interest in an area. Check out which areas we are delivering to now!</div>
+          <div className="home-about-text"> One Bloom is a movment of lasting love. Through a weekly flower design and delivery service, we make the expression of love persisting, fun, affordable, and full of surprises. We can deliver the weekly flowers to you (so you can deliver them in person), or deliver them directly to the reciepient. To lower the price, we begin to invite customers to subscribe when 150 customers have shown interest in an area. Check out which areas we are delivering to now!</div>
         </div>
 
         <div className="bar-pink">
