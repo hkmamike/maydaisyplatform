@@ -38,9 +38,8 @@ export default class Register extends Component {
     return (
       <div className="login-image">
         <Grid>
-          <Row className="show-grid">
+          <Row className="show-grid login-margin-box">
             <Col md={5} className="login-image-prompt">
-              <div className="login-margin-box">
                 <form className="login-form" onSubmit={this.handleSubmit}>
                   <h2 className="login-title"><strong>Register</strong></h2>
                   <div className="login-subtitle">Create an account to continue</div>
@@ -60,7 +59,6 @@ export default class Register extends Component {
                     <Link to="/login" className="link-login">Have an account?</Link>
                   </div>
                 </form>
-              </div>
             </Col>
           </Row>
         </Grid>

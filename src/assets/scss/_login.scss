@@ -6,10 +6,10 @@
     background-repeat: no-repeat;
     background-size: cover;
     background-color: $lightGrey;
-    .login-image-prompt {
+    .login-margin-box {
         margin-left: 10px;
         margin-right: 10px;  
-        .login-margin-box {    
+        .login-image-prompt {
             color: $darkGrey;
             background-color:rgba(250,250,250,0.8);
             min-height: 200px;
@@ -73,7 +73,7 @@
             .link-group {
                 padding: 15px;
                 display: block;
-                font-size: 80%;
+                font-size: 65%;
                 .link-forgot-pw {
                     float: left;
                     color: $black !important;

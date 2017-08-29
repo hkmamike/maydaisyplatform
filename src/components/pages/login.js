@@ -44,9 +44,9 @@ export default class Login extends Component {
     return (
       <div className="login-image">
         <Grid>
-          <Row className="show-grid">
-            <Col md={5} className="login-image-prompt">
-              <div className="login-margin-box">
+          <Row className="show-grid login-margin-box">
+            <Col className="login-image-prompt">
+  
                 <form className="login-form" onSubmit={this.handleSubmit}>
                   <h2 className="login-title"><strong>Welcome Back</strong></h2>
                   <div className="login-subtitle">Log in to continue</div>
@@ -67,7 +67,7 @@ export default class Login extends Component {
                     <Link to="/register" className="link-create-account">Create Account</Link>
                   </div>
                 </form>
-              </div>
+
             </Col>
           </Row>
         </Grid>
