@@ -27,7 +27,9 @@ export default class Subscriptions extends Component {
         <Grid>
           <Row className="show-grid">
             <Col md={5} className="loggedin-content">
+              <div className="loggedin-margin-box">
                 <h2 className="login-title"><strong>Subscriptions</strong></h2>
+              </div>
             </Col>
           </Row>
         </Grid>

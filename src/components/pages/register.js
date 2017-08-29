@@ -40,25 +40,27 @@ export default class Register extends Component {
         <Grid>
           <Row className="show-grid">
             <Col md={5} className="login-image-prompt">
-              <form className="login-form" onSubmit={this.handleSubmit}>
-                <h2 className="login-title"><strong>Register</strong></h2>
-                <div className="login-subtitle">Create an account to continue</div>
-                <div className="horizontal-line"></div>
-                { this.state.registerError &&
-                  <div className="alert alert-danger login-error" role="alert">
-                    <Glyphicon glyph="exclamation-sign" className="icons"/>&nbsp;{this.state.registerError} 
-                  </div>
-                }
-                <FormGroup>
-                  <FormControl className="login-form-field" type="text" value={this.state.email} placeholder="Email" onChange={this.handleEmailChange}/>
-                  <FormControl className="login-form-field" type="password" value={this.state.password} placeholder="Password" onChange={this.handlePWChange}/>
-                </FormGroup>
+              <div className="login-margin-box">
+                <form className="login-form" onSubmit={this.handleSubmit}>
+                  <h2 className="login-title"><strong>Register</strong></h2>
+                  <div className="login-subtitle">Create an account to continue</div>
+                  <div className="horizontal-line"></div>
+                  { this.state.registerError &&
+                    <div className="alert alert-danger login-error" role="alert">
+                      <Glyphicon glyph="exclamation-sign" className="icons"/>&nbsp;{this.state.registerError} 
+                    </div>
+                  }
+                  <FormGroup>
+                    <FormControl className="login-form-field" type="text" value={this.state.email} placeholder="Email" onChange={this.handleEmailChange}/>
+                    <FormControl className="login-form-field" type="password" value={this.state.password} placeholder="Password" onChange={this.handlePWChange}/>
+                  </FormGroup>
 
-                <Button bsStyle="" type="submit" className="button">Create Account</Button>
-                <div className="link-group-register">
-                  <Link to="/login" className="link-login">Have an account?</Link>
-                </div>
-              </form>
+                  <Button bsStyle="" type="submit" className="button">Create Account</Button>
+                  <div className="link-group-register">
+                    <Link to="/login" className="link-login">Have an account?</Link>
+                  </div>
+                </form>
+              </div>
             </Col>
           </Row>
         </Grid>
