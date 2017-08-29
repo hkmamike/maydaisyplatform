@@ -4,7 +4,7 @@ import { FormGroup, FormControl, ControlLabel, Grid, Row, Col, DropdownButton, M
 import { base } from '../config/constants';
 
 const ButtonToLogin = ({ title, history }) => (
-  <Button bsStyle="" className="button" onClick={() => history.push('/login')}>Login</Button>
+  <Button bsStyle="" className="button" onClick={() => history.push('/login')}>Subscribe</Button>
 );
 
 const ButtonToGallery = ({ title, history }) => (
@@ -25,11 +25,11 @@ class GreetingInBusiness extends React.Component {
         <Grid>
           <Row className="show-grid">
             <Col md={5} className="region-subscribe-shade">
-              <h2 className="section-title"><strong>Subscribe</strong></h2>
+              <h2 className="section-title"><strong>Subscription</strong></h2>
               <div className="section-subtitle">One Bloom is delivering to <strong>{this.props.selectRegion}</strong> ! Please log in to subscribe. These are the available plans in the region:</div>
               <ul className="section-list">
-                <li>Weekly Mystery Flower by designer (Monday) - HKD53 per week</li>
-                <li>Weekly Mystery Rose by designer (Monday) - HKD53 per week</li>
+                <li>Weekly Mystery Flower by designer (Monday) - <strong>HKD53</strong> per week, delivery included</li>
+                <li>Weekly Mystery Rose by designer (Monday) - <strong>HKD53</strong> per week, delivery included</li>
               </ul>
               <div className="subscribe-buttons">
                 <Route path="/" render={(props) => <ButtonToLogin {...props}/>} />

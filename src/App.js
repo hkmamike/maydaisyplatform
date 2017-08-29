@@ -71,9 +71,11 @@ export default class App extends Component {
 
   render() {
     const selectRegion = this.state.selectRegion;
+    // const currentPath = window.location.pathname;
+    console.log('this is a subscriptions page : ', window.location.href.includes('subscriptions'));
+    console.log("window location href is : ", window.location.href);
     return (
       <BrowserRouter>
-
         <div className="App">
 
           <Header authed={this.state.authed} />
@@ -83,7 +85,7 @@ export default class App extends Component {
           
             
             <PublicRoute authed={this.state.authed} path='/login' component={Login} />
-            <Route authed={this.state.authed} path='/register' component={Register} />
+            <PublicRoute authed={this.state.authed} path='/register' component={Register} />
 
 
             <Route path='/signups' exact render={(props) => (<SignUps {...props} selectRegion={selectRegion} onRegionSelection={this.handleRegionSelection}/>)}/>
@@ -96,8 +98,9 @@ export default class App extends Component {
           </Switch>
 
           <Footer/>
+
+          {/* { !window.location.href.toString().includes('subscriptions') && <Footer/> } */}
         </div>
-      
       </BrowserRouter>
     )
   }

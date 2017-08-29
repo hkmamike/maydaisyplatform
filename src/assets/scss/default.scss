@@ -1,6 +1,7 @@
 @import "_config.scss";
 @import "_regionSelect.scss";
 @import "_login.scss";
+@import "_subscriptions.scss";
 
 .no-padding {
     padding: 0;
@@ -68,7 +69,7 @@ header {
     background-size: cover;
     background-color: $lightGrey;
     .home-image-prompt {
-        background-color:rgba(250,250,250,0.9);
+        background-color:rgba(250,250,250,0.8);
         text-align: center;
         float: right;
         min-height: 200px;
@@ -109,11 +110,11 @@ header {
             margin-left: 10px !important;
             margin-top: 15px !important;
             height: 35px !important;
-            background-color: $darkpink !important;
+            background-color: $pink !important;
             font-weight: bold !important;
             color: $white !important;
             &:hover {
-                background-color: $darkpinkhover !important;
+                background-color: $pinkhover !important;
             }
         }
     }

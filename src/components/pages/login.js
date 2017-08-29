@@ -46,26 +46,28 @@ export default class Login extends Component {
         <Grid>
           <Row className="show-grid">
             <Col md={5} className="login-image-prompt">
-              <form className="login-form" onSubmit={this.handleSubmit}>
-                <h2 className="login-title"><strong>Welcome Back</strong></h2>
-                <div className="login-subtitle">Log in to continue</div>
-                <div className="horizontal-line"></div>
-                { this.state.loginMessage &&
-                  <div className="alert alert-danger login-error" role="alert">
-                    <Glyphicon glyph="exclamation-sign" className="icons"/>&nbsp;{this.state.loginMessage} 
+              <div className="login-margin-box">
+                <form className="login-form" onSubmit={this.handleSubmit}>
+                  <h2 className="login-title"><strong>Welcome Back</strong></h2>
+                  <div className="login-subtitle">Log in to continue</div>
+                  <div className="horizontal-line"></div>
+                  { this.state.loginMessage &&
+                    <div className="alert alert-danger login-error" role="alert">
+                      <Glyphicon glyph="exclamation-sign" className="icons"/>&nbsp;{this.state.loginMessage} 
+                    </div>
+                  }
+                  <FormGroup>
+                    <FormControl className="login-form-field" type="text" value={this.state.email} placeholder="Email" onChange={this.handleEmailChange}/>
+                    <FormControl className="login-form-field" type="password" value={this.state.password} placeholder="Password" onChange={this.handlePWChange}/>
+                  </FormGroup>
+
+                  <Button bsStyle="" type="submit" className="button">Login</Button>
+                  <div className="link-group">
+                    <a onClick={this.resetPassword} className="alert-link link-forgot-pw">Forgot Password?</a>
+                    <Link to="/register" className="link-create-account">Create Account</Link>
                   </div>
-                }
-                <FormGroup>
-                  <FormControl className="login-form-field" type="text" value={this.state.email} placeholder="email" onChange={this.handleEmailChange}/>
-                  <FormControl className="login-form-field" type="password" value={this.state.password} placeholder="password" onChange={this.handlePWChange}/>
-                </FormGroup>
-
-                <Button bsStyle="" type="submit" className="button">Login</Button>
-
-                <a onClick={this.resetPassword} className="alert-link">Forgot Password?</a>
-                <Link to="/register">Create Account</Link>
-
-              </form>
+                </form>
+              </div>
             </Col>
           </Row>
         </Grid>
@@ -75,11 +77,3 @@ export default class Login extends Component {
     )
   }
 }
-
-                {/* { this.state.loginMessage &&
-                  <div className="alert alert-danger" role="alert">
-                    <span className="glyphicon glyphicon-exclamation-sign" aria-hidden="true"></span>
-                    <span className="sr-only">Error:</span>
-                    &nbsp;{this.state.loginMessage} <a href="/" onClick={this.resetPassword} className="alert-link">Forgot Password?</a>
-                  </div>
-                } */}

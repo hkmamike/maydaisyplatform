@@ -1,5 +1,7 @@
 import React, { Component } from 'react'
 import * as firebase from 'firebase';
+import { Link } from 'react-router-dom';
+import { FormGroup, FormControl, ControlLabel, Grid, Row, Col, Button, Glyphicon } from 'react-bootstrap';
 
 export default class Subscriptions extends Component {
 
@@ -21,8 +23,14 @@ export default class Subscriptions extends Component {
 
   render () {
     return (
-      <div>
-        Subscriptions. PlanName is {this.state.planName}
+      <div className="loggedin-background">
+        <Grid>
+          <Row className="show-grid">
+            <Col md={5} className="loggedin-content">
+                <h2 className="login-title"><strong>Subscriptions</strong></h2>
+            </Col>
+          </Row>
+        </Grid>
       </div>
     )
   }
