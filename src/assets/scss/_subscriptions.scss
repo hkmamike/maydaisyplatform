@@ -12,7 +12,7 @@
             min-height: 200px;
             min-width: 260px;
             // max-height: 300px;
-            max-width: 450px;
+            max-width: 600px;
             padding: 20px;
             margin: auto;
             float: inherit !important;
@@ -20,7 +20,7 @@
                 @include translateY(10%);
             }
             @media (min-width: 601px) {
-                @include translateY(40%);
+                @include translateY(20%);
             }
             @media (max-width: 600px) {
                 margin: auto;
