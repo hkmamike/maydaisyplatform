@@ -17,18 +17,18 @@ import AccountInfo from './components/protected/accountInfo';
 import './assets/css/default.min.css';
 import * as firebase from 'firebase';
 
-function PrivateRoute ({component: Component, authed, ...rest}) {
+function PrivateRoute ({component: Component, authed, selectRegion, onRegionSelection, ...rest}) {
   return (
     <Route {...rest} render={(props) => authed === true? 
-        <Component {...props} />
+        <Component {...props} selectRegion={selectRegion} onRegionSelection={onRegionSelection} />
         : <Redirect to={{pathname: '/login', state: {from: props.location}}} />}
     />
   )
 }
-function PublicRoute ({component: Component, authed, ...rest}) {
+function PublicRoute ({component: Component, authed, selectRegion, onRegionSelection, ...rest}) {
   return (
     <Route {...rest} render={(props) => authed === false?
-        <Component {...props} />
+        <Component {...props} selectRegion={selectRegion} onRegionSelection={onRegionSelection} />
         : <Redirect to='/subscriptions' />}
     />
   )
@@ -91,10 +91,8 @@ export default class App extends Component {
 
             <Route path='/signups' exact render={(props) => (<SignUps {...props} selectRegion={selectRegion} onRegionSelection={this.handleRegionSelection}/>)}/>
 
-
-            <Route authed={this.state.authed} path='/packages' component={Packages} />
             <PrivateRoute authed={this.state.authed} path='/subscriptions' component={Subscriptions} />
-            <PrivateRoute authed={this.state.authed} path='/newsubscription' component={NewSubscription} />
+            <PrivateRoute authed={this.state.authed} selectRegion={selectRegion} onRegionSelection={this.handleRegionSelection} path='/newsubscription' component={NewSubscription} />
             <PrivateRoute authed={this.state.authed} path='/accountinfo' component={AccountInfo} />
             <Route render={() => <h3>Uhoh...we couldn't find your page</h3>} />
 

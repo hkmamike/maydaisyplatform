@@ -2,57 +2,82 @@ import React, { Component } from 'react'
 import * as firebase from 'firebase';
 import { firebaseAuth } from '../config/constants';
 import { Link } from 'react-router-dom';
-import { FormGroup, FormControl, ControlLabel, Grid, Row, Col, Button, Glyphicon } from 'react-bootstrap';
+import { FormGroup, FormControl, ControlLabel, Grid, Row, Col, Button, Glyphicon, DropdownButton, MenuItem } from 'react-bootstrap';
 import { base } from '../config/constants';
 
 export default class NewSubscription extends Component {
 
   constructor() {
     super();
-    this.handleFromChange = this.handleFromChange.bind(this);
     this.state = {
       subscriptionData: {},
       loading: true,
+      subscriptionStep: 1,
       newFrom: '',
       newCardMessage: '',
       newAddress: ''
     }
   }
 
+  handleSelect = (eventKey) => {
+    this.props.onRegionSelection(eventKey);
+  }
+
+
   componentDidMount () {
-    firebaseAuth().onAuthStateChanged((user) => {
-      this.subscriptionDataRef = base.fetch(`users/${user.uid}/subscriptions/`, {
-        context: this,
-        then(data) {
-          this.setState({subscriptionData: data, loading: false});
-        }
-      });
-    });
-  }
-
-  handleAddressChange(e, key) {
-    this.setState({ email: e.target.value });
-  }
-
-  handleCardChange(e, key) {
-    this.setState({ email: e.target.value });
-  }
-
-  handleFromChange(e, key) {
-    this.setState({ email: e.target.value });
-  }
+    this.setState({loading: false});
+    console.log("select region is : ", this.props.selectRegion);
+    }
 
   render () {
 
     var data = this.state.subscriptionData;
     var loadingState = this.state.loading;
+    var subscriptionStep = this.state.subscriptionStep;
+    var selectRegion = this.props.selectRegion;
     var _this = this;
 
     let content = null;
     if (loadingState) {
-      content = <div>Loading...</div>
-    } else {
-      content = <div>New subscription form</div>
+        content = <div>Loading...</div>
+    } else if (subscriptionStep==1){
+        content = (
+            <div>
+                <h2 className="login-title"><strong>Choose Plan</strong></h2>
+
+                    <DropdownButton title={selectRegion} className="subscription-region-select" id="subscriptioin-regionselect-dropdown" onSelect={this.handleSelect}>
+                        <MenuItem eventKey="HK - Admiralty">HK - Admiralty</MenuItem>
+                        <MenuItem eventKey="HK - Central">HK - Central</MenuItem>
+                        <MenuItem eventKey="HK - Chai Wan">HK - Chai Wan</MenuItem>
+                    </DropdownButton>
+                <Button bsStyle="" className="button" onClick={() => this.setState({subscriptionStep: 2})}>Next</Button>
+            </div>
+        )
+    } else if (subscriptionStep==2){
+        content = (
+            <div>
+                <h2 className="login-title"><strong>Card Message</strong></h2>
+                <Button bsStyle="" className="button" onClick={() => this.setState({subscriptionStep: 3})}>Next</Button>
+            </div>
+        )
+    } else if (subscriptionStep==3){
+        content = (
+            <div>
+                <h2 className="login-title"><strong>Delivery Details</strong></h2>
+                <Button bsStyle="" className="button" onClick={() => this.setState({subscriptionStep: 4})}>Next</Button>
+            </div>
+        )
+    } else if (subscriptionStep==4){
+        content = (
+            <div>
+                <h2 className="login-title"><strong>Payment</strong></h2>
+                <Button bsStyle="" className="button" onClick={() => this.setState({subscriptionStep: 5})}>Next</Button>
+            </div>
+        )
+    } else if (subscriptionStep==5){
+        content = (
+            <div>Review & Confirm</div>
+        )
     }
 
     return (
@@ -80,7 +105,7 @@ export default class NewSubscription extends Component {
             </Row>
             <Row className="show-grid loggedin-margin-box">
               <Col className="loggedin-content">
-                  <h2 className="login-title"><strong>New Subscription</strong></h2>
+                  {content}
               </Col>
             </Row>
           </Grid>
