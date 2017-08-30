@@ -167,7 +167,7 @@ export default class Homepage extends Component {
         </div>
 
         <div className="bar-pink">
-          Join the OneBloom movement <u><i className="fi fi-torsos-all"></i></u>
+          Join the OneBloom movement <i className="fa fa-users"></i>
         </div>
 
       </div>

@@ -11,6 +11,8 @@ import Homepage from './components/pages/homePage';
 import SignUps from './components/pages/signUps';
 import Packages from './components/pages/packages';
 import Subscriptions from './components/protected/subscriptions';
+import NewSubscription from './components/protected/newSubscription';
+import AccountInfo from './components/protected/accountInfo';
 //includes
 import './assets/css/default.min.css';
 import * as firebase from 'firebase';
@@ -92,6 +94,8 @@ export default class App extends Component {
 
             <Route authed={this.state.authed} path='/packages' component={Packages} />
             <PrivateRoute authed={this.state.authed} path='/subscriptions' component={Subscriptions} />
+            <PrivateRoute authed={this.state.authed} path='/newsubscription' component={NewSubscription} />
+            <PrivateRoute authed={this.state.authed} path='/accountinfo' component={AccountInfo} />
             <Route render={() => <h3>Uhoh...we couldn't find your page</h3>} />
 
           </Switch>

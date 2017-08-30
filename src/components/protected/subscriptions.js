@@ -13,6 +13,9 @@ export default class Subscriptions extends Component {
     this.state = {
       subscriptionData: {},
       loading: true,
+      newFrom: '',
+      newCardMessage: '',
+      newAddress: ''
     }
   }
 
@@ -27,9 +30,16 @@ export default class Subscriptions extends Component {
     });
   }
 
+  handleAddressChange(e, key) {
+    this.setState({ email: e.target.value });
+  }
+
+  handleCardChange(e, key) {
+    this.setState({ email: e.target.value });
+  }
+
   handleFromChange(e, key) {
-    console.log("event object is : ", e);
-    console.log("key is ", key);
+    this.setState({ email: e.target.value });
   }
 
   render () {
@@ -66,17 +76,17 @@ export default class Subscriptions extends Component {
               <Col md={2}><h4>Area:</h4></Col>
               <Col md={6}><div>{data[key].planArea}</div></Col>
             </Row>
-            {/* <Row className="show-grid">
+            <Row className="show-grid">
               <Col md={2}><h4>Address:</h4></Col>
-              <Col md={6}><input value={data[key].address}></input></Col>
+              <Col md={6}><input placeholder={data[key].address} onChange={(e) => _this.handleAddressChange(e,key)}></input></Col>
             </Row>
             <Row className="show-grid">
               <Col md={2}><h4>Card Message:</h4></Col>
-              <Col md={6}><input value={data[key].cardMessage}></input></Col>
-            </Row> */}
+              <Col md={6}><input placeholder={data[key].cardMessage} onChange={(e) => _this.handleCardChange(e,key)}></input></Col>
+            </Row>
             <Row className="show-grid">
               <Col md={2}><h4>From:</h4></Col>
-              <Col md={6}><input value={data[key].from} onChange={(e) => _this.handleFromChange(e,key)}></input></Col>
+              <Col md={6}><input placeholder={data[key].from} onChange={(e) => _this.handleFromChange(e,key)}></input></Col>
             </Row>
           </Grid>
         </div>
@@ -93,6 +103,26 @@ export default class Subscriptions extends Component {
     return (
       <div className="loggedin-background">
         <Grid>
+          <Row className="show-grid loggedin-nav">
+            <Col xs={4} className="loggedin-nav-button">
+              <Link to="/subscriptions">
+                <i className="fa fa-tags fa-lg nav-icon"></i>
+                <div className="nav-icon-title">My<br/>Subscriptions</div>
+              </Link>
+            </Col>
+            <Col xs={4} className="loggedin-nav-button">
+              <Link to="/newsubscription">
+                <i className="fa fa-plus fa-lg nav-icon"></i>
+                <div className="nav-icon-title">New<br/>Subscription</div>
+              </Link>
+            </Col>
+            <Col xs={4} className="loggedin-nav-button">
+              <Link to="/accountinfo">
+                <i className="fa fa-user-circle fa-lg nav-icon"></i>
+                <div className="nav-icon-title">Account<br/>Information</div>
+              </Link>
+            </Col>
+          </Row>
           <Row className="show-grid loggedin-margin-box">
             <Col className="loggedin-content">
                 <h2 className="login-title"><strong>Subscription</strong></h2>

@@ -2,7 +2,48 @@
     min-height: 740px;
     width: 100%;
     background-size: cover;
+    background-position: center center;
+    background-repeat: no-repeat;
     background-color: $lightGrey;
+    overflow: scroll;
+    .loggedin-nav {
+        margin-left: 10px;
+        margin-right: 10px;
+        color: $darkGrey;
+        background-color:rgba(250,250,250,0.8);
+        min-width: 260px;
+        // max-height: 300px;
+        max-width: 600px;
+        padding: 20px;
+        margin: auto;
+        float: inherit !important;
+        .loggedin-nav-button {
+            text-align: center;
+            a {
+                text-decoration: none !important;
+                @include transition (.4s ease-in-out);
+                color: $darkGrey;
+                cursor: pointer;
+                &:hover {
+                    color: $darkpink;
+                    text-decoration: none !important;
+                    @include transition (.4s ease-in-out);
+                }
+            }
+        }
+        @media (max-width: 600px) {
+            @include translateY(20px);
+        }
+        @media (min-width: 601px) {
+            @include translateY(20px);
+        }
+        @media (max-width: 600px) {
+            margin: auto;
+        }
+        @media (min-width: 601px) {
+            margin: auto;
+        }
+    }
     .loggedin-margin-box  {
         margin-left: 10px;
         margin-right: 10px;
@@ -17,10 +58,10 @@
             margin: auto;
             float: inherit !important;
             @media (max-width: 600px) {
-                @include translateY(10%);
+                @include translateY(20px);
             }
             @media (min-width: 601px) {
-                @include translateY(20%);
+                @include translateY(20px);
             }
             @media (max-width: 600px) {
                 margin: auto;
