@@ -72,7 +72,7 @@ export default class AccountInfo extends Component {
                 </Link>
               </Col>
               <Col xs={4} className="loggedin-nav-button">
-                <Link to="/accountinfo">
+                <Link to="/accountinfo" className="nav-selected">
                     <i className="fa fa-user-circle fa-lg nav-icon"></i>
                     <div className="nav-icon-title">Account<br/>Information</div>
                 </Link>

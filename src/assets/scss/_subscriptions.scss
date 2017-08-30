@@ -24,8 +24,12 @@
                 @include transition (.4s ease-in-out);
                 color: $darkGrey;
                 cursor: pointer;
-                &:hover {
+                &.nav-selected {
                     color: $darkpink;
+                    @include transition (.4s ease-in-out);
+                }
+                &:hover {
+                    color: $darkpinkhover;
                     text-decoration: none !important;
                     @include transition (.4s ease-in-out);
                 }

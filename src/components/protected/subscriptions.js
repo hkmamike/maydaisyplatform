@@ -105,7 +105,7 @@ export default class Subscriptions extends Component {
         <Grid>
           <Row className="show-grid loggedin-nav">
             <Col xs={4} className="loggedin-nav-button">
-              <Link to="/subscriptions">
+              <Link to="/subscriptions" className="nav-selected">
                 <i className="fa fa-tags fa-lg nav-icon"></i>
                 <div className="nav-icon-title">My<br/>Subscriptions</div>
               </Link>

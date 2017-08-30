@@ -66,7 +66,7 @@ export default class NewSubscription extends Component {
                 </Link>
               </Col>
               <Col xs={4} className="loggedin-nav-button">
-                <Link to="/newsubscription">
+                <Link to="/newsubscription" className="nav-selected">
                   <i className="fa fa-plus fa-lg nav-icon"></i>
                   <div className="nav-icon-title">New<br/>Subscription</div>
                 </Link>
