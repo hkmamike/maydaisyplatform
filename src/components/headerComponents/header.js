@@ -21,7 +21,10 @@ export default class Header extends Component {
                 <ul>
                     <li className="last">
                         {this.props.authed?
-                        <Button bsStyle="" onClick={() => {logout()}} className="button">Logout</Button>
+                        <span>
+                            <Link className="header-link" to="/subscriptions">my account</Link>
+                            <Button bsStyle="" onClick={() => {logout()}} className="button">Logout</Button>
+                        </span>
                         :
                         <span>
                             <Route path="/" render={(props) => <ButtonToNavigate {...props}/>} />

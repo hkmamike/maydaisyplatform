@@ -4,6 +4,7 @@ import { firebaseAuth } from '../config/constants';
 import { Link } from 'react-router-dom';
 import { FormGroup, FormControl, ControlLabel, Grid, Row, Col, Button, Glyphicon, DropdownButton, MenuItem } from 'react-bootstrap';
 import { base } from '../config/constants';
+import ChargeMoney from '../helpers/payment'
 
 export default class NewSubscription extends Component {
 
@@ -18,8 +19,11 @@ export default class NewSubscription extends Component {
       deliveryDay: 'Monday',
       selectPlanType: 'Florist Choice (seasonal flower)',
       selectPlanSize: 'Simple (single major bloom, 53HKD per week)',
-      price: 53,
+      price: 5300,
+      deliveryFee: 0,
+      grandTotal: 5300,
       currencyType: 'HKD',
+      planID: 'HKSimple53',
       recipient: '',
       recipientNum: '',
       company: '',
@@ -43,9 +47,9 @@ export default class NewSubscription extends Component {
   handlePlanSizeSelect = (eventKey) => {
     this.setState({selectPlanSize: eventKey});
     if (eventKey == "Simple (single major bloom, HKD53 per week)") {
-        this.setState({price: 53, currencyType: 'HKD'});
+        this.setState({price: 5300, currencyType: 'HKD', grandTotal: 5300+this.state.deliveryFee, planID: 'HKSimple53'});
     } else if (eventKey == "Boquet (6 major blooms, HKD233 per week)") {
-        this.setState({price: 233, currencyType: 'HKD'});
+        this.setState({price: 23300, currencyType: 'HKD', grandTotal: 23300+this.state.deliveryFee, planID: 'HKBoquet223'});
     }
   }
   handleCardMessage = (e) => {
@@ -82,7 +86,7 @@ export default class NewSubscription extends Component {
     var selectRegion = this.props.selectRegion;
     var selectPlanType = this.state.selectPlanType;
     var selectPlanSize = this.state.selectPlanSize;
-    var sender = this.state.sender;
+    var sender = this.state.senderNum;
     var _this = this;
 
     let content = null;
@@ -163,22 +167,77 @@ export default class NewSubscription extends Component {
                         </FormGroup>
                     </Row>
                 </Grid>
-                <Button bsStyle="" className="button" onClick={() => this.setState({subscriptionStep: 1})}>Back</Button>
+                <Button bsStyle="" className="button" onClick={() => this.setState({subscriptionStep: 2})}>Back</Button>
                 <Button bsStyle="" className="button" onClick={() => this.setState({subscriptionStep: 4})}>Next</Button>
             </div>
         )
     } else if (subscriptionStep==4){
         content = (
             <div>
-                <h2 className="login-title"><strong>Payment</strong></h2>
-
-                <Button bsStyle="" className="button" onClick={() => this.setState({subscriptionStep: 1})}>Back</Button>
+                <h2 className="login-title"><strong>Review</strong></h2>
+                <Grid>
+                    <Row className="show-grid">
+                        <Col md={2}><h4>Recipient:</h4></Col>
+                        <Col md={6}><div>{this.state.recipient}</div></Col>
+                    </Row>
+                    <Row className="show-grid">
+                        <Col md={2}><h4>Recipient Phone:</h4></Col>
+                        <Col md={6}><div>{this.state.recipientNum}</div></Col>
+                    </Row>
+                    <Row className="show-grid">
+                        <Col md={2}><h4>Company:</h4></Col>
+                        <Col md={6}><div>{this.state.company}</div></Col>
+                    </Row>
+                    <Row className="show-grid">
+                        <Col md={2}><h4>Address:</h4></Col>
+                        <Col md={6}><div>{this.state.address}</div></Col>
+                    </Row>
+                    <Row className="show-grid">
+                        <Col md={2}><h4>Card Message:</h4></Col>
+                        <Col md={6}><div>{this.state.cardMessage}</div></Col>
+                    </Row>
+                    <Row className="show-grid">
+                        <Col md={2}><h4>From:</h4></Col>
+                        <Col md={6}><div>{this.state.sender}</div></Col>
+                    </Row>
+                    <Row className="show-grid">
+                        <Col md={2}><h4>Sender's Phone:</h4></Col>
+                        <Col md={6}><div>{this.state.sender}</div></Col>
+                    </Row>
+                    <Row className="show-grid">
+                        <Col md={2}><h4>Subscription Type:</h4></Col>
+                        <Col md={6}><div>{this.state.selectPlanType}</div></Col>
+                    </Row>
+                    <Row className="show-grid">
+                        <Col md={2}><h4>Subscription Size:</h4></Col>
+                        <Col md={6}><div>{this.state.selectPlanSize}</div></Col>
+                    </Row>
+                </Grid>
+                <Button bsStyle="" className="button" onClick={() => this.setState({subscriptionStep: 3})}>Back</Button>
                 <Button bsStyle="" className="button" onClick={() => this.setState({subscriptionStep: 5})}>Next</Button>
             </div>
         )
     } else if (subscriptionStep==5){
         content = (
-            <div>Review & Confirm</div>
+            <div>
+                <h2 className="login-title"><strong>Payment</strong></h2>
+                <Grid>
+                    <Row className="show-grid">
+                        <Col md={2}><h4>Plan Cost:</h4></Col>
+                        <Col md={6}><div>{this.state.currencyType}{this.state.price/100} per week</div></Col>
+                    </Row>
+                    <Row className="show-grid">
+                        <Col md={2}><h4>Delivery Fee:</h4></Col>
+                        <Col md={6}><div>{this.state.deliveryFee}</div></Col>
+                    </Row>
+                    <Row className="show-grid">
+                        <Col md={2}><h4>Grand Total:</h4></Col>
+                        <Col md={6}><div>{this.state.currencyType}{this.state.grandTotal/100}</div></Col>
+                    </Row>
+                </Grid>
+                <ChargeMoney price={this.state.price} planID={this.state.planID}/>
+                <Button bsStyle="" className="button" onClick={() => this.setState({subscriptionStep: 4})}>Back</Button>
+            </div>
         )
     }
 

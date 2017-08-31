@@ -10,10 +10,10 @@
         margin-left: 10px;
         margin-right: 10px;
         color: $darkGrey;
-        background-color:rgba(250,250,250,0.8);
+        background-color:rgba(250,250,250,1);
         min-width: 260px;
         // max-height: 300px;
-        max-width: 600px;
+        // max-width: 600px;
         padding: 20px;
         margin: auto;
         float: inherit !important;
@@ -49,15 +49,15 @@
         }
     }
     .loggedin-margin-box  {
-        margin-left: 10px;
-        margin-right: 10px;
+        margin-left: 0 !important;
+        margin-right: 0 !important;
         .loggedin-content {
             color: $darkGrey;
-            background-color:rgba(250,250,250,0.8);
+            background-color:rgba(250,250,250,1);
             min-height: 200px;
             min-width: 260px;
             // max-height: 300px;
-            max-width: 600px;
+            // max-width: 600px;
             padding: 20px;
             margin: auto;
             float: inherit !important;

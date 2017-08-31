@@ -49,12 +49,13 @@ header {
             list-style-type: none;
             display: inline-block;
             margin-right: 20px;
-            &.last {
-                margin: 0;
-            }
             a {
                 line-height: normal;
-                color: $white;
+                color: $darkGrey;
+                margin-right: 20px;
+                &:hover {
+                    color:$black;
+                }
             }
         }
     }
