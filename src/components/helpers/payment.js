@@ -1,6 +1,7 @@
 import React from 'react'
 import StripeCheckout from 'react-stripe-checkout';
 import { Button } from 'react-bootstrap';
+import { base } from '../config/constants';
  
 export default class ChargeMoney extends React.Component {
   onToken = (token) => {
@@ -19,10 +20,55 @@ export default class ChargeMoney extends React.Component {
         + '&planID=' + this.props.planID, {
             method: 'POST',
           })
+        //   .then(response => {
+        //         response.json().then(data => {
+        //             console.log ('subscription response: ', data);
+        //         });
+        //   });
       });
     });
   }
  
+
+//   submitSubscription (
+//     //     token,
+//     //     uid,
+//     //     stripeCusID,
+//     //     selectRegion,
+//     //     planID, 
+//     //     flowers, 
+//     //     size, 
+//     //     sender,
+//     //     senderNum,
+//     //     senderEmail,
+//     //     recipient, 
+//     //     recipientNum, 
+//     //     comapny, 
+//     //     address,
+//     //     cardMessage,
+//     //     pricePerWeek) {
+//     // base.push(`allSubscriptions/hongKong/${selectRegion}/${planID}/${stripeCusID}`, {
+//     //   data: {
+//     //         paymentToken: token.id,
+//     //         flowers: flowers,
+//     //         size: size,
+//     //         sender: sender,
+//     //         senderNum: senderNum,
+//     //         senderEmail, senderEmail,
+//     //         senderID: uid,
+//     //         recipient: recipient,
+//     //         recipientNum: recipientNum,
+//     //         addressLocation: company,
+//     //         address: address,
+//     //         cardMessage: cardMessage,
+//     //         price: pricePerWeek
+//     //     }
+//     // });
+//     //available immediately, you don't have to wait for the callback to be called 
+//     // var generatedKey = immediatelyAvailableReference.key;
+//     this.setState({loading: false, formSubmitted: true});
+//   }
+
   // ...
  
   render() {
