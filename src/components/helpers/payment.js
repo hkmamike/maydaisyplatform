@@ -1,5 +1,6 @@
 import React from 'react'
 import StripeCheckout from 'react-stripe-checkout';
+import { Button } from 'react-bootstrap';
  
 export default class ChargeMoney extends React.Component {
   onToken = (token) => {
@@ -39,7 +40,9 @@ export default class ChargeMoney extends React.Component {
         label="Subscribe"
         allowRememberMe = {false} // "Remember Me" option (default true)
         token={this.onToken} // submit callback    
-      />
+      >
+        <Button bsStyle="" className="button">Subscribe</Button>
+      </StripeCheckout>
     )
   }
 }

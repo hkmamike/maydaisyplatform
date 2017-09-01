@@ -14,8 +14,7 @@ export default class Subscriptions extends Component {
       subscriptionData: {},
       loading: true,
       newFrom: '',
-      newCardMessage: '',
-      newAddress: ''
+      newCardMessage: ''
     }
   }
 
@@ -30,16 +29,12 @@ export default class Subscriptions extends Component {
     });
   }
 
-  handleAddressChange(e, key) {
-    this.setState({ email: e.target.value });
-  }
-
   handleCardChange(e, key) {
-    this.setState({ email: e.target.value });
+    this.setState({ newCardMessage: e.target.value });
   }
 
   handleFromChange(e, key) {
-    this.setState({ email: e.target.value });
+    this.setState({ newFrom: e.target.value });
   }
 
   render () {
@@ -53,40 +48,93 @@ export default class Subscriptions extends Component {
         <div key={key}>
           <Grid>
             <Row className="show-grid">
-              <Col md={2}><h4>Subscription ID:</h4></Col>
-              <Col md={6}><div>{data[key].subscriptionID}</div></Col>
+              <FormGroup>
+                <Col md={2}></Col>
+                <Col md={3}>
+                    <div><strong>Subscription ID:</strong></div>
+                </Col>
+                <Col md={6}>
+                  <div>{data[key].subscriptionID}</div>
+                </Col>
+              </FormGroup>
             </Row>
             <Row className="show-grid">
-              <Col md={2}><h4>Send To:</h4></Col>
-              <Col md={6}><div>{data[key].to}</div></Col>
+              <FormGroup>
+                <Col md={2}></Col>
+                <Col md={3}>
+                    <div><strong>To:</strong></div>
+                </Col>
+                <Col md={6}>
+                  <div>{data[key].to}</div>
+                </Col>
+              </FormGroup>
             </Row>
             <Row className="show-grid">
-              <Col md={2}><h4>Frequency:</h4></Col>
-              <Col md={6}><div>{data[key].frequency}</div></Col>
+              <FormGroup>
+                <Col md={2}></Col>
+                <Col md={3}>
+                    <div><strong>Frequency:</strong></div>
+                </Col>
+                <Col md={6}>
+                  <div>{data[key].frequency}</div>
+                </Col>
+              </FormGroup>
             </Row>
             <Row className="show-grid">
-              <Col md={2}><h4>Location Type:</h4></Col>
-              <Col md={6}><div>{data[key].locationType}</div></Col>
+              <FormGroup>
+                <Col md={2}></Col>
+                <Col md={3}>
+                    <div><strong>Cost per week:</strong></div>
+                </Col>
+                <Col md={6}>
+                  <div>{data[key].planCost}</div>
+                </Col>
+              </FormGroup>
             </Row>
             <Row className="show-grid">
-              <Col md={2}><h4>Cost per week:</h4></Col>
-              <Col md={6}><div>{data[key].planCost}</div></Col>
+              <FormGroup>
+                <Col md={2}></Col>
+                <Col md={3}>
+                    <div><strong>Cost per week:</strong></div>
+                </Col>
+                <Col md={6}>
+                  <div>{data[key].planCost}</div>
+                </Col>
+              </FormGroup>
             </Row>
             <Row className="show-grid">
-              <Col md={2}><h4>Area:</h4></Col>
-              <Col md={6}><div>{data[key].planArea}</div></Col>
+              <FormGroup>
+                <Col md={2}></Col>
+                <Col md={3}>
+                  <div><strong>Address:</strong></div>
+                </Col>
+                <Col md={6}>
+                  <div>{data[key].address}</div>
+                  <div>*To change delivery address, please re-subscribe.</div>
+                </Col>
+              </FormGroup>
             </Row>
             <Row className="show-grid">
-              <Col md={2}><h4>Address:</h4></Col>
-              <Col md={6}><input placeholder={data[key].address} onChange={(e) => _this.handleAddressChange(e,key)}></input></Col>
+              <FormGroup>
+                <Col md={2}></Col>
+                <Col md={3}>
+                  <div><strong>Card Message:</strong></div>
+                </Col>
+                <Col md={6}>
+                  <input placeholder={data[key].cardMessage} onChange={(e) => _this.handleCardChange(e,key)}></input>
+                </Col>
+              </FormGroup>
             </Row>
             <Row className="show-grid">
-              <Col md={2}><h4>Card Message:</h4></Col>
-              <Col md={6}><input placeholder={data[key].cardMessage} onChange={(e) => _this.handleCardChange(e,key)}></input></Col>
-            </Row>
-            <Row className="show-grid">
-              <Col md={2}><h4>From:</h4></Col>
-              <Col md={6}><input placeholder={data[key].from} onChange={(e) => _this.handleFromChange(e,key)}></input></Col>
+              <FormGroup>
+                <Col md={2}></Col>
+                <Col md={3}>
+                  <div><strong>From:</strong></div>
+                </Col>
+                <Col md={6}>
+                  <input placeholder={data[key].from} onChange={(e) => _this.handleFromChange(e,key)}></input>
+                </Col>
+              </FormGroup>
             </Row>
           </Grid>
         </div>
@@ -102,6 +150,7 @@ export default class Subscriptions extends Component {
 
     return (
       <div className="loggedin-background">
+        
         <Grid>
           <Row className="show-grid loggedin-nav">
             <Col xs={4} className="loggedin-nav-button">
@@ -125,7 +174,7 @@ export default class Subscriptions extends Component {
           </Row>
           <Row className="show-grid loggedin-margin-box">
             <Col className="loggedin-content">
-                <h2 className="login-title"><strong>Subscription</strong></h2>
+                <div className="horizontal-line"></div>
                 {content}
             </Col>
           </Row>
