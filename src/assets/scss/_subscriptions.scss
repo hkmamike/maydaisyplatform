@@ -4,7 +4,8 @@
     background-size: cover;
     background-position: center center;
     background-repeat: no-repeat;
-    background-color: $lightGrey;
+    // background-color: $lightGrey;
+    background-color: $white;
     overflow: scroll;
     .loggedin-nav {
         margin-left: 10px;
@@ -14,9 +15,21 @@
         min-width: 260px;
         // max-height: 300px;
         // max-width: 600px;
-        padding: 20px;
+        padding-top: 20px;
         margin: auto;
         float: inherit !important;
+        @media (max-width: 600px) {
+            @include translateY(20px);
+        }
+        @media (min-width: 601px) {
+            @include translateY(20px);
+        }
+        @media (max-width: 600px) {
+            margin: auto;
+        }
+        @media (min-width: 601px) {
+            margin: auto;
+        }
         .loggedin-nav-button {
             text-align: center;
             a {
@@ -34,18 +47,40 @@
                     @include transition (.4s ease-in-out);
                 }
             }
+            .nav-icon-title {
+                @media (max-width: 600px) {
+                    font-size: 70%;
+                }
+                @media (min-width: 601px) {
+                    font-size: 100%;
+                }
+            }
         }
-        @media (max-width: 600px) {
-            @include translateY(20px);
+    }
+    .loggedin-flow {
+        text-align: center;
+        div { 
+            display: inline-block;
+            margin-left: 10px;
+            margin-right: 10px;
+            text-decoration: none !important;
+            @include transition (.4s ease-in-out);
+            color: $black;
+            &.flow-selected {
+                color: $teal;
+                font-weight: bold;
+                @include transition (.4s ease-in-out);
+            }
         }
-        @media (min-width: 601px) {
-            @include translateY(20px);
+        i {
+            color: $darkGrey;
+            text-decoration: none !important;
         }
-        @media (max-width: 600px) {
-            margin: auto;
-        }
-        @media (min-width: 601px) {
-            margin: auto;
+        .horizontal-line {
+            width: 80%;
+            margin: 15px auto;
+            background: #CCC;
+            height: 2px;
         }
     }
     .loggedin-margin-box  {

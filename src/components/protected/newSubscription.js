@@ -95,30 +95,62 @@ export default class NewSubscription extends Component {
     } else if (subscriptionStep==1){
         content = (
             <div>
-                <h2 className="login-title"><strong>Choose Plan</strong></h2>
+                <Grid>
+                    <Row className="show-grid loggedin-flow">
+                        <div className="horizontal-line"></div>
+                        <Col xs={12}>
+                            <div className="flow-selected">Choose</div>
+                            <i className="fa fa-chevron-right"></i>
+                            <div>Card</div>
+                            <i className="fa fa-chevron-right"></i>
+                            <div>Delivery</div>
+                            <i className="fa fa-chevron-right"></i>
+                            <div>Review</div>
+                            <i className="fa fa-chevron-right"></i>
+                            <div>Payment</div>
+                        </Col>
+                        <div className="horizontal-line"></div>
+                    </Row>
+                </Grid>
+                <DropdownButton title={selectRegion} className="subscription-select" id="subscriptioin-regionSelect-dropdown" onSelect={this.handleRegionSelect}>
+                    <MenuItem eventKey="HK - Admiralty">HK - Admiralty</MenuItem>
+                    <MenuItem eventKey="HK - Central">HK - Central</MenuItem>
+                    <MenuItem eventKey="HK - Chai Wan">HK - Chai Wan</MenuItem>
+                </DropdownButton>
+                <div>Weekly Delivery on: {this.state.deliveryDay}</div>
+                <div>*Only one delivery day option is avaiable for this region at the moment.</div>
+                <DropdownButton title={selectPlanType} className="subscription-select" id="subscriptioin-planTypeSelect-dropdown" onSelect={this.handlePlanTypeSelect}>
+                    <MenuItem eventKey="Florist Choice (seasonal flower)">Florist Choice (seasonal flower)</MenuItem>
+                    <MenuItem eventKey="Florist Choice (seasonal rose only)">Florist Choice (seasonal rose only)</MenuItem>
+                </DropdownButton>
+                <DropdownButton title={selectPlanSize} className="subscription-select" id="subscriptioin-planTypeSelect-dropdown" onSelect={this.handlePlanSizeSelect}>
+                    <MenuItem eventKey="Simple (single major bloom, HKD53 per week)">Simple (single major bloom, HKD53 per week)</MenuItem>
+                    <MenuItem eventKey="Boquet (6 major blooms, HKD233 per week)">Boquet (6 major blooms, HKD233 per week)</MenuItem>
+                </DropdownButton>
 
-                    <DropdownButton title={selectRegion} className="subscription-select" id="subscriptioin-regionSelect-dropdown" onSelect={this.handleRegionSelect}>
-                        <MenuItem eventKey="HK - Admiralty">HK - Admiralty</MenuItem>
-                        <MenuItem eventKey="HK - Central">HK - Central</MenuItem>
-                        <MenuItem eventKey="HK - Chai Wan">HK - Chai Wan</MenuItem>
-                    </DropdownButton>
-                    <div>Weekly Delivery on: {this.state.deliveryDay}</div>
-                    <div>*Only one delivery day option is avaiable for this region at the moment.</div>
-                    <DropdownButton title={selectPlanType} className="subscription-select" id="subscriptioin-planTypeSelect-dropdown" onSelect={this.handlePlanTypeSelect}>
-                        <MenuItem eventKey="Florist Choice (seasonal flower)">Florist Choice (seasonal flower)</MenuItem>
-                        <MenuItem eventKey="Florist Choice (seasonal rose only)">Florist Choice (seasonal rose only)</MenuItem>
-                    </DropdownButton>
-                    <DropdownButton title={selectPlanSize} className="subscription-select" id="subscriptioin-planTypeSelect-dropdown" onSelect={this.handlePlanSizeSelect}>
-                        <MenuItem eventKey="Simple (single major bloom, HKD53 per week)">Simple (single major bloom, HKD53 per week)</MenuItem>
-                        <MenuItem eventKey="Boquet (6 major blooms, HKD233 per week)">Boquet (6 major blooms, HKD233 per week)</MenuItem>
-                    </DropdownButton>
                 <Button bsStyle="" className="button" onClick={() => this.setState({subscriptionStep: 2})}>Next</Button>
             </div>
         )
     } else if (subscriptionStep==2){
         content = (
             <div>
-                <h2 className="login-title"><strong>Card Message</strong></h2>
+                <Grid>
+                    <Row className="show-grid loggedin-flow">
+                        <div className="horizontal-line"></div>
+                        <Col xs={12}>
+                            <div>Choose</div>
+                            <i className="fa fa-chevron-right"></i>
+                            <div className="flow-selected">Card</div>
+                            <i className="fa fa-chevron-right"></i>
+                            <div>Delivery</div>
+                            <i className="fa fa-chevron-right"></i>
+                            <div>Review</div>
+                            <i className="fa fa-chevron-right"></i>
+                            <div>Payment</div>
+                        </Col>
+                        <div className="horizontal-line"></div>
+                    </Row>
+                </Grid>
                 <FormGroup>
                     <ControlLabel>Card Message :</ControlLabel>
                     <FormControl value={this.state.cardMessage} componentClass="textarea" placeholder="Card Message - the card can fit up to 100 words nicely" onChange={this.handleCardMessage}/>
@@ -134,8 +166,22 @@ export default class NewSubscription extends Component {
     } else if (subscriptionStep==3){
         content = (
             <div>
-                <h2 className="login-title"><strong>Delivery Information</strong></h2>
                 <Grid>
+                    <Row className="show-grid loggedin-flow">
+                        <div className="horizontal-line"></div>
+                        <Col xs={12}>
+                            <div>Choose</div>
+                            <i className="fa fa-chevron-right"></i>
+                            <div>Card</div>
+                            <i className="fa fa-chevron-right"></i>
+                            <div className="flow-selected">Delivery</div>
+                            <i className="fa fa-chevron-right"></i>
+                            <div>Review</div>
+                            <i className="fa fa-chevron-right"></i>
+                            <div>Payment</div>
+                        </Col>
+                        <div className="horizontal-line"></div>
+                    </Row>
                     <Row className="show-grid">
                         <FormGroup>
                             <Col md={2}><ControlLabel>Name:</ControlLabel></Col>
@@ -174,8 +220,22 @@ export default class NewSubscription extends Component {
     } else if (subscriptionStep==4){
         content = (
             <div>
-                <h2 className="login-title"><strong>Review</strong></h2>
                 <Grid>
+                    <Row className="show-grid loggedin-flow">
+                        <div className="horizontal-line"></div>
+                        <Col xs={12}>
+                            <div>Choose</div>
+                            <i className="fa fa-chevron-right"></i>
+                            <div>Card</div>
+                            <i className="fa fa-chevron-right"></i>
+                            <div>Delivery</div>
+                            <i className="fa fa-chevron-right"></i>
+                            <div className="flow-selected">Review</div>
+                            <i className="fa fa-chevron-right"></i>
+                            <div>Payment</div>
+                        </Col>
+                        <div className="horizontal-line"></div>
+                    </Row>
                     <Row className="show-grid">
                         <Col md={2}><h4>Recipient:</h4></Col>
                         <Col md={6}><div>{this.state.recipient}</div></Col>
@@ -220,11 +280,25 @@ export default class NewSubscription extends Component {
     } else if (subscriptionStep==5){
         content = (
             <div>
-                <h2 className="login-title"><strong>Payment</strong></h2>
                 <Grid>
+                    <Row className="show-grid loggedin-flow">
+                        <div className="horizontal-line"></div>
+                        <Col xs={12}>
+                            <div>Choose</div>
+                            <i className="fa fa-chevron-right"></i>
+                            <div>Card</div>
+                            <i className="fa fa-chevron-right"></i>
+                            <div>Delivery</div>
+                            <i className="fa fa-chevron-right"></i>
+                            <div>Review</div>
+                            <i className="fa fa-chevron-right"></i>
+                            <div className="flow-selected">Payment</div>
+                        </Col>
+                        <div className="horizontal-line"></div>
+                    </Row>
                     <Row className="show-grid">
-                        <Col md={2}><h4>Plan Cost:</h4></Col>
-                        <Col md={6}><div>{this.state.currencyType}{this.state.price/100} per week</div></Col>
+                        <Col md={2}><h4>Plan:</h4></Col>
+                        <Col md={6}><div>{this.state.selectPlanSize}</div></Col>
                     </Row>
                     <Row className="show-grid">
                         <Col md={2}><h4>Delivery Fee:</h4></Col>
