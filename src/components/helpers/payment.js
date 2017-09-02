@@ -1,10 +1,13 @@
 import React from 'react'
 import StripeCheckout from 'react-stripe-checkout';
 import { Button } from 'react-bootstrap';
+import * as firebase from 'firebase';
 import { base } from '../config/constants';
  
 export default class ChargeMoney extends React.Component {
   onToken = (token) => {
+    var uid = firebase.auth().currentUser.uid;
+    console.log('selectRegion : ', this.props.selectRegion);
     console.log('sending token to webtask, token is : ', token);
     fetch('https://wt-47cf129daee3aa0bf6d4064463e232ef-0.run.webtask.io/webtask-stripe-order'
     +'?paymentSource=' + token.id
@@ -12,7 +15,7 @@ export default class ChargeMoney extends React.Component {
       method: 'POST',
     }).then(response => {
       response.json().then(data => {
-        console.log ('token has been created: ', data);
+        console.log ('customer has been created: ', data);
         console.log ('customer id is:', data.id);
         console.log ('plandID is :', this.props.planID);
         fetch('https://wt-47cf129daee3aa0bf6d4064463e232ef-0.run.webtask.io/webtask-stripe-payment' 
@@ -20,11 +23,12 @@ export default class ChargeMoney extends React.Component {
         + '&planID=' + this.props.planID, {
             method: 'POST',
           })
-        //   .then(response => {
-        //         response.json().then(data => {
-        //             console.log ('subscription response: ', data);
-        //         });
-        //   });
+          .then(response => {
+                response.json().then(data => {
+                    console.log ('subscription response: ', data);
+                    console.log ('2check to see if token is visible: ', token);
+                });
+          });
       });
     });
   }

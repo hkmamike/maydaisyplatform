@@ -485,6 +485,17 @@ export default class NewSubscription extends Component {
                             <ChargeMoney
                                 price={this.state.price} 
                                 planID={this.state.planID}
+                                selectRegion={selectRegion}
+                                selectPlanType={this.state.selectPlanType}
+                                selectPlanSize={this.state.selectPlanSize}
+                                grandTotal ={this.state.grandTotal}
+                                sender={this.state.sender}
+                                senderNum={this.state.senderNum}
+                                recipient={this.state.recipient}
+                                recipientNum={this.state.recipientNum}
+                                company={this.state.company}
+                                address={this.state.address}
+                                cardMessage={this.state.cardMessage}
                             />
                         </Col>
                     </Row>
