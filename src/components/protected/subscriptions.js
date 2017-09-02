@@ -1,8 +1,7 @@
 import React, { Component } from 'react'
-import * as firebase from 'firebase';
 import { firebaseAuth } from '../config/constants';
 import { Link } from 'react-router-dom';
-import { FormGroup, FormControl, ControlLabel, Grid, Row, Col, Button, Glyphicon } from 'react-bootstrap';
+import { FormGroup, FormControl, Grid, Row, Col } from 'react-bootstrap';
 import { base } from '../config/constants';
 
 export default class Subscriptions extends Component {
@@ -36,6 +35,8 @@ export default class Subscriptions extends Component {
   handleFromChange(e, key) {
     this.setState({ newFrom: e.target.value });
   }
+
+  handleSubmit() {};
 
   render () {
 

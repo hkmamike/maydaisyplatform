@@ -119,10 +119,10 @@ class GreetingSignUp extends React.Component {
   }
 
   submitSignUp (selectRegion, name, email, phone) {
-    var immediatelyAvailableReference = base.push(`signUp/hongKong/areas/${selectRegion}/records`, {
+    base.push(`signUp/hongKong/areas/${selectRegion}/records`, {
       data: {name: name, email: email, phone: phone, date: new Date()}
     });
-    //available immediately, you don't have to wait for the callback to be called 
+    //available immediately, you don't have to wait for the callback to be called. To use, set var immediatelyAvailableReference = base.push
     // var generatedKey = immediatelyAvailableReference.key;
     this.setState({loading: false, formSubmitted: true});
   }

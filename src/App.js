@@ -9,7 +9,6 @@ import Header from './components/headerComponents/header';
 import Footer from './components/footerComponents/footer';
 import Homepage from './components/pages/homePage';
 import SignUps from './components/pages/signUps';
-import Packages from './components/pages/packages';
 import Subscriptions from './components/protected/subscriptions';
 import NewSubscription from './components/protected/newSubscription';
 import AccountInfo from './components/protected/accountInfo';

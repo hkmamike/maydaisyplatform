@@ -1,9 +1,6 @@
 import React, { Component } from 'react'
-import * as firebase from 'firebase';
-import { firebaseAuth } from '../config/constants';
 import { Link } from 'react-router-dom';
-import { FormGroup, FormControl, ControlLabel, Grid, Row, Col, Button, Glyphicon, DropdownButton, MenuItem } from 'react-bootstrap';
-import { base } from '../config/constants';
+import { FormGroup, FormControl, ControlLabel, Grid, Row, Col, Button, DropdownButton, MenuItem } from 'react-bootstrap';
 import ChargeMoney from '../helpers/payment'
 
 export default class NewSubscription extends Component {
@@ -27,16 +24,15 @@ export default class NewSubscription extends Component {
       recipient: '',
       recipientNum: '',
       company: '',
-      address: '',
       senderNum: ''
     }
   }
 
   handleRegionSelect = (eventKey) => {
     this.props.onRegionSelection(eventKey);
-    if (eventKey == "HK - Admiralty" || eventKey == "HK - Central") {
+    if (eventKey === "HK - Admiralty" || eventKey === "HK - Central") {
         this.setState({deliveryDay: 'Every Monday'});
-    } else if (eventKey =="HK - Chai Wan") {
+    } else if (eventKey ==="HK - Chai Wan") {
         this.setState({deliveryDay: 'Every Wednesday'});
     }
   }
@@ -46,9 +42,9 @@ export default class NewSubscription extends Component {
   }
   handlePlanSizeSelect = (eventKey) => {
     this.setState({selectPlanSize: eventKey});
-    if (eventKey == "Simple (single bloom, HKD53/week)") {
+    if (eventKey === "Simple (single bloom, HKD53/week)") {
         this.setState({price: 5300, currencyType: 'HKD', grandTotal: 5300+this.state.deliveryFee, planID: 'HKSimple53'});
-    } else if (eventKey == "Boquet (6 blooms, HKD233/week)") {
+    } else if (eventKey === "Boquet (6 blooms, HKD233/week)") {
         this.setState({price: 23300, currencyType: 'HKD', grandTotal: 23300+this.state.deliveryFee, planID: 'HKBoquet223'});
     }
   }
@@ -80,19 +76,16 @@ export default class NewSubscription extends Component {
 
   render () {
 
-    var data = this.state.subscriptionData;
     var loadingState = this.state.loading;
     var subscriptionStep = this.state.subscriptionStep;
     var selectRegion = this.props.selectRegion;
     var selectPlanType = this.state.selectPlanType;
     var selectPlanSize = this.state.selectPlanSize;
-    var sender = this.state.senderNum;
-    var _this = this;
 
     let content = null;
     if (loadingState) {
         content = <div>Loading...</div>
-    } else if (subscriptionStep==1){
+    } else if (subscriptionStep===1){
         content = (
             <div>
                 <Grid>
@@ -155,7 +148,7 @@ export default class NewSubscription extends Component {
                 </Grid>
             </div>
         )
-    } else if (subscriptionStep==2){
+    } else if (subscriptionStep===2){
         content = (
             <div>
                 <Grid>
@@ -208,7 +201,7 @@ export default class NewSubscription extends Component {
                 </Grid>
             </div>
         )
-    } else if (subscriptionStep==3){
+    } else if (subscriptionStep===3){
         content = (
             <div>
                 <Grid>
@@ -294,7 +287,7 @@ export default class NewSubscription extends Component {
                 </Grid>
             </div>
         )
-    } else if (subscriptionStep==4){
+    } else if (subscriptionStep===4){
         content = (
             <div>
                 <Grid>
@@ -435,7 +428,7 @@ export default class NewSubscription extends Component {
                 </Grid>
             </div>
         )
-    } else if (subscriptionStep==5){
+    } else if (subscriptionStep===5){
         content = (
             <div>
                 <Grid>

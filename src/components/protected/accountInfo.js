@@ -1,9 +1,8 @@
 import React, { Component } from 'react'
-import * as firebase from 'firebase';
 import { firebaseAuth } from '../config/constants';
 import { Link } from 'react-router-dom';
-import { FormGroup, FormControl, ControlLabel, Grid, Row, Col, Button, Glyphicon } from 'react-bootstrap';
 import { base } from '../config/constants';
+import { Grid, Row, Col } from 'react-bootstrap';
 
 export default class AccountInfo extends Component {
 
@@ -44,9 +43,7 @@ export default class AccountInfo extends Component {
 
   render () {
 
-    var data = this.state.subscriptionData;
     var loadingState = this.state.loading;
-    var _this = this;
 
     let content = null;
     if (loadingState) {
@@ -81,6 +78,7 @@ export default class AccountInfo extends Component {
             <Row className="show-grid loggedin-margin-box">
               <Col className="loggedin-content">
                   <h2 className="login-title"><strong>AccountInfo</strong></h2>
+                  {content}
               </Col>
             </Row>
           </Grid>

@@ -25,12 +25,15 @@ export default class ChargeMoney extends React.Component {
     var stripeCusID;
     var stripeSubID;
 
+    console.log('stripe created token. Forwarding to web server : ', token);
+
     fetch('https://wt-47cf129daee3aa0bf6d4064463e232ef-0.run.webtask.io/webtask-stripe-order'
     +'?paymentSource=' + token.id
     +'&paymentEmail=' + token.email, {
       method: 'POST',
     }).then(response => {
         response.json().then(data => {
+            console.log('customer created. Forwarding to subscription processor : ', data);
             stripeCusID = data.id;
             fetch('https://wt-47cf129daee3aa0bf6d4064463e232ef-0.run.webtask.io/webtask-stripe-payment' 
             + '?customerID=' + data.id 
@@ -39,6 +42,7 @@ export default class ChargeMoney extends React.Component {
             })
             .then(response => {
                 response.json().then(data => {
+                    console.log('response from subscription processor: ', data);
                     stripeSubID = data.id;
                     base.post(`allSubscriptions/hongKong/${selectRegion}/${planID}/${stripeSubID}`, {
                         data: {

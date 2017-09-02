@@ -1,7 +1,7 @@
 import React, { Component } from 'react'
 import { auth } from '../helpers/auth'
 import { Link } from 'react-router-dom';
-import { FormGroup, FormControl, ControlLabel, Grid, Row, Col, Button, Glyphicon } from 'react-bootstrap';
+import { FormGroup, FormControl, Grid, Row, Col, Button, Glyphicon } from 'react-bootstrap';
 
 function setErrorMsg(error) {
   return {
