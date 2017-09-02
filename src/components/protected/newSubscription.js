@@ -140,8 +140,18 @@ export default class NewSubscription extends Component {
                         </Col>
                     </Row>
                     <Row className="show-grid">
-                        <Col md={5}></Col>
-                        <Col md={4}>
+                        <Col sm={2}></Col>
+                        <Col sm={3}><div><strong>Please Note:</strong></div></Col>
+                        <Col sm={6}>
+                            <DropdownButton title={selectPlanSize} className="subscription-select" id="subscriptioin-planTypeSelect-dropdown" onSelect={this.handlePlanSizeSelect}>
+                                <MenuItem eventKey="Simple (single bloom, HKD53/week)">Simple (single bloom, HKD53/week)</MenuItem>
+                                <MenuItem eventKey="Boquet (6 blooms, HKD233/week)">Boquet (6 blooms, HKD233/week)</MenuItem>
+                            </DropdownButton>
+                        </Col>
+                    </Row>
+                    <Row className="show-grid">
+                        <Col sm={5}></Col>
+                        <Col sm={4}>
                             <Button bsStyle="" className="button" onClick={() => this.setState({subscriptionStep: 2})}>Next</Button>
                         </Col>
                     </Row>
@@ -170,30 +180,30 @@ export default class NewSubscription extends Component {
                 </Grid>
                 <Grid>
                     <Row className="show-grid">
-                        <Col md={2}></Col>
-                        <Col md={3}>
+                        <Col sm={2}></Col>
+                        <Col sm={3}>
                             <div><strong>Card Message:</strong></div>
                         </Col>
-                        <Col md={6}>
+                        <Col sm={6}>
                             <FormGroup>
                                 <FormControl value={this.state.cardMessage} componentClass="textarea" className="cardMessage" placeholder="Card Message - optional, the card can fit up to 100 words nicely" onChange={this.handleCardMessage}/>
                             </FormGroup>
                         </Col>
                     </Row>
                     <Row className="show-grid">
-                        <Col md={2}></Col>
-                        <Col md={3}>
+                        <Col sm={2}></Col>
+                        <Col sm={3}>
                             <div><strong>From:</strong></div>
                         </Col>
-                        <Col md={6}>
+                        <Col sm={6}>
                             <FormGroup>
                                 <FormControl value={this.state.sender} type="text" placeholder="Sender's Name - optional" onChange={this.handleSender}/>
                             </FormGroup>
                         </Col>
                     </Row>
                     <Row className="show-grid">
-                        <Col md={5}></Col>
-                        <Col md={4}>
+                        <Col sm={5}></Col>
+                        <Col sm={4}>
                             <Button bsStyle="" className="button button-back" onClick={() => this.setState({subscriptionStep: 1})}>Back</Button>
                             <Button bsStyle="" className="button" onClick={() => this.setState({subscriptionStep: 3})}>Next</Button>
                         </Col>
@@ -224,62 +234,62 @@ export default class NewSubscription extends Component {
                 <Grid>
                     <Row className="show-grid">
                         <FormGroup>
-                            <Col md={2}></Col>
-                            <Col md={3}>
+                            <Col sm={2}></Col>
+                            <Col sm={3}>
                                 <ControlLabel>Name:</ControlLabel>
                             </Col>
-                            <Col md={6}>
+                            <Col sm={6}>
                                 <FormControl value={this.state.recipient} type="text" placeholder="Recipient's name" onChange={this.handleRecipient}/>
                             </Col>
                         </FormGroup>
                     </Row>
                     <Row className="show-grid">
                         <FormGroup>
-                            <Col md={2}></Col>
-                            <Col md={3}>
+                            <Col sm={2}></Col>
+                            <Col sm={3}>
                                 <ControlLabel>Recipient's Number:</ControlLabel>
                             </Col>
-                            <Col md={6}>
+                            <Col sm={6}>
                                 <FormControl value={this.state.recipientNum} type="text" placeholder="Recipient's phone - for delivery" onChange={this.handleRecipientNum}/>
                             </Col>
                         </FormGroup>
                     </Row>
                     <Row className="show-grid">
                         <FormGroup>
-                            <Col md={2}></Col>
-                            <Col md={3}>
+                            <Col sm={2}></Col>
+                            <Col sm={3}>
                                 <ControlLabel>Company:</ControlLabel>
                             </Col>
-                            <Col md={6}>
+                            <Col sm={6}>
                                 <FormControl value={this.state.company} type="text" placeholder="Recipient's company or location name" onChange={this.handleCompany}/>
                             </Col>
                         </FormGroup>
                     </Row>
                     <Row className="show-grid">
                         <FormGroup>
-                            <Col md={2}></Col>
-                            <Col md={3}>
+                            <Col sm={2}></Col>
+                            <Col sm={3}>
                                 <ControlLabel>Address:</ControlLabel>
                             </Col>
-                            <Col md={6}>
+                            <Col sm={6}>
                                 <FormControl value={this.state.address} componentClass="textarea" className="recipientAddress" placeholder="Recipient's name - for delivery" onChange={this.handleAddress}/>
                             </Col>
                         </FormGroup>
                     </Row>
                     <Row className="show-grid">
                         <FormGroup>
-                            <Col md={2}></Col>
-                            <Col md={3}>
+                            <Col sm={2}></Col>
+                            <Col sm={3}>
                                 <ControlLabel>Sender's Number:</ControlLabel>
                             </Col>
-                            <Col md={6}>
+                            <Col sm={6}>
                                 <FormControl value={this.state.senderNum} type="text" placeholder="Your phone number (optional)" onChange={this.handleSenderNum}/>
                             </Col>
                         </FormGroup>
                     </Row>
                     <Row className="show-grid">
-                        <Col md={5}></Col>
-                        <Col md={4}>
+                        <Col sm={5}></Col>
+                        <Col sm={4}>
                             <Button bsStyle="" className="button button-back" onClick={() => this.setState({subscriptionStep: 2})}>Back</Button>
                             <Button bsStyle="" className="button" onClick={() => this.setState({subscriptionStep: 4})}>Next</Button>
                         </Col>
@@ -310,117 +320,117 @@ export default class NewSubscription extends Component {
                 <Grid>
                     <Row className="show-grid">
                         <FormGroup>
-                            <Col md={2}></Col>
-                            <Col md={3}>
+                            <Col sm={2}></Col>
+                            <Col sm={3}>
                                 <div><strong>Recipient:</strong></div>
                             </Col>
-                            <Col md={6}>
+                            <Col sm={6}>
                                 <div>{this.state.recipient}</div>
                             </Col>
                         </FormGroup>
                     </Row>
                     <Row className="show-grid">
                         <FormGroup>
-                            <Col md={2}></Col>
-                            <Col md={3}>
+                            <Col sm={2}></Col>
+                            <Col sm={3}>
                                 <div><strong>Recipient's Phone:</strong></div>
                             </Col>
-                            <Col md={6}>
+                            <Col sm={6}>
                                 <div>{this.state.recipientNum}</div>
                             </Col>
                         </FormGroup>
                     </Row>
                     <Row className="show-grid">
                         <FormGroup>
-                            <Col md={2}></Col>
-                            <Col md={3}>
+                            <Col sm={2}></Col>
+                            <Col sm={3}>
                                 <div><strong>Recipient's Company:</strong></div>
                             </Col>
-                            <Col md={6}>
+                            <Col sm={6}>
                                 <div>{this.state.company}</div>
                             </Col>
                         </FormGroup>
                     </Row>
                     <Row className="show-grid">
                         <FormGroup>
-                            <Col md={2}></Col>
-                            <Col md={3}>
+                            <Col sm={2}></Col>
+                            <Col sm={3}>
                                 <div><strong>Address:</strong></div>
                             </Col>
-                            <Col md={6}>
+                            <Col sm={6}>
                                 <div>{this.state.address}</div>
                             </Col>
                         </FormGroup>
                     </Row>
                     <Row className="show-grid">
                         <FormGroup>
-                            <Col md={2}></Col>
-                            <Col md={3}>
+                            <Col sm={2}></Col>
+                            <Col sm={3}>
                                 <div><strong>Delivery on:</strong></div>
                             </Col>
-                            <Col md={6}>
+                            <Col sm={6}>
                                 <div>{this.state.deliveryDay}</div>
                             </Col>
                         </FormGroup>
                     </Row>
                     <Row className="show-grid">
                         <FormGroup>
-                            <Col md={2}></Col>
-                            <Col md={3}>
+                            <Col sm={2}></Col>
+                            <Col sm={3}>
                                 <div><strong>Card Message:</strong></div>
                             </Col>
-                            <Col md={6}>
+                            <Col sm={6}>
                                 <div>{this.state.cardMessage}</div>
                             </Col>
                         </FormGroup>
                     </Row>
                     <Row className="show-grid">
                         <FormGroup>
-                            <Col md={2}></Col>
-                            <Col md={3}>
+                            <Col sm={2}></Col>
+                            <Col sm={3}>
                                 <div><strong>From:</strong></div>
                             </Col>
-                            <Col md={6}>
+                            <Col sm={6}>
                             <div>{this.state.sender}</div>
                             </Col>
                         </FormGroup>
                     </Row>
                     <Row className="show-grid">
                         <FormGroup>
-                            <Col md={2}></Col>
-                            <Col md={3}>
+                            <Col sm={2}></Col>
+                            <Col sm={3}>
                                 <div><strong>Sender's Phone:</strong></div>
                             </Col>
-                            <Col md={6}>
+                            <Col sm={6}>
                                 <div>{this.state.senderNum}</div>
                             </Col>
                         </FormGroup>
                     </Row>
                     <Row className="show-grid">
                         <FormGroup>
-                            <Col md={2}></Col>
-                            <Col md={3}>
+                            <Col sm={2}></Col>
+                            <Col sm={3}>
                                 <div><strong>Subscription Type:</strong></div>
                             </Col>
-                            <Col md={6}>
+                            <Col sm={6}>
                             <div>{this.state.selectPlanType}</div>
                             </Col>
                         </FormGroup>
                     </Row>
                     <Row className="show-grid">
                         <FormGroup>
-                            <Col md={2}></Col>
-                            <Col md={3}>
+                            <Col sm={2}></Col>
+                            <Col sm={3}>
                                 <div><strong>Subscription Size:</strong></div>
                             </Col>
-                            <Col md={6}>
+                            <Col sm={6}>
                             <div>{this.state.selectPlanSize}</div>
                             </Col>
                         </FormGroup>
                     </Row>
                     <Row className="show-grid">
-                        <Col md={5}></Col>
-                        <Col md={4}>
+                        <Col sm={5}></Col>
+                        <Col sm={4}>
                             <Button bsStyle="" className="button button-back" onClick={() => this.setState({subscriptionStep: 3})}>Back</Button>
                             <Button bsStyle="" className="button" onClick={() => this.setState({subscriptionStep: 5})}>Next</Button>
                         </Col>
@@ -451,40 +461,40 @@ export default class NewSubscription extends Component {
                 <Grid>
                     <Row className="show-grid">
                         <FormGroup>
-                            <Col md={2}></Col>
-                            <Col md={3}>
+                            <Col sm={2}></Col>
+                            <Col sm={3}>
                                 <div><strong>Chosen Plan:</strong></div>
                             </Col>
-                            <Col md={6}>
+                            <Col sm={6}>
                                 <div>{this.state.selectPlanSize}</div>
                             </Col>
                         </FormGroup>
                     </Row>
                     <Row className="show-grid">
                         <FormGroup>
-                            <Col md={2}></Col>
-                            <Col md={3}>
+                            <Col sm={2}></Col>
+                            <Col sm={3}>
                                 <div><strong>Delivery Fee:</strong></div>
                             </Col>
-                            <Col md={6}>
+                            <Col sm={6}>
                                 <div>{this.state.deliveryFee}</div>
                             </Col>
                         </FormGroup>
                     </Row>
                     <Row className="show-grid">
                         <FormGroup>
-                            <Col md={2}></Col>
-                            <Col md={3}>
+                            <Col sm={2}></Col>
+                            <Col sm={3}>
                                 <div><strong>Grand Total:</strong></div>
                             </Col>
-                            <Col md={6}>
+                            <Col sm={6}>
                                 <div>{this.state.currencyType}{this.state.grandTotal/100}</div>
                             </Col>
                         </FormGroup>
                     </Row>
                     <Row className="show-grid">
-                        <Col md={5}></Col>
-                        <Col md={4}>
+                        <Col sm={5}></Col>
+                        <Col sm={4}>
                             <Button bsStyle="" className="button button-back" onClick={() => this.setState({subscriptionStep: 4})}>Back</Button>
                             <ChargeMoney
                                 price={this.state.price} 

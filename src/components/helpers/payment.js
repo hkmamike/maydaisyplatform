@@ -24,6 +24,9 @@ export default class ChargeMoney extends React.Component {
     var stripeTokID = token.id;
     var stripeCusID;
     var stripeSubID;
+    var subscriptionTime;
+    var firstPayment;
+    var firstDelivery = new Date();
 
     console.log('stripe created token. Forwarding to web server : ', token);
 
@@ -31,7 +34,9 @@ export default class ChargeMoney extends React.Component {
     +'?paymentSource=' + token.id
     +'&paymentEmail=' + token.email, {
       method: 'POST',
-    }).then(response => {
+    })
+    .catch(console.log('there is an error at customer creation'))
+    .then(response => {
         response.json().then(data => {
             console.log('customer created. Forwarding to subscription processor : ', data);
             stripeCusID = data.id;
@@ -40,10 +45,21 @@ export default class ChargeMoney extends React.Component {
             + '&planID=' + this.props.planID, {
                 method: 'POST',
             })
+            .catch(console.log('there is an error at subscription processing'))
             .then(response => {
                 response.json().then(data => {
                     console.log('response from subscription processor: ', data);
                     stripeSubID = data.id;
+                    subscriptionTime = data.current_period_start;
+                    firstPayment = new Date(data.current_period_end*1000);
+                    console.log('firstPayment will happen on:', firstPayment);
+                    if (deliveryDay==="Every Monday") {
+                        firstDelivery.setDate(firstPayment.getDate() + (1 + 7 - firstPayment.getDay()) % 7);
+                        console.log('first Monday delivery will happen on: ', firstDelivery);
+                    } else if (deliveryDay==="Every Wednesday") {
+                        firstDelivery.setDate(firstPayment.getDate() + (3 + 7 - firstPayment.getDay()) % 7);
+                        console.log('first Wednesday delivery will happen on: ', firstDelivery);
+                    }
                     base.post(`allSubscriptions/hongKong/${selectRegion}/${planID}/${stripeSubID}`, {
                         data: {
                             uid: uid,
@@ -61,7 +77,10 @@ export default class ChargeMoney extends React.Component {
                             cardMessage: cardMessage,
                             stripeTokID: stripeTokID,
                             stripeCusID: stripeCusID,
-                            stripeSubID: stripeSubID
+                            stripeSubID: stripeSubID,
+                            subscriptionAt: subscriptionTime,
+                            firstPayment: firstPayment,
+                            firstDelivery: firstDelivery
                         }
                     });
                     base.post(`users/${uid}/subscriptions/${stripeSubID}`, {
@@ -82,7 +101,10 @@ export default class ChargeMoney extends React.Component {
                             cardMessage: cardMessage,
                             stripeTokID: stripeTokID,
                             stripeCusID: stripeCusID,
-                            stripeSubID: stripeSubID
+                            stripeSubID: stripeSubID,
+                            subscriptionAt: subscriptionTime,
+                            firstPayment: firstPayment,
+                            firstDelivery: firstDelivery
                         }
                     });
                 });
