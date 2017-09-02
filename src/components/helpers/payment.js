@@ -9,36 +9,29 @@ export default class ChargeMoney extends React.Component {
     var uid = firebase.auth().currentUser.uid;
     var selectRegion = this.props.selectRegion;
     var planID = this.props.planID;
-
     var selectPlanType = this.props.selectPlanType;
     var selectPlanSize = this.props.selectPlanSize;
     var grandTotalPerWeek = this.props.grandTotal;
-
     var senderName = this.props.sender;
     var senderNum = this.props.senderNum;
     var senderEmail = token.email;
-
     var recipient = this.props.recipient;
     var recipientNum = this.props.recipientNum;
     var company = this.props.company;
     var address = this.props.address;
+    var deliveryDay = this.props.deliveryDay;
     var cardMessage = this.props.cardMessage;
-
     var stripeTokID = token.id;
     var stripeCusID;
     var stripeSubID;
 
-    console.log('sending token to webtask, token is : ', token);
     fetch('https://wt-47cf129daee3aa0bf6d4064463e232ef-0.run.webtask.io/webtask-stripe-order'
     +'?paymentSource=' + token.id
     +'&paymentEmail=' + token.email, {
       method: 'POST',
     }).then(response => {
         response.json().then(data => {
-            console.log ('customer has been created: ', data);
-            console.log ('customer id is:', data.id);
             stripeCusID = data.id;
-            console.log ('plandID is :', this.props.planID);
             fetch('https://wt-47cf129daee3aa0bf6d4064463e232ef-0.run.webtask.io/webtask-stripe-payment' 
             + '?customerID=' + data.id 
             + '&planID=' + this.props.planID, {
@@ -46,25 +39,46 @@ export default class ChargeMoney extends React.Component {
             })
             .then(response => {
                 response.json().then(data => {
-                    console.log ('subscription response: ', data);
                     stripeSubID = data.id;
-                    console.log ('2check to see if token is visible: ', token);
-                    base.update(`allSubscriptions/hongKong/${selectRegion}/${planID}/${uid}`, {
+                    base.post(`allSubscriptions/hongKong/${selectRegion}/${planID}/${stripeSubID}`, {
                         data: {
-                              selectPlanType: selectPlanType,
-                              selectPlanSize: selectPlanSize,
-                              grandTotalPerWeek: grandTotalPerWeek,
-                              senderName: senderName,
-                              senderNum: senderNum,
-                              senderEmail: senderEmail,
-                              recipient: recipient,
-                              recipientNum: recipientNum,
-                              company: company,
-                              address: address,
-                              cardMessage: cardMessage,
-                              stripeTokID: stripeTokID,
-                              stripeCusID: stripeCusID,
-                              stripeSubID: stripeSubID
+                            uid: uid,
+                            selectPlanType: selectPlanType,
+                            selectPlanSize: selectPlanSize,
+                            grandTotalPerWeek: grandTotalPerWeek,
+                            senderName: senderName,
+                            senderNum: senderNum,
+                            senderEmail: senderEmail,
+                            recipient: recipient,
+                            recipientNum: recipientNum,
+                            company: company,
+                            address: address,
+                            deliveryDay: deliveryDay,
+                            cardMessage: cardMessage,
+                            stripeTokID: stripeTokID,
+                            stripeCusID: stripeCusID,
+                            stripeSubID: stripeSubID
+                        }
+                    });
+                    base.post(`users/${uid}/subscriptions/${stripeSubID}`, {
+                        data: {
+                            selectRegion: selectRegion,
+                            planID: planID,
+                            selectPlanType: selectPlanType,
+                            selectPlanSize: selectPlanSize,
+                            grandTotalPerWeek: grandTotalPerWeek,
+                            senderName: senderName,
+                            senderNum: senderNum,
+                            senderEmail: senderEmail,
+                            recipient: recipient,
+                            recipientNum: recipientNum,
+                            company: company,
+                            address: address,
+                            deliveryDay: deliveryDay,
+                            cardMessage: cardMessage,
+                            stripeTokID: stripeTokID,
+                            stripeCusID: stripeCusID,
+                            stripeSubID: stripeSubID
                         }
                     });
                 });
@@ -72,45 +86,6 @@ export default class ChargeMoney extends React.Component {
         });
     })
 }
- 
-
-//   submitSubscription (
-//         token,
-//         uid,
-//         stripeCusID,
-//         selectRegion,
-//         planID, 
-//         flowers, 
-//         size, 
-//         sender,
-//         senderNum,
-//         senderEmail,
-//         recipient, 
-//         recipientNum, 
-//         comapny, 
-//         address,
-//         cardMessage,
-//         pricePerWeek) {
-//     base.update(`allSubscriptions/hongKong/${selectRegion}/${planID}/${stripeCusID}`, {
-//       data: {
-//             paymentToken: token.id,
-//             flowers: flowers,
-//             size: size,
-//             sender: sender,
-//             senderNum: senderNum,
-//             senderEmail, senderEmail,
-//             senderID: uid,
-//             recipient: recipient,
-//             recipientNum: recipientNum,
-//             addressLocation: company,
-//             address: address,
-//             cardMessage: cardMessage,
-//             price: pricePerWeek
-//         }
-//     });
-//     var generatedKey = immediatelyAvailableReference.key;
-//     this.setState({loading: false, formSubmitted: true});
-//   }
 
   // ...
   render() {

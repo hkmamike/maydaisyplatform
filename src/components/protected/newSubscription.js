@@ -13,10 +13,10 @@ export default class NewSubscription extends Component {
     this.state = {
       loading: true,
       subscriptionStep: 1,
-      CardMessage: '',
+      cardMessage: '',
       sender: '',
       address: '',
-      deliveryDay: 'Monday',
+      deliveryDay: 'Every Monday',
       selectPlanType: 'Florist Choice (seasonal flower)',
       selectPlanSize: 'Simple (single bloom, 53HKD/week)',
       price: 5300,
@@ -35,9 +35,9 @@ export default class NewSubscription extends Component {
   handleRegionSelect = (eventKey) => {
     this.props.onRegionSelection(eventKey);
     if (eventKey == "HK - Admiralty" || eventKey == "HK - Central") {
-        this.setState({deliveryDay: 'Monday'});
+        this.setState({deliveryDay: 'Every Monday'});
     } else if (eventKey =="HK - Chai Wan") {
-        this.setState({deliveryDay: 'Wednesday'});
+        this.setState({deliveryDay: 'Every Wednesday'});
     }
   }
 
@@ -123,7 +123,7 @@ export default class NewSubscription extends Component {
                                 <MenuItem eventKey="HK - Chai Wan">HK - Chai Wan</MenuItem>
                             </DropdownButton>
                             <div className="subscription-tips">*Only one delivery day option is avaiable for this region at the moment.</div>
-                            <div className="subscription-tips">**Weekly Delivery for {selectRegion} is on <strong>{this.state.deliveryDay}</strong></div>
+                            <div className="subscription-tips">**Weekly Delivery for {selectRegion} is on <strong>{this.state.deliveryDay}</strong>. If the delivery day is a holiday, delivery will take place on the next weekday of the same week.</div>
                         </Col>
                     </Row>
                     <Row className="show-grid">
@@ -247,7 +247,7 @@ export default class NewSubscription extends Component {
                                 <ControlLabel>Recipient's Number:</ControlLabel>
                             </Col>
                             <Col md={6}>
-                                <FormControl value={this.state.recipientNum} type="text" placeholder="Recipient's phone number" onChange={this.handleRecipientNum}/>
+                                <FormControl value={this.state.recipientNum} type="text" placeholder="Recipient's phone - for delivery" onChange={this.handleRecipientNum}/>
                             </Col>
                         </FormGroup>
                     </Row>
@@ -356,6 +356,17 @@ export default class NewSubscription extends Component {
                             </Col>
                             <Col md={6}>
                                 <div>{this.state.address}</div>
+                            </Col>
+                        </FormGroup>
+                    </Row>
+                    <Row className="show-grid">
+                        <FormGroup>
+                            <Col md={2}></Col>
+                            <Col md={3}>
+                                <div><strong>Delivery on:</strong></div>
+                            </Col>
+                            <Col md={6}>
+                                <div>{this.state.deliveryDay}</div>
                             </Col>
                         </FormGroup>
                     </Row>
@@ -496,6 +507,7 @@ export default class NewSubscription extends Component {
                                 company={this.state.company}
                                 address={this.state.address}
                                 cardMessage={this.state.cardMessage}
+                                deliveryDay = {this.state.deliveryDay}
                             />
                         </Col>
                     </Row>

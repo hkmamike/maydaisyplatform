@@ -54,7 +54,7 @@ export default class Subscriptions extends Component {
                     <div><strong>Subscription ID:</strong></div>
                 </Col>
                 <Col md={6}>
-                  <div>{data[key].subscriptionID}</div>
+                  <div>{data[key].stripeSubID}</div>
                 </Col>
               </FormGroup>
             </Row>
@@ -65,7 +65,7 @@ export default class Subscriptions extends Component {
                     <div><strong>To:</strong></div>
                 </Col>
                 <Col md={6}>
-                  <div>{data[key].to}</div>
+                  <div>{data[key].recipient}</div>
                 </Col>
               </FormGroup>
             </Row>
@@ -76,7 +76,7 @@ export default class Subscriptions extends Component {
                     <div><strong>Frequency:</strong></div>
                 </Col>
                 <Col md={6}>
-                  <div>{data[key].frequency}</div>
+                  <div>{data[key].deliveryDay}</div>
                 </Col>
               </FormGroup>
             </Row>
@@ -87,18 +87,7 @@ export default class Subscriptions extends Component {
                     <div><strong>Cost per week:</strong></div>
                 </Col>
                 <Col md={6}>
-                  <div>{data[key].planCost}</div>
-                </Col>
-              </FormGroup>
-            </Row>
-            <Row className="show-grid">
-              <FormGroup>
-                <Col md={2}></Col>
-                <Col md={3}>
-                    <div><strong>Cost per week:</strong></div>
-                </Col>
-                <Col md={6}>
-                  <div>{data[key].planCost}</div>
+                  <div>{data[key].grandTotalPerWeek/100}</div>
                 </Col>
               </FormGroup>
             </Row>
@@ -121,7 +110,7 @@ export default class Subscriptions extends Component {
                   <div><strong>Card Message:</strong></div>
                 </Col>
                 <Col md={6}>
-                  <input placeholder={data[key].cardMessage} onChange={(e) => _this.handleCardChange(e,key)}></input>
+                  <FormControl componentClass="textarea" className="cardMessage" placeholder={data[key].cardMessage} onChange={(e) => _this.handleCardChange(e,key)}/>
                 </Col>
               </FormGroup>
             </Row>
@@ -132,7 +121,7 @@ export default class Subscriptions extends Component {
                   <div><strong>From:</strong></div>
                 </Col>
                 <Col md={6}>
-                  <input placeholder={data[key].from} onChange={(e) => _this.handleFromChange(e,key)}></input>
+                  <FormControl type="text" placeholder={data[key].senderName} onChange={(e) => _this.handleFromChange(e,key)}/>
                 </Col>
               </FormGroup>
             </Row>
