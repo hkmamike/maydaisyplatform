@@ -7,6 +7,7 @@ export default class NewSubscription extends Component {
 
   constructor() {
     super();
+    this.handleSubscriptionStep = this.handleSubscriptionStep.bind(this);
     this.state = {
       loading: true,
       subscriptionStep: 1,
@@ -24,8 +25,15 @@ export default class NewSubscription extends Component {
       recipient: '',
       recipientNum: '',
       company: '',
-      senderNum: ''
+      senderNum: '',
+      stripeSubID: '',
+      firstPayment: '',
+      firstDelivery: ''
     }
+  }
+
+  handleSubscriptionStep(stripeSubID, firstPayment, firstDelivery) {
+    this.setState({subscriptionStep : 6, stripeSubID: stripeSubID, firstPayment: firstPayment, firstDelivery: firstDelivery});
   }
 
   handleRegionSelect = (eventKey) => {
@@ -98,9 +106,11 @@ export default class NewSubscription extends Component {
                             <i className="fa fa-chevron-right"></i>
                             <div>Delivery</div>
                             <i className="fa fa-chevron-right"></i>
-                            <div>Review & Confirm</div>
+                            <div>Review</div>
                             <i className="fa fa-chevron-right"></i>
                             <div>Payment</div>
+                            <i className="fa fa-chevron-right"></i>
+                            <div>Confirm</div>
                         </Col>
                         <div className="horizontal-line"></div>
                     </Row>
@@ -140,16 +150,6 @@ export default class NewSubscription extends Component {
                         </Col>
                     </Row>
                     <Row className="show-grid">
-                        <Col sm={2}></Col>
-                        <Col sm={3}><div><strong>Please Note:</strong></div></Col>
-                        <Col sm={6}>
-                            <DropdownButton title={selectPlanSize} className="subscription-select" id="subscriptioin-planTypeSelect-dropdown" onSelect={this.handlePlanSizeSelect}>
-                                <MenuItem eventKey="Simple (single bloom, HKD53/week)">Simple (single bloom, HKD53/week)</MenuItem>
-                                <MenuItem eventKey="Boquet (6 blooms, HKD233/week)">Boquet (6 blooms, HKD233/week)</MenuItem>
-                            </DropdownButton>
-                        </Col>
-                    </Row>
-                    <Row className="show-grid">
                         <Col sm={5}></Col>
                         <Col sm={4}>
                             <Button bsStyle="" className="button" onClick={() => this.setState({subscriptionStep: 2})}>Next</Button>
@@ -171,9 +171,11 @@ export default class NewSubscription extends Component {
                             <i className="fa fa-chevron-right"></i>
                             <div>Delivery</div>
                             <i className="fa fa-chevron-right"></i>
-                            <div>Review & Confirm</div>
+                            <div>Review</div>
                             <i className="fa fa-chevron-right"></i>
                             <div>Payment</div>
+                            <i className="fa fa-chevron-right"></i>
+                            <div>Confirm</div>
                         </Col>
                         <div className="horizontal-line"></div>
                     </Row>
@@ -224,9 +226,11 @@ export default class NewSubscription extends Component {
                             <i className="fa fa-chevron-right"></i>
                             <div className="flow-selected">Delivery</div>
                             <i className="fa fa-chevron-right"></i>
-                            <div>Review & Confirm</div>
+                            <div>Review</div>
                             <i className="fa fa-chevron-right"></i>
                             <div>Payment</div>
+                            <i className="fa fa-chevron-right"></i>
+                            <div>Confirm</div>
                         </Col>
                         <div className="horizontal-line"></div>
                     </Row>
@@ -310,9 +314,11 @@ export default class NewSubscription extends Component {
                             <i className="fa fa-chevron-right"></i>
                             <div>Delivery</div>
                             <i className="fa fa-chevron-right"></i>
-                            <div className="flow-selected">Review & Confirm</div>
+                            <div className="flow-selected">Review</div>
                             <i className="fa fa-chevron-right"></i>
                             <div>Payment</div>
+                            <i className="fa fa-chevron-right"></i>
+                            <div>Confirm</div>
                         </Col>
                         <div className="horizontal-line"></div>
                     </Row>
@@ -451,9 +457,11 @@ export default class NewSubscription extends Component {
                             <i className="fa fa-chevron-right"></i>
                             <div>Delivery</div>
                             <i className="fa fa-chevron-right"></i>
-                            <div>Review & Confirm</div>
+                            <div>Review</div>
                             <i className="fa fa-chevron-right"></i>
                             <div className="flow-selected">Payment</div>
+                            <i className="fa fa-chevron-right"></i>
+                            <div>Confirm</div>
                         </Col>
                         <div className="horizontal-line"></div>
                     </Row>
@@ -511,7 +519,71 @@ export default class NewSubscription extends Component {
                                 address={this.state.address}
                                 cardMessage={this.state.cardMessage}
                                 deliveryDay = {this.state.deliveryDay}
+                                onSubscriptionStep={this.handleSubscriptionStep}
                             />
+                        </Col>
+                    </Row>
+                </Grid>
+            </div>
+        )
+    }   else if (subscriptionStep===6){
+        content = (
+            <div>
+                <Grid>
+                    <Row className="show-grid loggedin-flow">
+                        <div className="horizontal-line"></div>
+                        <Col md={12}>
+                            <div>Choose</div>
+                            <i className="fa fa-chevron-right"></i>
+                            <div>Card</div>
+                            <i className="fa fa-chevron-right"></i>
+                            <div>Delivery</div>
+                            <i className="fa fa-chevron-right"></i>
+                            <div>Review</div>
+                            <i className="fa fa-chevron-right"></i>
+                            <div>Payment</div>
+                            <i className="fa fa-chevron-right"></i>
+                            <div className="flow-selected">Confirm</div>
+                        </Col>
+                        <div className="horizontal-line"></div>
+                    </Row>
+                </Grid>
+                <Grid>
+                    <Row className="show-grid">
+                        <Col sm={2}></Col>
+                        <Col sm={3}>
+                            <div><strong>Subscriptioin ID:</strong></div>
+                        </Col>
+                        <Col sm={6}>
+                            <div>{this.state.stripeSubID}</div>
+                        </Col>
+                    </Row>
+                    <Row className="show-grid">
+                   
+                        <Col sm={2}></Col>
+                        <Col sm={3}>
+                            <div><strong>First Payment:</strong></div>
+                        </Col>
+                        <Col sm={6}>
+                            <div>{this.state.firstPayment.toLocaleDateString()}</div>
+                        </Col>
+                      
+                    </Row>
+                    <Row className="show-grid">
+                 
+                        <Col sm={2}></Col>
+                        <Col sm={3}>
+                            <div><strong>First Delivery:</strong></div>
+                        </Col>
+                        <Col sm={6}>
+                            <div>{this.state.firstDelivery.toLocaleDateString()}</div>
+                        </Col>
+                     
+                    </Row>
+                    <Row className="show-grid">
+                        <Col sm={5}></Col>
+                        <Col sm={4}>
+                            <Button bsStyle="" className="button button-back"><Link to="/subscriptions">My Subscriptions</Link></Button>
                         </Col>
                     </Row>
                 </Grid>

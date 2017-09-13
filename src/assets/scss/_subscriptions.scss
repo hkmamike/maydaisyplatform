@@ -157,6 +157,10 @@
                 background: #CCC;
                 height: 2px;
             }
+            .sub-list-item {
+                border-width: 5px;
+                border-color: $darkteal;
+            }
         }
     }
 }

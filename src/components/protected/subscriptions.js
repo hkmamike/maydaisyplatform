@@ -48,6 +48,7 @@ export default class Subscriptions extends Component {
       return (
         <div key={key}>
           <Grid>
+            <div className="sub-list-item">
             <Row className="show-grid">
               <FormGroup>
                 <Col md={2}></Col>
@@ -70,62 +71,7 @@ export default class Subscriptions extends Component {
                 </Col>
               </FormGroup>
             </Row>
-            <Row className="show-grid">
-              <FormGroup>
-                <Col md={2}></Col>
-                <Col md={3}>
-                    <div><strong>Frequency:</strong></div>
-                </Col>
-                <Col md={6}>
-                  <div>{data[key].deliveryDay}</div>
-                </Col>
-              </FormGroup>
-            </Row>
-            <Row className="show-grid">
-              <FormGroup>
-                <Col md={2}></Col>
-                <Col md={3}>
-                    <div><strong>Cost per week:</strong></div>
-                </Col>
-                <Col md={6}>
-                  <div>{data[key].grandTotalPerWeek/100}</div>
-                </Col>
-              </FormGroup>
-            </Row>
-            <Row className="show-grid">
-              <FormGroup>
-                <Col md={2}></Col>
-                <Col md={3}>
-                  <div><strong>Address:</strong></div>
-                </Col>
-                <Col md={6}>
-                  <div>{data[key].address}</div>
-                  <div>*To change delivery address, please re-subscribe.</div>
-                </Col>
-              </FormGroup>
-            </Row>
-            <Row className="show-grid">
-              <FormGroup>
-                <Col md={2}></Col>
-                <Col md={3}>
-                  <div><strong>Card Message:</strong></div>
-                </Col>
-                <Col md={6}>
-                  <FormControl componentClass="textarea" className="cardMessage" placeholder={data[key].cardMessage} onChange={(e) => _this.handleCardChange(e,key)}/>
-                </Col>
-              </FormGroup>
-            </Row>
-            <Row className="show-grid">
-              <FormGroup>
-                <Col md={2}></Col>
-                <Col md={3}>
-                  <div><strong>From:</strong></div>
-                </Col>
-                <Col md={6}>
-                  <FormControl type="text" placeholder={data[key].senderName} onChange={(e) => _this.handleFromChange(e,key)}/>
-                </Col>
-              </FormGroup>
-            </Row>
+            </div>
           </Grid>
         </div>
       )
@@ -135,7 +81,22 @@ export default class Subscriptions extends Component {
     if (loadingState) {
       content = <div>Loading...</div>
     } else {
-      content = subscriptions
+      content = (
+        <div>
+          <Grid>
+            <Row className="show-grid loggedin-flow">
+              <div className="horizontal-line"></div>
+              <Col xs={12}>
+                  <div className="flow-selected">Subscriptions List</div>
+                    <i className="fa fa-chevron-right"></i>
+                  <div>Details & Update</div>
+              </Col>
+              <div className="horizontal-line"></div>
+            </Row>
+          </Grid>
+          {subscriptions}
+        </div>
+      )
     }
 
     return (
@@ -164,7 +125,6 @@ export default class Subscriptions extends Component {
           </Row>
           <Row className="show-grid loggedin-margin-box">
             <Col className="loggedin-content">
-                <div className="horizontal-line"></div>
                 {content}
             </Col>
           </Row>
