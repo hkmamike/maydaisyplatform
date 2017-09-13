@@ -1,7 +1,7 @@
 import React, { Component } from 'react'
 import { firebaseAuth } from '../config/constants';
 import { Link } from 'react-router-dom';
-import { FormGroup, FormControl, Grid, Row, Col } from 'react-bootstrap';
+import { FormGroup, FormControl, Grid, Row, Col, Button } from 'react-bootstrap';
 import { base } from '../config/constants';
 
 export default class Subscriptions extends Component {
@@ -9,11 +9,14 @@ export default class Subscriptions extends Component {
   constructor() {
     super();
     this.handleFromChange = this.handleFromChange.bind(this);
+    this.handleChooseSub = this.handleChooseSub.bind(this);
     this.state = {
       subscriptionData: {},
       loading: true,
       newFrom: '',
-      newCardMessage: ''
+      newCardMessage: '',
+      subDetailsStatus: 0,
+      selectSub: ''
     }
   }
 
@@ -36,12 +39,15 @@ export default class Subscriptions extends Component {
     this.setState({ newFrom: e.target.value });
   }
 
-  handleSubmit() {};
+  handleChooseSub(key) {
+    console.log('key is : ', key);
+  }
 
   render () {
 
     var data = this.state.subscriptionData;
     var loadingState = this.state.loading;
+    var subDetailsStatus = this.state.subDetailsStatus;
     var _this = this;
 
     var subscriptions = Object.keys(data).map(function(key) {
@@ -71,16 +77,24 @@ export default class Subscriptions extends Component {
                   </Col>
                 </FormGroup>
               </Row>
+              <Row className="show-grid">
+                <FormGroup>
+                  {/* <Col xs={} sm={5}></Col> */}
+                  <Col xs={1} xsOffset={6} smOffset={9} mdOffset={10}>
+                    <Button bsStyle="" className="button sub-details-button" onClick={(key) => this.handleChooseSub(key)}>Details</Button>
+                  </Col>
+                </FormGroup>
+              </Row>
             </div>
           </Grid>
         </div>
       )
-    })
+    }, this)
 
     let content = null;
     if (loadingState) {
       content = <div>Loading...</div>
-    } else {
+    } else if (subDetailsStatus===0){
       content = (
         <div>
           <Grid>
@@ -95,6 +109,22 @@ export default class Subscriptions extends Component {
             </Row>
           </Grid>
           {subscriptions}
+        </div>
+      )
+    } else if (subDetailsStatus===1) {
+      content = (
+        <div>
+          <Grid>
+            <Row className="show-grid loggedin-flow">
+              <div className="horizontal-line"></div>
+              <Col xs={12}>
+                  <div>Subscriptions List</div>
+                    <i className="fa fa-chevron-right"></i>
+                  <div className="flow-selected">Details & Update</div>
+              </Col>
+              <div className="horizontal-line"></div>
+            </Row>
+          </Grid>
         </div>
       )
     }
