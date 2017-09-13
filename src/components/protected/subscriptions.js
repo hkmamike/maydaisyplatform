@@ -49,28 +49,28 @@ export default class Subscriptions extends Component {
         <div key={key}>
           <Grid>
             <div className="sub-list-item">
-            <Row className="show-grid">
-              <FormGroup>
-                <Col md={2}></Col>
-                <Col md={3}>
-                    <div><strong>Subscription ID:</strong></div>
-                </Col>
-                <Col md={6}>
-                  <div>{data[key].stripeSubID}</div>
-                </Col>
-              </FormGroup>
-            </Row>
-            <Row className="show-grid">
-              <FormGroup>
-                <Col md={2}></Col>
-                <Col md={3}>
-                    <div><strong>To:</strong></div>
-                </Col>
-                <Col md={6}>
-                  <div>{data[key].recipient}</div>
-                </Col>
-              </FormGroup>
-            </Row>
+              <Row className="show-grid">
+                <FormGroup>
+                  <Col sm={1}></Col>
+                  <Col sm={3}>
+                      <div><strong>Sub ID:</strong></div>
+                  </Col>
+                  <Col sm={3}>
+                    <div>{data[key].stripeSubID}</div>
+                  </Col>
+                </FormGroup>
+              </Row>
+              <Row className="show-grid">
+                <FormGroup>
+                  <Col sm={1}></Col>
+                  <Col sm={3}>
+                      <div><strong>To:</strong></div>
+                  </Col>
+                  <Col sm={3}>
+                    <div>{data[key].recipient}</div>
+                  </Col>
+                </FormGroup>
+              </Row>
             </div>
           </Grid>
         </div>
