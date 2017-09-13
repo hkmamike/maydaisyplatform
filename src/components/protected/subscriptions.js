@@ -16,7 +16,7 @@ export default class Subscriptions extends Component {
       newFrom: '',
       newCardMessage: '',
       subDetailsStatus: 0,
-      selectSub: ''
+      selectedSub: ''
     }
   }
 
@@ -39,18 +39,28 @@ export default class Subscriptions extends Component {
     this.setState({ newFrom: e.target.value });
   }
 
-  handleChooseSub(key) {
-    console.log('key is : ', key);
+  handleChooseSub(chosenKey) {
+    this.setState({subDetailsStatus: 1, selectedSub: chosenKey});
+  }
+
+  handleBack() {
+    this.setState({subDetailsStatus: 0});
+  }
+
+  handleSubUpdate() {
+    console.log('submitting update for subscription');
   }
 
   render () {
 
     var data = this.state.subscriptionData;
+    var selectedSub = this.selectedSub;
     var loadingState = this.state.loading;
     var subDetailsStatus = this.state.subDetailsStatus;
     var _this = this;
 
     var subscriptions = Object.keys(data).map(function(key) {
+      var chosenKey = data[key].stripeSubID;
       return (
         <div key={key}>
           <Grid>
@@ -81,7 +91,7 @@ export default class Subscriptions extends Component {
                 <FormGroup>
                   {/* <Col xs={} sm={5}></Col> */}
                   <Col xs={1} xsOffset={6} smOffset={9} mdOffset={10}>
-                    <Button bsStyle="" className="button sub-details-button" onClick={(key) => this.handleChooseSub(key)}>Details</Button>
+                    <Button bsStyle="" className="button sub-details-button" onClick={() => this.handleChooseSub(chosenKey)}>Details</Button>
                   </Col>
                 </FormGroup>
               </Row>
@@ -90,6 +100,45 @@ export default class Subscriptions extends Component {
         </div>
       )
     }, this)
+
+    var subscriptionDetails = (
+      <div>
+        <Grid>
+          <div className="sub-list-item">
+            <Row className="show-grid">
+              <FormGroup>
+                <Col sm={1}></Col>
+                <Col sm={3}>
+                    <div><strong>Sub ID:</strong></div>
+                </Col>
+                <Col sm={3}>
+                  <div></div>
+                </Col>
+              </FormGroup>
+            </Row>
+            <Row className="show-grid">
+              <FormGroup>
+                <Col sm={1}></Col>
+                <Col sm={3}>
+                    <div><strong>To:</strong></div>
+                </Col>
+                <Col sm={3}>
+                  <div></div>
+                </Col>
+              </FormGroup>
+            </Row>
+            <Row className="show-grid">
+              <FormGroup>
+                <Col xs={11} xsPush={1} smPush={7} mdPush={8}>
+                  <Button bsStyle="" className="button sub-details-back" onClick={() => this.handleBack()}>Back</Button>
+                  <Button bsStyle="" className="button sub-details-update" onClick={() => this.handleSubUpdate()}>Update</Button>
+                </Col>
+              </FormGroup>
+            </Row>
+          </div>
+        </Grid>
+      </div>
+    )
 
     let content = null;
     if (loadingState) {
@@ -125,6 +174,7 @@ export default class Subscriptions extends Component {
               <div className="horizontal-line"></div>
             </Row>
           </Grid>
+          {subscriptionDetails}
         </div>
       )
     }
