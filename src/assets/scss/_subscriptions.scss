@@ -12,14 +12,14 @@
 }
 
 .loggedin-background {
-    min-height: 740px;
+    min-height: 750px;
     width: 100%;
     background-size: cover;
     background-position: center center;
     background-repeat: no-repeat;
     // background-color: $lightGrey;
     background-color: $white;
-    overflow: scroll;
+    overflow: auto;
     .loggedin-nav {
         margin-left: 10px;
         margin-right: 10px;
@@ -194,6 +194,9 @@
                     margin-bottom: 0 !important;
                     margin-left: 10px !important;
                     display: inline-block !important;
+                }
+                .card-text-area {
+                    min-height: 250px;
                 }
             }
         }

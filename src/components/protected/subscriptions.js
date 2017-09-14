@@ -1,7 +1,7 @@
 import React, { Component } from 'react'
 import { firebaseAuth } from '../config/constants';
 import { Link } from 'react-router-dom';
-import { FormGroup, FormControl, Grid, Row, Col, Button } from 'react-bootstrap';
+import { FormGroup, FormControl, Grid, Row, Col, Button, ControlLabel } from 'react-bootstrap';
 import { base } from '../config/constants';
 
 class SubDetails extends React.Component {
@@ -10,33 +10,47 @@ class SubDetails extends React.Component {
     super();
     this.handleBack = this.handleBack.bind(this);
     this.handleSubUpdate = this.handleSubUpdate.bind(this);
+    this.handleNumChange = this.handleNumChange.bind(this);
+    this.handleMessageChange = this.handleMessageChange.bind(this);
     this.state = {
       loading: true,
-      subDetails: {}
+      subDetails: {},
+      cardMessage: '',
+      recipientNum: ''
     }
   }
 
   componentDidMount () {
     firebaseAuth().onAuthStateChanged((user) => {
-      this.subscriptionDataRef = base.fetch(`users/${user.uid}/subscriptions/${this.props.selectedSub}`, {
+      this.subscriptionDetailRef = base.fetch(`users/${user.uid}/subscriptions/${this.props.selectedSub}`, {
         context: this,
         then(data) {
-          this.setState({subDetails: data, loading: false});
-          console.log ('data is : ', data);
+          this.setState({subDetails: data, loading: false, cardMessage: data.cardMessage, recipientNum: data.recipientNum});
         }
       });
     });
   }
-  handleBack = (eventKey) => {
-    this.props.onHandleBack(eventKey);
+  handleBack = () => {
+    this.props.onHandleBack();
   }
-  handleSubUpdate = (eventKey) => {
-    this.props.onHandleSubUpdate(eventKey);
+  handleSubUpdate = (selectRegion, planID, recipientNum, cardMessage) => {
+    this.props.onHandleSubUpdate(selectRegion, planID, recipientNum, cardMessage);
+  }
+  handleNumChange(e) {
+    this.setState({ recipientNum: e.target.value });
+  }
+  handleMessageChange(e) {
+    this.setState({ cardMessage: e.target.value });
   }
   render() {
     var selectedSub = this.props.selectedSub;
     var subDetails = this.state.subDetails;
     var loadingState = this.state.loading;
+    var recipientNum = this.state.recipientNum;
+    var cardMessage = this.state.cardMessage;
+    var selectRegion = this.state.subDetails.selectRegion;
+    var planID = this.state.subDetails.planID;
+
     let content = null;
 
     if (loadingState) {
@@ -105,17 +119,6 @@ class SubDetails extends React.Component {
                 <FormGroup>
                   <Col sm={1}></Col>
                   <Col sm={3}>
-                      <div><strong>Cost/week:</strong></div>
-                  </Col>
-                  <Col sm={8}>
-                    <div>{subDetails.grandTotalPerWeek/100}</div>
-                  </Col>
-                </FormGroup>
-              </Row>
-              <Row className="show-grid">
-                <FormGroup>
-                  <Col sm={1}></Col>
-                  <Col sm={3}>
                       <div><strong>Address:</strong></div>
                   </Col>
                   <Col sm={8}>
@@ -129,8 +132,8 @@ class SubDetails extends React.Component {
                   <Col sm={3}>
                       <div><strong>Recipient's #:</strong></div>
                   </Col>
-                  <Col sm={8}>
-                    <div>{subDetails.recipientNum}</div>
+                  <Col sm={7}>
+                    <FormControl className="" type="text" value={recipientNum} onChange={this.handleNumChange}/>
                   </Col>
                 </FormGroup>
               </Row>
@@ -140,8 +143,8 @@ class SubDetails extends React.Component {
                   <Col sm={3}>
                       <div><strong>Card:</strong></div>
                   </Col>
-                  <Col sm={8}>
-                    <div>{subDetails.cardMessage}</div>
+                  <Col sm={7}>
+                    <FormControl className="card-text-area" componentClass="textarea" value={cardMessage} onChange={this.handleMessageChange}/>
                   </Col>
                 </FormGroup>
               </Row>
@@ -149,7 +152,7 @@ class SubDetails extends React.Component {
                 <FormGroup>
                   <Col xs={11} xsPush={1} smPush={7} mdPush={8}>
                     <Button bsStyle="" className="button sub-details-back" onClick={() => this.handleBack()}>Back</Button>
-                    <Button bsStyle="" className="button sub-details-update" onClick={() => this.handleSubUpdate()}>Update</Button>
+                    <Button bsStyle="" className="button sub-details-update" onClick={() => this.handleSubUpdate(selectRegion, planID, recipientNum, cardMessage)}>Update</Button>
                   </Col>
                 </FormGroup>
               </Row>
@@ -178,16 +181,18 @@ export default class Subscriptions extends Component {
       newFrom: '',
       newCardMessage: '',
       subDetailsStatus: 0,
-      selectedSub: ''
+      selectedSub: '',
+      userID: ''
     }
   }
 
   componentDidMount () {
     firebaseAuth().onAuthStateChanged((user) => {
-      this.subscriptionDataRef = base.fetch(`users/${user.uid}/subscriptions/`, {
+      var userID = user.uid
+      base.fetch(`users/${user.uid}/subscriptions/`, {
         context: this,
         then(data) {
-          this.setState({subscriptionData: data, loading: false});
+          this.setState({subscriptionData: data, loading: false, userID: userID});
         }
       });
     });
@@ -205,8 +210,23 @@ export default class Subscriptions extends Component {
   handleBack() {
     this.setState({subDetailsStatus: 0});
   }
-  handleSubUpdate() {
-    console.log('submitting update for subscription');
+  handleSubUpdate(selectRegion, planID, recipientNum, cardMessage) {
+    var uid = this.state.userID;
+    var selectedSub = this.state.selectedSub;
+    console.log('handleSubUpdate checkpoint, uid is : ', uid, 'selectedSub is : ', selectedSub);
+
+    base.update(`users/${uid}/subscriptions/${selectedSub}`, {
+      data: {
+        recipientNum: recipientNum,
+        cardMessage: cardMessage,
+      }
+    });
+    base.update(`allSubscriptions/hongKong/${selectRegion}/${planID}/${selectedSub}`, {
+      data: {
+        recipientNum: recipientNum,
+        cardMessage: cardMessage,
+      }
+    });
   }
 
   render () {
@@ -242,6 +262,17 @@ export default class Subscriptions extends Component {
                   </Col>
                   <Col sm={3}>
                     <div>{data[key].recipient}</div>
+                  </Col>
+                </FormGroup>
+              </Row>
+              <Row className="show-grid">
+                <FormGroup>
+                  <Col sm={1}></Col>
+                  <Col sm={3}>
+                      <div><strong>Frequency:</strong></div>
+                  </Col>
+                  <Col sm={3}>
+                    <div>{data[key].deliveryDay}</div>
                   </Col>
                 </FormGroup>
               </Row>
@@ -293,7 +324,7 @@ export default class Subscriptions extends Component {
               <div className="horizontal-line"></div>
             </Row>
           </Grid>
-          <SubDetails selectedSub={this.state.selectedSub} onHandleBack={this.handleBack} onHandleSubUpdate={this.handleSubUpdate}/>;
+          <SubDetails selectedSub={this.state.selectedSub} onHandleBack={this.handleBack} onHandleSubUpdate={this.handleSubUpdate}/>
         </div>
       )
     }
