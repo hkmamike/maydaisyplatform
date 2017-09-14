@@ -4,12 +4,174 @@ import { Link } from 'react-router-dom';
 import { FormGroup, FormControl, Grid, Row, Col, Button } from 'react-bootstrap';
 import { base } from '../config/constants';
 
+class SubDetails extends React.Component {
+
+  constructor() {
+    super();
+    this.handleBack = this.handleBack.bind(this);
+    this.handleSubUpdate = this.handleSubUpdate.bind(this);
+    this.state = {
+      loading: true,
+      subDetails: {}
+    }
+  }
+
+  componentDidMount () {
+    firebaseAuth().onAuthStateChanged((user) => {
+      this.subscriptionDataRef = base.fetch(`users/${user.uid}/subscriptions/${this.props.selectedSub}`, {
+        context: this,
+        then(data) {
+          this.setState({subDetails: data, loading: false});
+          console.log ('data is : ', data);
+        }
+      });
+    });
+  }
+  handleBack = (eventKey) => {
+    this.props.onHandleBack(eventKey);
+  }
+  handleSubUpdate = (eventKey) => {
+    this.props.onHandleSubUpdate(eventKey);
+  }
+  render() {
+    var selectedSub = this.props.selectedSub;
+    var subDetails = this.state.subDetails;
+    var loadingState = this.state.loading;
+    let content = null;
+
+    if (loadingState) {
+      content = <div className="loader"></div>
+    } else {
+      content = (
+        <div>
+          <Grid>
+            <div className="sub-list-item">
+              <Row className="show-grid">
+                <FormGroup>
+                  <Col sm={1}></Col>
+                  <Col sm={3}>
+                      <div><strong>Sub ID:</strong></div>
+                  </Col>
+                  <Col sm={8}>
+                    <div>{selectedSub}</div>
+                  </Col>
+                </FormGroup>
+              </Row>
+              <Row className="show-grid">
+                <FormGroup>
+                  <Col sm={1}></Col>
+                  <Col sm={3}>
+                      <div><strong>Flower Type:</strong></div>
+                  </Col>
+                  <Col sm={8}>
+                    <div>{subDetails.selectPlanType}</div>
+                  </Col>
+                </FormGroup>
+              </Row>
+              <Row className="show-grid">
+                <FormGroup>
+                  <Col sm={1}></Col>
+                  <Col sm={3}>
+                      <div><strong>Plan:</strong></div>
+                  </Col>
+                  <Col sm={8}>
+                    <div>{subDetails.selectPlanSize}</div>
+                  </Col>
+                </FormGroup>
+              </Row>
+              <Row className="show-grid">
+                <FormGroup>
+                  <Col sm={1}></Col>
+                  <Col sm={3}>
+                      <div><strong>Recipient:</strong></div>
+                  </Col>
+                  <Col sm={8}>
+                    <div>{subDetails.recipient}</div>
+                  </Col>
+                </FormGroup>
+              </Row>
+              <Row className="show-grid">
+                <FormGroup>
+                  <Col sm={1}></Col>
+                  <Col sm={3}>
+                      <div><strong>Delivery Day:</strong></div>
+                  </Col>
+                  <Col sm={8}>
+                    <div>{subDetails.deliveryDay}</div>
+                  </Col>
+                </FormGroup>
+              </Row>
+              <Row className="show-grid">
+                <FormGroup>
+                  <Col sm={1}></Col>
+                  <Col sm={3}>
+                      <div><strong>Cost/week:</strong></div>
+                  </Col>
+                  <Col sm={8}>
+                    <div>{subDetails.grandTotalPerWeek/100}</div>
+                  </Col>
+                </FormGroup>
+              </Row>
+              <Row className="show-grid">
+                <FormGroup>
+                  <Col sm={1}></Col>
+                  <Col sm={3}>
+                      <div><strong>Address:</strong></div>
+                  </Col>
+                  <Col sm={8}>
+                    <div>{subDetails.address}</div>
+                  </Col>
+                </FormGroup>
+              </Row>
+              <Row className="show-grid">
+                <FormGroup>
+                  <Col sm={1}></Col>
+                  <Col sm={3}>
+                      <div><strong>Recipient's #:</strong></div>
+                  </Col>
+                  <Col sm={8}>
+                    <div>{subDetails.recipientNum}</div>
+                  </Col>
+                </FormGroup>
+              </Row>
+              <Row className="show-grid">
+                <FormGroup>
+                  <Col sm={1}></Col>
+                  <Col sm={3}>
+                      <div><strong>Card:</strong></div>
+                  </Col>
+                  <Col sm={8}>
+                    <div>{subDetails.cardMessage}</div>
+                  </Col>
+                </FormGroup>
+              </Row>
+              <Row className="show-grid">
+                <FormGroup>
+                  <Col xs={11} xsPush={1} smPush={7} mdPush={8}>
+                    <Button bsStyle="" className="button sub-details-back" onClick={() => this.handleBack()}>Back</Button>
+                    <Button bsStyle="" className="button sub-details-update" onClick={() => this.handleSubUpdate()}>Update</Button>
+                  </Col>
+                </FormGroup>
+              </Row>
+            </div>
+          </Grid>
+        </div>
+      )
+    }
+    return (
+      <div>{content}</div>
+    )
+  }
+}
+
 export default class Subscriptions extends Component {
 
   constructor() {
     super();
     this.handleFromChange = this.handleFromChange.bind(this);
     this.handleChooseSub = this.handleChooseSub.bind(this);
+    this.handleBack = this.handleBack.bind(this);
+    this.handleSubUpdate = this.handleSubUpdate.bind(this);
     this.state = {
       subscriptionData: {},
       loading: true,
@@ -34,19 +196,15 @@ export default class Subscriptions extends Component {
   handleCardChange(e, key) {
     this.setState({ newCardMessage: e.target.value });
   }
-
   handleFromChange(e, key) {
     this.setState({ newFrom: e.target.value });
   }
-
   handleChooseSub(chosenKey) {
     this.setState({subDetailsStatus: 1, selectedSub: chosenKey});
   }
-
   handleBack() {
     this.setState({subDetailsStatus: 0});
   }
-
   handleSubUpdate() {
     console.log('submitting update for subscription');
   }
@@ -101,48 +259,9 @@ export default class Subscriptions extends Component {
       )
     }, this)
 
-    var subscriptionDetails = (
-      <div>
-        <Grid>
-          <div className="sub-list-item">
-            <Row className="show-grid">
-              <FormGroup>
-                <Col sm={1}></Col>
-                <Col sm={3}>
-                    <div><strong>Sub ID:</strong></div>
-                </Col>
-                <Col sm={3}>
-                  <div></div>
-                </Col>
-              </FormGroup>
-            </Row>
-            <Row className="show-grid">
-              <FormGroup>
-                <Col sm={1}></Col>
-                <Col sm={3}>
-                    <div><strong>To:</strong></div>
-                </Col>
-                <Col sm={3}>
-                  <div></div>
-                </Col>
-              </FormGroup>
-            </Row>
-            <Row className="show-grid">
-              <FormGroup>
-                <Col xs={11} xsPush={1} smPush={7} mdPush={8}>
-                  <Button bsStyle="" className="button sub-details-back" onClick={() => this.handleBack()}>Back</Button>
-                  <Button bsStyle="" className="button sub-details-update" onClick={() => this.handleSubUpdate()}>Update</Button>
-                </Col>
-              </FormGroup>
-            </Row>
-          </div>
-        </Grid>
-      </div>
-    )
-
     let content = null;
     if (loadingState) {
-      content = <div>Loading...</div>
+      content = <div className="loader"></div>
     } else if (subDetailsStatus===0){
       content = (
         <div>
@@ -174,7 +293,7 @@ export default class Subscriptions extends Component {
               <div className="horizontal-line"></div>
             </Row>
           </Grid>
-          {subscriptionDetails}
+          <SubDetails selectedSub={this.state.selectedSub} onHandleBack={this.handleBack} onHandleSubUpdate={this.handleSubUpdate}/>;
         </div>
       )
     }
