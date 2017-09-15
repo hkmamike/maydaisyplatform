@@ -1,7 +1,7 @@
 import React, { Component } from 'react'
 import { firebaseAuth } from '../config/constants';
 import { Link } from 'react-router-dom';
-import { FormGroup, FormControl, Grid, Row, Col, Button } from 'react-bootstrap';
+import { FormGroup, FormControl, Grid, Row, Col, Button, Glyphicon } from 'react-bootstrap';
 import { base } from '../config/constants';
 
 class SubDetails extends React.Component {
@@ -16,7 +16,8 @@ class SubDetails extends React.Component {
       loading: true,
       subDetails: {},
       cardMessage: '',
-      recipientNum: ''
+      recipientNum: '',
+      subInfoMessage: null
     }
   }
 
@@ -29,6 +30,13 @@ class SubDetails extends React.Component {
         }
       });
     });
+  }
+
+  handleCancelSub (subID) {
+    fetch('https://wt-47cf129daee3aa0bf6d4064463e232ef-0.run.webtask.io/webtask-stripe-cancel-sub'
+      +'?subID=' + subID, {
+      method: 'POST'
+    })
   }
   handleBack = () => {
     this.props.onHandleBack();
@@ -59,6 +67,11 @@ class SubDetails extends React.Component {
       content = (
         <div>
           <Grid>
+            { this.props.subInfoMessage &&
+              <div className="alert alert-success update-message" role="alert">
+                <Glyphicon glyph="exclamation-sign" className="icons"/>&nbsp;{this.props.subInfoMessage} 
+              </div>
+            }
             <div className="sub-list-item">
               <Row className="show-grid">
                 <FormGroup>
@@ -150,7 +163,10 @@ class SubDetails extends React.Component {
               </Row>
               <Row className="show-grid">
                 <FormGroup>
-                  <Col xs={11} xsPush={1} smPush={7} mdPush={8}>
+                  <Col xs={1}>
+                    <Button bsStyle="" className="button sub-details-update" onClick={() => this.handleCancelSub(selectedSub)}>Cancel</Button>
+                  </Col>
+                  <Col xs={10} xsPush={1} smPush={7} mdPush={8}>
                     <Button bsStyle="" className="button sub-details-back" onClick={() => this.handleBack()}>Back</Button>
                     <Button bsStyle="" className="button sub-details-update" onClick={() => this.handleSubUpdate(selectRegion, planID, recipientNum, cardMessage)}>Update</Button>
                   </Col>
@@ -182,7 +198,8 @@ export default class Subscriptions extends Component {
       newCardMessage: '',
       subDetailsStatus: 0,
       selectedSub: '',
-      userID: ''
+      userID: '',
+      subInfoMessage: null
     }
   }
 
@@ -226,7 +243,12 @@ export default class Subscriptions extends Component {
         recipientNum: recipientNum,
         cardMessage: cardMessage,
       }
-    });
+    }).then(() => 
+        this.setState({ subInfoMessage: 'Subscriptioin has been updated.'})
+      ).catch(err => {
+        console.log('An error occured when updating account information.');
+        this.setState({ subInfoMessage: 'An error occured, please try again later.'});
+      });
   }
 
   render () {
@@ -322,7 +344,7 @@ export default class Subscriptions extends Component {
               <div className="horizontal-line"></div>
             </Row>
           </Grid>
-          <SubDetails selectedSub={this.state.selectedSub} onHandleBack={this.handleBack} onHandleSubUpdate={this.handleSubUpdate}/>
+          <SubDetails selectedSub={this.state.selectedSub} subInfoMessage={this.state.subInfoMessage} onHandleBack={this.handleBack} onHandleSubUpdate={this.handleSubUpdate}/>
         </div>
       )
     }

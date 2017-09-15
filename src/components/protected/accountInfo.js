@@ -3,6 +3,7 @@ import { firebaseAuth } from '../config/constants';
 import { Link } from 'react-router-dom';
 import { base } from '../config/constants';
 import { Grid, Row, Col, FormGroup, FormControl, Button, Glyphicon } from 'react-bootstrap';
+import { resetPassword } from '../helpers/auth'
 
 export default class AccountInfo extends Component {
 
@@ -25,7 +26,7 @@ export default class AccountInfo extends Component {
       base.fetch(`users/${user.uid}/info/`, {
         context: this,
         then(data) {
-          this.setState({userData: data, loading: false, accountName: data.name, accountPhone: data.phone, uid: data.uid});
+          this.setState({userData: data, loading: false, accountEmail: data.email, accountName: data.name, accountPhone: data.phone, uid: data.uid});
         }
       });
     });
@@ -47,12 +48,20 @@ export default class AccountInfo extends Component {
       }
     }).then(() => 
         this.setState({ accountInfoMessage: 'Account Information has been saved.'})
-      ). catch(err => {
+      ).catch(err => {
         console.log('An error occured when updating account information.');
         this.setState({ accountInfoMessage: 'An error occured, please try again later.'});
       });
   };
   
+  resetPassword = () => {
+    resetPassword(this.state.accountEmail)
+      .then(() => 
+        this.setState({ accountInfoMessage: `Password reset email has been sent to ${this.state.accountEmail}.`})
+      ).catch(err => {
+        this.setState({ accountInfoMessage: `An error occured, please try again later.`})
+      });
+  }
 
   render () {
 
@@ -74,17 +83,6 @@ export default class AccountInfo extends Component {
               </div>
             }
             <div className="sub-list-item">
-              <Row className="show-grid">
-                <FormGroup>
-                  <Col sm={1}></Col>
-                  <Col sm={3}>
-                    <div><strong>User ID:</strong></div>
-                  </Col>
-                  <Col sm={8}>
-                    <div>{userData.uid}</div>
-                  </Col>
-                </FormGroup>
-              </Row>
               <Row className="show-grid">
                 <FormGroup>
                   <Col sm={1}></Col>
@@ -124,8 +122,9 @@ export default class AccountInfo extends Component {
 
               <Row className="show-grid">
                 <FormGroup>
-                  <Col xs={11} xsPush={1} smPush={7} mdPush={8}>
-                    <Button bsStyle="" className="button sub-details-update" onClick={() => this.handleAccountUpdate(accountName, accountPhone)}>Update</Button>
+                  <Col xs={10} xsPush={2} smPush={5} mdPush={6}>
+                    <Button bsStyle="" className="button" onClick={() => this.handleAccountUpdate(accountName, accountPhone)}>Update Account</Button>
+                    <Button bsStyle="" className="button" onClick={() => this.resetPassword()}>Reset Password</Button>
                   </Col>
                 </FormGroup>
               </Row>
