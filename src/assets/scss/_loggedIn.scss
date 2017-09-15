@@ -11,6 +11,20 @@
     100% { transform: rotate(360deg); }
 }
 
+.update-message {
+    text-align: center;
+    width: 90%;
+    border-radius: 0;
+    font-size: 75%;
+    margin: auto;
+    margin-bottom: 0 !important;
+    padding: 5px !important;
+}
+
+.data-field-update {
+    font-size: 18px !important;
+}
+
 .loggedin-background {
     min-height: 750px;
     width: 100%;

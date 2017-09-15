@@ -2,33 +2,64 @@ import React, { Component } from 'react'
 import { firebaseAuth } from '../config/constants';
 import { Link } from 'react-router-dom';
 import { base } from '../config/constants';
-import { Grid, Row, Col, FormGroup } from 'react-bootstrap';
+import { Grid, Row, Col, FormGroup, FormControl, Button, Glyphicon } from 'react-bootstrap';
 
 export default class AccountInfo extends Component {
 
   constructor() {
     super();
+    this.handleAccountNameChange = this.handleAccountNameChange.bind(this);
+    this.handleAccountPhoneChange = this.handleAccountPhoneChange.bind(this);
+    this.handleAccountUpdate = this.handleAccountUpdate.bind(this);
     this.state = {
       userData: {},
-      loading: false
+      loading: true,
+      accountName: '',
+      accountPhone: '',
+      accountInfoMessage: null
     }
   }
 
   componentDidMount () {
     firebaseAuth().onAuthStateChanged((user) => {
-      this.subscriptionDataRef = base.fetch(`users/${user.uid}/info/`, {
+      base.fetch(`users/${user.uid}/info/`, {
         context: this,
         then(data) {
-          this.setState({userData: data, loading: false});
+          this.setState({userData: data, loading: false, accountName: data.name, accountPhone: data.phone, uid: data.uid});
         }
       });
     });
   }
 
+  handleAccountNameChange(e) {
+    this.setState({ accountName: e.target.value });
+  }
+  handleAccountPhoneChange(e) {
+    this.setState({ accountPhone: e.target.value });
+  }
+
+  handleAccountUpdate (name, phone) {
+    var uid = this.state.uid;
+    base.update(`users/${uid}/info/`, {
+      data: {
+          name: name,
+          phone: phone
+      }
+    }).then(() => 
+        this.setState({ accountInfoMessage: 'Account Information has been saved.'})
+      ). catch(err => {
+        console.log('An error occured when updating account information.');
+        this.setState({ accountInfoMessage: 'An error occured, please try again later.'});
+      });
+  };
+  
+
   render () {
 
     var loadingState = this.state.loading;
     var userData = this.state.userData;
+    var accountName = this.state.accountName;
+    var accountPhone = this.state.accountPhone;
 
     let content = null;
     if (loadingState) {
@@ -37,18 +68,12 @@ export default class AccountInfo extends Component {
       content = (
         <div>
           <Grid>
+            { this.state.accountInfoMessage &&
+              <div className="alert alert-success update-message" role="alert">
+                <Glyphicon glyph="exclamation-sign" className="icons"/>&nbsp;{this.state.accountInfoMessage} 
+              </div>
+            }
             <div className="sub-list-item">
-              <Row className="show-grid">
-                <FormGroup>
-                  <Col sm={1}></Col>
-                  <Col sm={3}>
-                    <div><strong>Email:</strong></div>
-                  </Col>
-                  <Col sm={8}>
-                    <div>{userData.email}</div>
-                  </Col>
-                </FormGroup>
-              </Row>
               <Row className="show-grid">
                 <FormGroup>
                   <Col sm={1}></Col>
@@ -60,13 +85,50 @@ export default class AccountInfo extends Component {
                   </Col>
                 </FormGroup>
               </Row>
-              {/* <Row className="show-grid">
+              <Row className="show-grid">
                 <FormGroup>
-                  <Col xs={11} xsPush={1} smPush={7} mdPush={8}>
-                    <Button bsStyle="" className="button sub-details-update" onClick={() => this.handleSubUpdate(selectRegion, planID, recipientNum, cardMessage)}>Update</Button>
+                  <Col sm={1}></Col>
+                  <Col sm={3}>
+                    <div><strong>Email:</strong></div>
+                  </Col>
+                  <Col sm={8}>
+                    <div>{userData.email}</div>
                   </Col>
                 </FormGroup>
-              </Row> */}
+              </Row>
+
+              <Row className="show-grid">
+                <FormGroup>
+                  <Col sm={1}></Col>
+                  <Col sm={3}>
+                    <div><strong>Name:</strong></div>
+                  </Col>
+                  <Col sm={7}>
+
+                    <FormControl className="data-field-update" type="text" value={accountName} onChange={this.handleAccountNameChange}/>
+                  </Col>
+                </FormGroup>
+              </Row>
+              <Row className="show-grid">
+                <FormGroup>
+                  <Col sm={1}></Col>
+                  <Col sm={3}>
+                    <div><strong>Phone #:</strong></div>
+                  </Col>
+                  <Col sm={7}>
+   
+                    <FormControl className="data-field-update" type="text" value={accountPhone} onChange={this.handleAccountPhoneChange}/>
+                  </Col>
+                </FormGroup>
+              </Row>
+
+              <Row className="show-grid">
+                <FormGroup>
+                  <Col xs={11} xsPush={1} smPush={7} mdPush={8}>
+                    <Button bsStyle="" className="button sub-details-update" onClick={() => this.handleAccountUpdate(accountName, accountPhone)}>Update</Button>
+                  </Col>
+                </FormGroup>
+              </Row>
             </div>
           </Grid>
         </div>

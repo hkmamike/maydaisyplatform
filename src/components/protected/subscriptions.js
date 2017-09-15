@@ -1,7 +1,7 @@
 import React, { Component } from 'react'
 import { firebaseAuth } from '../config/constants';
 import { Link } from 'react-router-dom';
-import { FormGroup, FormControl, Grid, Row, Col, Button, ControlLabel } from 'react-bootstrap';
+import { FormGroup, FormControl, Grid, Row, Col, Button } from 'react-bootstrap';
 import { base } from '../config/constants';
 
 class SubDetails extends React.Component {
@@ -133,7 +133,7 @@ class SubDetails extends React.Component {
                       <div><strong>Recipient's #:</strong></div>
                   </Col>
                   <Col sm={7}>
-                    <FormControl className="" type="text" value={recipientNum} onChange={this.handleNumChange}/>
+                    <FormControl className="data-field-update" type="text" value={recipientNum} onChange={this.handleNumChange}/>
                   </Col>
                 </FormGroup>
               </Row>
@@ -144,7 +144,7 @@ class SubDetails extends React.Component {
                       <div><strong>Card:</strong></div>
                   </Col>
                   <Col sm={7}>
-                    <FormControl className="card-text-area" componentClass="textarea" value={cardMessage} onChange={this.handleMessageChange}/>
+                    <FormControl className="card-text-area data-field-update" componentClass="textarea" value={cardMessage} onChange={this.handleMessageChange}/>
                   </Col>
                 </FormGroup>
               </Row>
@@ -232,10 +232,8 @@ export default class Subscriptions extends Component {
   render () {
 
     var data = this.state.subscriptionData;
-    var selectedSub = this.selectedSub;
     var loadingState = this.state.loading;
     var subDetailsStatus = this.state.subDetailsStatus;
-    var _this = this;
 
     var subscriptions = Object.keys(data).map(function(key) {
       var chosenKey = data[key].stripeSubID;

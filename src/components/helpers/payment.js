@@ -128,6 +128,12 @@ export default class ChargeMoney extends React.Component {
                                 firstDelivery: firstDelivery
                             }
                         });
+                        base.update(`users/${uid}/info/`, {
+                            data: {
+                                name: senderName,
+                                phone: senderNum,
+                            }
+                        });
                         console.log ('subscriptioin processing succeeded.');
                         this.progressSubscriptionStep(stripeSubID, firstPayment, firstDelivery);
                     });
