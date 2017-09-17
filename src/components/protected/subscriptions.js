@@ -16,28 +16,48 @@ class SubDetails extends React.Component {
       loading: true,
       subDetails: {},
       cardMessage: '',
-      recipientNum: '',
-      subInfoMessage: null
+      recipientNum: ''
     }
   }
 
   componentDidMount () {
     firebaseAuth().onAuthStateChanged((user) => {
-      this.subscriptionDetailRef = base.fetch(`users/${user.uid}/subscriptions/${this.props.selectedSub}`, {
+      base.fetch(`users/${user.uid}/subscriptions/${this.props.selectedSub}`, {
         context: this,
         then(data) {
-          this.setState({subDetails: data, loading: false, cardMessage: data.cardMessage, recipientNum: data.recipientNum});
+          this.setState({subDetails: data, loading: false, cardMessage: data.cardMessage, recipientNum: data.recipientNum, uid: user.uid});
         }
       });
     });
   }
 
-  handleCancelSub (subID) {
+  handleCancelSub(uid, selectRegion, planID, subID) {
     fetch('https://wt-47cf129daee3aa0bf6d4064463e232ef-0.run.webtask.io/webtask-stripe-cancel-sub'
       +'?subID=' + subID, {
       method: 'POST'
-    })
+    }).then(response => {
+        response.json().then(data => {
+          console.log('response from subscription cancel request: ', data);
+          base.remove(`allSubscriptions/hongKong/${selectRegion}/${planID}/${subID}`);
+          base.fetch(`users/${uid}/subscriptions/${subID}`, {
+            context: this,
+            then(data) {
+              var postData = data;
+              base.post(`users/${uid}/canceledSubscriptions/${subID}`, {
+                data: postData
+              });
+              base.remove(`users/${uid}/subscriptions/${subID}`);
+            }
+          });
+          this.props.onSubscriptionCancelSuccess();
+        });
+      }, error => {
+            error.json().then( error => {
+              console.log ('subscription cancel failed.');
+            });
+        });
   }
+
   handleBack = () => {
     this.props.onHandleBack();
   }
@@ -58,6 +78,7 @@ class SubDetails extends React.Component {
     var cardMessage = this.state.cardMessage;
     var selectRegion = this.state.subDetails.selectRegion;
     var planID = this.state.subDetails.planID;
+    var uid = this.state.uid
 
     let content = null;
 
@@ -164,7 +185,7 @@ class SubDetails extends React.Component {
               <Row className="show-grid">
                 <FormGroup>
                   <Col xs={1}>
-                    <Button bsStyle="" className="button sub-details-update" onClick={() => this.handleCancelSub(selectedSub)}>Cancel</Button>
+                    <Button bsStyle="" className="button sub-details-update" onClick={() => this.handleCancelSub(uid, selectRegion, planID, selectedSub)}>Cancel</Button>
                   </Col>
                   <Col xs={10} xsPush={1} smPush={7} mdPush={8}>
                     <Button bsStyle="" className="button sub-details-back" onClick={() => this.handleBack()}>Back</Button>
@@ -191,6 +212,8 @@ export default class Subscriptions extends Component {
     this.handleChooseSub = this.handleChooseSub.bind(this);
     this.handleBack = this.handleBack.bind(this);
     this.handleSubUpdate = this.handleSubUpdate.bind(this);
+    this.subscriptionSuccess = this.subscriptionSuccess.bind(this);
+    this.subscriptionFail = this.subscriptionFail.bind(this);
     this.state = {
       subscriptionData: {},
       loading: true,
@@ -250,69 +273,86 @@ export default class Subscriptions extends Component {
         this.setState({ subInfoMessage: 'An error occured, please try again later.'});
       });
   }
+  subscriptionSuccess() {
+    this.setState({subInfoMessage: 'Subscription has been canceled.'});
+  }
+  subscriptionFail() {
+    this.setState({subInfoMessage: 'An error occured, please try again later.'});
+  }
 
   render () {
 
     var data = this.state.subscriptionData;
     var loadingState = this.state.loading;
     var subDetailsStatus = this.state.subDetailsStatus;
+    var subscriptions;
 
-    var subscriptions = Object.keys(data).map(function(key) {
-      var chosenKey = data[key].stripeSubID;
-      return (
-        <div key={key}>
-          <Grid>
-            <div className="sub-list-item">
-              <Row className="show-grid">
-                <FormGroup>
-                  <Col sm={1}></Col>
-                  <Col sm={3}>
-                      <div><strong>Sub ID:</strong></div>
-                  </Col>
-                  <Col sm={3}>
-                    <div>{data[key].stripeSubID}</div>
-                  </Col>
-                </FormGroup>
-              </Row>
-              <Row className="show-grid">
-                <FormGroup>
-                  <Col sm={1}></Col>
-                  <Col sm={3}>
-                      <div><strong>To:</strong></div>
-                  </Col>
-                  <Col sm={3}>
-                    <div>{data[key].recipient}</div>
-                  </Col>
-                </FormGroup>
-              </Row>
-              <Row className="show-grid">
-                <FormGroup>
-                  <Col sm={1}></Col>
-                  <Col sm={3}>
-                      <div><strong>Frequency:</strong></div>
-                  </Col>
-                  <Col sm={3}>
-                    <div>{data[key].deliveryDay}</div>
-                  </Col>
-                </FormGroup>
-              </Row>
-              <Row className="show-grid">
-                <FormGroup>
-                  {/* <Col xs={} sm={5}></Col> */}
-                  <Col xs={1} xsOffset={6} smOffset={9} mdOffset={10}>
-                    <Button bsStyle="" className="button sub-details-button" onClick={() => this.handleChooseSub(chosenKey)}>Details</Button>
-                  </Col>
-                </FormGroup>
-              </Row>
-            </div>
-          </Grid>
-        </div>
-      )
-    }, this)
-
+    // console.log('data check: ', Object.keys(data).length);
+    if (Object.keys(data).length===0) {
+      subscriptions = <div className="center-text">You do not have any subscription</div>
+    } else {
+      subscriptions = Object.keys(data).map(function(key) {
+        var chosenKey = data[key].stripeSubID;
+        return (
+          <div key={key}>
+            <Grid>
+              <div className="sub-list-item">
+                <Row className="show-grid">
+                  <FormGroup>
+                    <Col sm={1}></Col>
+                    <Col sm={3}>
+                        <div><strong>Sub ID:</strong></div>
+                    </Col>
+                    <Col sm={3}>
+                      <div>{data[key].stripeSubID}</div>
+                    </Col>
+                  </FormGroup>
+                </Row>
+                <Row className="show-grid">
+                  <FormGroup>
+                    <Col sm={1}></Col>
+                    <Col sm={3}>
+                        <div><strong>To:</strong></div>
+                    </Col>
+                    <Col sm={3}>
+                      <div>{data[key].recipient}</div>
+                    </Col>
+                  </FormGroup>
+                </Row>
+                <Row className="show-grid">
+                  <FormGroup>
+                    <Col sm={1}></Col>
+                    <Col sm={3}>
+                        <div><strong>Frequency:</strong></div>
+                    </Col>
+                    <Col sm={3}>
+                      <div>{data[key].deliveryDay}</div>
+                    </Col>
+                  </FormGroup>
+                </Row>
+                <Row className="show-grid">
+                  <FormGroup>
+                    {/* <Col xs={} sm={5}></Col> */}
+                    <Col xs={1} xsOffset={6} smOffset={9} mdOffset={10}>
+                      <Button bsStyle="" className="button sub-details-button" onClick={() => this.handleChooseSub(chosenKey)}>Details</Button>
+                    </Col>
+                  </FormGroup>
+                </Row>
+              </div>
+            </Grid>
+          </div>
+        )
+      }, this)
+    }
+  
     let content = null;
     if (loadingState) {
-      content = <div className="loader"></div>
+      content = (
+        <div>
+          <div className="horizontal-line"></div>
+          <div className="loader"></div>
+        </div>
+      )
     } else if (subDetailsStatus===0){
       content = (
         <div>
@@ -344,7 +384,14 @@ export default class Subscriptions extends Component {
               <div className="horizontal-line"></div>
             </Row>
           </Grid>
-          <SubDetails selectedSub={this.state.selectedSub} subInfoMessage={this.state.subInfoMessage} onHandleBack={this.handleBack} onHandleSubUpdate={this.handleSubUpdate}/>
+          <SubDetails 
+            selectedSub={this.state.selectedSub} 
+            subInfoMessage={this.state.subInfoMessage} 
+            onHandleBack={this.handleBack} 
+            onHandleSubUpdate={this.handleSubUpdate}
+            onSubscriptionCancelSuccess={this.subscriptionSuccess}
+            onSubscriptionCancelFail={this.subscriptionFail}
+          />
         </div>
       )
     }
@@ -375,7 +422,7 @@ export default class Subscriptions extends Component {
           </Row>
           <Row className="show-grid loggedin-margin-box">
             <Col className="loggedin-content">
-                {content}
+              {content}
             </Col>
           </Row>
         </Grid>

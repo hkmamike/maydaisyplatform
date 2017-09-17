@@ -77,11 +77,14 @@ export default class AccountInfo extends Component {
       content = (
         <div>
           <Grid>
-            { this.state.accountInfoMessage &&
-              <div className="alert alert-success update-message" role="alert">
-                <Glyphicon glyph="exclamation-sign" className="icons"/>&nbsp;{this.state.accountInfoMessage} 
-              </div>
-            }
+            <Row className="show-grid">
+              <div className="horizontal-line"></div>
+              { this.state.accountInfoMessage &&
+                <div className="alert alert-success update-message" role="alert">
+                  <Glyphicon glyph="exclamation-sign" className="icons"/>&nbsp;{this.state.accountInfoMessage} 
+                </div>
+              }
+            </Row>
             <div className="sub-list-item">
               <Row className="show-grid">
                 <FormGroup>
@@ -159,7 +162,6 @@ export default class AccountInfo extends Component {
             </Row>
             <Row className="show-grid loggedin-margin-box">
               <Col className="loggedin-content">
-                  <div className="horizontal-line"></div>
                   {content}
               </Col>
             </Row>

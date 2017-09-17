@@ -135,6 +135,9 @@
             @media (min-width: 601px) {
                 margin: auto;
             }
+            .center-text {
+                text-align: center;
+            }
             .container {
                 width: 100% !important;
             }
@@ -177,6 +180,9 @@
                 background-color: $grey !important;
                 &:hover {
                     background-color: $greyhover !important;
+                }
+                a {
+                    color: $white !important;
                 }
             }
             .horizontal-line {

@@ -8,6 +8,7 @@ export default class NewSubscription extends Component {
   constructor() {
     super();
     this.handleSubscriptionStep = this.handleSubscriptionStep.bind(this);
+    this.handleLoading = this.handleLoading.bind(this);
     this.state = {
       loading: true,
       subscriptionStep: 1,
@@ -27,24 +28,48 @@ export default class NewSubscription extends Component {
       company: '',
       senderNum: '',
       stripeSubID: '',
-      firstPayment: '',
-      firstDelivery: ''
+      firstPayment: ''
+    }
+  }
+
+  calculateFirstDelivery() {
+    var deliveryDay = this.state.deliveryDay;
+    //Calculate First Delivery Date
+    var d = new Date();
+    var firstDelivery = new Date();
+    if (d.getDay()!==3) {
+        d.setDate(d.getDate() + (3 + 7 - d.getDay()) % 7);
+        d.setHours(23);
+        d.setMinutes(59);
+        d.setSeconds(59);
+    }
+    //Redundant math is used to simulate calculation on webtask and stripe
+    var firstPayment = new Date(Math.floor(d.getTime()/1000)*1000);
+    if (deliveryDay==="Every Monday") {
+        firstDelivery.setDate(firstPayment.getDate() + (1 + 7 - firstPayment.getDay()) % 7);
+        this.setState({firstDelivery: firstDelivery});
+        console.log('first Monday delivery will happen on: ', firstDelivery);
+    } else if (deliveryDay==="Every Wednesday") {
+        firstDelivery.setDate(firstPayment.getDate() + (3 + 7 - firstPayment.getDay()) % 7);
+        console.log('first Wednesday delivery will happen on: ', firstDelivery);
+        this.setState({firstDelivery: firstDelivery});
     }
   }
 
   handleSubscriptionStep(stripeSubID, firstPayment, firstDelivery) {
-    this.setState({subscriptionStep : 6, stripeSubID: stripeSubID, firstPayment: firstPayment, firstDelivery: firstDelivery});
+    this.setState({subscriptionStep : 6, stripeSubID: stripeSubID, firstPayment: firstPayment, firstDelivery: firstDelivery, loading: false});
   }
-
+  handleLoading() {
+    this.setState({loading: true});
+  }
   handleRegionSelect = (eventKey) => {
     this.props.onRegionSelection(eventKey);
     if (eventKey === "HK - Admiralty" || eventKey === "HK - Central") {
-        this.setState({deliveryDay: 'Every Monday'});
+        this.setState({deliveryDay: 'Every Monday'}, this.calculateFirstDelivery);
     } else if (eventKey ==="HK - Chai Wan") {
-        this.setState({deliveryDay: 'Every Wednesday'});
+        this.setState({deliveryDay: 'Every Wednesday'}, this.calculateFirstDelivery);
     }
   }
-
   handlePlanTypeSelect = (eventKey) => {
     this.setState({selectPlanType: eventKey});
   }
@@ -78,11 +103,15 @@ export default class NewSubscription extends Component {
     this.setState({senderNum: e.target.value});
   }
 
-  componentDidMount () {
+  componentWillMount() {
+    this.calculateFirstDelivery();
+  }
+
+  componentDidMount() {
     this.setState({loading: false});
     }
 
-  render () {
+  render() {
 
     var loadingState = this.state.loading;
     var subscriptionStep = this.state.subscriptionStep;
@@ -91,9 +120,7 @@ export default class NewSubscription extends Component {
     var selectPlanSize = this.state.selectPlanSize;
 
     let content = null;
-    if (loadingState) {
-        content = <div>Loading...</div>
-    } else if (subscriptionStep===1){
+    if (subscriptionStep===1){
         content = (
             <div>
                 <Grid>
@@ -150,6 +177,13 @@ export default class NewSubscription extends Component {
                         </Col>
                     </Row>
                     <Row className="show-grid">
+                        <Col sm={2}></Col>
+                        <Col sm={3}><div><strong>First Delivery:</strong></div></Col>
+                        <Col sm={6}>
+                            <div>{this.state.firstDelivery.toLocaleDateString()}</div>
+                        </Col>
+                    </Row>
+                    <Row className="show-grid">
                         <Col sm={5}></Col>
                         <Col sm={4}>
                             <Button bsStyle="" className="button" onClick={() => this.setState({subscriptionStep: 2})}>Next</Button>
@@ -190,6 +224,7 @@ export default class NewSubscription extends Component {
                             <FormGroup>
                                 <FormControl value={this.state.cardMessage} componentClass="textarea" className="cardMessage" placeholder="Card Message - optional, the card can fit up to 100 words nicely" onChange={this.handleCardMessage}/>
                             </FormGroup>
+                            <div className="subscription-tips">*The cut off time to change card message for {selectRegion} is at 11:59 pm on the Wednesday prior to the next week's delivery. </div>
                         </Col>
                     </Row>
                     <Row className="show-grid">
@@ -445,87 +480,115 @@ export default class NewSubscription extends Component {
             </div>
         )
     } else if (subscriptionStep===5){
-        content = (
-            <div>
-                <Grid>
-                    <Row className="show-grid loggedin-flow">
-                        <div className="horizontal-line"></div>
-                        <Col md={12}>
-                            <div>Choose</div>
-                            <i className="fa fa-chevron-right"></i>
-                            <div>Card</div>
-                            <i className="fa fa-chevron-right"></i>
-                            <div>Delivery</div>
-                            <i className="fa fa-chevron-right"></i>
-                            <div>Review</div>
-                            <i className="fa fa-chevron-right"></i>
-                            <div className="flow-selected">Payment</div>
-                            <i className="fa fa-chevron-right"></i>
-                            <div>Confirm</div>
-                        </Col>
-                        <div className="horizontal-line"></div>
-                    </Row>
-                </Grid>
-                <Grid>
-                    <Row className="show-grid">
-                        <FormGroup>
-                            <Col sm={2}></Col>
-                            <Col sm={3}>
-                                <div><strong>Chosen Plan:</strong></div>
+        if (loadingState) {
+            content = (
+                <div>
+                    <Grid>
+                        <Row className="show-grid loggedin-flow">
+                            <div className="horizontal-line"></div>
+                            <Col md={12}>
+                                <div>Choose</div>
+                                <i className="fa fa-chevron-right"></i>
+                                <div>Card</div>
+                                <i className="fa fa-chevron-right"></i>
+                                <div>Delivery</div>
+                                <i className="fa fa-chevron-right"></i>
+                                <div>Review</div>
+                                <i className="fa fa-chevron-right"></i>
+                                <div className="flow-selected">Payment</div>
+                                <i className="fa fa-chevron-right"></i>
+                                <div>Confirm</div>
                             </Col>
-                            <Col sm={6}>
-                                <div>{this.state.selectPlanSize}</div>
+                            <div className="horizontal-line"></div>
+                        </Row>
+                    </Grid>
+                    <div className="loader"></div>
+                </div>
+            )
+        } else {
+            content = (
+                <div>
+                    <Grid>
+                        <Row className="show-grid loggedin-flow">
+                            <div className="horizontal-line"></div>
+                            <Col md={12}>
+                                <div>Choose</div>
+                                <i className="fa fa-chevron-right"></i>
+                                <div>Card</div>
+                                <i className="fa fa-chevron-right"></i>
+                                <div>Delivery</div>
+                                <i className="fa fa-chevron-right"></i>
+                                <div>Review</div>
+                                <i className="fa fa-chevron-right"></i>
+                                <div className="flow-selected">Payment</div>
+                                <i className="fa fa-chevron-right"></i>
+                                <div>Confirm</div>
                             </Col>
-                        </FormGroup>
-                    </Row>
-                    <Row className="show-grid">
-                        <FormGroup>
-                            <Col sm={2}></Col>
-                            <Col sm={3}>
-                                <div><strong>Delivery Fee:</strong></div>
+                            <div className="horizontal-line"></div>
+                        </Row>
+                    </Grid>
+                    <Grid>
+                        <Row className="show-grid">
+                            <FormGroup>
+                                <Col sm={2}></Col>
+                                <Col sm={3}>
+                                    <div><strong>Chosen Plan:</strong></div>
+                                </Col>
+                                <Col sm={6}>
+                                    <div>{this.state.selectPlanSize}</div>
+                                </Col>
+                            </FormGroup>
+                        </Row>
+                        <Row className="show-grid">
+                            <FormGroup>
+                                <Col sm={2}></Col>
+                                <Col sm={3}>
+                                    <div><strong>Delivery Fee:</strong></div>
+                                </Col>
+                                <Col sm={6}>
+                                    <div>{this.state.deliveryFee}</div>
+                                </Col>
+                            </FormGroup>
+                        </Row>
+                        <Row className="show-grid">
+                            <FormGroup>
+                                <Col sm={2}></Col>
+                                <Col sm={3}>
+                                    <div><strong>Grand Total:</strong></div>
+                                </Col>
+                                <Col sm={6}>
+                                    <div>{this.state.currencyType}{this.state.grandTotal/100}</div>
+                                </Col>
+                            </FormGroup>
+                        </Row>
+                        <Row className="show-grid">
+                            <Col sm={5}></Col>
+                            <Col sm={4}>
+                                <Button bsStyle="" className="button button-back" onClick={() => this.setState({subscriptionStep: 4})}>Back</Button>
+                                <ChargeMoney
+                                    price={this.state.price} 
+                                    planID={this.state.planID}
+                                    selectRegion={selectRegion}
+                                    selectPlanType={this.state.selectPlanType}
+                                    selectPlanSize={this.state.selectPlanSize}
+                                    grandTotal ={this.state.grandTotal}
+                                    sender={this.state.sender}
+                                    senderNum={this.state.senderNum}
+                                    recipient={this.state.recipient}
+                                    recipientNum={this.state.recipientNum}
+                                    company={this.state.company}
+                                    address={this.state.address}
+                                    cardMessage={this.state.cardMessage}
+                                    deliveryDay = {this.state.deliveryDay}
+                                    onSubscriptionStep={this.handleSubscriptionStep}
+                                    onLoading={this.handleLoading}
+                                />
                             </Col>
-                            <Col sm={6}>
-                                <div>{this.state.deliveryFee}</div>
-                            </Col>
-                        </FormGroup>
-                    </Row>
-                    <Row className="show-grid">
-                        <FormGroup>
-                            <Col sm={2}></Col>
-                            <Col sm={3}>
-                                <div><strong>Grand Total:</strong></div>
-                            </Col>
-                            <Col sm={6}>
-                                <div>{this.state.currencyType}{this.state.grandTotal/100}</div>
-                            </Col>
-                        </FormGroup>
-                    </Row>
-                    <Row className="show-grid">
-                        <Col sm={5}></Col>
-                        <Col sm={4}>
-                            <Button bsStyle="" className="button button-back" onClick={() => this.setState({subscriptionStep: 4})}>Back</Button>
-                            <ChargeMoney
-                                price={this.state.price} 
-                                planID={this.state.planID}
-                                selectRegion={selectRegion}
-                                selectPlanType={this.state.selectPlanType}
-                                selectPlanSize={this.state.selectPlanSize}
-                                grandTotal ={this.state.grandTotal}
-                                sender={this.state.sender}
-                                senderNum={this.state.senderNum}
-                                recipient={this.state.recipient}
-                                recipientNum={this.state.recipientNum}
-                                company={this.state.company}
-                                address={this.state.address}
-                                cardMessage={this.state.cardMessage}
-                                deliveryDay = {this.state.deliveryDay}
-                                onSubscriptionStep={this.handleSubscriptionStep}
-                            />
-                        </Col>
-                    </Row>
-                </Grid>
-            </div>
-        )
+                        </Row>
+                    </Grid>
+                </div>
+            )
+        }
     }   else if (subscriptionStep===6){
         content = (
             <div>

@@ -19,7 +19,11 @@ export default class ChargeMoney extends React.Component {
     progressSubscriptionStep = (stripeSubID, firstPayment, firstdelivery) => {
         this.props.onSubscriptionStep(stripeSubID, firstPayment, firstdelivery);
         console.log('proceeding to confirmation page');
-      }
+    }
+
+    showLoader () {
+        this.props.onLoading();
+    }
 
     onToken = (token) => {
         var uid = firebase.auth().currentUser.uid;
@@ -45,6 +49,7 @@ export default class ChargeMoney extends React.Component {
         var firstDelivery = new Date();
 
         console.log('stripe created token. Forwarding to web server : ', token);
+        this.showLoader();
 
         fetch('https://wt-47cf129daee3aa0bf6d4064463e232ef-0.run.webtask.io/webtask-stripe-order'
         +'?paymentSource=' + token.id
