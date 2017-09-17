@@ -34,23 +34,31 @@ export default class NewSubscription extends Component {
 
   calculateFirstDelivery() {
     var deliveryDay = this.state.deliveryDay;
+    console.log('deliveryDay is :', deliveryDay);
     //Calculate First Delivery Date
     var d = new Date();
     var firstDelivery = new Date();
     if (d.getDay()!==3) {
         d.setDate(d.getDate() + (3 + 7 - d.getDay()) % 7);
-        d.setHours(23);
+        d.setHours(15);
         d.setMinutes(59);
         d.setSeconds(59);
-    }
+    } else {
+        d.setHours(15);
+        d.setMinutes(59);
+        d.setSeconds(59);
+      }
+
     //Redundant math is used to simulate calculation on webtask and stripe
     var firstPayment = new Date(Math.floor(d.getTime()/1000)*1000);
+
+    console.log('first payment is :', firstPayment);
     if (deliveryDay==="Every Monday") {
         firstDelivery.setDate(firstPayment.getDate() + (1 + 7 - firstPayment.getDay()) % 7);
         this.setState({firstDelivery: firstDelivery});
         console.log('first Monday delivery will happen on: ', firstDelivery);
     } else if (deliveryDay==="Every Wednesday") {
-        firstDelivery.setDate(firstPayment.getDate() + (3 + 7 - firstPayment.getDay()) % 7);
+        firstDelivery.setDate(firstPayment.getDate() + 7);
         console.log('first Wednesday delivery will happen on: ', firstDelivery);
         this.setState({firstDelivery: firstDelivery});
     }
