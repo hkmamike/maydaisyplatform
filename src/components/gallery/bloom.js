@@ -26,22 +26,22 @@ export default class GalleryBloom extends Component {
               <Col sm={4} className="gallery-pic-b1 gallery-pic">
                 <div className="gallery-pic-shade"></div>
                 <div className="gallery-pic-text">
-                  <div className="gallery-pic-title">Simple</div>
-                  <div>designer picked seasonal flowers, 1-2 blooms, HKD53 per week.</div>
+                <div className="gallery-pic-title">Bloom</div>
+                <div>sample vase arrangement.</div>
                 </div>
               </Col>
               <Col sm={4} className="gallery-pic-b2 gallery-pic">
                 <div className="gallery-pic-shade"></div>
                 <div className="gallery-pic-text">
-                  <div className="gallery-pic-title">Elegant</div>
-                  <div>designer picked seasonal flowers, 2-4 blooms, HKD93 per week.</div>
+                <div className="gallery-pic-title">Bloom</div>
+                <div>sample bouquet.</div>
                 </div>
               </Col>
               <Col sm={4} className="gallery-pic-b3 gallery-pic">
                 <div className="gallery-pic-shade"></div>
                 <div className="gallery-pic-text">
-                  <div className="gallery-pic-title">Bloom</div>
-                  <div>designer picked seasonal flowers, 5-10 blooms, HKD223 per week.</div>
+                <div className="gallery-pic-title">Bloom</div>
+                <div>sample vase arrangement.</div>
                 </div>
               </Col>
           </Row>
@@ -51,22 +51,22 @@ export default class GalleryBloom extends Component {
               <Col sm={4} className="gallery-pic-b4 gallery-pic">
                 <div className="gallery-pic-shade"></div>
                 <div className="gallery-pic-text">
-                  <div className="gallery-pic-title">Simple</div>
-                  <div>designer picked seasonal flowers, 1-2 blooms, HKD53 per week.</div>
+                <div className="gallery-pic-title">Bloom</div>
+                <div>sample vase arrangement.</div>
                 </div>
               </Col>
               <Col sm={4} className="gallery-pic-b5 gallery-pic">
                 <div className="gallery-pic-shade"></div>
                 <div className="gallery-pic-text">
-                  <div className="gallery-pic-title">Elegant</div>
-                  <div>designer picked seasonal flowers, 2-4 blooms, HKD93 per week.</div>
+                <div className="gallery-pic-title">Bloom</div>
+                <div>sample vase arrangement.</div>
                 </div>
               </Col>
               <Col sm={4} className="gallery-pic-b6 gallery-pic">
                 <div className="gallery-pic-shade"></div>
                 <div className="gallery-pic-text">
-                  <div className="gallery-pic-title">Bloom</div>
-                  <div>designer picked seasonal flowers, 5-10 blooms, HKD223 per week.</div>
+                <div className="gallery-pic-title">Bloom</div>
+                <div>sample bouquet.</div>
                 </div>
               </Col>
           </Row>
@@ -76,22 +76,22 @@ export default class GalleryBloom extends Component {
               <Col sm={4} className="gallery-pic-b7 gallery-pic">
                 <div className="gallery-pic-shade"></div>
                 <div className="gallery-pic-text">
-                  <div className="gallery-pic-title">Simple</div>
-                  <div>designer picked seasonal flowers, 1-2 blooms, HKD53 per week.</div>
+                <div className="gallery-pic-title">Bloom</div>
+                <div>sample vase arrangement.</div>
                 </div>
               </Col>
               <Col sm={4} className="gallery-pic-b8 gallery-pic">
                 <div className="gallery-pic-shade"></div>
                 <div className="gallery-pic-text">
-                  <div className="gallery-pic-title">Elegant</div>
-                  <div>designer picked seasonal flowers, 2-4 blooms, HKD93 per week.</div>
+                <div className="gallery-pic-title">Bloom</div>
+                <div>sample bouquet.</div>
                 </div>
               </Col>
               <Col sm={4} className="gallery-pic-b9 gallery-pic">
                 <div className="gallery-pic-shade"></div>
                 <div className="gallery-pic-text">
-                  <div className="gallery-pic-title">Bloom</div>
-                  <div>designer picked seasonal flowers, 5-10 blooms, HKD223 per week.</div>
+                <div className="gallery-pic-title">Bloom</div>
+                <div>sample bouquet.</div>
                 </div>
               </Col>
           </Row>

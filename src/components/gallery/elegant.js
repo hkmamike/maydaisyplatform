@@ -26,22 +26,22 @@ export default class GalleryElegant extends Component {
               <Col sm={4} className="gallery-pic-m1 gallery-pic">
                 <div className="gallery-pic-shade"></div>
                 <div className="gallery-pic-text">
-                  <div className="gallery-pic-title">Simple</div>
-                  <div>designer picked seasonal flowers, 1-2 blooms, HKD53 per week.</div>
+                    <div className="gallery-pic-title">Elegant</div>
+                    <div>sample vase arrangement.</div>
                 </div>
               </Col>
               <Col sm={4} className="gallery-pic-m2 gallery-pic">
                 <div className="gallery-pic-shade"></div>
                 <div className="gallery-pic-text">
-                  <div className="gallery-pic-title">Elegant</div>
-                  <div>designer picked seasonal flowers, 2-4 blooms, HKD93 per week.</div>
+                <div className="gallery-pic-title">Elegant</div>
+                <div>sample vase arrangement.</div>
                 </div>
               </Col>
               <Col sm={4} className="gallery-pic-m3 gallery-pic">
                 <div className="gallery-pic-shade"></div>
                 <div className="gallery-pic-text">
-                  <div className="gallery-pic-title">Bloom</div>
-                  <div>designer picked seasonal flowers, 5-10 blooms, HKD223 per week.</div>
+                <div className="gallery-pic-title">Elegant</div>
+                <div>sample vase arrangement.</div>
                 </div>
               </Col>
           </Row>
@@ -51,22 +51,22 @@ export default class GalleryElegant extends Component {
               <Col sm={4} className="gallery-pic-m4 gallery-pic">
                 <div className="gallery-pic-shade"></div>
                 <div className="gallery-pic-text">
-                  <div className="gallery-pic-title">Simple</div>
-                  <div>designer picked seasonal flowers, 1-2 blooms, HKD53 per week.</div>
+                <div className="gallery-pic-title">Elegant</div>
+                <div>sample vase arrangement.</div>
                 </div>
               </Col>
               <Col sm={4} className="gallery-pic-m5 gallery-pic">
                 <div className="gallery-pic-shade"></div>
                 <div className="gallery-pic-text">
-                  <div className="gallery-pic-title">Elegant</div>
-                  <div>designer picked seasonal flowers, 2-4 blooms, HKD93 per week.</div>
+                <div className="gallery-pic-title">Elegant</div>
+                <div>sample vase arrangement.</div>
                 </div>
               </Col>
               <Col sm={4} className="gallery-pic-m6 gallery-pic">
                 <div className="gallery-pic-shade"></div>
                 <div className="gallery-pic-text">
-                  <div className="gallery-pic-title">Bloom</div>
-                  <div>designer picked seasonal flowers, 5-10 blooms, HKD223 per week.</div>
+                <div className="gallery-pic-title">Elegant</div>
+                <div>sample bouquet.</div>
                 </div>
               </Col>
           </Row>
@@ -76,22 +76,22 @@ export default class GalleryElegant extends Component {
               <Col sm={4} className="gallery-pic-m7 gallery-pic">
                 <div className="gallery-pic-shade"></div>
                 <div className="gallery-pic-text">
-                  <div className="gallery-pic-title">Simple</div>
-                  <div>designer picked seasonal flowers, 1-2 blooms, HKD53 per week.</div>
+                <div className="gallery-pic-title">Elegant</div>
+                <div>sample bouquet.</div>
                 </div>
               </Col>
               <Col sm={4} className="gallery-pic-m8 gallery-pic">
                 <div className="gallery-pic-shade"></div>
                 <div className="gallery-pic-text">
-                  <div className="gallery-pic-title">Elegant</div>
-                  <div>designer picked seasonal flowers, 2-4 blooms, HKD93 per week.</div>
+                <div className="gallery-pic-title">Elegant</div>
+                <div>sample vase arrangement.</div>
                 </div>
               </Col>
               <Col sm={4} className="gallery-pic-m9 gallery-pic">
                 <div className="gallery-pic-shade"></div>
                 <div className="gallery-pic-text">
-                  <div className="gallery-pic-title">Bloom</div>
-                  <div>designer picked seasonal flowers, 5-10 blooms, HKD223 per week.</div>
+                <div className="gallery-pic-title">Elegant</div>
+                <div>sample vase arrangement.</div>
                 </div>
               </Col>
           </Row>
