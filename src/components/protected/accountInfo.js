@@ -105,7 +105,6 @@ export default class AccountInfo extends Component {
                     <div><strong>Name:</strong></div>
                   </Col>
                   <Col sm={7}>
-
                     <FormControl className="data-field-update" type="text" value={accountName} onChange={this.handleAccountNameChange}/>
                   </Col>
                 </FormGroup>
@@ -117,8 +116,8 @@ export default class AccountInfo extends Component {
                     <div><strong>Phone #:</strong></div>
                   </Col>
                   <Col sm={7}>
-   
                     <FormControl className="data-field-update" type="text" value={accountPhone} onChange={this.handleAccountPhoneChange}/>
+                    <div className="subscription-tips">*We may use this number to contact you regarding your account and subscription only.</div>
                   </Col>
                 </FormGroup>
               </Row>

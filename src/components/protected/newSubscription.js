@@ -34,7 +34,6 @@ export default class NewSubscription extends Component {
 
   calculateFirstDelivery() {
     var deliveryDay = this.state.deliveryDay;
-    console.log('deliveryDay is :', deliveryDay);
     //Calculate First Delivery Date
     var d = new Date();
     var firstDelivery = new Date();
@@ -48,19 +47,16 @@ export default class NewSubscription extends Component {
         d.setMinutes(59);
         d.setSeconds(59);
       }
-
     //Redundant math is used to simulate calculation on webtask and stripe
     var firstPayment = new Date(Math.floor(d.getTime()/1000)*1000);
-
-    console.log('first payment is :', firstPayment);
     if (deliveryDay==="Every Monday") {
         firstDelivery.setDate(firstPayment.getDate() + (1 + 7 - firstPayment.getDay()) % 7);
-        this.setState({firstDelivery: firstDelivery});
+        this.setState({firstDelivery: firstDelivery, firstPayment: firstPayment});
         console.log('first Monday delivery will happen on: ', firstDelivery);
     } else if (deliveryDay==="Every Wednesday") {
         firstDelivery.setDate(firstPayment.getDate() + 7);
         console.log('first Wednesday delivery will happen on: ', firstDelivery);
-        this.setState({firstDelivery: firstDelivery});
+        this.setState({firstDelivery: firstDelivery, firstPayment: firstPayment});
     }
   }
 
@@ -161,7 +157,7 @@ export default class NewSubscription extends Component {
                                 <MenuItem eventKey="HK - Chai Wan">HK - Chai Wan</MenuItem>
                             </DropdownButton>
                             <div className="subscription-tips">*Only one delivery day option is avaiable for this region at the moment.</div>
-                            <div className="subscription-tips">**Weekly Delivery for {selectRegion} is on <strong>{this.state.deliveryDay}</strong>. If the delivery day is a holiday, delivery will take place on the next weekday of the same week.</div>
+                            <div className="subscription-tips">**Weekly Delivery for {selectRegion} is on <strong>{this.state.deliveryDay}</strong>. If the delivery day is a holiday, delivery will take place on the next weekday or according to special arrangements.</div>
                         </Col>
                     </Row>
                     <Row className="show-grid">
@@ -189,6 +185,13 @@ export default class NewSubscription extends Component {
                         <Col sm={3}><div><strong>First Delivery:</strong></div></Col>
                         <Col sm={6}>
                             <div>{this.state.firstDelivery.toLocaleDateString()}</div>
+                        </Col>
+                    </Row>
+                    <Row className="show-grid">
+                        <Col sm={2}></Col>
+                        <Col sm={3}><div><strong>First Payment:</strong></div></Col>
+                        <Col sm={6}>
+                            <div>{this.state.firstPayment.toLocaleDateString()}</div>
                         </Col>
                     </Row>
                     <Row className="show-grid">
@@ -231,8 +234,8 @@ export default class NewSubscription extends Component {
                         <Col sm={6}>
                             <FormGroup>
                                 <FormControl value={this.state.cardMessage} componentClass="textarea" className="cardMessage" placeholder="Card Message - optional, the card can fit up to 100 words nicely" onChange={this.handleCardMessage}/>
+                                <div className="subscription-tips">*Please include the desired recipient name and sender name on the card. The cut off time to change card message for <strong>{selectRegion}</strong> is at <strong>11:59 pm on Wednesday</strong> prior to the next week's delivery. </div>
                             </FormGroup>
-                            <div className="subscription-tips">*The cut off time to change card message for {selectRegion} is at 11:59 pm on the Wednesday prior to the next week's delivery. </div>
                         </Col>
                     </Row>
                     <Row className="show-grid">
@@ -242,7 +245,8 @@ export default class NewSubscription extends Component {
                         </Col>
                         <Col sm={6}>
                             <FormGroup>
-                                <FormControl value={this.state.sender} type="text" placeholder="Sender's Name - optional" onChange={this.handleSender}/>
+                                <FormControl value={this.state.sender} type="text" placeholder="Sender's Name" onChange={this.handleSender}/>
+                                <div className="subscription-tips">*We will use this information to update your account information only. Please sign your name on the card message.</div>
                             </FormGroup>
                         </Col>
                     </Row>
@@ -330,7 +334,8 @@ export default class NewSubscription extends Component {
                                 <ControlLabel>Sender's Number:</ControlLabel>
                             </Col>
                             <Col sm={6}>
-                                <FormControl value={this.state.senderNum} type="text" placeholder="Your phone number (optional)" onChange={this.handleSenderNum}/>
+                                <FormControl value={this.state.senderNum} type="text" placeholder="Your phone number" onChange={this.handleSenderNum}/>
+                                <div className="subscription-tips">*We will use this to update your account information and we might contact you at this number for delivery if needed. </div>
                             </Col>
                         </FormGroup>
                     </Row>
@@ -562,13 +567,34 @@ export default class NewSubscription extends Component {
                             <FormGroup>
                                 <Col sm={2}></Col>
                                 <Col sm={3}>
-                                    <div><strong>Grand Total:</strong></div>
+                                    <div><strong>Total:</strong></div>
                                 </Col>
                                 <Col sm={6}>
                                     <div>{this.state.currencyType}{this.state.grandTotal/100}</div>
                                 </Col>
                             </FormGroup>
                         </Row>
+                        <Row className="show-grid">
+                            <Col sm={2}></Col>
+                            <Col sm={3}><div><strong>First Delivery:</strong></div></Col>
+                            <Col sm={6}>
+                                <div>{this.state.firstDelivery.toLocaleDateString()}</div>
+                            </Col>
+                        </Row>
+                        <Row className="show-grid">
+                            <Col sm={2}></Col>
+                            <Col sm={3}><div><strong>First Payment:</strong></div></Col>
+                            <Col sm={6}>
+                                <div>{this.state.firstPayment.toLocaleDateString()}</div>
+                            </Col>
+                        </Row>
+                        <Row className="show-grid">
+                            <Col sm={2}></Col>
+                            <Col sm={9}>
+                                <div className="subscription-tips">*You are signing up for a weekly subscription service. Your card will be charged at the weekly cut off time at 11:59pm HKT on Wednesday, and delivery will made in the following week. If you would like to cancel the subscription, please go to My Subscriptions > Subscription Details.</div>
+                            </Col>
+                        </Row>
+
                         <Row className="show-grid">
                             <Col sm={5}></Col>
                             <Col sm={4}>

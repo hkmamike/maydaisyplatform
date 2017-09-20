@@ -1,8 +1,57 @@
 import React, { Component } from 'react'
 import { firebaseAuth } from '../config/constants';
 import { Link } from 'react-router-dom';
-import { FormGroup, FormControl, Grid, Row, Col, Button, Glyphicon } from 'react-bootstrap';
+import { FormGroup, FormControl, Grid, Row, Col, Button, Glyphicon, Modal } from 'react-bootstrap';
 import { base } from '../config/constants';
+
+class CancelSubModal extends React.Component {
+  constructor() {
+    super();
+    this.open = this.open.bind(this);
+    this.close = this.close.bind(this);
+    this.unSubscribe = this.unSubscribe.bind(this);
+    this.state = {
+      showModal: false
+    }
+  }
+
+  close() {
+    this.setState({showModal: false});
+  }
+  open() {
+    this.setState({showModal: true});
+  }
+  unSubscribe() {
+    var uid = this.props.uid;
+    var selectRegion = this.props.selectRegion;
+    var planID = this.props.planID;
+    var subID = this.props.subID;
+    console.log ('parameters are:', uid, selectRegion, planID, subID)
+    this.props.onUnsubscribe(uid, selectRegion, planID, subID);
+    this.close();
+  }
+  render() {
+    return (
+      <div>
+        <Button bsStyle="" className="sub-details-unsub"onClick={this.open}>Unsubscribe</Button>
+        <Modal show={this.state.showModal} onHide={this.close}>
+          <Modal.Header closeButton>
+            <Modal.Title><strong>Cancel Subscription</strong></Modal.Title>
+          </Modal.Header>
+          <Modal.Body>
+            <h4>We are sorry to see you go. To continue, click "Unsubscribe" to confirm.</h4>
+            <p>Please note that if your cancelation request is received after 11:59 pm HKT on Wednesday, your card has already been charged this week and one more delivery will be made in the following week.</p>
+            <p>For further assistance, please reach out to our support hotline: (852)9346-8427.</p>
+          </Modal.Body>
+          <Modal.Footer>
+            <Button bsStyle="" className="button button-back" onClick={this.close}>Close</Button>
+            <Button bsStyle="" className="button" onClick={this.unSubscribe}>Unsubscribe</Button>
+          </Modal.Footer>
+        </Modal>
+      </div>
+    )
+  }
+}
 
 class SubDetails extends React.Component {
 
@@ -11,6 +60,7 @@ class SubDetails extends React.Component {
     this.handleBack = this.handleBack.bind(this);
     this.handleSubUpdate = this.handleSubUpdate.bind(this);
     this.handleNumChange = this.handleNumChange.bind(this);
+    this.handleCancelSub = this.handleCancelSub.bind(this);
     this.handleMessageChange = this.handleMessageChange.bind(this);
     this.state = {
       loading: true,
@@ -78,8 +128,7 @@ class SubDetails extends React.Component {
     var cardMessage = this.state.cardMessage;
     var selectRegion = this.state.subDetails.selectRegion;
     var planID = this.state.subDetails.planID;
-    var uid = this.state.uid
-
+    var uid = this.state.uid;
     let content = null;
 
     if (loadingState) {
@@ -100,8 +149,17 @@ class SubDetails extends React.Component {
                   <Col sm={3}>
                       <div><strong>Sub ID:</strong></div>
                   </Col>
-                  <Col sm={8}>
+                  <Col sm={5}>
                     <div>{selectedSub}</div>
+                  </Col>
+                  <Col sm={3}>
+                    <CancelSubModal
+                      onUnsubscribe={this.handleCancelSub}
+                      uid={this.state.uid}
+                      selectRegion={selectRegion}
+                      planID={planID}
+                      subID={selectedSub}
+                    />
                   </Col>
                 </FormGroup>
               </Row>
@@ -179,15 +237,16 @@ class SubDetails extends React.Component {
                   </Col>
                   <Col sm={7}>
                     <FormControl className="card-text-area data-field-update" componentClass="textarea" value={cardMessage} onChange={this.handleMessageChange}/>
+                    <div className="subscription-tips">*The cut off time to change card message is <strong>11:59 pm on Wednesday</strong> prior to the next week's delivery. </div>
+                    <div className="subscription-tips">**To change delivery address, flower type, or plan, please create a new subscription and unsubscribe from this one.</div>
                   </Col>
                 </FormGroup>
               </Row>
               <Row className="show-grid">
                 <FormGroup>
-                  <Col xs={1}>
-                    <Button bsStyle="" className="button sub-details-update" onClick={() => this.handleCancelSub(uid, selectRegion, planID, selectedSub)}>Cancel</Button>
+                  <Col sm={5}>
                   </Col>
-                  <Col xs={10} xsPush={1} smPush={7} mdPush={8}>
+                  <Col sm={4}>
                     <Button bsStyle="" className="button sub-details-back" onClick={() => this.handleBack()}>Back</Button>
                     <Button bsStyle="" className="button sub-details-update" onClick={() => this.handleSubUpdate(selectRegion, planID, recipientNum, cardMessage)}>Update</Button>
                   </Col>

@@ -149,7 +149,7 @@ export default class Homepage extends Component {
               </Col>
               <Col sm={4}><Glyphicon glyph="question-sign" className="icons"/>
                 <h3 className="icon-title">Receive Update</h3>
-                <div className="icon-description">2 days before delivery, your florist emails you details about the flowers, and you can update your card on our website.</div>
+                <div className="icon-description">We will keep you updated about your subscription, and you can update your message card on this website.</div>
               </Col>
               <Col sm={4}><Glyphicon glyph="heart" className="icons"/>
                 <h3 className="icon-title">Delight</h3>
@@ -159,11 +159,43 @@ export default class Homepage extends Component {
           </Grid>
         </div>
 
-
+        <div className="home-pic-section">
+          <Grid>
+            <Row className="show-grid home-pic-container">
+              <Col sm={4} className="home-pic-1 home-pic">
+                <div className="home-pic-shade"></div>
+                <div className="home-pic-text">
+                  <div className="home-pic-title">Simple</div>
+                  <div>designer picked seasonal flowers, 1-2 blooms, HKD53 per week.</div>
+                </div>
+              </Col>
+              <Col sm={4} className="home-pic-2 home-pic">
+                <div className="home-pic-shade"></div>
+                <div className="home-pic-text">
+                  <div className="home-pic-title">Elegant</div>
+                  <div>designer picked seasonal flowers, 2-4 blooms, HKD93 per week.</div>
+                </div>
+              </Col>
+              <Col sm={4} className="home-pic-3 home-pic">
+                <div className="home-pic-shade"></div>
+                <div className="home-pic-text">
+                  <div className="home-pic-title">Bloom</div>
+                  <div>designer picked seasonal flowers, 5-10 blooms, HKD223 per week.</div>
+                </div>
+              </Col>
+            </Row>
+          </Grid>
+        </div>
 
         <div className="home-about">
-          <h2> About <span className="home-company-name">Us</span></h2>
-          <div className="home-about-text"> One Bloom is a movment of lasting love. Through a weekly flower design and delivery service, we make the expression of love persisting, fun, affordable, and full of surprises. We can deliver the weekly flowers to you (so you can deliver them in person), or deliver them directly to the reciepient. To lower the price, we begin to invite customers to subscribe when 150 customers have shown interest in an area. Check out which areas we are delivering to now!</div>
+          <Grid>
+            <Row>
+              <h2> About <span className="home-company-name">Us</span></h2>
+              <Col sm={12} className="home-pic-3 home-pic">
+                <div className="home-about-text"> One Bloom is a movment of lasting love. Through a weekly flower design and delivery service, we make the expression of love persisting, fun, affordable, and full of surprises. We can deliver the weekly flowers to you (so you can deliver them in person), or deliver them directly to the reciepient. To lower the price, we begin to invite customers to subscribe when 150 customers have shown interest in an area. Check out which areas we are delivering to now!</div>
+              </Col>
+            </Row>
+          </Grid>
         </div>
 
         <div className="bar-pink">

@@ -3,8 +3,12 @@ import { Route, Link } from 'react-router-dom';
 import { logout } from '../helpers/auth';
 import { Button } from 'react-bootstrap';
 
-const ButtonToNavigate = ({ title, history }) => (
+const ButtonToLogin = ({ title, history }) => (
     <Button bsStyle="" className="button" onClick={() => history.push('/login')}>Login</Button>
+);
+
+const ButtonToAccount = ({ title, history }) => (
+    <Button bsStyle="" className="button" onClick={() => history.push('/subscriptions')}>My Account</Button>
 );
 
 export default class Header extends Component {
@@ -19,15 +23,15 @@ export default class Header extends Component {
 
             <nav>
                 <ul>
-                    <li className="last">
+                    <li>
                         {this.props.authed?
                         <span>
-                            <Link className="header-link" to="/subscriptions">my account</Link>
+                            <Route path="/" render={(props) => <ButtonToAccount {...props}/>} />
                             <Button bsStyle="" onClick={() => {logout()}} className="button">Logout</Button>
                         </span>
                         :
                         <span>
-                            <Route path="/" render={(props) => <ButtonToNavigate {...props}/>} />
+                            <Route path="/" render={(props) => <ButtonToLogin {...props}/>} />
                         </span>}
                     </li>
                 </ul>

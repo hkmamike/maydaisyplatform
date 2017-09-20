@@ -30,12 +30,19 @@ header {
         padding: 0;
     }
     nav .button {
-        margin: 5px !important;
-        height: 50px !important;
         border-color: $darkpink !important;
         background-color: $darkpink !important;
-        font-weight: bold !important;
         color: $white !important;
+        @media (max-width: 600px) {
+            height: 40px !important;
+            padding: 5px !important;
+            margin: 2px !important;
+        }
+        @media (min-width: 601px) {
+            margin: 5px !important;
+            height: 50px !important;
+            font-weight: bold !important;
+        }
         &:hover {
             background-color: $darkpinkhover !important;
         }
@@ -43,12 +50,16 @@ header {
     nav {
         position: absolute;
         top: 50%;
-        right: 15px;
+        @media (max-width: 600px) {
+            right: 5px;
+        }
+        @media (min-width: 601px) {
+            right: 15px;
+        }
         @include translateY(-50%);    
         ul li {
             list-style-type: none;
             display: inline-block;
-            margin-right: 20px;
             a {
                 line-height: normal;
                 color: $darkGrey;
@@ -142,6 +153,56 @@ header {
     }
 }
 
+.home-pic-section {
+    .home-pic-container {
+        margin: 10px;
+    }
+    .home-pic {
+        padding: 0;
+        height: 400px;
+        background-position: center center;
+        background-repeat: no-repeat;
+        background-size: cover;
+    }
+    .home-pic-1 {
+        background-image: url('https://firebasestorage.googleapis.com/v0/b/onebloom-cfa9d.appspot.com/o/home-pic-1.jpg?alt=media&token=a8a56cbc-6a5a-4c45-af56-c14ab0a9a7cb');
+    }
+    .home-pic-2 {
+        background-image: url('https://firebasestorage.googleapis.com/v0/b/onebloom-cfa9d.appspot.com/o/home-pic-2.jpg?alt=media&token=62b59665-3126-480e-9d2e-3bc219039432');
+    }
+    .home-pic-3 {
+        background-image: url('https://firebasestorage.googleapis.com/v0/b/onebloom-cfa9d.appspot.com/o/home-pic-3.jpg?alt=media&token=f52b1539-d1b9-4237-8622-9c3806dfd42f');
+    }
+    .home-pic-shade {
+        background: $black;
+        opacity: 0.5;
+        width: 100%;
+        height: 100%;
+    }
+    .home-pic:hover .home-pic-shade {
+        display: none;
+    }
+    .home-pic-text {
+        color: $white;
+        background: $darkpink;
+        opacity: 0.9;
+        text-align: center;
+        padding: 15px;
+        width: 100%;
+        min-height: 20px;
+        position: absolute;
+        bottom: 0;
+        display: none;
+        .home-pic-title {
+            font-weight: bold;
+            font-size: 120%;
+        }
+    }
+    .home-pic:hover .home-pic-text {
+        display: block;
+    }
+}
+
 .home-about {
     background-color: $white;
     color: $darkGrey;
@@ -149,8 +210,7 @@ header {
     text-align: center;
     min-height: 400px;
     .home-about-text {
-        text-align: left;
-        margin-top: 30;
+        margin-top: 25px;
     }
     .home-company-name {
         color: $darkpink;
