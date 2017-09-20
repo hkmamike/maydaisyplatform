@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { Grid, Row, Col, Glyphicon, DropdownButton, MenuItem } from 'react-bootstrap';
 import { Button } from 'react-bootstrap';
-import { Route } from 'react-router-dom';
+import { Route, Link } from 'react-router-dom';
 
 const ButtonToRegionList = ({ title, history }) => (
   <Button bsStyle="" className="button" onClick={() => history.push('/signups')}>Sign Up</Button>
@@ -162,27 +162,33 @@ export default class Homepage extends Component {
         <div className="home-pic-section">
           <Grid>
             <Row className="show-grid home-pic-container">
-              <Col sm={4} className="home-pic-1 home-pic">
-                <div className="home-pic-shade"></div>
-                <div className="home-pic-text">
-                  <div className="home-pic-title">Simple</div>
-                  <div>designer picked seasonal flowers, 1-2 blooms, HKD53 per week.</div>
-                </div>
-              </Col>
-              <Col sm={4} className="home-pic-2 home-pic">
-                <div className="home-pic-shade"></div>
-                <div className="home-pic-text">
-                  <div className="home-pic-title">Elegant</div>
-                  <div>designer picked seasonal flowers, 2-4 blooms, HKD93 per week.</div>
-                </div>
-              </Col>
-              <Col sm={4} className="home-pic-3 home-pic">
-                <div className="home-pic-shade"></div>
-                <div className="home-pic-text">
-                  <div className="home-pic-title">Bloom</div>
-                  <div>designer picked seasonal flowers, 5-10 blooms, HKD223 per week.</div>
-                </div>
-              </Col>
+              <Link to="/gallery-simple">
+                <Col sm={4} className="home-pic-1 home-pic">
+                  <div className="home-pic-shade"></div>
+                  <div className="home-pic-text">
+                    <div className="home-pic-title">Simple</div>
+                    <div>designer picked seasonal flowers, 1-2 blooms, HKD53 per week.</div>
+                  </div>
+                </Col>
+              </Link>
+              <Link to="/gallery-elegant">
+                <Col sm={4} className="home-pic-2 home-pic">
+                  <div className="home-pic-shade"></div>
+                  <div className="home-pic-text">
+                    <div className="home-pic-title">Elegant</div>
+                    <div>designer picked seasonal flowers, 2-4 blooms, HKD93 per week.</div>
+                  </div>
+                </Col>
+              </Link>
+              <Link to="/gallery-bloom">
+                <Col sm={4} className="home-pic-3 home-pic">
+                  <div className="home-pic-shade"></div>
+                  <div className="home-pic-text">
+                    <div className="home-pic-title">Bloom</div>
+                    <div>designer picked seasonal flowers, 5-10 blooms, HKD223 per week.</div>
+                  </div>
+                </Col>
+              </Link>
             </Row>
           </Grid>
         </div>

@@ -2,6 +2,7 @@
 @import "_regionSelect.scss";
 @import "_login.scss";
 @import "_loggedIn.scss";
+@import "_gallery.scss";
 
 .no-padding {
     padding: 0;
@@ -9,7 +10,7 @@
 
 header {
     position: relative;
-    display: bock;
+    display: block;
     width: 100%;
     background: $white;
     color: $black;
@@ -175,7 +176,7 @@ header {
     }
     .home-pic-shade {
         background: $black;
-        opacity: 0.5;
+        opacity: 0.3;
         width: 100%;
         height: 100%;
     }

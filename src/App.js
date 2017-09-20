@@ -12,6 +12,10 @@ import SignUps from './components/pages/signUps';
 import Subscriptions from './components/protected/subscriptions';
 import NewSubscription from './components/protected/newSubscription';
 import AccountInfo from './components/protected/accountInfo';
+//gallery
+import GallerySimple from './components/gallery/simple';
+import GalleryElegant from './components/gallery/elegant';
+import GalleryBloom from './components/gallery/bloom';
 //includes
 import './assets/css/default.min.css';
 import * as firebase from 'firebase';
@@ -88,6 +92,11 @@ export default class App extends Component {
             <PublicRoute authed={this.state.authed} path='/login' component={Login} />
             <PublicRoute authed={this.state.authed} path='/register' component={Register} />
 
+
+            <Route path='/gallery-simple' exact render={(props) => (<GallerySimple {...props}/>)}/>
+            <Route path='/gallery-elegant' exact render={(props) => (<GalleryElegant {...props}/>)}/>
+            <Route path='/gallery-bloom' exact render={(props) => (<GalleryBloom {...props}/>)}/>
+
             <Route path='/signups' exact render={(props) => (<SignUps {...props} selectRegion={selectRegion} onRegionSelection={this.handleRegionSelection}/>)}/>
 
             <PrivateRoute authed={this.state.authed} path='/subscriptions' component={Subscriptions} />
@@ -98,8 +107,7 @@ export default class App extends Component {
           </Switch>
 
           <Footer/>
-
-          {/* { !window.location.href.toString().includes('subscriptions') && <Footer/> } */}
+          
         </div>
       </BrowserRouter>
     )
