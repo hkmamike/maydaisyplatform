@@ -197,7 +197,7 @@ export default class Homepage extends Component {
           <Grid>
             <Row>
               <h2> About <span className="home-company-name">Us</span></h2>
-              <Col sm={12} className="home-pic-3 home-pic">
+              <Col sm={12}>
                 <div className="home-about-text"> One Bloom is a movment of lasting love. Through a weekly flower design and delivery service, we make the expression of love persisting, fun, affordable, and full of surprises. We can deliver the weekly flowers to you (so you can deliver them in person), or deliver them directly to the reciepient. To lower the price, we begin to invite customers to subscribe when 150 customers have shown interest in an area. Check out which areas we are delivering to now!</div>
               </Col>
             </Row>

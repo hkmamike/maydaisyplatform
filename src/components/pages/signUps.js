@@ -8,7 +8,7 @@ const ButtonToLogin = ({ title, history }) => (
 );
 
 const ButtonToGallery = ({ title, history }) => (
-  <Button bsStyle="" className="button" onClick={() => history.push('/gallery')}>Gallery</Button>
+  <Button bsStyle="" className="button" onClick={() => history.push('/gallery-simple')}>Gallery</Button>
 );
 
 class GreetingInBusinessHeader extends React.Component {
@@ -26,10 +26,11 @@ class GreetingInBusiness extends React.Component {
           <Row className="show-grid">
             <Col md={5} className="region-subscribe-shade">
               <h2 className="section-title"><strong>Subscription</strong></h2>
-              <div className="section-subtitle">One Bloom is delivering to <strong>{this.props.selectRegion}</strong> ! Please log in to subscribe. These are the available plans in the region:</div>
+              <div className="section-subtitle">One Bloom is delivering to <strong>{this.props.selectRegion}</strong> ! Please log in to subscribe. These are the available plans in the region. Check out our gallery to see some sample arrangements.</div>
               <ul className="section-list">
-                <li>Weekly Mystery Flower by designer (Monday) - <strong>HKD53</strong> per week, delivery included</li>
-                <li>Weekly Mystery Rose by designer (Monday) - <strong>HKD53</strong> per week, delivery included</li>
+                <li>Simple (Wednesday) - <strong>HKD53</strong> per week, delivery included</li>
+                <li>Elegant (Wednesday) - <strong>HKD93</strong> per week, delivery included</li>
+                <li>Bloom (Wednesday) - <strong>HKD223</strong> per week, delivery included</li>
               </ul>
               <div className="subscribe-buttons">
                 <Route path="/" render={(props) => <ButtonToLogin {...props}/>} />
@@ -47,7 +48,7 @@ class GreetingSignUpHeader extends React.Component {
     return (
       <div className="text-section">
         <div className="section-title">Sign Up</div>
-        <div className="section-subtitle">Thank you for showing interest! Your receipient's area: <strong>{this.props.selectRegion}</strong> is still collecting sign ups. Service in this area will begin when 150 sign ups are collected. Rolling out One Bloom by region helps to keep the price affordable to all lovers. Fill out this form and we will send you an invitation when the time comes!</div>
+        <div className="section-subtitle">Thank you for showing interest! Your receipient's area: <strong>{this.props.selectRegion}</strong> is still collecting sign ups. Service in this area will begin when 150 sign ups are collected. Rolling out One Bloom by region helps to keep the price affordable to all lovers. Fill out this form and we will send you an invitation when the time comes! For those who are not in Hong Kong, we will come to you soon ^.^</div>
       </div>
     )
   }
@@ -57,7 +58,7 @@ class GreetingDefault extends React.Component {
     return (
       <div className="text-section">
         <div className="section-title">Sign Up</div>
-        <div className="section-subtitle">Thank you for showing interest! Service in each area will begin when 150 sign ups are collected. Rolling out One Bloom by region helps to keep the price affordable to all lovers. Fill out this form and we will send you an invitation when the time comes!</div>;
+        <div className="section-subtitle">Thank you for showing interest! Service in each area will begin when 150 sign ups are collected. Rolling out One Bloom by region helps to keep the price affordable to all lovers. Fill out this form and we will send you an invitation when the time comes! For those who are not in Hong Kong, we will come to you soon ^.^</div>;
       </div>
     )
   }
@@ -328,6 +329,8 @@ export default class SignUps extends Component {
         this.setState({regionStatus: data});
       }
     });
+    
+    window.scrollTo(0, 0);
   }
 
   componentWillUnmount() {
@@ -379,13 +382,14 @@ export default class SignUps extends Component {
           {greeting}
           </div>
         </div>
+        {/* For Showing Sign up status
         <div className="text-section">
           <div className="section-title"> Sign Ups Collected by Region</div>
           <div className="section-subtitle">This is the current status by region, we will begin to send out subscriptioin invitation for regions that have collected 150 sign ups. Rolling out One Bloom by region helps to keep the price affordable for all lovers. Join the movement and help to spread the word!</div>
           <div className="region-list">
             {content}
           </div>
-        </div>
+        </div> */}
       </div>
     )
   }

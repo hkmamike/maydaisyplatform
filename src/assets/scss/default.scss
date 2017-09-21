@@ -164,6 +164,9 @@ header {
         background-position: center center;
         background-repeat: no-repeat;
         background-size: cover;
+        border-style: solid;
+        border-width: 5px;
+        border-color: $white;
     }
     .home-pic-1 {
         background-image: url('https://firebasestorage.googleapis.com/v0/b/onebloom-cfa9d.appspot.com/o/home-pic-1.jpg?alt=media&token=a8a56cbc-6a5a-4c45-af56-c14ab0a9a7cb');
@@ -176,9 +179,12 @@ header {
     }
     .home-pic-shade {
         background: $black;
-        opacity: 0.3;
+        opacity: 0;
         width: 100%;
         height: 100%;
+    }
+    .home-pic-default:not(:hover) .home-pic-shade {
+        display: none;
     }
     .home-pic:hover .home-pic-shade {
         display: none;
@@ -186,7 +192,7 @@ header {
     .home-pic-text {
         color: $white;
         background: $darkpink;
-        opacity: 0.9;
+        opacity: 0.8;
         text-align: center;
         padding: 15px;
         width: 100%;
@@ -200,6 +206,9 @@ header {
         }
     }
     .home-pic:hover .home-pic-text {
+        display: block;
+    }
+    .home-pic-default:not(:hover) .home-pic-text {
         display: block;
     }
 }
