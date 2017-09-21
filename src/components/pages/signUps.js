@@ -58,7 +58,7 @@ class GreetingDefault extends React.Component {
     return (
       <div className="text-section">
         <div className="section-title">Sign Up</div>
-        <div className="section-subtitle">Thank you for showing interest! Service in each area will begin when 150 sign ups are collected. Rolling out One Bloom by region helps to keep the price affordable to all lovers. Fill out this form and we will send you an invitation when the time comes! For those who are not in Hong Kong, we will come to you soon ^.^</div>;
+        <div className="section-subtitle">Thank you for showing interest! Service in each area will begin when 150 sign ups are collected. Rolling out One Bloom by region helps to keep the price affordable to all lovers. Fill out this form and we will send you an invitation when the time comes! For those who are not in Hong Kong, we will come to you soon ^.^</div>
       </div>
     )
   }
@@ -313,7 +313,8 @@ export default class SignUps extends Component {
         signUpsData: {},
         regionStatus: '',
         regionUnlocked: false,
-        regionReselect: false
+        regionReselect: false,
+        loading: true
     }
   }
 
@@ -326,7 +327,7 @@ export default class SignUps extends Component {
     base.fetch(`signUp/hongKong/areas/${this.props.selectRegion}/status`, {
       context: this,
       then(data) {
-        this.setState({regionStatus: data});
+        this.setState({regionStatus: data, loading: false});
       }
     });
     
@@ -352,6 +353,7 @@ export default class SignUps extends Component {
     var regionStatus = this.state.regionStatus;
     var selectRegion = this.props.selectRegion;
     var regionReselect = this.state.regionReselect;
+    var loadingState = this.state.loading;
 
     var content = Object.keys(data).map(function(key) {
         return (
@@ -363,7 +365,10 @@ export default class SignUps extends Component {
 
     let greeting = null;
     let greetingHeader = null;
-    if (regionStatus==="delivering" && regionReselect===false) {
+    if (loadingState) {
+      greeting = <div className="loader-absolute"></div>
+    }
+    else if (regionStatus==="delivering" && regionReselect===false) {
       greetingHeader = <GreetingInBusinessHeader selectRegion={selectRegion} />;
       greeting = <GreetingInBusiness selectRegion={selectRegion} />;
     } else if (regionStatus==="collecting sign ups" && regionReselect===false) {
@@ -393,6 +398,4 @@ export default class SignUps extends Component {
       </div>
     )
   }
-
-
 }

@@ -22,6 +22,7 @@
         text-decoration: none !important;
     }
     .nav-margin {
+        margin-left: -1px !important;
         @media (max-width: 600px) {
             margin: 15px;
         }
