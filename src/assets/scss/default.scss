@@ -255,6 +255,18 @@ header {
     .home-company-name {
         color: $darkpink;
     }
+    .button {
+        margin-top: 25px !important;
+        height: 40px !important;
+        width: 80px !important;
+        font-size: 110% !important;
+        background-color: $pink !important;
+        font-weight: bold !important;
+        color: $white !important;
+        &:hover {
+            background-color: $pinkhover !important;
+        }
+    }
 }
 
 .bar-pink {

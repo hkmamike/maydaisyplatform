@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import { BrowserRouter, Route, Redirect, Switch } from 'react-router-dom';
+import LocalizedStrings from 'react-localization';
 //auth
 import Login from './components/pages/login';
 import Register from './components/pages/register';
@@ -19,6 +20,15 @@ import GalleryBloom from './components/gallery/bloom';
 //includes
 import './assets/css/default.min.css';
 import * as firebase from 'firebase';
+
+let strings = new LocalizedStrings({
+  en:{
+    companyTitle: "test"
+  },
+  ch: {
+    companyTitle: "chinese"
+  }
+});
 
 function PrivateRoute ({component: Component, authed, selectRegion, onRegionSelection, ...rest}) {
   return (
@@ -41,15 +51,25 @@ export default class App extends Component {
   constructor() {
     super();
     this.handleRegionSelection = this.handleRegionSelection.bind(this);
+    this.handleLanguageToggle = this.handleLanguageToggle.bind(this);
     this.state = {
       authed: false,
       loading: true,
-      selectRegion: 'HK - Central'
+      selectRegion: 'HK - Central',
+      language: 'ch'
     }
   }
 
   handleRegionSelection(region) {
     this.setState({selectRegion : region});
+  }
+
+  handleLanguageToggle() {
+    if (this.state.language==='ch') {
+      this.setState({language: 'en'});
+    } else if (this.state.language==='en') {
+      this.setState({language: 'ch'})
+    }
   }
 
   componentDidMount () {
@@ -68,6 +88,7 @@ export default class App extends Component {
         })
       }      
     })
+    strings.setLanguage('ch');
   }
 
   componentWillUnmount () {
@@ -76,17 +97,15 @@ export default class App extends Component {
 
   render() {
     const selectRegion = this.state.selectRegion;
-    // const currentPath = window.location.pathname;
-    // console.log('this is a subscriptions page : ', window.location.href.includes('subscriptions'));
-    // console.log("window location href is : ", window.location.href);
+
     return (
       <BrowserRouter>
         <div className="App">
 
-          <Header authed={this.state.authed} />
+          <Header authed={this.state.authed} onLanguageToggle={this.handleLanguageToggle} language={this.state.language}/>
 
           <Switch>
-            <Route path='/' exact render={(props) => (<Homepage {...props} selectRegion={selectRegion} onRegionSelection={this.handleRegionSelection}/>)}/>
+            <Route path='/' exact render={(props) => (<Homepage {...props} language={this.state.language} selectRegion={selectRegion} onRegionSelection={this.handleRegionSelection}/>)}/>
           
             
             <PublicRoute authed={this.state.authed} path='/login' component={Login} />
@@ -102,7 +121,7 @@ export default class App extends Component {
             <PrivateRoute authed={this.state.authed} path='/subscriptions' component={Subscriptions} />
             <PrivateRoute authed={this.state.authed} selectRegion={selectRegion} onRegionSelection={this.handleRegionSelection} path='/newsubscription' component={NewSubscription} />
             <PrivateRoute authed={this.state.authed} path='/accountinfo' component={AccountInfo} />
-            <Route render={() => <h3>Uhoh...we couldn't find your page</h3>} />
+            <Route render={() => <h3>Uhoh...we couldn't find your page {strings.test}</h3>} />
 
           </Switch>
 
