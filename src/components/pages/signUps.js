@@ -349,19 +349,19 @@ export default class SignUps extends Component {
 
   render () {
 
-    var data = this.state.signUpsData;
+    // var data = this.state.signUpsData;
     var regionStatus = this.state.regionStatus;
     var selectRegion = this.props.selectRegion;
     var regionReselect = this.state.regionReselect;
     var loadingState = this.state.loading;
 
-    var content = Object.keys(data).map(function(key) {
-        return (
-          <div key={key}>
-            <span>{key}: {data[key].signUpCount}/150 ({data[key].status})</span>
-          </div>
-        )
-    })
+    // var content = Object.keys(data).map(function(key) {
+    //     return (
+    //       <div key={key}>
+    //         <span>{key}: {data[key].signUpCount}/150 ({data[key].status})</span>
+    //       </div>
+    //     )
+    // })
 
     let greeting = null;
     let greetingHeader = null;

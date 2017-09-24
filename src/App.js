@@ -1,6 +1,5 @@
 import React, { Component } from 'react';
 import { BrowserRouter, Route, Redirect, Switch } from 'react-router-dom';
-import LocalizedStrings from 'react-localization';
 //auth
 import Login from './components/pages/login';
 import Register from './components/pages/register';
@@ -20,15 +19,6 @@ import GalleryBloom from './components/gallery/bloom';
 //includes
 import './assets/css/default.min.css';
 import * as firebase from 'firebase';
-
-let strings = new LocalizedStrings({
-  en:{
-    companyTitle: "test"
-  },
-  ch: {
-    companyTitle: "chinese"
-  }
-});
 
 function PrivateRoute ({component: Component, authed, selectRegion, onRegionSelection, ...rest}) {
   return (
@@ -55,8 +45,7 @@ export default class App extends Component {
     this.state = {
       authed: false,
       loading: true,
-      selectRegion: 'HK - Central',
-      language: 'ch'
+      selectRegion: 'HK - Central'
     }
   }
 
@@ -64,11 +53,14 @@ export default class App extends Component {
     this.setState({selectRegion : region});
   }
 
-  handleLanguageToggle() {
-    if (this.state.language==='ch') {
-      this.setState({language: 'en'});
-    } else if (this.state.language==='en') {
-      this.setState({language: 'ch'})
+  handleLanguageToggle(language) {
+    if (language==='ch') {
+      console.log('new language is ch - App');
+      this.setState({languageChanged: 'ch'});
+
+    } else if (language==='en') {
+      console.log('new language is en - App');
+      this.setState({languageChanged: 'en'});
     }
   }
 
@@ -88,11 +80,10 @@ export default class App extends Component {
         })
       }      
     })
-    strings.setLanguage('ch');
   }
 
   componentWillUnmount () {
-    this.removeListener()
+    this.removeListener();
   }
 
   render() {
@@ -102,26 +93,26 @@ export default class App extends Component {
       <BrowserRouter>
         <div className="App">
 
-          <Header authed={this.state.authed} onLanguageToggle={this.handleLanguageToggle} language={this.state.language}/>
+          <Header authed={this.state.authed} onLanguageToggle={this.handleLanguageToggle}/>
 
           <Switch>
-            <Route path='/' exact render={(props) => (<Homepage {...props} language={this.state.language} selectRegion={selectRegion} onRegionSelection={this.handleRegionSelection}/>)}/>
+            <Route path='/' exact render={(props) => (<Homepage {...props} selectRegion={selectRegion} onRegionSelection={this.handleRegionSelection} languageChanged={this.state.languageChanged}/>)}/>
           
             
             <PublicRoute authed={this.state.authed} path='/login' component={Login} />
             <PublicRoute authed={this.state.authed} path='/register' component={Register} />
 
 
-            <Route path='/gallery-simple' exact render={(props) => (<GallerySimple {...props}/>)}/>
-            <Route path='/gallery-elegant' exact render={(props) => (<GalleryElegant {...props}/>)}/>
-            <Route path='/gallery-bloom' exact render={(props) => (<GalleryBloom {...props}/>)}/>
+            <Route path='/gallery-simple' exact render={(props) => (<GallerySimple {...props} languageChanged={this.state.languageChanged}/>)}/>
+            <Route path='/gallery-elegant' exact render={(props) => (<GalleryElegant {...props} languageChanged={this.state.languageChanged}/>)}/>
+            <Route path='/gallery-bloom' exact render={(props) => (<GalleryBloom {...props} languageChanged={this.state.languageChanged}/>)}/>
 
             <Route path='/signups' exact render={(props) => (<SignUps {...props} selectRegion={selectRegion} onRegionSelection={this.handleRegionSelection}/>)}/>
 
             <PrivateRoute authed={this.state.authed} path='/subscriptions' component={Subscriptions} />
             <PrivateRoute authed={this.state.authed} selectRegion={selectRegion} onRegionSelection={this.handleRegionSelection} path='/newsubscription' component={NewSubscription} />
             <PrivateRoute authed={this.state.authed} path='/accountinfo' component={AccountInfo} />
-            <Route render={() => <h3>Uhoh...we couldn't find your page {strings.test}</h3>} />
+            <Route render={() => <h3>Uhoh...we couldn't find your page</h3>} />
 
           </Switch>
 

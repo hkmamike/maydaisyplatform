@@ -128,7 +128,6 @@ class SubDetails extends React.Component {
     var cardMessage = this.state.cardMessage;
     var selectRegion = this.state.subDetails.selectRegion;
     var planID = this.state.subDetails.planID;
-    var uid = this.state.uid;
     let content = null;
 
     if (loadingState) {

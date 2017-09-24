@@ -175,15 +175,27 @@
     .plan-text {
         text-align: left;
     }
-    .button {
-        margin-left: 10px !important;
-        margin-top: 15px !important;
-        height: 40px !important;
-        background-color: $pink !important;
-        font-weight: bold !important;
-        color: $white !important;
-        &:hover {
-            background-color: $pinkhover !important;
+    .gallery-about {
+        background-color: $white;
+        color: $darkGrey;
+        padding: 20px;
+        text-align: center;
+        min-height: 400px;
+        .gallery-plan-text {
+            text-align: left;
+        }
+        .gallery-plan-name {
+            color: $darkpink;
+        }
+        .button {
+            margin-top: 15px !important;
+            height: 35px !important;
+            background-color: $pink !important;
+            font-weight: bold !important;
+            color: $white !important;
+            &:hover {
+                background-color: $pinkhover !important;
+            }
         }
     }
 }

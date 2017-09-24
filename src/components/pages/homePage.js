@@ -20,11 +20,11 @@ let strings = new LocalizedStrings({
       delight: 'Delight',
       delightText: 'Your loved one receives flowers and your card (we hand write your message), prepared with heart by your local florist!',
       simple: 'Simple',
-      simpleText: 'designer picked seasonal flowers, 1-2 blooms, HKD53 per week.',
+      simpleText: 'designer picked seasonal flowers, 1-2 blooms, HKD53 per week. >>click<<',
       elegant: 'Elegant',
-      elegantText: 'designer picked seasonal flowers, 2-4 blooms, HKD93 per week.',
+      elegantText: 'designer picked seasonal flowers, 2-4 blooms, HKD93 per week. >>click<<',
       bloom: 'Bloom',
-      bloomText: 'designer picked seasonal flowers, 5-10 blooms, HKD223 per week.',
+      bloomText: 'designer picked seasonal flowers, 5-10 blooms, HKD223 per week. >>click<<',
       aboutUs1: 'About',
       aboutUs2: 'Us',
       aboutUsText: 'MayDaisy is a movment of lasting love and simply enjoying flower. Through a weekly unrestricted design and delivery service, we make the expression of love persisting, fun, affordable, and full of surprises. We can deliver the weekly flowers to you (so you can deliver them in person), or deliver them directly to the reciepient. To make the movement more affordable to flower lovers, we begin to invite customers to subscribe when 150 customers have shown interest in an area. Check out if we are delivering your location now!',
@@ -45,18 +45,17 @@ let strings = new LocalizedStrings({
       delight: '收花',
       delightText: '收花人會每週收到鲜花和您的問候卡，您的花匠會幫您手寫您的信息。',
       simple: '簡單',
-      simpleText: '花匠用時令花材設計，1-2朵主花，每週 HKD53。',
+      simpleText: '花匠用時令花材設計，1-2朵主花，每週 HKD53。 >>按此看圖<<',
       elegant: '優雅',
-      elegantText: '花匠用時令花材設計，2-4朵主花，每週 HKD93。',
+      elegantText: '花匠用時令花材設計，2-4朵主花，每週 HKD93。 >>按此看圖<<',
       bloom: '盛會',
-      bloomText: '花匠用時令花材設計，5-10朵主花，每週 HKD223。',
+      bloomText: '花匠用時令花材設計，5-10朵主花，每週 HKD223。 >>按此看圖<<',
       aboutUs1: '關於',
       aboutUs2: '我們',
-      aboutUsText: '五月菊是一個關於簡單地享受花和細水長流的愛的運動。以每週無限制形式的訂購，我們令愛的表達變得更持久而有趣，更可以令愛花之人有更多驚喜。我們可以將鮮花配送給您(如果您想親自送花)，或直接配送給收花人。為了令五月菊更大眾化，每個地區的服務會在收集到150個報名之後開啟，屆時已報名的客人會收到電郵邀請。快來看看您的地區服務是否已開啟!',
+      aboutUsText: '五月菊是一個關於簡單地享受花和細水長流的愛的運動。以每週無限制形式的訂購，我們令愛的表達變得更持久而有趣，更可以令愛花之人有更多驚喜。我們可以將鮮花配送給您(如果您想親自送花)，或直接配送給收花人。為了令五月菊價格更大眾化，每個地區的服務會在收集到150個報名之後開啟，屆時已報名的客人會收到電郵邀請。快來看看您的地區服務是否已開啟!',
       joinNow: '快來加入愛花之人的五月菊運動 '
     }
   });
-
 
 const ButtonToRegionList = ({ title, history }) => (
   <Button bsStyle="" className="button" onClick={() => history.push('/signups')}>{strings.signUp}</Button>
@@ -73,12 +72,18 @@ export default class Homepage extends Component {
     this.props.onRegionSelection(eventKey);
   }
 
-  componentDidMount () {
-    strings.setLanguage(this.props.language);
+  componentWillReceiveProps (nextProps) {
+    if (nextProps.languageChanged==='ch') {
+      console.log('get language show ch - homepage');
+      strings.setLanguage('ch');
+    } else if (nextProps.languageChanged==='en') {
+      console.log('get language show en - homepage');
+      strings.setLanguage('en');
+    }
   }
 
-  componentDidUpdate () {
-    strings.setLanguage(this.props.language);
+  componentWillMount() {
+    strings.setLanguage('ch');
   }
 
   render() {

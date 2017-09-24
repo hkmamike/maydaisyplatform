@@ -5,19 +5,19 @@ import { Button } from 'react-bootstrap';
 import LocalizedStrings from 'react-localization';
 
 let strings = new LocalizedStrings({
+    ch: {
+        companyTitle: "五月菊",
+        languageButton: 'Eng',
+        accountButton: "我的帳戶",
+        login: "登入",
+        logout: "登出"
+    },
     en:{
       companyTitle: "MayDaisy",
       languageButton: '中文',
       accountButton: "My Account",
       login: "Login",
       logout: "Logout"
-    },
-    ch: {
-      companyTitle: "五月菊",
-      languageButton: 'Eng',
-      accountButton: "我的帳戶",
-      login: "登入",
-      logout: "登出"
     }
   });
 
@@ -37,15 +37,20 @@ export default class Header extends Component {
       }
 
     handleLanguageToggle () {
-        this.props.onLanguageToggle();
+        if (strings.getLanguage()==='ch') {
+            strings.setLanguage('en');
+            this.props.onLanguageToggle('en');
+            this.setState({language: 'en'});
+          } else if (strings.getLanguage()==='en') {
+            strings.setLanguage('ch');
+            this.props.onLanguageToggle('ch');
+            this.setState({language: 'ch'});
+          }
+        this.setState({});
     }
 
-    componentDidMount () {
-        strings.setLanguage(this.props.language);
-    }
-
-    componentDidUpdate () {
-        strings.setLanguage(this.props.language);
+    componentWillMount() {
+        strings.setLanguage('ch');
     }
 
     render() {
