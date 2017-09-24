@@ -20,18 +20,18 @@ import GalleryBloom from './components/gallery/bloom';
 import './assets/css/default.min.css';
 import * as firebase from 'firebase';
 
-function PrivateRoute ({component: Component, authed, selectRegion, onRegionSelection, ...rest}) {
+function PrivateRoute ({component: Component, authed, selectRegion, onRegionSelection, languageChanged, ...rest}) {
   return (
     <Route {...rest} render={(props) => authed === true? 
-        <Component {...props} selectRegion={selectRegion} onRegionSelection={onRegionSelection} />
+        <Component {...props} selectRegion={selectRegion} onRegionSelection={onRegionSelection} languageChanged={languageChanged}/>
         : <Redirect to={{pathname: '/login', state: {from: props.location}}} />}
     />
   )
 }
-function PublicRoute ({component: Component, authed, selectRegion, onRegionSelection, ...rest}) {
+function PublicRoute ({component: Component, authed, selectRegion, onRegionSelection, languageChanged, ...rest}) {
   return (
     <Route {...rest} render={(props) => authed === false?
-        <Component {...props} selectRegion={selectRegion} onRegionSelection={onRegionSelection} />
+        <Component {...props} selectRegion={selectRegion} onRegionSelection={onRegionSelection} languageChanged={languageChanged}/>
         : <Redirect to='/subscriptions' />}
     />
   )
@@ -99,19 +99,19 @@ export default class App extends Component {
             <Route path='/' exact render={(props) => (<Homepage {...props} selectRegion={selectRegion} onRegionSelection={this.handleRegionSelection} languageChanged={this.state.languageChanged}/>)}/>
           
             
-            <PublicRoute authed={this.state.authed} path='/login' component={Login} />
-            <PublicRoute authed={this.state.authed} path='/register' component={Register} />
+            <PublicRoute authed={this.state.authed} path='/login' component={Login} languageChanged={this.state.languageChanged}/>
+            <PublicRoute authed={this.state.authed} path='/register' component={Register} languageChanged={this.state.languageChanged}/>
 
 
             <Route path='/gallery-simple' exact render={(props) => (<GallerySimple {...props} languageChanged={this.state.languageChanged}/>)}/>
             <Route path='/gallery-elegant' exact render={(props) => (<GalleryElegant {...props} languageChanged={this.state.languageChanged}/>)}/>
             <Route path='/gallery-bloom' exact render={(props) => (<GalleryBloom {...props} languageChanged={this.state.languageChanged}/>)}/>
 
-            <Route path='/signups' exact render={(props) => (<SignUps {...props} selectRegion={selectRegion} onRegionSelection={this.handleRegionSelection}/>)}/>
+            <Route path='/signups' exact render={(props) => (<SignUps {...props} selectRegion={selectRegion} onRegionSelection={this.handleRegionSelection} languageChanged={this.state.languageChanged}/>)}/>
 
-            <PrivateRoute authed={this.state.authed} path='/subscriptions' component={Subscriptions} />
-            <PrivateRoute authed={this.state.authed} selectRegion={selectRegion} onRegionSelection={this.handleRegionSelection} path='/newsubscription' component={NewSubscription} />
-            <PrivateRoute authed={this.state.authed} path='/accountinfo' component={AccountInfo} />
+            <PrivateRoute authed={this.state.authed} path='/subscriptions' component={Subscriptions} languageChanged={this.state.languageChanged}/>
+            <PrivateRoute authed={this.state.authed} selectRegion={selectRegion} onRegionSelection={this.handleRegionSelection} path='/newsubscription' component={NewSubscription} languageChanged={this.state.languageChanged}/>
+            <PrivateRoute authed={this.state.authed} path='/accountinfo' component={AccountInfo} languageChanged={this.state.languageChanged}/>
             <Route render={() => <h3>Uhoh...we couldn't find your page</h3>} />
 
           </Switch>

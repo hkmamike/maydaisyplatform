@@ -3,6 +3,74 @@ import { firebaseAuth } from '../config/constants';
 import { Link } from 'react-router-dom';
 import { FormGroup, FormControl, Grid, Row, Col, Button, Glyphicon, Modal } from 'react-bootstrap';
 import { base } from '../config/constants';
+import LocalizedStrings from 'react-localization';
+
+let strings = new LocalizedStrings({
+  en:{
+    mySubscriptions1: 'My',
+    mySubscriptions2: 'Subscriptions',
+    newSubscription1: 'New',
+    newSubscription2: 'Subscription',
+    accountInformation1: 'Account',
+    accountInformation2: 'Information',
+    subscriptionsList: 'Subscriptions List',
+    detailsUpdate: 'Details & Update',
+    subID: 'Sub ID',
+    to: 'To',
+    deliveryDay: 'Delivery Day',
+    detailsButton: 'Details',
+    flowerType: 'Flower Type',
+    plan: 'Plan',
+    recipient: 'Recipient',
+    address: 'Address',
+    recipientNum: "Recipient's #",
+    card: 'Card',
+    unSubscribeButton: 'Unsubscribe',
+    backButton: 'Back',
+    updateButton: 'Update',
+    tip1_1: '*The cut off time to change card message is ',
+    tip1_2: '11:59 p.m. on Wednesday',
+    tipe1_3: " prior to the next week's delivery.",
+    tip2: '**To change delivery address, flower type, or plan, please create a new subscription and unsubscribe from this one.',
+    unSubModalTitle: 'Cancel Subscription',
+    unSubText1: 'We are sorry to see you go. To continue, click "Unsubscribe" to confirm.',
+    unSubText2: 'Please note that if your cancelation request is received after 11:59 pm HKT on Wednesday, your card has already been charged this week and one more delivery will be made in the following week.',
+    unSubText3: 'For further assistance, please reach out to our support hotline: (852)9346-8427.',
+    cancelButton: 'Close'
+  },
+  ch: {
+    mySubscriptions1: ' ',
+    mySubscriptions2: '我的訂購',
+    newSubscription1: ' ',
+    newSubscription2: '新訂購',
+    accountInformation1: ' ',
+    accountInformation2: '帳戶資料',
+    subscriptionsList: '所有訂購',
+    detailsUpdate: '詳情＆訂購更新',
+    subID: '訂購號碼:',
+    to: '收花人:',
+    deliveryDay: '收花日:',
+    detailsButton: '詳情',
+    flowerType: '花的種類:',
+    plan: '訂購計劃:',
+    recipient: '收花人:',
+    address: '收花地址:',
+    recipientNum: '收花人電話:',
+    card: '問候卡:',
+    unSubscribeButton: '取消訂購',
+    backButton: '返回',
+    updateButton: '更新',
+    tip1_1: '*更改問候卡信息的截止期限為配送日前一週的',
+    tip1_2: '星期三晚上 11:59 p.m.', 
+    tip1_3: '',
+    tip2: '**如果您想更改收花地址，花的種類，或訂購計劃，請開始一個新的訂購，然後取消這個訂購。不便之處，敬請原諒。',
+    unSubModalTitle: '取消訂購',
+    unSubText1: '看見您的離去令我們很遺憾，感謝您一直以來的支持。如要繼續，請點擊“取消訂購”以確認。',
+    unSubText2: '請注意，五月菊服務的付款時間為配送前一週的星期三晚上 11:59 p.m. 。如果您這本週已經付款，我們下一週會為您提供最後一次服務。',
+    unSubText3: '如果有其他需要，請聯絡客戶服務熱線: (852)9346-8427',
+    cancelButton: '關閉'
+  }
+});
 
 class CancelSubModal extends React.Component {
   constructor() {
@@ -33,19 +101,19 @@ class CancelSubModal extends React.Component {
   render() {
     return (
       <div>
-        <Button bsStyle="" className="sub-details-unsub"onClick={this.open}>Unsubscribe</Button>
+        <Button bsStyle="" className="sub-details-unsub"onClick={this.open}>{strings.unSubscribeButton}</Button>
         <Modal show={this.state.showModal} onHide={this.close}>
           <Modal.Header closeButton>
-            <Modal.Title><strong>Cancel Subscription</strong></Modal.Title>
+            <Modal.Title><strong>{strings.unSubModalTitle}</strong></Modal.Title>
           </Modal.Header>
           <Modal.Body>
-            <h4>We are sorry to see you go. To continue, click "Unsubscribe" to confirm.</h4>
-            <p>Please note that if your cancelation request is received after 11:59 pm HKT on Wednesday, your card has already been charged this week and one more delivery will be made in the following week.</p>
-            <p>For further assistance, please reach out to our support hotline: (852)9346-8427.</p>
+            <h4>{strings.unSubText1}</h4>
+            <p>{strings.unSubText2}</p>
+            <p>{strings.unSubText3}</p>
           </Modal.Body>
           <Modal.Footer>
-            <Button bsStyle="" className="button button-back" onClick={this.close}>Close</Button>
-            <Button bsStyle="" className="button" onClick={this.unSubscribe}>Unsubscribe</Button>
+            <Button bsStyle="" className="button button-back" onClick={this.close}>{strings.cancelButton}</Button>
+            <Button bsStyle="" className="button" onClick={this.unSubscribe}>{strings.unSubscribeButton}</Button>
           </Modal.Footer>
         </Modal>
       </div>
@@ -146,7 +214,7 @@ class SubDetails extends React.Component {
                 <FormGroup>
                   <Col sm={1}></Col>
                   <Col sm={3}>
-                      <div><strong>Sub ID:</strong></div>
+                      <div><strong>{strings.subID}</strong></div>
                   </Col>
                   <Col sm={5}>
                     <div>{selectedSub}</div>
@@ -166,7 +234,7 @@ class SubDetails extends React.Component {
                 <FormGroup>
                   <Col sm={1}></Col>
                   <Col sm={3}>
-                      <div><strong>Flower Type:</strong></div>
+                      <div><strong>{strings.flowerType}</strong></div>
                   </Col>
                   <Col sm={8}>
                     <div>{subDetails.selectPlanType}</div>
@@ -177,7 +245,7 @@ class SubDetails extends React.Component {
                 <FormGroup>
                   <Col sm={1}></Col>
                   <Col sm={3}>
-                      <div><strong>Plan:</strong></div>
+                      <div><strong>{strings.plan}</strong></div>
                   </Col>
                   <Col sm={8}>
                     <div>{subDetails.selectPlanSize}</div>
@@ -188,7 +256,7 @@ class SubDetails extends React.Component {
                 <FormGroup>
                   <Col sm={1}></Col>
                   <Col sm={3}>
-                      <div><strong>Recipient:</strong></div>
+                      <div><strong>{strings.recipient}</strong></div>
                   </Col>
                   <Col sm={8}>
                     <div>{subDetails.recipient}</div>
@@ -199,7 +267,7 @@ class SubDetails extends React.Component {
                 <FormGroup>
                   <Col sm={1}></Col>
                   <Col sm={3}>
-                      <div><strong>Delivery Day:</strong></div>
+                      <div><strong>{strings.deliveryDay}</strong></div>
                   </Col>
                   <Col sm={8}>
                     <div>{subDetails.deliveryDay}</div>
@@ -210,7 +278,7 @@ class SubDetails extends React.Component {
                 <FormGroup>
                   <Col sm={1}></Col>
                   <Col sm={3}>
-                      <div><strong>Address:</strong></div>
+                      <div><strong>{strings.address}</strong></div>
                   </Col>
                   <Col sm={8}>
                     <div>{subDetails.address}</div>
@@ -221,7 +289,7 @@ class SubDetails extends React.Component {
                 <FormGroup>
                   <Col sm={1}></Col>
                   <Col sm={3}>
-                      <div><strong>Recipient's #:</strong></div>
+                      <div><strong>{strings.recipientNum}</strong></div>
                   </Col>
                   <Col sm={7}>
                     <FormControl className="data-field-update" type="text" value={recipientNum} onChange={this.handleNumChange}/>
@@ -232,12 +300,12 @@ class SubDetails extends React.Component {
                 <FormGroup>
                   <Col sm={1}></Col>
                   <Col sm={3}>
-                      <div><strong>Card:</strong></div>
+                      <div><strong>{strings.card}</strong></div>
                   </Col>
                   <Col sm={7}>
                     <FormControl className="card-text-area data-field-update" componentClass="textarea" value={cardMessage} onChange={this.handleMessageChange}/>
-                    <div className="subscription-tips">*The cut off time to change card message is <strong>11:59 pm on Wednesday</strong> prior to the next week's delivery. </div>
-                    <div className="subscription-tips">**To change delivery address, flower type, or plan, please create a new subscription and unsubscribe from this one.</div>
+                    <div className="subscription-tips">{strings.tip1_1}<strong>{strings.tip1_2}</strong>{strings.tip1_3}</div>
+                    <div className="subscription-tips">{strings.tip2}</div>
                   </Col>
                 </FormGroup>
               </Row>
@@ -246,8 +314,8 @@ class SubDetails extends React.Component {
                   <Col sm={5}>
                   </Col>
                   <Col sm={4}>
-                    <Button bsStyle="" className="button sub-details-back" onClick={() => this.handleBack()}>Back</Button>
-                    <Button bsStyle="" className="button sub-details-update" onClick={() => this.handleSubUpdate(selectRegion, planID, recipientNum, cardMessage)}>Update</Button>
+                    <Button bsStyle="" className="button sub-details-back" onClick={() => this.handleBack()}>{strings.backButton}</Button>
+                    <Button bsStyle="" className="button sub-details-update" onClick={() => this.handleSubUpdate(selectRegion, planID, recipientNum, cardMessage)}>{strings.updateButton}</Button>
                   </Col>
                 </FormGroup>
               </Row>
@@ -284,7 +352,22 @@ export default class Subscriptions extends Component {
     }
   }
 
+  componentWillReceiveProps (nextProps) {
+    if (nextProps.languageChanged==='ch') {
+      console.log('component received props : ch');
+      strings.setLanguage('ch');
+    } else if (nextProps.languageChanged==='en') {
+      console.log('component received props : en');
+      strings.setLanguage('en');
+    }
+  }
+
+  componentWillMount() {
+    strings.setLanguage('ch');
+  }
+
   componentDidMount () {
+    window.scrollTo(0, 0);
     firebaseAuth().onAuthStateChanged((user) => {
       var userID = user.uid
       base.fetch(`users/${user.uid}/subscriptions/`, {
@@ -359,7 +442,7 @@ export default class Subscriptions extends Component {
                   <FormGroup>
                     <Col sm={1}></Col>
                     <Col sm={3}>
-                        <div><strong>Sub ID:</strong></div>
+                        <div><strong>{strings.subID}</strong></div>
                     </Col>
                     <Col sm={3}>
                       <div>{data[key].stripeSubID}</div>
@@ -370,7 +453,7 @@ export default class Subscriptions extends Component {
                   <FormGroup>
                     <Col sm={1}></Col>
                     <Col sm={3}>
-                        <div><strong>To:</strong></div>
+                        <div><strong>{strings.to}</strong></div>
                     </Col>
                     <Col sm={3}>
                       <div>{data[key].recipient}</div>
@@ -381,7 +464,7 @@ export default class Subscriptions extends Component {
                   <FormGroup>
                     <Col sm={1}></Col>
                     <Col sm={3}>
-                        <div><strong>Frequency:</strong></div>
+                        <div><strong>{strings.deliveryDay}</strong></div>
                     </Col>
                     <Col sm={3}>
                       <div>{data[key].deliveryDay}</div>
@@ -392,7 +475,7 @@ export default class Subscriptions extends Component {
                   <FormGroup>
                     {/* <Col xs={} sm={5}></Col> */}
                     <Col xs={1} xsOffset={6} smOffset={9} mdOffset={10}>
-                      <Button bsStyle="" className="button sub-details-button" onClick={() => this.handleChooseSub(chosenKey)}>Details</Button>
+                      <Button bsStyle="" className="button sub-details-button" onClick={() => this.handleChooseSub(chosenKey)}>{strings.detailsButton}</Button>
                     </Col>
                   </FormGroup>
                 </Row>
@@ -418,9 +501,9 @@ export default class Subscriptions extends Component {
             <Row className="show-grid loggedin-flow">
               <div className="horizontal-line"></div>
               <Col xs={12}>
-                  <div className="flow-selected">Subscriptions List</div>
+                  <div className="flow-selected">{strings.subscriptionsList}</div>
                     <i className="fa fa-chevron-right"></i>
-                  <div>Details & Update</div>
+                  <div>{strings.detailsUpdate}</div>
               </Col>
               <div className="horizontal-line"></div>
             </Row>
@@ -435,9 +518,9 @@ export default class Subscriptions extends Component {
             <Row className="show-grid loggedin-flow">
               <div className="horizontal-line"></div>
               <Col xs={12}>
-                  <div>Subscriptions List</div>
+                  <div>{strings.subscriptionsList}</div>
                     <i className="fa fa-chevron-right"></i>
-                  <div className="flow-selected">Details & Update</div>
+                  <div className="flow-selected">{strings.detailsUpdate}</div>
               </Col>
               <div className="horizontal-line"></div>
             </Row>
@@ -456,25 +539,24 @@ export default class Subscriptions extends Component {
 
     return (
       <div className="loggedin-background">
-        
         <Grid>
           <Row className="show-grid loggedin-nav">
             <Col xs={4} className="loggedin-nav-button">
               <Link to="/subscriptions" className="nav-selected">
                 <i className="fa fa-tags fa-lg nav-icon"></i>
-                <div className="nav-icon-title">My<br/>Subscriptions</div>
+                <div className="nav-icon-title">{strings.mySubscriptions1}<br/>{strings.mySubscriptions2}</div>
               </Link>
             </Col>
             <Col xs={4} className="loggedin-nav-button">
               <Link to="/newsubscription">
                 <i className="fa fa-plus fa-lg nav-icon"></i>
-                <div className="nav-icon-title">New<br/>Subscription</div>
+                <div className="nav-icon-title">{strings.newSubscription1}<br/>{strings.newSubscription2}</div>
               </Link>
             </Col>
             <Col xs={4} className="loggedin-nav-button">
               <Link to="/accountinfo">
                 <i className="fa fa-user-circle fa-lg nav-icon"></i>
-                <div className="nav-icon-title">Account<br/>Information</div>
+                <div className="nav-icon-title">{strings.accountInformation1}<br/>{strings.accountInformation2}</div>
               </Link>
             </Col>
           </Row>
