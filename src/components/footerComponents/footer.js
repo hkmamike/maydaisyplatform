@@ -1,8 +1,48 @@
 import React, { Component } from 'react';
 import { Grid, Row, Col } from 'react-bootstrap';
+import LocalizedStrings from 'react-localization';
 
+let strings = new LocalizedStrings({
+  en:{
+    company: 'Company',
+    careers: 'Careers',
+    partnership: 'Partnership',
+    support: 'Support',
+    faq: 'FAQ',
+    contactUs: 'Contact Us',
+    terms: 'Terms',
+    termsOfStervices: 'Terms of Services',
+    privacyPolicy: 'Privacy Policy',
+    companyName: 'MayDaisy Co.'
+  },
+  ch: {
+    company: '公司',
+    careers: '職位空缺',
+    partnership: '合作',
+    support: '客戶服務',
+    faq: '常見問題',
+    contactUs: '聯絡方法',
+    terms: '條款',
+    termsOfStervices: '服務條款',
+    privacyPolicy: '私隱條款',
+    companyName: '五月菊'
+  }
+});
 export default class Footer extends Component {
- render() {
+
+  componentWillMount() {
+    strings.setLanguage(this.props.languageChanged);
+  }
+
+  componentWillReceiveProps (nextProps) {
+    if (nextProps.languageChanged==='ch') {
+        strings.setLanguage('ch');
+    } else if (nextProps.languageChanged==='en') {
+        strings.setLanguage('en');
+    }
+  }
+
+  render() {
     return (
       <footer>
 
@@ -10,25 +50,24 @@ export default class Footer extends Component {
           <Grid>
             <Row className="show-grid">
               <Col xsHidden sm={4}>
-                <div className="footer-title">Company</div>
+                <div className="footer-title">{strings.company}</div>
                 <ul className="foote-list">
-                  <li>About</li>
-                  <li>Careers</li>
-                  <li>Contact Us</li>
+                  <li>{strings.careers}</li>
+                  <li>{strings.partnership}</li>
                 </ul>
               </Col>
               <Col xs={6} sm={4}>
-                <div className="footer-title">Support</div>
+                <div className="footer-title">{strings.support}</div>
                 <ul className="foote-list">
-                  <li>FAQ</li>
-                  <li>Contact Us</li>
+                  <li>{strings.faq}</li>
+                  <li>{strings.contactUs}</li>
                 </ul>
               </Col>
               <Col xs={6} sm={4}>
-                <div className="footer-title">Terms</div>
+                <div className="footer-title">{strings.terms}</div>
                 <ul className="foote-list">
-                  <li>Terms of Services</li>
-                  <li>Privacy Policy</li>
+                  <li>{strings.termsOfStervices}</li>
+                  <li>{strings.privacyPolicy}</li>
                 </ul>
               </Col>
             </Row>
@@ -41,7 +80,7 @@ export default class Footer extends Component {
               <i className="fa fa-twitter"></i>
               <i className="fa fa-instagram"></i>
           </div>
-          &copy; <span className="footer-company-name">One Bloom Co.</span> 2017.
+          &copy; <span className="footer-company-name">{strings.companyName}</span> 2017.
         </div>
           
       </footer>

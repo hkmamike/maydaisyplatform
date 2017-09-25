@@ -2,13 +2,84 @@ import React, { Component } from 'react';
 import { Route } from 'react-router-dom';
 import { FormGroup, FormControl, ControlLabel, Grid, Row, Col, DropdownButton, MenuItem, Button, Glyphicon } from 'react-bootstrap';
 import { base } from '../config/constants';
+import LocalizedStrings from 'react-localization';
+
+let strings = new LocalizedStrings({
+    en:{
+      HK_Admiralty: 'HK-Admiralty',
+      HK_Central: 'HK-Central',
+      HK_ChaiWan: 'HK-Chai Wan, Home/Office',
+      HK_ChaiWan_BMCPC: 'HK-Chai Wan Cemetery, BMCPC',
+      HK_ChaiWan_CapeCollison: 'HK-Chai Wan Cemetery, Cape Collison',
+      other: 'Other areas',
+      subscribeButton: 'Subscribe',
+      galleryButton: 'Gallery',
+      subscriptionTitle: "Subscription",
+      subscriptionSubtitle1_1: "MayDaisy is delivering to ",
+      subscriptionSubtitle1_2: " Please log in to subscribe. These are the available plans in the region. Check out our gallery to see sample arrangements.",
+      simple1_1: 'Simple ',
+      simple1_2: 'HKD53',
+      simple1_3: ' per week, delivery included',
+      elegant1_1: 'Elegant ',
+      elegant1_2: 'HKD93',
+      elegant1_3: ' per week, delivery included',
+      bloom1_1: 'Bloom ',
+      bloom1_2: 'HKD223',
+      bloom1_3: ' per week, delivery included',
+      signUpTitle: 'Sign Up',
+      signUpSubtitle: 'Thank you for showing interest! Service in each area will begin when 150 sign ups are collected. Rolling out One Bloom by region helps to keep the price affordable to all lovers. Fill out this form and we will send you an invitation when the time comes! For those who are not in Hong Kong, we will come to you soon ^.^',
+      signUpFormTitle: 'Sign Up Form',
+      signUpFormrecipientRegion: "Recipient's Region:",
+      signUpSender: "Sender's Name:",
+      signUpEmail: "Email:",
+      signUpPhone: "Phone:",
+      signUpTip: '*We will notify you via email when your region opens.',
+      submitButton: 'Submit',
+      submitButtonLoading: '...',
+      submitButtonSubmitted: 'Submitted '
+
+    },
+    ch: {
+      HK_Admiralty: '香港-金鐘',
+      HK_Central: '香港-中環',
+      HK_ChaiWan: '香港-柴灣(住家/辦公室)',
+      HK_ChaiWan_BMCPC: '香港-柴灣墓園(歌連臣角十字架)',
+      HK_ChaiWan_CapeCollison: '香港-柴灣墓園(華人永遠)',
+      other: '其他地區',
+      subscribeButton: '訂購',
+      galleryButton: '相簿',
+      subscriptionTitle: "鮮花訂購",
+      subscriptionSubtitle1_1: "五月菊的服務已在",
+      subscriptionSubtitle1_2: "開啟，如要訂購，請登入您的帳戶。以下是我們可以提供的計劃，相簿裏有花卉樣本以供參考。請注意，花匠會用時令花材設計每週的花卉，品種隨機。",
+      simple1_1: 'Simple ',
+      simple1_2: 'HKD53',
+      simple1_3: ' per week, delivery included',
+      elegant1_1: 'Elegant ',
+      elegant1_2: 'HKD93',
+      elegant1_3: ' per week, delivery included',
+      bloom1_1: 'Bloom ',
+      bloom1_2: 'HKD223',
+      bloom1_3: ' per week, delivery included',
+      signUpTitle: 'Sign Up',
+      signUpSubtitle: 'Thank you for showing interest! Service in each area will begin when 150 sign ups are collected. Rolling out One Bloom by region helps to keep the price affordable to all lovers. Fill out this form and we will send you an invitation when the time comes! For those who are not in Hong Kong, we will come to you soon ^.^',
+      signUpFormTitle: 'Sign Up Form',
+      signUpFormrecipientRegion: "Recipient's Region:",
+      signUpSender: "Sender's Name:",
+      signUpEmail: "Email:",
+      signUpPhone: "Phone:",
+      signUpTip: '*We will notify you via email when your region opens.',
+      submitButton: 'Submit',
+      submitButtonLoading: '...',
+      submitButtonSubmitted: 'Submitted '
+    }
+  });
 
 const ButtonToLogin = ({ title, history }) => (
-  <Button bsStyle="" className="button" onClick={() => history.push('/login')}>Subscribe</Button>
+  <Button bsStyle="" className="button" onClick={() => history.push('/login')}>{strings.subscribeButton}</Button>
 );
 
 const ButtonToGallery = ({ title, history }) => (
-  <Button bsStyle="" className="button" onClick={() => history.push('/gallery-simple')}>Gallery</Button>
+  <Button bsStyle="" className="button" onClick={() => history.push('/gallery-simple')}>{strings.galleryButton}</Button>
 );
 
 class GreetingInBusinessHeader extends React.Component {
@@ -25,12 +96,12 @@ class GreetingInBusiness extends React.Component {
         <Grid>
           <Row className="show-grid">
             <Col md={5} className="region-subscribe-shade">
-              <h2 className="section-title"><strong>Subscription</strong></h2>
-              <div className="section-subtitle">One Bloom is delivering to <strong>{this.props.selectRegion}</strong> ! Please log in to subscribe. These are the available plans in the region. Check out our gallery to see some sample arrangements.</div>
+              <h2 className="section-title"><strong>{strings.subscriptionTitle}</strong></h2>
+              <div className="section-subtitle">{strings.subscriptionSubtitle1_1}<strong>{strings[this.props.selectRegion]}!</strong>{strings.subscriptionSubtitle1_2}</div>
               <ul className="section-list">
-                <li>Simple (Wednesday) - <strong>HKD53</strong> per week, delivery included</li>
-                <li>Elegant (Wednesday) - <strong>HKD93</strong> per week, delivery included</li>
-                <li>Bloom (Wednesday) - <strong>HKD223</strong> per week, delivery included</li>
+                <li><strong>{strings.simple1_1}</strong>{strings.simple1_2}{strings.simple1_3}</li>
+                <li><strong>{strings.elegant1_1}</strong>{strings.elegant1_2}{strings.elegant1_3}</li>
+                <li><strong>{strings.bloom1_1}</strong>{strings.bloom1_2}{strings.bloom1_3}</li>
               </ul>
               <div className="subscribe-buttons">
                 <Route path="/" render={(props) => <ButtonToLogin {...props}/>} />
@@ -43,22 +114,13 @@ class GreetingInBusiness extends React.Component {
     )
   }
 }
-class GreetingSignUpHeader extends React.Component {
-  render() {
-    return (
-      <div className="text-section">
-        <div className="section-title">Sign Up</div>
-        <div className="section-subtitle">Thank you for showing interest! Your receipient's area: <strong>{this.props.selectRegion}</strong> is still collecting sign ups. Service in this area will begin when 150 sign ups are collected. Rolling out One Bloom by region helps to keep the price affordable to all lovers. Fill out this form and we will send you an invitation when the time comes! For those who are not in Hong Kong, we will come to you soon ^.^</div>
-      </div>
-    )
-  }
-}
+
 class GreetingDefault extends React.Component {
   render() {
     return (
       <div className="text-section">
-        <div className="section-title">Sign Up</div>
-        <div className="section-subtitle">Thank you for showing interest! Service in each area will begin when 150 sign ups are collected. Rolling out One Bloom by region helps to keep the price affordable to all lovers. Fill out this form and we will send you an invitation when the time comes! For those who are not in Hong Kong, we will come to you soon ^.^</div>
+        <div className="section-title">{strings.signUpTitle}</div>
+        <div className="section-subtitle">{strings.signUpSubtitle}</div>
       </div>
     )
   }
@@ -123,8 +185,6 @@ class GreetingSignUp extends React.Component {
     base.push(`signUp/hongKong/areas/${selectRegion}/records`, {
       data: {name: name, email: email, phone: phone, date: new Date()}
     });
-    //available immediately, you don't have to wait for the callback to be called. To use, set var immediatelyAvailableReference = base.push
-    // var generatedKey = immediatelyAvailableReference.key;
     this.setState({loading: false, formSubmitted: true});
   }
 
@@ -132,6 +192,20 @@ class GreetingSignUp extends React.Component {
     e.preventDefault()
     this.submitSignUp(this.props.selectRegion, this.state.name, this.state.email, this.state.phone)
     this.setState({loading: true});
+  }
+
+  componentWillReceiveProps (nextProps) {
+    if (nextProps.languageChanged==='ch') {
+      console.log('get language show ch_homepage');
+      strings.setLanguage('ch');
+    } else if (nextProps.languageChanged==='en') {
+      console.log('get language show en_homepage');
+      strings.setLanguage('en');
+    }
+  }
+
+  componentWillMount() {
+    strings.setLanguage('ch');
   }
 
   render() {
@@ -153,128 +227,128 @@ class GreetingSignUp extends React.Component {
           <Row className="show-grid">
             <Col md={5} className="region-select-shade">
               <form className="region-signup-form" onSubmit={this.handleSubmit}>
-                <h2 className="form-title"><strong>Sign Up Form</strong></h2>
+                <h2 className="form-title"><strong>{strings.signUpFormTitle}</strong></h2>
                 <FormGroup controlId="region-signup-form-region" validationState={this.getSelectValidationState()}>
-                  <ControlLabel>Receipient's Region : </ControlLabel>
-                  <DropdownButton title={selectRegion} className="region-signup-select" id="bg-nested-dropdown" onSelect={this.handleSelect}>
-                    <MenuItem eventKey="HK - Aberdeen">HK - Aberdeen</MenuItem>
-                    <MenuItem eventKey="HK - Admiralty">HK - Admiralty</MenuItem>
-                    <MenuItem eventKey="HK - Ap Lei Chau">HK - Ap Lei Chau</MenuItem>
-                    <MenuItem eventKey="HK - Causeway Bay">HK - Causeway Bay</MenuItem>
-                    <MenuItem eventKey="HK - Central">HK - Central</MenuItem>
-                    <MenuItem eventKey="HK - Chai Wan">HK - Chai Wan</MenuItem>
-                    <MenuItem eventKey="HK - Deep Water Bay">HK - Deep Water Bay</MenuItem>
-                    <MenuItem eventKey="HK - Fortress Hill">HK - Fortress Hill</MenuItem>
-                    <MenuItem eventKey="HK - Happy Valley">HK - Happy Valley</MenuItem>
-                    <MenuItem eventKey="HK - Heng Fa Chuen">HK - Heng Fa Chuen</MenuItem>
-                    <MenuItem eventKey="HK - Kennedy Town">HK - Kennedy Town</MenuItem>
-                    <MenuItem eventKey="HK - Mid-Level">HK - Mid-Level</MenuItem>
-                    <MenuItem eventKey="HK - North Point">HK - North Point</MenuItem>
-                    <MenuItem eventKey="HK - Pok Fu Lam">HK - Pok Fu Lam</MenuItem>
-                    <MenuItem eventKey="HK - Quarry Bay">HK - Quarry Bay</MenuItem>
-                    <MenuItem eventKey="HK - Repulse Bay">HK - Repulse Bay</MenuItem>
-                    <MenuItem eventKey="HK - Sai Wan Ho">HK - Sai Wan Ho</MenuItem>
-                    <MenuItem eventKey="HK - Sai Ying Pun">HK - Sai Ying Pun</MenuItem>
-                    <MenuItem eventKey="HK - Admiralty">HK - Admiralty</MenuItem>
-                    <MenuItem eventKey="HK - Shau Kei Wan">HK - Shau Kei Wan</MenuItem>
-                    <MenuItem eventKey="HK - Shek O">HK - Shek O</MenuItem>
-                    <MenuItem eventKey="HK - Shek Tong Tsui">HK - Shek Tong Tsui</MenuItem>
-                    <MenuItem eventKey="HK - Sheung Wan">HK - Sheung Wan</MenuItem>
-                    <MenuItem eventKey="HK - Siu Sai Wan">HK - Siu Sai Wan</MenuItem>
-                    <MenuItem eventKey="HK - Stanley">HK - Stanley</MenuItem>
-                    <MenuItem eventKey="HK - Tai Hang">HK - Tai Hang</MenuItem>
-                    <MenuItem eventKey="HK - Tai Koo">HK - Tai Koo</MenuItem>
-                    <MenuItem eventKey="HK - Tin Hau">HK - Tin Hau</MenuItem>
-                    <MenuItem eventKey="HK - Wan Chai">HK - Wan Chai</MenuItem>
-                    <MenuItem eventKey="HK - Wong Chuk Hang">HK - Wong Chuk Hang</MenuItem>
-                    <MenuItem eventKey="KL - Cheung Sha Wan">KL - Cheung Sha Wan</MenuItem>
-                    <MenuItem eventKey="KL - Choi Hung">KL - Choi Hung</MenuItem>
-                    <MenuItem eventKey="KL - Diamond Hill">KL - Diamond Hill</MenuItem>
-                    <MenuItem eventKey="KL - Ho Man Tin">KL - Ho Man Tin</MenuItem>
-                    <MenuItem eventKey="KL - Hung Hom">KL - Hung Hom</MenuItem>
-                    <MenuItem eventKey="KL - Jordan">KL - Jordan</MenuItem>
-                    <MenuItem eventKey="KL - Kai Tak">KL - Kai Tak</MenuItem>
-                    <MenuItem eventKey="KL -  Kowloon Bay">KL -  Kowloon Bay</MenuItem>
-                    <MenuItem eventKey="KL - Kowloon City">KL - Kowloon City</MenuItem>
-                    <MenuItem eventKey="KL - Kowloon Tong">KL - Kowloon Tong</MenuItem>
-                    <MenuItem eventKey="KL - Kwun Tong">KL - Kwun Tong</MenuItem>
-                    <MenuItem eventKey="KL - Lai Chi Kok">KL - Lai Chi Kok</MenuItem>
-                    <MenuItem eventKey="KL - Lam Tin">KL - Lam Tin</MenuItem>
-                    <MenuItem eventKey="KL - Lei Yue Mun">KL - Lei Yue Mun</MenuItem>
-                    <MenuItem eventKey="KL - Lok Fu">KL - Lok Fu</MenuItem>
-                    <MenuItem eventKey="KL - Mei Foo">KL - Mei Foo</MenuItem>
-                    <MenuItem eventKey="KL - Mong Kok">KL - Mong Kok</MenuItem>
-                    <MenuItem eventKey="KL - Ngau Chi Wan">KL - Ngau Chi Wan</MenuItem>
-                    <MenuItem eventKey="KL - Nagu Tau Kok">KL - Nagu Tau Kok</MenuItem>
-                    <MenuItem eventKey="KL - Prince Edward">KL - Prince Edward</MenuItem>
-                    <MenuItem eventKey="KL - San Po Kong">KL - San Po Kong</MenuItem>
-                    <MenuItem eventKey="KL - Sham Shui Po">KL - Sham Shui Po</MenuItem>
-                    <MenuItem eventKey="KL - Tai Kok Tsui">KL - Tai Kok Tsui</MenuItem>
-                    <MenuItem eventKey="KL - To Kwa Wan">KL - To Kwa Wan</MenuItem>
-                    <MenuItem eventKey="KL - Tsim Shui Tsui">KL - Tsim Shui Tsui</MenuItem>
-                    <MenuItem eventKey="KL - Tsz Wan Shan">KL - Tsz Wan Shan</MenuItem>
-                    <MenuItem eventKey="KL - Wong Tai Sin">KL - Wong Tai Sin</MenuItem>
-                    <MenuItem eventKey="KL - Yau Ma Tei">KL - Yau Ma Tei</MenuItem>
-                    <MenuItem eventKey="KL - Yau Tong">KL - Yau Tong</MenuItem>
-                    <MenuItem eventKey="NT - Chek Lap Kok">NT - Chek Lap Kok</MenuItem>
-                    <MenuItem eventKey="NT - Cheung Chau">NT - Cheung Chau</MenuItem>
-                    <MenuItem eventKey="NT - Discovery Bay">NT - Discovery Bay</MenuItem>
-                    <MenuItem eventKey="NT - Fanling">NT - Fanling</MenuItem>
-                    <MenuItem eventKey="NT - Fo Tan">NT - Fo Tan</MenuItem>
-                    <MenuItem eventKey="NT - Kwai Fong">NT - Kwai Fong</MenuItem>
-                    <MenuItem eventKey="NT - Kwai Chung">NT - Kwai Chung</MenuItem>
-                    <MenuItem eventKey="NT - Cheung Chau">NT - Cheung Chau</MenuItem>
-                    <MenuItem eventKey="NT - Lai King">NT - Lai King</MenuItem>
-                    <MenuItem eventKey="NT - Lamma Island">NT - Lamma Island</MenuItem>
-                    <MenuItem eventKey="NT - Lantau Island">NT - Lantau Island</MenuItem>
-                    <MenuItem eventKey="NT - Lau Fau Shan">NT - Lau Fau Shan</MenuItem>
-                    <MenuItem eventKey="NT - Lo Wu">NT - Lo Wu</MenuItem>
-                    <MenuItem eventKey="NT - Lok Ma Chau">NT - Lok Ma Chau</MenuItem>
-                    <MenuItem eventKey="NT - Ma On Shan">NT - Ma On Shan</MenuItem>
-                    <MenuItem eventKey="NT - Ma Wan">NT - Ma Wan</MenuItem>
-                    <MenuItem eventKey="NT - Peng Chau">NT - Peng Chau</MenuItem>
-                    <MenuItem eventKey="NT - Cheung Chau">NT - Cheung Chau</MenuItem>
-                    <MenuItem eventKey="NT - Sai Kung">NT - Sai Kung</MenuItem>
-                    <MenuItem eventKey="NT - Sha Tau Kok">NT - Sha Tau Kok</MenuItem>
-                    <MenuItem eventKey="NT - Sha Tin">NT - Sha Tin</MenuItem>
-                    <MenuItem eventKey="NT - Sham Tseng">NT - Sham Tseng</MenuItem>
-                    <MenuItem eventKey="NT - Siu Lek Yuen">NT - Siu Lek Yuen</MenuItem>
-                    <MenuItem eventKey="NT - Ta Kwu Ling">NT - Ta Kwu Ling</MenuItem>
-                    <MenuItem eventKey="NT - Tai O">NT - Tai O</MenuItem>
-                    <MenuItem eventKey="NT - Tai Po">NT - Tai Po</MenuItem>
-                    <MenuItem eventKey="NT - Tai Wai">NT - Tai Wai</MenuItem>
-                    <MenuItem eventKey="NT - Tai Wo">NT - Tai Wo</MenuItem>
-                    <MenuItem eventKey="NT - Tai Wo Hau">NT - Tai Wo Hau</MenuItem>
-                    <MenuItem eventKey="NT - Tin Shui Wai">NT - Tin Shui Wai</MenuItem>
-                    <MenuItem eventKey="NT - Tiu Keng Leng">NT - Tiu Keng Leng</MenuItem>
-                    <MenuItem eventKey="NT - Tseung Kwan O">NT - Tseung Kwan O</MenuItem>
-                    <MenuItem eventKey="NT - Tsing Yi">NT - Tsing Yi</MenuItem>
-                    <MenuItem eventKey="NT - Tsuen Wan">NT - Tsuen Wan</MenuItem>
-                    <MenuItem eventKey="NT - Tuen Mun">NT - Tuen Mun</MenuItem>
-                    <MenuItem eventKey="NT - Tung Chung">NT - Tung Chung</MenuItem>
-                    <MenuItem eventKey="NT - Wu Kai Sha">NT - Wu Kai Sha</MenuItem>
-                    <MenuItem eventKey="NT - Yueng Long">NT - Yueng Long</MenuItem>
+                  <ControlLabel>{strings.signUpSender}</ControlLabel>
+                  <DropdownButton title={selectRegion} placeholder='Select Region' className="region-signup-select" id="bg-nested-dropdown" onSelect={this.handleSelect}>
+                    <MenuItem eventKey="HK_Aberdeen">HK_Aberdeen</MenuItem>
+                    <MenuItem eventKey="HK_Admiralty">HK_Admiralty</MenuItem>
+                    <MenuItem eventKey="HK_ApLeiChau">HK_Ap Lei Chau</MenuItem>
+                    <MenuItem eventKey="HK_Causeway Bay">HK_Causeway Bay</MenuItem>
+                    <MenuItem eventKey="HK_Central">HK_Central</MenuItem>
+                    <MenuItem eventKey="HK_ChaiWan">HK_Chai Wan</MenuItem>
+                    <MenuItem eventKey="HK_DeepWaterBay">HK_Deep Water Bay</MenuItem>
+                    <MenuItem eventKey="HK_FortressHill">HK_Fortress Hill</MenuItem>
+                    <MenuItem eventKey="HK_HappyValley">HK_Happy Valley</MenuItem>
+                    <MenuItem eventKey="HK_HengFaChuen">HK_Heng Fa Chuen</MenuItem>
+                    <MenuItem eventKey="HK_KennedyTown">HK_Kennedy Town</MenuItem>
+                    <MenuItem eventKey="HK_MidLevel">HK_Mid-Level</MenuItem>
+                    <MenuItem eventKey="HK_NorthPoint">HK_North Point</MenuItem>
+                    <MenuItem eventKey="HK_PokFuLam">HK_Pok Fu Lam</MenuItem>
+                    <MenuItem eventKey="HK_QuarryBay">HK_Quarry Bay</MenuItem>
+                    <MenuItem eventKey="HK_RepulseBay">HK_Repulse Bay</MenuItem>
+                    <MenuItem eventKey="HK_SaiWanHo">HK_Sai Wan Ho</MenuItem>
+                    <MenuItem eventKey="HK_SaiYingPun">HK_Sai Ying Pun</MenuItem>
+                    <MenuItem eventKey="HK_Admiralty">HK_Admiralty</MenuItem>
+                    <MenuItem eventKey="HK_ShauKeiWan">HK_Shau Kei Wan</MenuItem>
+                    <MenuItem eventKey="HK_ShekO">HK_Shek O</MenuItem>
+                    <MenuItem eventKey="HK_ShekTongTsui">HK_Shek Tong Tsui</MenuItem>
+                    <MenuItem eventKey="HK_SheungWan">HK_Sheung Wan</MenuItem>
+                    <MenuItem eventKey="HK_SiuSaiWan">HK_Siu Sai Wan</MenuItem>
+                    <MenuItem eventKey="HK_Stanley">HK_Stanley</MenuItem>
+                    <MenuItem eventKey="HK_TaiHang">HK_Tai Hang</MenuItem>
+                    <MenuItem eventKey="HK_TaiKoo">HK_Tai Koo</MenuItem>
+                    <MenuItem eventKey="HK_TinHau">HK_Tin Hau</MenuItem>
+                    <MenuItem eventKey="HK_WanChai">HK_Wan Chai</MenuItem>
+                    <MenuItem eventKey="HK_WongChukHang">HK_Wong Chuk Hang</MenuItem>
+                    <MenuItem eventKey="KL_CheungShaWan">KL_Cheung Sha Wan</MenuItem>
+                    <MenuItem eventKey="KL_ChoiHung">KL_Choi Hung</MenuItem>
+                    <MenuItem eventKey="KL_DiamondHill">KL_Diamond Hill</MenuItem>
+                    <MenuItem eventKey="KL_Ho ManTin">KL_Ho Man Tin</MenuItem>
+                    <MenuItem eventKey="KL_HungHom">KL_Hung Hom</MenuItem>
+                    <MenuItem eventKey="KL_Jordan">KL_Jordan</MenuItem>
+                    <MenuItem eventKey="KL_KaiTak">KL_Kai Tak</MenuItem>
+                    <MenuItem eventKey="KL_ KowloonBay">KL_ Kowloon Bay</MenuItem>
+                    <MenuItem eventKey="KL_KowloonCity">KL_Kowloon City</MenuItem>
+                    <MenuItem eventKey="KL_KowloonTong">KL_Kowloon Tong</MenuItem>
+                    <MenuItem eventKey="KL_KwunTong">KL_Kwun Tong</MenuItem>
+                    <MenuItem eventKey="KL_LaiChiKok">KL_Lai Chi Kok</MenuItem>
+                    <MenuItem eventKey="KL_LamTin">KL_Lam Tin</MenuItem>
+                    <MenuItem eventKey="KL_LeiYueMun">KL_Lei Yue Mun</MenuItem>
+                    <MenuItem eventKey="KL_LokFu">KL_Lok Fu</MenuItem>
+                    <MenuItem eventKey="KL_MeiFoo">KL_Mei Foo</MenuItem>
+                    <MenuItem eventKey="KL_MongKok">KL_Mong Kok</MenuItem>
+                    <MenuItem eventKey="KL_NgauChiWan">KL_Ngau Chi Wan</MenuItem>
+                    <MenuItem eventKey="KL_NaguTauKok">KL_Nagu Tau Kok</MenuItem>
+                    <MenuItem eventKey="KL_PrinceEdward">KL_Prince Edward</MenuItem>
+                    <MenuItem eventKey="KL_SanPoKong">KL_San Po Kong</MenuItem>
+                    <MenuItem eventKey="KL_ShamShuiPo">KL_Sham Shui Po</MenuItem>
+                    <MenuItem eventKey="KL_TaiKokTsui">KL_Tai Kok Tsui</MenuItem>
+                    <MenuItem eventKey="KL_ToKwaWan">KL_To Kwa Wan</MenuItem>
+                    <MenuItem eventKey="KL_TsimShuiTsui">KL_Tsim Shui Tsui</MenuItem>
+                    <MenuItem eventKey="KL_TszWanShan">KL_Tsz Wan Shan</MenuItem>
+                    <MenuItem eventKey="KL_WongTaiSin">KL_Wong Tai Sin</MenuItem>
+                    <MenuItem eventKey="KL_YauMaTei">KL_Yau Ma Tei</MenuItem>
+                    <MenuItem eventKey="KL_YauTong">KL_Yau Tong</MenuItem>
+                    <MenuItem eventKey="NT_ChekLapKok">NT_Chek Lap Kok</MenuItem>
+                    <MenuItem eventKey="NT_CheungChau">NT_Cheung Chau</MenuItem>
+                    <MenuItem eventKey="NT_DiscoveryBay">NT_Discovery Bay</MenuItem>
+                    <MenuItem eventKey="NT_Fanling">NT_Fanling</MenuItem>
+                    <MenuItem eventKey="NT_FoTan">NT_Fo Tan</MenuItem>
+                    <MenuItem eventKey="NT_KwaiFong">NT_Kwai Fong</MenuItem>
+                    <MenuItem eventKey="NT_KwaiChung">NT_Kwai Chung</MenuItem>
+                    <MenuItem eventKey="NT_CheungChau">NT_Cheung Chau</MenuItem>
+                    <MenuItem eventKey="NT_LaiKing">NT_Lai King</MenuItem>
+                    <MenuItem eventKey="NT_LammaIsland">NT_Lamma Island</MenuItem>
+                    <MenuItem eventKey="NT_LantauIsland">NT_Lantau Island</MenuItem>
+                    <MenuItem eventKey="NT_LauFauShan">NT_Lau Fau Shan</MenuItem>
+                    <MenuItem eventKey="NT_LoWu">NT_Lo Wu</MenuItem>
+                    <MenuItem eventKey="NT_LokMaChau">NT_Lok Ma Chau</MenuItem>
+                    <MenuItem eventKey="NT_MaOnShan">NT_Ma On Shan</MenuItem>
+                    <MenuItem eventKey="NT_MaWan">NT_Ma Wan</MenuItem>
+                    <MenuItem eventKey="NT_PengChau">NT_Peng Chau</MenuItem>
+                    <MenuItem eventKey="NT_CheungChau">NT_Cheung Chau</MenuItem>
+                    <MenuItem eventKey="NT_SaiKung">NT_Sai Kung</MenuItem>
+                    <MenuItem eventKey="NT_ShaTauKok">NT_Sha Tau Kok</MenuItem>
+                    <MenuItem eventKey="NT_ShaTin">NT_Sha Tin</MenuItem>
+                    <MenuItem eventKey="NT_ShamTseng">NT_Sham Tseng</MenuItem>
+                    <MenuItem eventKey="NT_SiuLekYuen">NT_Siu Lek Yuen</MenuItem>
+                    <MenuItem eventKey="NT_TaKwuLing">NT_Ta Kwu Ling</MenuItem>
+                    <MenuItem eventKey="NT_TaiO">NT_Tai O</MenuItem>
+                    <MenuItem eventKey="NT_TaiPo">NT_Tai Po</MenuItem>
+                    <MenuItem eventKey="NT_TaiWai">NT_Tai Wai</MenuItem>
+                    <MenuItem eventKey="NT_TaiWo">NT_Tai Wo</MenuItem>
+                    <MenuItem eventKey="NT_TaiWoHau">NT_Tai Wo Hau</MenuItem>
+                    <MenuItem eventKey="NT_TinShuiWai">NT_Tin Shui Wai</MenuItem>
+                    <MenuItem eventKey="NT_TiuKengLeng">NT_Tiu Keng Leng</MenuItem>
+                    <MenuItem eventKey="NT_TseungKwanO">NT_Tseung Kwan O</MenuItem>
+                    <MenuItem eventKey="NT_TsingYi">NT_Tsing Yi</MenuItem>
+                    <MenuItem eventKey="NT_TsuenWan">NT_Tsuen Wan</MenuItem>
+                    <MenuItem eventKey="NT_TuenMun">NT_Tuen Mun</MenuItem>
+                    <MenuItem eventKey="NT_TungChung">NT_Tung Chung</MenuItem>
+                    <MenuItem eventKey="NT_WuKaiSha">NT_Wu Kai Sha</MenuItem>
+                    <MenuItem eventKey="NT_YuengLong">NT_Yueng Long</MenuItem>
                   </DropdownButton>
                   <FormControl.Feedback />
                 </FormGroup>
                 <FormGroup controlId="region-signup-form-name" validationState={this.getNameValidationState()}>
-                  <ControlLabel>Sender's Name :</ControlLabel>
+                  <ControlLabel>{strings.signUpSender}</ControlLabel>
                   <FormControl className="region-signup-form-field" type="text" value={this.state.name} placeholder="name" onChange={this.handleNameChange}/>
                   <FormControl.Feedback />
                 </FormGroup>
                 <FormGroup controlId="region-signup-form-email" validationState={this.getEmailValidationState()}>
-                  <ControlLabel>Email :</ControlLabel>
+                  <ControlLabel>{strings.signUpEmail}</ControlLabel>
                   <FormControl className="region-signup-form-field" type="text" value={this.state.email} placeholder="email" onChange={this.handleEmailChange}/>
                   <FormControl.Feedback />
                 </FormGroup>
                 <FormGroup controlId="region-signup-form-phone" validationState={this.getPhoneValidationState()}>
-                  <ControlLabel>Phone :</ControlLabel>
+                  <ControlLabel>{strings.signUpPhone}</ControlLabel>
                   <FormControl className="region-signup-form-field" type="text" value={this.state.phone} placeholder="phone" onChange={this.handlePhoneChange}/>
                   <FormControl.Feedback />
                 </FormGroup>
                 {submitButton}
               </form>
-              <div className="helper-text"><sup><strong>*</strong></sup>We will notify you via email when your region opens.</div>
+              <div className="helper-text"><sup><strong>*</strong></sup>{strings.signUpTip}</div>
             </Col>
           </Row>
         </Grid>
@@ -285,21 +359,21 @@ class GreetingSignUp extends React.Component {
 class SubmitButton extends React.Component {
   render() {
     return (
-      <Button type="submit" className="region-select-submit-button">Submit</Button>
+      <Button type="submit" className="region-select-submit-button">{strings.submitButton}</Button>
     )
   }
 }
 class SubmitButtonLoading extends React.Component {
   render() {
     return (
-      <Button type="submit" className="region-select-submit-button" disabled>...</Button>
+      <Button type="submit" className="region-select-submit-button" disabled>{strings.submitButtonLoading}</Button>
     )
   }
 }
 class SubmitButtonSubmited extends React.Component {
   render() {
     return (
-      <Button type="submit" className="region-select-submit-button" disabled>Submitted <Glyphicon glyph="ok" className="icons"/></Button>
+      <Button type="submit" className="region-select-submit-button" disabled>{strings.submitButtonSubmitted}<Glyphicon glyph="ok" className="icons"/></Button>
     )
   }
 }
@@ -371,9 +445,6 @@ export default class SignUps extends Component {
     else if (regionStatus==="delivering" && regionReselect===false) {
       greetingHeader = <GreetingInBusinessHeader selectRegion={selectRegion} />;
       greeting = <GreetingInBusiness selectRegion={selectRegion} />;
-    } else if (regionStatus==="collecting sign ups" && regionReselect===false) {
-      greetingHeader = <GreetingSignUpHeader selectRegion={selectRegion} />;
-      greeting = <GreetingSignUp selectRegion={selectRegion} onRegionSelection={this.props.onRegionSelection} onRegionReselect={this.handleRegionReselect}/>;
     } else {
       greetingHeader = <GreetingDefault/>;
       greeting = <GreetingSignUp selectRegion={selectRegion} onRegionSelection={this.props.onRegionSelection} onRegionReselect={this.handleRegionReselect}/>;

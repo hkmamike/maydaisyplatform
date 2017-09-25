@@ -45,7 +45,7 @@ export default class App extends Component {
     this.state = {
       authed: false,
       loading: true,
-      selectRegion: 'HK - Central',
+      selectRegion: 'HK_Central',
       languageChanged: 'ch'
     }
   }
@@ -117,7 +117,7 @@ export default class App extends Component {
 
           </Switch>
 
-          <Footer/>
+          <Footer languageChanged={this.state.languageChanged}/>
           
         </div>
       </BrowserRouter>

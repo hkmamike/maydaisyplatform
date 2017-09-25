@@ -14,7 +14,7 @@ let strings = new LocalizedStrings({
       planName: 'Bloom',
       li1: 'For HKD223 per week, this plan is a weekly unrestricted flower design and delivery service prepared by our florists.',
       li2: "While each week's design is different, Elegant most often consists of 5-10 major blooms, sometimes supported by minor flowers.",
-      li3: 'Office locations receive wrapped arrangement, while home and cemetary locations receive vase arrangement.',
+      li3: 'Office locations receive wrapped arrangement, while home and cemetery locations receive vase arrangement.',
       li4: 'For vase arrangement, please provide your vase in an area where our florist can access. For home locations, please put your vase in front of your door if no one is at home.',
       li5: "For the Elegant plan, the ideal vase height is 12-17cm and the ideal vase opening's diameter is 3-4cm.",
       li6: 'To make MayDaisy affordable to flower lovers, we begin to invite customers to subscribe when 150 customers have shown interest in an area. Check out if we are servicing your area now!'
@@ -48,15 +48,15 @@ export default class GalleryBloom extends Component {
     }
     
     componentWillReceiveProps (nextProps) {
-    if (nextProps.languageChanged==='ch') {
-        strings.setLanguage('ch');
-    } else if (nextProps.languageChanged==='en') {
-        strings.setLanguage('en');
-    }
+        if (nextProps.languageChanged==='ch') {
+            strings.setLanguage('ch');
+        } else if (nextProps.languageChanged==='en') {
+            strings.setLanguage('en');
+        }
     }
 
     componentWillMount() {
-    strings.setLanguage('ch');
+        strings.setLanguage(this.props.languageChanged);
     }
     
   render() {
