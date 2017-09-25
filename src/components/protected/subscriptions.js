@@ -30,7 +30,7 @@ let strings = new LocalizedStrings({
     updateButton: 'Update',
     tip1_1: '*The cut off time to change card message is ',
     tip1_2: '11:59 p.m. on Wednesday',
-    tipe1_3: " prior to the next week's delivery.",
+    tip1_3: " prior to the next week's delivery.",
     tip2: '**To change delivery address, flower type, or plan, please create a new subscription and unsubscribe from this one.',
     unSubModalTitle: 'Cancel Subscription',
     unSubText1: 'We are sorry to see you go. To continue, click "Unsubscribe" to confirm.',
@@ -62,7 +62,7 @@ let strings = new LocalizedStrings({
     updateButton: '更新',
     tip1_1: '*更改問候卡信息的截止期限為配送日前一週的',
     tip1_2: '星期三晚上 11:59 p.m.', 
-    tip1_3: '',
+    tip1_3: ' ',
     tip2: '**如果您想更改收花地址，花的種類，或訂購計劃，請開始一個新的訂購，然後取消這個訂購。不便之處，敬請原諒。',
     unSubModalTitle: '取消訂購',
     unSubText1: '看見您的離去令我們很遺憾，感謝您一直以來的支持。如要繼續，請點擊“取消訂購”以確認。',
@@ -354,16 +354,14 @@ export default class Subscriptions extends Component {
 
   componentWillReceiveProps (nextProps) {
     if (nextProps.languageChanged==='ch') {
-      console.log('component received props : ch');
       strings.setLanguage('ch');
     } else if (nextProps.languageChanged==='en') {
-      console.log('component received props : en');
       strings.setLanguage('en');
     }
   }
 
   componentWillMount() {
-    strings.setLanguage('ch');
+    strings.setLanguage(this.props.languageChanged);
   }
 
   componentDidMount () {

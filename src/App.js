@@ -45,7 +45,8 @@ export default class App extends Component {
     this.state = {
       authed: false,
       loading: true,
-      selectRegion: 'HK - Central'
+      selectRegion: 'HK - Central',
+      languageChanged: 'ch'
     }
   }
 

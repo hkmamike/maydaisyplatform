@@ -4,6 +4,38 @@ import { Link } from 'react-router-dom';
 import { base } from '../config/constants';
 import { Grid, Row, Col, FormGroup, FormControl, Button, Glyphicon } from 'react-bootstrap';
 import { resetPassword } from '../helpers/auth'
+import LocalizedStrings from 'react-localization';
+
+let strings = new LocalizedStrings({
+  en:{
+    mySubscriptions1: 'My',
+    mySubscriptions2: 'Subscriptions',
+    newSubscription1: 'New',
+    newSubscription2: 'Subscription',
+    accountInformation1: 'Account',
+    accountInformation2: 'Information',
+    email: 'Email:',
+    name: 'Name:',
+    phoneNum: 'Phone number:',
+    phoneNumTip: '*We may use this number to contact you regarding your account and subscription only.',
+    updateAccountButton: 'Update Account',
+    resetPWButton: 'Reset Password'
+  },
+  ch: {
+    mySubscriptions1: ' ',
+    mySubscriptions2: '我的訂購',
+    newSubscription1: ' ',
+    newSubscription2: '新訂購',
+    accountInformation1: ' ',
+    accountInformation2: '帳戶資料',
+    email: '電郵:',
+    name: '姓名:',
+    phoneNum: '電話:',
+    phoneNumTip: '*電話號碼只會用作跟您的訂購和帳戶有關的聯絡。',
+    updateAccountButton: '更新帳戶資料',
+    resetPWButton: '重設密碼'
+  }
+});
 
 export default class AccountInfo extends Component {
 
@@ -19,6 +51,18 @@ export default class AccountInfo extends Component {
       accountPhone: '',
       accountInfoMessage: null
     }
+  }
+
+  componentWillMount() {
+    strings.setLanguage(this.props.languageChanged);
+  }
+
+  componentWillReceiveProps (nextProps) {
+      if (nextProps.languageChanged==='ch') {
+          strings.setLanguage('ch');
+      } else if (nextProps.languageChanged==='en') {
+          strings.setLanguage('en');
+      }
   }
 
   componentDidMount () {
@@ -90,7 +134,7 @@ export default class AccountInfo extends Component {
                 <FormGroup>
                   <Col sm={1}></Col>
                   <Col sm={3}>
-                    <div><strong>Email:</strong></div>
+                    <div><strong>{strings.email}</strong></div>
                   </Col>
                   <Col sm={8}>
                     <div>{userData.email}</div>
@@ -102,7 +146,7 @@ export default class AccountInfo extends Component {
                 <FormGroup>
                   <Col sm={1}></Col>
                   <Col sm={3}>
-                    <div><strong>Name:</strong></div>
+                    <div><strong>{strings.name}</strong></div>
                   </Col>
                   <Col sm={7}>
                     <FormControl className="data-field-update" type="text" value={accountName} onChange={this.handleAccountNameChange}/>
@@ -113,11 +157,11 @@ export default class AccountInfo extends Component {
                 <FormGroup>
                   <Col sm={1}></Col>
                   <Col sm={3}>
-                    <div><strong>Phone #:</strong></div>
+                    <div><strong>{strings.phoneNum}</strong></div>
                   </Col>
                   <Col sm={7}>
                     <FormControl className="data-field-update" type="text" value={accountPhone} onChange={this.handleAccountPhoneChange}/>
-                    <div className="subscription-tips">*We may use this number to contact you regarding your account and subscription only.</div>
+                    <div className="subscription-tips">{strings.phoneNumTip}</div>
                   </Col>
                 </FormGroup>
               </Row>
@@ -125,8 +169,8 @@ export default class AccountInfo extends Component {
               <Row className="show-grid">
                 <FormGroup>
                   <Col xs={10} xsPush={2} smPush={5} mdPush={6}>
-                    <Button bsStyle="" className="button" onClick={() => this.handleAccountUpdate(accountName, accountPhone)}>Update Account</Button>
-                    <Button bsStyle="" className="button" onClick={() => this.resetPassword()}>Reset Password</Button>
+                    <Button bsStyle="" className="button" onClick={() => this.handleAccountUpdate(accountName, accountPhone)}>{strings.updateAccountButton}</Button>
+                    <Button bsStyle="" className="button" onClick={() => this.resetPassword()}>{strings.resetPWButton}</Button>
                   </Col>
                 </FormGroup>
               </Row>
@@ -141,21 +185,21 @@ export default class AccountInfo extends Component {
           <Grid>
             <Row className="show-grid loggedin-nav">
               <Col xs={4} className="loggedin-nav-button">
-                <Link to="/subscriptions">
+                <Link to="/subscriptions" className="nav-selected">
                   <i className="fa fa-tags fa-lg nav-icon"></i>
-                  <div className="nav-icon-title">My<br/>Subscriptions</div>
+                  <div className="nav-icon-title">{strings.mySubscriptions1}<br/>{strings.mySubscriptions2}</div>
                 </Link>
               </Col>
               <Col xs={4} className="loggedin-nav-button">
                 <Link to="/newsubscription">
                   <i className="fa fa-plus fa-lg nav-icon"></i>
-                  <div className="nav-icon-title">New<br/>Subscription</div>
+                  <div className="nav-icon-title">{strings.newSubscription1}<br/>{strings.newSubscription2}</div>
                 </Link>
               </Col>
               <Col xs={4} className="loggedin-nav-button">
-                <Link to="/accountinfo" className="nav-selected">
-                    <i className="fa fa-user-circle fa-lg nav-icon"></i>
-                    <div className="nav-icon-title">Account<br/>Information</div>
+                <Link to="/accountinfo">
+                  <i className="fa fa-user-circle fa-lg nav-icon"></i>
+                  <div className="nav-icon-title">{strings.accountInformation1}<br/>{strings.accountInformation2}</div>
                 </Link>
               </Col>
             </Row>

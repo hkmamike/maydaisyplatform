@@ -3,7 +3,17 @@ import StripeCheckout from 'react-stripe-checkout';
 import { Button } from 'react-bootstrap';
 import * as firebase from 'firebase';
 import { base } from '../config/constants';
- 
+import LocalizedStrings from 'react-localization';
+
+let strings = new LocalizedStrings({
+  en:{
+    subscribeButton: 'Subscribe',
+  },
+  ch: {
+    subscribeButton: '訂購',
+  }
+});
+
 export default class ChargeMoney extends React.Component {
 
     constructor() {
@@ -16,6 +26,18 @@ export default class ChargeMoney extends React.Component {
         }
     }
 
+    componentWillMount() {
+        strings.setLanguage(this.props.languageChanged);
+    }
+    
+    componentWillReceiveProps (nextProps) {
+        if (nextProps.languageChanged==='ch') {
+            strings.setLanguage('ch');
+        } else if (nextProps.languageChanged==='en') {
+            strings.setLanguage('en');
+        }
+    }
+    
     progressSubscriptionStep = (stripeSubID, firstPayment, firstdelivery) => {
         this.props.onSubscriptionStep(stripeSubID, firstPayment, firstdelivery);
         console.log('proceeding to confirmation page');
@@ -170,7 +192,7 @@ export default class ChargeMoney extends React.Component {
                 allowRememberMe = {false} // "Remember Me" option (default true)
                 token={this.onToken} // submit callback    
             >
-                <Button bsStyle="" className="button">Subscribe</Button>
+                <Button bsStyle="" className="button">{strings.subscribeButton}</Button>
             </StripeCheckout>
         )
     }

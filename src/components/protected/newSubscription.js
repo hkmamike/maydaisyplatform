@@ -2,6 +2,111 @@ import React, { Component } from 'react'
 import { Link } from 'react-router-dom';
 import { FormGroup, FormControl, ControlLabel, Grid, Row, Col, Button, DropdownButton, MenuItem } from 'react-bootstrap';
 import ChargeMoney from '../helpers/payment'
+import LocalizedStrings from 'react-localization';
+
+let strings = new LocalizedStrings({
+  en:{
+    mySubscriptions1: 'My',
+    mySubscriptions2: 'Subscriptions',
+    newSubscription1: 'New',
+    newSubscription2: 'Subscription',
+    accountInformation1: 'Account',
+    accountInformation2: 'Information',
+    navChoose: 'Choose',
+    navCard: 'Card',
+    navDelivery: 'Delivery',
+    navReview: 'Review',
+    navPayment: 'Payment',
+    navConfirm: 'Confirm',
+    nextButton: 'Next',
+    backButton: 'Back',
+    deliveryArea: 'Delivery Area:',
+    deliveryTip1: '*Only one delivery day option is avaiable for this region at the moment.',
+    deliveryTip2_1: '**Weekly Delivery for ',
+    deliveryTip2_2: ' is on',
+    deliveryTip2_3: '. If the delivery day is a holiday or delivery is not available because of abnormal circumstances, delivery will take place on the next working day or according to special arrangements.',
+    planFlowers: 'Flowers:',
+    planSize: 'Size:',
+    firstDelivery: 'First Delivery:',
+    firstPayment: 'First Payment:',
+    cardMessage: 'Card Message:',
+    cardMessagePlaceholder: 'card Message - optional, the card can fit up to 100 words nicely',
+    cardMessageTip1_1: '*Please include the desired recipient name and sender name on the card.',
+    cardMessageTip1_2: " The cut off time to change card message for is at 11:59 pm on Wednesday prior to the next week's delivery.",
+    from: 'From:',
+    fromPlaceholder: "sender's name",
+    fromTip: '*If you have included a name on the card message, we will use that and this will only serve to update your account information.',
+    recipientName: "Recipient's name:",
+    recipientNamePlaceholder: 'for delivery',
+    recipientNum: "Recipient's number:",
+    recipientNumPlaceholder: 'for delivery',
+    recipientCompany: 'Location name:',
+    recipientCompanyPlaceholder: "recipient's company or location name",
+    recipientAddress: 'Address:',
+    recipientAddressPlaceholder: 'delivery address',
+    senderNum: "Sender's number:",
+    senderNumPlaceholder: 'your phone number',
+    senderNumTip: '*We will use this to update your account information and to service your subscription.',
+    total: 'Total:',
+    deliveryFee: 'Delivery Fee:',
+    deliveryDay: 'Delivery Day:',
+    subscribeButton: 'Subscribe',
+    paymentTip: '*You are signing up for a weekly subscription service. Your card will be charged at the weekly cut off time at 11:59pm HKT on Wednesday, and delivery will made in the following week. If you would like to cancel the subscription, please go to My Subscriptions > Subscription Details.',
+    subID: 'Subscription ID:',
+    mySubscriptionsButton: 'My Subscription'
+    
+  },
+  ch: {
+    mySubscriptions1: ' ',
+    mySubscriptions2: '我的訂購',
+    newSubscription1: ' ',
+    newSubscription2: '新訂購',
+    accountInformation1: ' ',
+    accountInformation2: '帳戶資料',
+    navChoose: '選擇計劃',
+    navCard: '信用卡',
+    navDelivery: '配送資料',
+    navReview: '檢查',
+    navPayment: '付款',
+    navConfirm: '確認',
+    nextButton: '繼續',
+    backButton: '返回',
+    deliveryArea: '配送區域:',
+    deliveryTip1: '*所選的地區目前只有一個收花日選擇。',
+    deliveryTip2_1: '**',
+    deliveryTip2_2: '的每週配送日為',
+    deliveryTip2_3: '。如果配送日為公眾假期或因為有其他不可抗力令配送不可能，我們會在下一個工作天或根據特別安排送貨。',
+    planFlowers: '花種:',
+    planSize: '大小:',
+    firstDelivery: '第一次配送:',
+    firstPayment: '第一次付款:',
+    cardMessage: '問候卡信息:',
+    cardMessagePlaceholder: '問候卡信息 - 非必要，問候卡片可以寫最多100字。',
+    cardMessageTip1_1: '請在此欄填寫問候卡手寫信息的上下款。',
+    cardMessageTip1_2: '*更改問候卡信息的截止期限為配送日前一週的星期三晚上 11:59 p.m.',  
+    from: '送花人:',
+    fromPlaceholder: '送花人名字',
+    fromTip: '*在手寫問候卡信息時以問候卡信息欄中的名稱為準，如您已經在問候卡信息欄中填寫名稱，此欄只會用作帳戶資訊更新。',
+    recipientName: "收花人名字:",
+    recipientNamePlaceholder: '配送用',
+    recipientNum: "收花人電話:",
+    recipientNumPlaceholder: '配送用',
+    recipientCompany: '地點名稱:',
+    recipientCompanyPlaceholder: "收花人公司或地點名稱",
+    recipientAddress: '地址:',
+    recipientAddressPlaceholder: '配送用',
+    senderNum: "送花人名字電話:",
+    senderNumPlaceholder: '您的電話號碼',
+    senderNumTip: '*此欄會用作帳戶資訊更新和訂單跟進。',
+    total: '總價:',
+    deliveryFee: '配送費:',
+    deliveryDay: '配送日:',
+    subscribeButton: '訂購',
+    paymentTip: '*您現在訂購的是一個買週一次的鮮花設計和配送服務，您的信用卡會在每個配送週之前的星期三晚上 11:59 p.m. 付款。如果您想取消訂購，可以到 "我的帳戶"＞"訂購詳情"辦理。',
+    subID: '訂購號碼:',
+    mySubscriptionsButton: '我的訂購'
+  }
+});
 
 export default class NewSubscription extends Component {
 
@@ -109,11 +214,20 @@ export default class NewSubscription extends Component {
 
   componentWillMount() {
     this.calculateFirstDelivery();
+    strings.setLanguage(this.props.languageChanged);
   }
 
   componentDidMount() {
     this.setState({loading: false});
     }
+
+  componentWillReceiveProps (nextProps) {
+    if (nextProps.languageChanged==='ch') {
+      strings.setLanguage('ch');
+    } else if (nextProps.languageChanged==='en') {
+      strings.setLanguage('en');
+    }
+  }
 
   render() {
 
@@ -131,17 +245,17 @@ export default class NewSubscription extends Component {
                     <Row className="show-grid loggedin-flow">
                         <div className="horizontal-line"></div>
                         <Col xs={12}>
-                            <div className="flow-selected">Choose</div>
+                            <div className="flow-selected">{strings.navChoose}</div>
                             <i className="fa fa-chevron-right"></i>
-                            <div>Card</div>
+                            <div>{strings.navCard}</div>
                             <i className="fa fa-chevron-right"></i>
-                            <div>Delivery</div>
+                            <div>{strings.navDelivery}</div>
                             <i className="fa fa-chevron-right"></i>
-                            <div>Review</div>
+                            <div>{strings.navReview}</div>
                             <i className="fa fa-chevron-right"></i>
-                            <div>Payment</div>
+                            <div>{strings.navPayment}</div>
                             <i className="fa fa-chevron-right"></i>
-                            <div>Confirm</div>
+                            <div>{strings.navConfirm}</div>
                         </Col>
                         <div className="horizontal-line"></div>
                     </Row>
@@ -149,20 +263,20 @@ export default class NewSubscription extends Component {
                 <Grid>
                     <Row className="show-grid">
                         <Col sm={2}></Col>
-                        <Col sm={3}><div><strong>Delivery Area:</strong></div></Col>
+                        <Col sm={3}><div><strong>{strings.deliveryArea}</strong></div></Col>
                         <Col sm={6}>
                             <DropdownButton title={selectRegion} className="subscription-select" id="subscriptioin-regionSelect-dropdown" onSelect={this.handleRegionSelect}>
                                 <MenuItem eventKey="HK - Admiralty">HK - Admiralty</MenuItem>
                                 <MenuItem eventKey="HK - Central">HK - Central</MenuItem>
                                 <MenuItem eventKey="HK - Chai Wan">HK - Chai Wan</MenuItem>
                             </DropdownButton>
-                            <div className="subscription-tips">*Only one delivery day option is avaiable for this region at the moment.</div>
-                            <div className="subscription-tips">**Weekly Delivery for {selectRegion} is on <strong>{this.state.deliveryDay}</strong>. If the delivery day is a holiday, delivery will take place on the next weekday or according to special arrangements.</div>
+                            <div className="subscription-tips">{strings.deliveryTip1}</div>
+                            <div className="subscription-tips">{strings.deliveryTip2_1} {selectRegion} {strings.deliveryTip2_2} <strong>{this.state.deliveryDay}</strong>{strings.deliveryTip2_3}</div>
                         </Col>
                     </Row>
                     <Row className="show-grid">
                         <Col sm={2}></Col>
-                        <Col sm={3}><div><strong>Flowers:</strong></div></Col>
+                        <Col sm={3}><div><strong>{strings.planFlowers}</strong></div></Col>
                         <Col sm={6}>
                             <DropdownButton title={selectPlanType} className="subscription-select" id="subscriptioin-planTypeSelect-dropdown" onSelect={this.handlePlanTypeSelect}>
                                 <MenuItem eventKey="Florist Choice (seasonal flower)">Florist Choice (seasonal flower)</MenuItem>
@@ -172,7 +286,7 @@ export default class NewSubscription extends Component {
                     </Row>
                     <Row className="show-grid">
                         <Col sm={2}></Col>
-                        <Col sm={3}><div><strong>How many blooms?</strong></div></Col>
+                        <Col sm={3}><div><strong>{strings.planSize}</strong></div></Col>
                         <Col sm={6}>
                             <DropdownButton title={selectPlanSize} className="subscription-select" id="subscriptioin-planTypeSelect-dropdown" onSelect={this.handlePlanSizeSelect}>
                                 <MenuItem eventKey="Simple (single bloom, HKD53/week)">Simple (single bloom, HKD53/week)</MenuItem>
@@ -182,14 +296,14 @@ export default class NewSubscription extends Component {
                     </Row>
                     <Row className="show-grid">
                         <Col sm={2}></Col>
-                        <Col sm={3}><div><strong>First Delivery:</strong></div></Col>
+                        <Col sm={3}><div><strong>{strings.firstDelivery}</strong></div></Col>
                         <Col sm={6}>
                             <div>{this.state.firstDelivery.toLocaleDateString()}</div>
                         </Col>
                     </Row>
                     <Row className="show-grid">
                         <Col sm={2}></Col>
-                        <Col sm={3}><div><strong>First Payment:</strong></div></Col>
+                        <Col sm={3}><div><strong>{strings.firstPayment}</strong></div></Col>
                         <Col sm={6}>
                             <div>{this.state.firstPayment.toLocaleDateString()}</div>
                         </Col>
@@ -197,7 +311,7 @@ export default class NewSubscription extends Component {
                     <Row className="show-grid">
                         <Col sm={5}></Col>
                         <Col sm={4}>
-                            <Button bsStyle="" className="button" onClick={() => this.setState({subscriptionStep: 2})}>Next</Button>
+                            <Button bsStyle="" className="button" onClick={() => this.setState({subscriptionStep: 2})}>{strings.nextButton}</Button>
                         </Col>
                     </Row>
                 </Grid>
@@ -209,18 +323,18 @@ export default class NewSubscription extends Component {
                 <Grid>
                     <Row className="show-grid loggedin-flow">
                         <div className="horizontal-line"></div>
-                        <Col md={12}>
-                            <div>Choose</div>
+                        <Col xs={12}>
+                            <div>{strings.navChoose}</div>
                             <i className="fa fa-chevron-right"></i>
-                            <div className="flow-selected">Card</div>
+                            <div className="flow-selected">{strings.navCard}</div>
                             <i className="fa fa-chevron-right"></i>
-                            <div>Delivery</div>
+                            <div>{strings.navDelivery}</div>
                             <i className="fa fa-chevron-right"></i>
-                            <div>Review</div>
+                            <div>{strings.navReview}</div>
                             <i className="fa fa-chevron-right"></i>
-                            <div>Payment</div>
+                            <div>{strings.navPayment}</div>
                             <i className="fa fa-chevron-right"></i>
-                            <div>Confirm</div>
+                            <div>{strings.navConfirm}</div>
                         </Col>
                         <div className="horizontal-line"></div>
                     </Row>
@@ -229,32 +343,32 @@ export default class NewSubscription extends Component {
                     <Row className="show-grid">
                         <Col sm={2}></Col>
                         <Col sm={3}>
-                            <div><strong>Card Message:</strong></div>
+                            <div><strong>{strings.cardMessage}</strong></div>
                         </Col>
                         <Col sm={6}>
                             <FormGroup>
-                                <FormControl value={this.state.cardMessage} componentClass="textarea" className="cardMessage" placeholder="Card Message - optional, the card can fit up to 100 words nicely" onChange={this.handleCardMessage}/>
-                                <div className="subscription-tips">*Please include the desired recipient name and sender name on the card. The cut off time to change card message for <strong>{selectRegion}</strong> is at <strong>11:59 pm on Wednesday</strong> prior to the next week's delivery. </div>
+                                <FormControl value={this.state.cardMessage} componentClass="textarea" className="cardMessage" placeholder={strings.cardMessagePlaceholder} onChange={this.handleCardMessage}/>
+                                <div className="subscription-tips">{strings.cardMessageTip1_1}{strings.cardMessageTip1_2}</div>
                             </FormGroup>
                         </Col>
                     </Row>
                     <Row className="show-grid">
                         <Col sm={2}></Col>
                         <Col sm={3}>
-                            <div><strong>From:</strong></div>
+                            <div><strong>{strings.from}</strong></div>
                         </Col>
                         <Col sm={6}>
                             <FormGroup>
-                                <FormControl value={this.state.sender} type="text" placeholder="Sender's Name" onChange={this.handleSender}/>
-                                <div className="subscription-tips">*We will use this information to update your account information only. Please sign your name on the card message.</div>
+                                <FormControl value={this.state.sender} type="text" placeholder={strings.fromPlaceholder} onChange={this.handleSender}/>
+                                <div className="subscription-tips">{strings.fromTip}</div>
                             </FormGroup>
                         </Col>
                     </Row>
                     <Row className="show-grid">
                         <Col sm={5}></Col>
                         <Col sm={4}>
-                            <Button bsStyle="" className="button button-back" onClick={() => this.setState({subscriptionStep: 1})}>Back</Button>
-                            <Button bsStyle="" className="button" onClick={() => this.setState({subscriptionStep: 3})}>Next</Button>
+                            <Button bsStyle="" className="button button-back" onClick={() => this.setState({subscriptionStep: 1})}>{strings.backButton}</Button>
+                            <Button bsStyle="" className="button" onClick={() => this.setState({subscriptionStep: 3})}>{strings.nextButton}</Button>
                         </Col>
                     </Row>
                 </Grid>
@@ -266,18 +380,18 @@ export default class NewSubscription extends Component {
                 <Grid>
                     <Row className="show-grid loggedin-flow">
                         <div className="horizontal-line"></div>
-                        <Col md={12}>
-                            <div>Choose</div>
+                        <Col xs={12}>
+                            <div>{strings.navChoose}</div>
                             <i className="fa fa-chevron-right"></i>
-                            <div>Card</div>
+                            <div>{strings.navCard}</div>
                             <i className="fa fa-chevron-right"></i>
-                            <div className="flow-selected">Delivery</div>
+                            <div className="flow-selected">{strings.navDelivery}</div>
                             <i className="fa fa-chevron-right"></i>
-                            <div>Review</div>
+                            <div>{strings.navReview}</div>
                             <i className="fa fa-chevron-right"></i>
-                            <div>Payment</div>
+                            <div>{strings.navPayment}</div>
                             <i className="fa fa-chevron-right"></i>
-                            <div>Confirm</div>
+                            <div>{strings.navConfirm}</div>
                         </Col>
                         <div className="horizontal-line"></div>
                     </Row>
@@ -287,10 +401,10 @@ export default class NewSubscription extends Component {
                         <FormGroup>
                             <Col sm={2}></Col>
                             <Col sm={3}>
-                                <ControlLabel>Name:</ControlLabel>
+                                <ControlLabel>{strings.recipientName}</ControlLabel>
                             </Col>
                             <Col sm={6}>
-                                <FormControl value={this.state.recipient} type="text" placeholder="Recipient's name" onChange={this.handleRecipient}/>
+                                <FormControl value={this.state.recipient} type="text" onChange={this.handleRecipient} placeholder={strings.recipientNamePlaceholder}/>
                             </Col>
                         </FormGroup>
                     </Row>
@@ -298,10 +412,10 @@ export default class NewSubscription extends Component {
                         <FormGroup>
                             <Col sm={2}></Col>
                             <Col sm={3}>
-                                <ControlLabel>Recipient's Number:</ControlLabel>
+                                <ControlLabel>{strings.recipientNum}</ControlLabel>
                             </Col>
                             <Col sm={6}>
-                                <FormControl value={this.state.recipientNum} type="text" placeholder="Recipient's phone - for delivery" onChange={this.handleRecipientNum}/>
+                                <FormControl value={this.state.recipientNum} type="text" placeholder={strings.recipientNumPlaceholder} onChange={this.handleRecipientNum}/>
                             </Col>
                         </FormGroup>
                     </Row>
@@ -309,10 +423,10 @@ export default class NewSubscription extends Component {
                         <FormGroup>
                             <Col sm={2}></Col>
                             <Col sm={3}>
-                                <ControlLabel>Company:</ControlLabel>
+                                <ControlLabel>{strings.recipientCompany}</ControlLabel>
                             </Col>
                             <Col sm={6}>
-                                <FormControl value={this.state.company} type="text" placeholder="Recipient's company or location name" onChange={this.handleCompany}/>
+                                <FormControl value={this.state.company} type="text" placeholder={strings.recipientCompanyPlaceholder} onChange={this.handleCompany}/>
                             </Col>
                         </FormGroup>
                     </Row>
@@ -320,10 +434,10 @@ export default class NewSubscription extends Component {
                         <FormGroup>
                             <Col sm={2}></Col>
                             <Col sm={3}>
-                                <ControlLabel>Address:</ControlLabel>
+                                <ControlLabel>{strings.recipientAddress}</ControlLabel>
                             </Col>
                             <Col sm={6}>
-                                <FormControl value={this.state.address} componentClass="textarea" className="recipientAddress" placeholder="Recipient's name - for delivery" onChange={this.handleAddress}/>
+                                <FormControl value={this.state.address} componentClass="textarea" className="recipientAddress" onChange={this.handleAddress} placeholder={strings.recipientAddressPlaceholder}/>
                             </Col>
                         </FormGroup>
                     </Row>
@@ -331,19 +445,19 @@ export default class NewSubscription extends Component {
                         <FormGroup>
                             <Col sm={2}></Col>
                             <Col sm={3}>
-                                <ControlLabel>Sender's Number:</ControlLabel>
+                                <ControlLabel>{strings.senderNum}</ControlLabel>
                             </Col>
                             <Col sm={6}>
-                                <FormControl value={this.state.senderNum} type="text" placeholder="Your phone number" onChange={this.handleSenderNum}/>
-                                <div className="subscription-tips">*We will use this to update your account information and we might contact you at this number for delivery if needed. </div>
+                                <FormControl value={this.state.senderNum} type="text" placeholder={strings.senderNumPlaceholder} onChange={this.handleSenderNum}/>
+                                <div className="subscription-tips">{strings.senderNumTip}</div>
                             </Col>
                         </FormGroup>
                     </Row>
                     <Row className="show-grid">
                         <Col sm={5}></Col>
                         <Col sm={4}>
-                            <Button bsStyle="" className="button button-back" onClick={() => this.setState({subscriptionStep: 2})}>Back</Button>
-                            <Button bsStyle="" className="button" onClick={() => this.setState({subscriptionStep: 4})}>Next</Button>
+                            <Button bsStyle="" className="button button-back" onClick={() => this.setState({subscriptionStep: 2})}>{strings.backButton}</Button>
+                            <Button bsStyle="" className="button" onClick={() => this.setState({subscriptionStep: 4})}>{strings.nextButton}</Button>
                         </Col>
                     </Row>
                 </Grid>
@@ -355,18 +469,18 @@ export default class NewSubscription extends Component {
                 <Grid>
                     <Row className="show-grid loggedin-flow">
                         <div className="horizontal-line"></div>
-                        <Col md={12}>
-                            <div>Choose</div>
+                        <Col xs={12}>
+                            <div>{strings.navChoose}</div>
                             <i className="fa fa-chevron-right"></i>
-                            <div>Card</div>
+                            <div>{strings.navCard}</div>
                             <i className="fa fa-chevron-right"></i>
-                            <div>Delivery</div>
+                            <div>{strings.navDelivery}</div>
                             <i className="fa fa-chevron-right"></i>
-                            <div className="flow-selected">Review</div>
+                            <div className="flow-selected">{strings.navReview}</div>
                             <i className="fa fa-chevron-right"></i>
-                            <div>Payment</div>
+                            <div>{strings.navPayment}</div>
                             <i className="fa fa-chevron-right"></i>
-                            <div>Confirm</div>
+                            <div>{strings.navConfirm}</div>
                         </Col>
                         <div className="horizontal-line"></div>
                     </Row>
@@ -376,7 +490,7 @@ export default class NewSubscription extends Component {
                         <FormGroup>
                             <Col sm={2}></Col>
                             <Col sm={3}>
-                                <div><strong>Recipient:</strong></div>
+                                <div><strong>{strings.recipientName}</strong></div>
                             </Col>
                             <Col sm={6}>
                                 <div>{this.state.recipient}</div>
@@ -387,7 +501,7 @@ export default class NewSubscription extends Component {
                         <FormGroup>
                             <Col sm={2}></Col>
                             <Col sm={3}>
-                                <div><strong>Recipient's Phone:</strong></div>
+                                <div><strong>{strings.recipientNum}</strong></div>
                             </Col>
                             <Col sm={6}>
                                 <div>{this.state.recipientNum}</div>
@@ -398,7 +512,7 @@ export default class NewSubscription extends Component {
                         <FormGroup>
                             <Col sm={2}></Col>
                             <Col sm={3}>
-                                <div><strong>Recipient's Company:</strong></div>
+                                <div><strong>{strings.recipientCompany}</strong></div>
                             </Col>
                             <Col sm={6}>
                                 <div>{this.state.company}</div>
@@ -409,7 +523,7 @@ export default class NewSubscription extends Component {
                         <FormGroup>
                             <Col sm={2}></Col>
                             <Col sm={3}>
-                                <div><strong>Address:</strong></div>
+                                <div><strong>{strings.recipientAddress}</strong></div>
                             </Col>
                             <Col sm={6}>
                                 <div>{this.state.address}</div>
@@ -420,7 +534,7 @@ export default class NewSubscription extends Component {
                         <FormGroup>
                             <Col sm={2}></Col>
                             <Col sm={3}>
-                                <div><strong>Delivery on:</strong></div>
+                                <div><strong>{strings.deliveryDay}</strong></div>
                             </Col>
                             <Col sm={6}>
                                 <div>{this.state.deliveryDay}</div>
@@ -431,7 +545,7 @@ export default class NewSubscription extends Component {
                         <FormGroup>
                             <Col sm={2}></Col>
                             <Col sm={3}>
-                                <div><strong>Card Message:</strong></div>
+                                <div><strong>{strings.cardMessage}</strong></div>
                             </Col>
                             <Col sm={6}>
                                 <div>{this.state.cardMessage}</div>
@@ -442,7 +556,7 @@ export default class NewSubscription extends Component {
                         <FormGroup>
                             <Col sm={2}></Col>
                             <Col sm={3}>
-                                <div><strong>From:</strong></div>
+                                <div><strong>{strings.from}</strong></div>
                             </Col>
                             <Col sm={6}>
                             <div>{this.state.sender}</div>
@@ -453,7 +567,7 @@ export default class NewSubscription extends Component {
                         <FormGroup>
                             <Col sm={2}></Col>
                             <Col sm={3}>
-                                <div><strong>Sender's Phone:</strong></div>
+                                <div><strong>{strings.senderNum}</strong></div>
                             </Col>
                             <Col sm={6}>
                                 <div>{this.state.senderNum}</div>
@@ -464,7 +578,7 @@ export default class NewSubscription extends Component {
                         <FormGroup>
                             <Col sm={2}></Col>
                             <Col sm={3}>
-                                <div><strong>Subscription Type:</strong></div>
+                                <div><strong>{strings.planFlowers}</strong></div>
                             </Col>
                             <Col sm={6}>
                             <div>{this.state.selectPlanType}</div>
@@ -475,7 +589,7 @@ export default class NewSubscription extends Component {
                         <FormGroup>
                             <Col sm={2}></Col>
                             <Col sm={3}>
-                                <div><strong>Subscription Size:</strong></div>
+                                <div><strong>{strings.planSize}</strong></div>
                             </Col>
                             <Col sm={6}>
                             <div>{this.state.selectPlanSize}</div>
@@ -485,8 +599,8 @@ export default class NewSubscription extends Component {
                     <Row className="show-grid">
                         <Col sm={5}></Col>
                         <Col sm={4}>
-                            <Button bsStyle="" className="button button-back" onClick={() => this.setState({subscriptionStep: 3})}>Back</Button>
-                            <Button bsStyle="" className="button" onClick={() => this.setState({subscriptionStep: 5})}>Next</Button>
+                            <Button bsStyle="" className="button button-back" onClick={() => this.setState({subscriptionStep: 3})}>{strings.backButton}</Button>
+                            <Button bsStyle="" className="button" onClick={() => this.setState({subscriptionStep: 5})}>{strings.nextButton}</Button>
                         </Col>
                     </Row>
                 </Grid>
@@ -499,18 +613,18 @@ export default class NewSubscription extends Component {
                     <Grid>
                         <Row className="show-grid loggedin-flow">
                             <div className="horizontal-line"></div>
-                            <Col md={12}>
-                                <div>Choose</div>
+                            <Col xs={12}>
+                                <div>{strings.navChoose}</div>
                                 <i className="fa fa-chevron-right"></i>
-                                <div>Card</div>
+                                <div>{strings.navCard}</div>
                                 <i className="fa fa-chevron-right"></i>
-                                <div>Delivery</div>
+                                <div>{strings.navDelivery}</div>
                                 <i className="fa fa-chevron-right"></i>
-                                <div>Review</div>
+                                <div>{strings.navReview}</div>
                                 <i className="fa fa-chevron-right"></i>
-                                <div className="flow-selected">Payment</div>
+                                <div className="flow-selected">{strings.navPayment}</div>
                                 <i className="fa fa-chevron-right"></i>
-                                <div>Confirm</div>
+                                <div>{strings.navConfirm}</div>
                             </Col>
                             <div className="horizontal-line"></div>
                         </Row>
@@ -524,18 +638,18 @@ export default class NewSubscription extends Component {
                     <Grid>
                         <Row className="show-grid loggedin-flow">
                             <div className="horizontal-line"></div>
-                            <Col md={12}>
-                                <div>Choose</div>
+                            <Col xs={12}>
+                                <div>{strings.navChoose}</div>
                                 <i className="fa fa-chevron-right"></i>
-                                <div>Card</div>
+                                <div>{strings.navCard}</div>
                                 <i className="fa fa-chevron-right"></i>
-                                <div>Delivery</div>
+                                <div>{strings.navDelivery}</div>
                                 <i className="fa fa-chevron-right"></i>
-                                <div>Review</div>
+                                <div>{strings.navReview}</div>
                                 <i className="fa fa-chevron-right"></i>
-                                <div className="flow-selected">Payment</div>
+                                <div className="flow-selected">{strings.navPayment}</div>
                                 <i className="fa fa-chevron-right"></i>
-                                <div>Confirm</div>
+                                <div>{strings.navConfirm}</div>
                             </Col>
                             <div className="horizontal-line"></div>
                         </Row>
@@ -545,7 +659,7 @@ export default class NewSubscription extends Component {
                             <FormGroup>
                                 <Col sm={2}></Col>
                                 <Col sm={3}>
-                                    <div><strong>Chosen Plan:</strong></div>
+                                    <div><strong>{strings.planSize}</strong></div>
                                 </Col>
                                 <Col sm={6}>
                                     <div>{this.state.selectPlanSize}</div>
@@ -556,7 +670,7 @@ export default class NewSubscription extends Component {
                             <FormGroup>
                                 <Col sm={2}></Col>
                                 <Col sm={3}>
-                                    <div><strong>Delivery Fee:</strong></div>
+                                    <div><strong>{strings.deliveryFee}</strong></div>
                                 </Col>
                                 <Col sm={6}>
                                     <div>{this.state.deliveryFee}</div>
@@ -567,7 +681,7 @@ export default class NewSubscription extends Component {
                             <FormGroup>
                                 <Col sm={2}></Col>
                                 <Col sm={3}>
-                                    <div><strong>Total:</strong></div>
+                                    <div><strong>{strings.total}</strong></div>
                                 </Col>
                                 <Col sm={6}>
                                     <div>{this.state.currencyType}{this.state.grandTotal/100}</div>
@@ -576,14 +690,14 @@ export default class NewSubscription extends Component {
                         </Row>
                         <Row className="show-grid">
                             <Col sm={2}></Col>
-                            <Col sm={3}><div><strong>First Delivery:</strong></div></Col>
+                            <Col sm={3}><div><strong>{strings.firstDelivery}</strong></div></Col>
                             <Col sm={6}>
                                 <div>{this.state.firstDelivery.toLocaleDateString()}</div>
                             </Col>
                         </Row>
                         <Row className="show-grid">
                             <Col sm={2}></Col>
-                            <Col sm={3}><div><strong>First Payment:</strong></div></Col>
+                            <Col sm={3}><div><strong>{strings.firstPayment}</strong></div></Col>
                             <Col sm={6}>
                                 <div>{this.state.firstPayment.toLocaleDateString()}</div>
                             </Col>
@@ -591,14 +705,14 @@ export default class NewSubscription extends Component {
                         <Row className="show-grid">
                             <Col sm={2}></Col>
                             <Col sm={9}>
-                                <div className="subscription-tips">*You are signing up for a weekly subscription service. Your card will be charged at the weekly cut off time at 11:59pm HKT on Wednesday, and delivery will made in the following week. If you would like to cancel the subscription, please go to My Subscriptions > Subscription Details.</div>
+                                <div className="subscription-tips">{strings.paymentTip}</div>
                             </Col>
                         </Row>
 
                         <Row className="show-grid">
                             <Col sm={5}></Col>
                             <Col sm={4}>
-                                <Button bsStyle="" className="button button-back" onClick={() => this.setState({subscriptionStep: 4})}>Back</Button>
+                                <Button bsStyle="" className="button button-back" onClick={() => this.setState({subscriptionStep: 4})}>{strings.backButton}</Button>
                                 <ChargeMoney
                                     price={this.state.price} 
                                     planID={this.state.planID}
@@ -616,6 +730,7 @@ export default class NewSubscription extends Component {
                                     deliveryDay = {this.state.deliveryDay}
                                     onSubscriptionStep={this.handleSubscriptionStep}
                                     onLoading={this.handleLoading}
+                                    languageChanged={this.props.languageChanged}
                                 />
                             </Col>
                         </Row>
@@ -629,18 +744,18 @@ export default class NewSubscription extends Component {
                 <Grid>
                     <Row className="show-grid loggedin-flow">
                         <div className="horizontal-line"></div>
-                        <Col md={12}>
-                            <div>Choose</div>
+                        <Col xs={12}>
+                            <div>{strings.navChoose}</div>
                             <i className="fa fa-chevron-right"></i>
-                            <div>Card</div>
+                            <div>{strings.navCard}</div>
                             <i className="fa fa-chevron-right"></i>
-                            <div>Delivery</div>
+                            <div>{strings.navDelivery}</div>
                             <i className="fa fa-chevron-right"></i>
-                            <div>Review</div>
+                            <div>{strings.navReview}</div>
                             <i className="fa fa-chevron-right"></i>
-                            <div>Payment</div>
+                            <div>{strings.navPayment}</div>
                             <i className="fa fa-chevron-right"></i>
-                            <div className="flow-selected">Confirm</div>
+                            <div className="flow-selected">{strings.navConfirm}</div>
                         </Col>
                         <div className="horizontal-line"></div>
                     </Row>
@@ -649,7 +764,7 @@ export default class NewSubscription extends Component {
                     <Row className="show-grid">
                         <Col sm={2}></Col>
                         <Col sm={3}>
-                            <div><strong>Subscriptioin ID:</strong></div>
+                            <div><strong>{strings.subID}</strong></div>
                         </Col>
                         <Col sm={6}>
                             <div>{this.state.stripeSubID}</div>
@@ -659,7 +774,7 @@ export default class NewSubscription extends Component {
                    
                         <Col sm={2}></Col>
                         <Col sm={3}>
-                            <div><strong>First Payment:</strong></div>
+                            <div><strong>{strings.firstPayment}</strong></div>
                         </Col>
                         <Col sm={6}>
                             <div>{this.state.firstPayment.toLocaleDateString()}</div>
@@ -670,7 +785,7 @@ export default class NewSubscription extends Component {
                  
                         <Col sm={2}></Col>
                         <Col sm={3}>
-                            <div><strong>First Delivery:</strong></div>
+                            <div><strong>{strings.firstDelivery}</strong></div>
                         </Col>
                         <Col sm={6}>
                             <div>{this.state.firstDelivery.toLocaleDateString()}</div>
@@ -680,7 +795,7 @@ export default class NewSubscription extends Component {
                     <Row className="show-grid">
                         <Col sm={5}></Col>
                         <Col sm={4}>
-                            <Button bsStyle="" className="button button-back"><Link to="/subscriptions">My Subscriptions</Link></Button>
+                            <Button bsStyle="" className="button button-back"><Link to="/subscriptions">{strings.mySubscriptionsButton}</Link></Button>
                         </Col>
                     </Row>
                 </Grid>
@@ -692,24 +807,24 @@ export default class NewSubscription extends Component {
         <div className="loggedin-background">
           <Grid>
             <Row className="show-grid loggedin-nav">
-              <Col xs={4} className="loggedin-nav-button">
+            <Col xs={4} className="loggedin-nav-button">
                 <Link to="/subscriptions">
-                  <i className="fa fa-tags fa-lg nav-icon"></i>
-                  <div className="nav-icon-title">My<br/>Subscriptions</div>
+                <i className="fa fa-tags fa-lg nav-icon"></i>
+                <div className="nav-icon-title">{strings.mySubscriptions1}<br/>{strings.mySubscriptions2}</div>
                 </Link>
-              </Col>
-              <Col xs={4} className="loggedin-nav-button">
+            </Col>
+            <Col xs={4} className="loggedin-nav-button">
                 <Link to="/newsubscription" className="nav-selected">
-                  <i className="fa fa-plus fa-lg nav-icon"></i>
-                  <div className="nav-icon-title">New<br/>Subscription</div>
+                <i className="fa fa-plus fa-lg nav-icon"></i>
+                <div className="nav-icon-title">{strings.newSubscription1}<br/>{strings.newSubscription2}</div>
                 </Link>
-              </Col>
-              <Col xs={4} className="loggedin-nav-button">
+            </Col>
+            <Col xs={4} className="loggedin-nav-button">
                 <Link to="/accountinfo">
-                    <i className="fa fa-user-circle fa-lg nav-icon"></i>
-                    <div className="nav-icon-title">Account<br/>Information</div>
+                <i className="fa fa-user-circle fa-lg nav-icon"></i>
+                <div className="nav-icon-title">{strings.accountInformation1}<br/>{strings.accountInformation2}</div>
                 </Link>
-              </Col>
+            </Col>
             </Row>
             <Row className="show-grid loggedin-margin-box">
               <Col className="loggedin-content">
