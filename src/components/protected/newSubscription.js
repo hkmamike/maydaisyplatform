@@ -345,7 +345,7 @@ export default class NewSubscription extends Component {
                     <Row className="show-grid">
                         <Col sm={5}></Col>
                         <Col sm={3}>
-                            <Button bsStyle="" className="button" onClick={() => this.setState({subscriptionStep: 2})}>{strings.nextButton}</Button>
+                            <Button bsStyle="" className="button-new-sub" onClick={() => this.setState({subscriptionStep: 2})}>{strings.nextButton}</Button>
                         </Col>
                         <Col sm={1}></Col>
                     </Row>
@@ -402,8 +402,8 @@ export default class NewSubscription extends Component {
                     <Row className="show-grid">
                         <Col sm={5}></Col>
                         <Col sm={4}>
-                            <Button bsStyle="" className="button" onClick={() => this.setState({subscriptionStep: 3})}>{strings.nextButton}</Button>
-                            <Button bsStyle="" className="button button-back" onClick={() => this.setState({subscriptionStep: 1})}>{strings.backButton}</Button>
+                            <Button bsStyle="" className="button-new-sub" onClick={() => this.setState({subscriptionStep: 3})}>{strings.nextButton}</Button>
+                            <Button bsStyle="" className="button-new-sub button-back" onClick={() => this.setState({subscriptionStep: 1})}>{strings.backButton}</Button>
                         </Col>
                     </Row>
                 </Grid>
@@ -491,8 +491,8 @@ export default class NewSubscription extends Component {
                     <Row className="show-grid">
                         <Col sm={5}></Col>
                         <Col sm={4}>
-                            <Button bsStyle="" className="button" onClick={() => this.setState({subscriptionStep: 4})}>{strings.nextButton}</Button>
-                            <Button bsStyle="" className="button button-back" onClick={() => this.setState({subscriptionStep: 2})}>{strings.backButton}</Button>
+                            <Button bsStyle="" className="button-new-sub" onClick={() => this.setState({subscriptionStep: 4})}>{strings.nextButton}</Button>
+                            <Button bsStyle="" className="button-new-sub button-back" onClick={() => this.setState({subscriptionStep: 2})}>{strings.backButton}</Button>
                         </Col>
                     </Row>
                 </Grid>
@@ -634,8 +634,8 @@ export default class NewSubscription extends Component {
                     <Row className="show-grid">
                         <Col sm={5}></Col>
                         <Col sm={4}>
-                            <Button bsStyle="" className="button" onClick={() => this.setState({subscriptionStep: 5})}>{strings.nextButton}</Button>
-                            <Button bsStyle="" className="button button-back" onClick={() => this.setState({subscriptionStep: 3})}>{strings.backButton}</Button>
+                            <Button bsStyle="" className="button-new-sub" onClick={() => this.setState({subscriptionStep: 5})}>{strings.nextButton}</Button>
+                            <Button bsStyle="" className="button-new-sub button-back" onClick={() => this.setState({subscriptionStep: 3})}>{strings.backButton}</Button>
                         </Col>
                     </Row>
                 </Grid>
@@ -766,7 +766,7 @@ export default class NewSubscription extends Component {
                                     onLoading={this.handleLoading}
                                     languageChanged={this.props.languageChanged}
                                 />
-                                <Button bsStyle="" className="button button-back" onClick={() => this.setState({subscriptionStep: 4})}>{strings.backButton}</Button>
+                                <Button bsStyle="" className="button-new-sub button-back" onClick={() => this.setState({subscriptionStep: 4})}>{strings.backButton}</Button>
                             </Col>
                         </Row>
                     </Grid>
@@ -830,7 +830,7 @@ export default class NewSubscription extends Component {
                     <Row className="show-grid">
                         <Col sm={5}></Col>
                         <Col sm={4}>
-                            <Button bsStyle="" className="button button-back"><Link to="/subscriptions">{strings.mySubscriptionsButton}</Link></Button>
+                            <Button bsStyle="" className="button-new-sub button-back"><Link to="/subscriptions">{strings.mySubscriptionsButton}</Link></Button>
                         </Col>
                     </Row>
                 </Grid>

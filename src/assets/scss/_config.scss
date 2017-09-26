@@ -46,8 +46,16 @@ a {
     cursor: pointer;
 
     &:hover {
-        color: $darkteal;
+        color: $pink;
         text-decoration: none !important;
         @include transition (.4s ease-in-out);
     }
+}
+
+.font-italic {
+    font-style: italic;
+}
+
+.bold {
+    font-weight: bold;
 }

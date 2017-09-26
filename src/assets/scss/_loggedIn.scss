@@ -178,6 +178,20 @@
                 min-height: 150px;
             }
             .button {
+                margin-left: 10px !important;
+                margin-top: 15px !important;
+                margin-bottom: 15px !important;
+                padding-left: 20px;
+                padding-right: 20px;
+                height: 40px !important;
+                background-color: $pink ;
+                font-weight: bold !important;
+                color: $white !important;
+                &:hover {
+                    background-color: $pinkhover ;
+                }
+            }
+            .button-new-sub {
                 float: right;
                 margin-left: 10px !important;
                 margin-top: 15px !important;

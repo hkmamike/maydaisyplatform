@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import { Grid, Row, Col } from 'react-bootstrap';
 import LocalizedStrings from 'react-localization';
+import { Link } from 'react-router-dom';
 
 let strings = new LocalizedStrings({
   en:{
@@ -67,7 +68,7 @@ export default class Footer extends Component {
                 <div className="footer-title">{strings.terms}</div>
                 <ul className="foote-list">
                   <li>{strings.termsOfStervices}</li>
-                  <li>{strings.privacyPolicy}</li>
+                  <li><Link to="/privacy-policy">{strings.privacyPolicy}</Link></li>
                 </ul>
               </Col>
             </Row>

@@ -45,7 +45,7 @@ let strings = new LocalizedStrings({
       howItWorks3: '是什麼',
       howItWorks4: '1,2,3, 好簡單',
       subscribe: '訂購',
-      subscribeText: '獎勵自己或給您愛的人每週送花，由本地花匠設計，時令花材，品種隨機。',
+      subscribeText: '獎勵自己或給您愛的人每週送花，由本地花匠設計，時令花材，品種不定。',
       receiveUpdate: '訂單資訊',
       receiveUpdateText: '我們會用電郵和這網頁保持聯繫，您亦可以在這個網頁上更新您的問候卡。',
       delight: '收花',

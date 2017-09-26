@@ -215,7 +215,7 @@ export default class ChargeMoney extends React.Component {
                 allowRememberMe = {false} // "Remember Me" option (default true)
                 token={this.onToken} // submit callback    
             >
-                <Button bsStyle="" className="button">{strings.subscribeButton}</Button>
+                <Button bsStyle="" className="button-new-sub">{strings.subscribeButton}</Button>
             </StripeCheckout>
         )
     }

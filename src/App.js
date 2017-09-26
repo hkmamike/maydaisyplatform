@@ -12,6 +12,8 @@ import SignUps from './components/pages/signUps';
 import Subscriptions from './components/protected/subscriptions';
 import NewSubscription from './components/protected/newSubscription';
 import AccountInfo from './components/protected/accountInfo';
+//text pages
+import PrivacyPolicy from './components/textPages/privacyPolicy'
 //gallery
 import GallerySimple from './components/gallery/simple';
 import GalleryElegant from './components/gallery/elegant';
@@ -105,6 +107,8 @@ export default class App extends Component {
             <Route path='/gallery-simple' exact render={(props) => (<GallerySimple {...props} languageChanged={this.state.languageChanged}/>)}/>
             <Route path='/gallery-elegant' exact render={(props) => (<GalleryElegant {...props} languageChanged={this.state.languageChanged}/>)}/>
             <Route path='/gallery-bloom' exact render={(props) => (<GalleryBloom {...props} languageChanged={this.state.languageChanged}/>)}/>
+
+            <Route path='/privacy-policy' exact render={(props) => (<PrivacyPolicy {...props} languageChanged={this.state.languageChanged}/>)}/>
 
             <Route path='/signups' exact render={(props) => (<SignUps {...props} selectRegion={selectRegion} onRegionSelection={this.handleRegionSelection} languageChanged={this.state.languageChanged}/>)}/>
 
