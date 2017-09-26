@@ -143,13 +143,13 @@ let strings = new LocalizedStrings({
       subscriptionSubtitle1_2: " 開啟! 如要訂購，請登入您的帳戶。以下是我們提供的計劃，相簿裏有花卉樣本以供參考。請注意，花匠會用時令花材設計每週的花卉，品種隨機。",
       simple1_1: '簡單 ',
       simple1_2: '每週 HKD53',
-      simple1_3: '，包配送',
+      simple1_3: '，免費配送',
       elegant1_1: '優雅 ',
       elegant1_2: '每週 HKD93',
-      elegant1_3: '，包配送',
+      elegant1_3: '，免費配送',
       bloom1_1: '盛會 ',
       bloom1_2: '每週 HKD223',
-      bloom1_3: '，包配送',
+      bloom1_3: '，免費配送',
       signUpTitle: '報名',
       signUpSubtitle: '為了令五月菊價格更大眾化，每個地區的服務會在收集到150個報名之後開啟，屆時已報名的客人會收到電郵邀請。請填寫以下的報名表。如果您的送花地點不在香港，我們很快會來到您的城市 ^.^',
       signUpFormTitle: '報名表',
@@ -256,7 +256,7 @@ let strings = new LocalizedStrings({
   });
 
 const ButtonToLogin = ({ title, history }) => (
-  <Button bsStyle="" className="button" onClick={() => history.push('/login')}>{strings.subscribeButton}</Button>
+  <Button bsStyle="" className="button" onClick={() => history.push('/newsubscription')}>{strings.subscribeButton}</Button>
 );
 
 const ButtonToGallery = ({ title, history }) => (

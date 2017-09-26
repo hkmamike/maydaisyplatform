@@ -38,7 +38,7 @@ let strings = new LocalizedStrings({
   
 
 const ButtonToRegionList = ({ title, history }) => (
-    <Button bsStyle="" className="button" onClick={() => history.push('/')}>Sign Up</Button>
+    <Button bsStyle="" className="button" onClick={() => history.push('/')}>{strings.signUp}</Button>
   );
 
 export default class GalleryBloom extends Component {
@@ -66,7 +66,7 @@ export default class GalleryBloom extends Component {
         <Grid>
             <Row>
             <Col sm={12} className="small-screen-hide">
-                <h2 className="gallery-title">Gallery</h2>
+                <h2 className="gallery-title">{strings.title}</h2>
             </Col>
             </Row>
         </Grid>

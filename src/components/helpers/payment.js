@@ -8,9 +8,16 @@ import LocalizedStrings from 'react-localization';
 let strings = new LocalizedStrings({
   en:{
     subscribeButton: 'Subscribe',
+    checkOutName: 'MayDaisy',
+    checkOutDescription: 'Flower Subscription',
+    checkOutLabel: 'Subscribe'
+
   },
   ch: {
     subscribeButton: '訂購',
+    checkOutName: '五月菊',
+    checkOutDescription: '鮮花訂購服務',
+    checkOutLabel: '訂購'
   }
 });
 
@@ -69,6 +76,10 @@ export default class ChargeMoney extends React.Component {
         var subscriptionTime;
         var firstPayment;
         var firstDelivery = new Date();
+        var last4;
+        var cardType;
+        var cardExpYear;
+        var cardExpMonth;
 
         console.log('stripe created token. Forwarding to web server : ', token);
         this.showLoader();
@@ -82,6 +93,10 @@ export default class ChargeMoney extends React.Component {
             response.json().then(data => {
                 console.log('customer created. Forwarding to subscription processor : ', data);
                 stripeCusID = data.id;
+                last4 = data.sources.data[0].last4;
+                cardType = data.sources.data[0].brand;
+                cardExpYear = data.sources.data[0].exp_year;
+                cardExpMonth = data.sources.data[0].exp_month;
                 fetch('https://wt-47cf129daee3aa0bf6d4064463e232ef-0.run.webtask.io/webtask-stripe-payment' 
                 + '?customerID=' + data.id 
                 + '&planID=' + this.props.planID, {
@@ -128,7 +143,11 @@ export default class ChargeMoney extends React.Component {
                                 stripeSubID: stripeSubID,
                                 subscriptionAt: subscriptionTime,
                                 firstPayment: firstPayment,
-                                firstDelivery: firstDelivery
+                                firstDelivery: firstDelivery,
+                                last4: last4,
+                                cardType: cardType,
+                                cardExpYear: cardExpYear,
+                                cardExpMonth: cardExpMonth,
                             }
                         });
                         base.post(`users/${uid}/subscriptions/${stripeSubID}`, {
@@ -152,7 +171,11 @@ export default class ChargeMoney extends React.Component {
                                 stripeSubID: stripeSubID,
                                 subscriptionAt: subscriptionTime,
                                 firstPayment: firstPayment,
-                                firstDelivery: firstDelivery
+                                firstDelivery: firstDelivery,
+                                last4: last4,
+                                cardType: cardType,
+                                cardExpYear: cardExpYear,
+                                cardExpMonth: cardExpMonth,
                             }
                         });
                         base.update(`users/${uid}/info/`, {
@@ -180,15 +203,15 @@ export default class ChargeMoney extends React.Component {
     render() {
         return (
             <StripeCheckout
-                name="One Bloom"
-                description="Flower Subscription"
+                name={strings.checkOutName}
+                description={strings.checkOutDescription}
                 image="" //app icon
                 panelLabel="Pay" // prepended to the amount in the bottom pay button
                 amount={this.props.price} // cents
                 currency="HKD"
                 stripeKey="pk_test_5AFpArfSAWtcsdRPGtFItgiH"
                 locale="auto"
-                label="Subscribe"
+                label={strings.checkOutLabel}
                 allowRememberMe = {false} // "Remember Me" option (default true)
                 token={this.onToken} // submit callback    
             >

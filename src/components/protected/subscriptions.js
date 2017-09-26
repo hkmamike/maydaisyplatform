@@ -1,6 +1,6 @@
 import React, { Component } from 'react'
 import { firebaseAuth } from '../config/constants';
-import { Link } from 'react-router-dom';
+import { Link, Route } from 'react-router-dom';
 import { FormGroup, FormControl, Grid, Row, Col, Button, Glyphicon, Modal } from 'react-bootstrap';
 import { base } from '../config/constants';
 import LocalizedStrings from 'react-localization';
@@ -43,7 +43,10 @@ let strings = new LocalizedStrings({
     flower_rose: 'Seasonal Flower (rose only)',
     plan_simple: 'Simple (1-2 blooms, HKD53/week)',
     plan_elegant: 'Elegant (2-4 blooms, HKD93/week)',
-    noSub: 'You do not have any subscription.'
+    noSub: 'You do not have any subscription.',
+    errorOccured: 'An error occured, please try again later.',
+    subscriptionUpdated: 'Subscription has been updated.',
+    subscriptionCanceled: 'Subscription has been canceled.',
   },
   ch: {
     mySubscriptions1: ' ',
@@ -84,8 +87,15 @@ let strings = new LocalizedStrings({
     plan_elegant: '優雅(2-4朵主花，每週 HKD93)',
     plan_bloom: '盛會(5-10朵主花，每週 HKD223)',
     noSub: '您目前並沒有訂購。',
+    errorOccured: '系統錯誤，請稍後再試。',
+    subscriptionUpdated: '訂單資料已更新。',
+    subscriptionCanceled: '訂單已取消。',
   }
 });
+
+const ButtonToNewSubscriptioin = ({ title, history }) => (
+  <Button bsStyle="" className="no-sub-button" onClick={() => history.push('/newsubscription')}>{strings.newSubscription2}</Button>
+);
 
 class CancelSubModal extends React.Component {
   constructor() {
@@ -358,8 +368,8 @@ export default class Subscriptions extends Component {
     this.handleChooseSub = this.handleChooseSub.bind(this);
     this.handleBack = this.handleBack.bind(this);
     this.handleSubUpdate = this.handleSubUpdate.bind(this);
-    this.subscriptionSuccess = this.subscriptionSuccess.bind(this);
-    this.subscriptionFail = this.subscriptionFail.bind(this);
+    this.subscriptionCancelSuccess = this.subscriptionCancelSuccess.bind(this);
+    this.subscriptionCancelFail = this.subscriptionCancelFail.bind(this);
     this.state = {
       subscriptionData: {},
       loading: true,
@@ -430,17 +440,23 @@ export default class Subscriptions extends Component {
         cardMessage: cardMessage,
       }
     }).then(() => 
-        this.setState({ subInfoMessage: 'Subscriptioin has been updated.'})
+        this.setState({ subInfoMessage: strings.subscriptionUpdated})
       ).catch(err => {
         console.log('An error occured when updating account information.');
-        this.setState({ subInfoMessage: 'An error occured, please try again later.'});
+        this.setState({ subInfoMessage: strings.errorOccured});
       });
   }
-  subscriptionSuccess() {
-    this.setState({subInfoMessage: 'Subscription has been canceled.'});
+  subscriptionCancelSuccess() {
+    this.setState({subInfoMessage: strings.subscriptionCanceled, subDetailsStatus: 0});
+    base.fetch(`users/${this.state.userID}/subscriptions/`, {
+      context: this,
+      then(data) {
+        this.setState({subscriptionData: data, loading: false});
+      }
+    });
   }
-  subscriptionFail() {
-    this.setState({subInfoMessage: 'An error occured, please try again later.'});
+  subscriptionCancelFail() {
+    this.setState({subInfoMessage: strings.errorOccured});
   }
 
   render () {
@@ -452,7 +468,12 @@ export default class Subscriptions extends Component {
 
     // console.log('data check: ', Object.keys(data).length);
     if (Object.keys(data).length===0) {
-      subscriptions = <div className="center-text">{strings.noSub}</div>
+      subscriptions = (
+        <div className="no-sub-section">            
+          <div className="center-text">{strings.noSub}</div>
+          <Route path="/" render={(props) => <ButtonToNewSubscriptioin {...props}/>} />
+        </div>
+      )
     } else {
       subscriptions = Object.keys(data).map(function(key) {
         var chosenKey = data[key].stripeSubID;
@@ -552,8 +573,8 @@ export default class Subscriptions extends Component {
             subInfoMessage={this.state.subInfoMessage} 
             onHandleBack={this.handleBack} 
             onHandleSubUpdate={this.handleSubUpdate}
-            onSubscriptionCancelSuccess={this.subscriptionSuccess}
-            onSubscriptionCancelFail={this.subscriptionFail}
+            onSubscriptionCancelSuccess={this.subscriptionCancelSuccess}
+            onSubscriptionCancelFail={this.subscriptionCancelFail}
           />
         </div>
       )
