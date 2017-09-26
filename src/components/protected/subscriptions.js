@@ -149,6 +149,11 @@ class SubDetails extends React.Component {
     });
   }
 
+  componentWillUnmount () {
+    //returns the unsubscribe function
+    firebaseAuth().onAuthStateChanged();
+  }
+
   handleCancelSub(uid, selectRegion, planID, subID) {
     fetch('https://wt-47cf129daee3aa0bf6d4064463e232ef-0.run.webtask.io/webtask-stripe-cancel-sub'
       +'?subID=' + subID, {
@@ -367,11 +372,10 @@ export default class Subscriptions extends Component {
   componentDidMount () {
     window.scrollTo(0, 0);
     firebaseAuth().onAuthStateChanged((user) => {
-      var userID = user.uid
       base.fetch(`users/${user.uid}/subscriptions/`, {
         context: this,
         then(data) {
-          this.setState({subscriptionData: data, loading: false, userID: userID});
+          this.setState({subscriptionData: data, loading: false, userID: user.uid});
         }
       });
     });

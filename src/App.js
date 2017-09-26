@@ -56,11 +56,9 @@ export default class App extends Component {
 
   handleLanguageToggle(language) {
     if (language==='ch') {
-      console.log('new language is ch - App');
       this.setState({languageChanged: 'ch'});
 
     } else if (language==='en') {
-      console.log('new language is en - App');
       this.setState({languageChanged: 'en'});
     }
   }
