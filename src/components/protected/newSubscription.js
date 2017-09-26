@@ -247,6 +247,10 @@ export default class NewSubscription extends Component {
     this.setState({loading: false});
     }
 
+    componentDidUpdate() {
+        window.scrollTo(0, 0);
+    }
+
   componentWillReceiveProps (nextProps) {
     if (nextProps.languageChanged==='ch') {
       strings.setLanguage('ch');
@@ -340,9 +344,10 @@ export default class NewSubscription extends Component {
                     </Row>
                     <Row className="show-grid">
                         <Col sm={5}></Col>
-                        <Col sm={4}>
+                        <Col sm={3}>
                             <Button bsStyle="" className="button" onClick={() => this.setState({subscriptionStep: 2})}>{strings.nextButton}</Button>
                         </Col>
+                        <Col sm={1}></Col>
                     </Row>
                 </Grid>
             </div>
@@ -397,8 +402,8 @@ export default class NewSubscription extends Component {
                     <Row className="show-grid">
                         <Col sm={5}></Col>
                         <Col sm={4}>
-                            <Button bsStyle="" className="button button-back" onClick={() => this.setState({subscriptionStep: 1})}>{strings.backButton}</Button>
                             <Button bsStyle="" className="button" onClick={() => this.setState({subscriptionStep: 3})}>{strings.nextButton}</Button>
+                            <Button bsStyle="" className="button button-back" onClick={() => this.setState({subscriptionStep: 1})}>{strings.backButton}</Button>
                         </Col>
                     </Row>
                 </Grid>
@@ -486,8 +491,8 @@ export default class NewSubscription extends Component {
                     <Row className="show-grid">
                         <Col sm={5}></Col>
                         <Col sm={4}>
-                            <Button bsStyle="" className="button button-back" onClick={() => this.setState({subscriptionStep: 2})}>{strings.backButton}</Button>
                             <Button bsStyle="" className="button" onClick={() => this.setState({subscriptionStep: 4})}>{strings.nextButton}</Button>
+                            <Button bsStyle="" className="button button-back" onClick={() => this.setState({subscriptionStep: 2})}>{strings.backButton}</Button>
                         </Col>
                     </Row>
                 </Grid>
@@ -629,8 +634,8 @@ export default class NewSubscription extends Component {
                     <Row className="show-grid">
                         <Col sm={5}></Col>
                         <Col sm={4}>
-                            <Button bsStyle="" className="button button-back" onClick={() => this.setState({subscriptionStep: 3})}>{strings.backButton}</Button>
                             <Button bsStyle="" className="button" onClick={() => this.setState({subscriptionStep: 5})}>{strings.nextButton}</Button>
+                            <Button bsStyle="" className="button button-back" onClick={() => this.setState({subscriptionStep: 3})}>{strings.backButton}</Button>
                         </Col>
                     </Row>
                 </Grid>
@@ -742,7 +747,6 @@ export default class NewSubscription extends Component {
                         <Row className="show-grid">
                             <Col sm={5}></Col>
                             <Col sm={4}>
-                                <Button bsStyle="" className="button button-back" onClick={() => this.setState({subscriptionStep: 4})}>{strings.backButton}</Button>
                                 <ChargeMoney
                                     price={this.state.price} 
                                     planID={this.state.planID}
@@ -762,6 +766,7 @@ export default class NewSubscription extends Component {
                                     onLoading={this.handleLoading}
                                     languageChanged={this.props.languageChanged}
                                 />
+                                <Button bsStyle="" className="button button-back" onClick={() => this.setState({subscriptionStep: 4})}>{strings.backButton}</Button>
                             </Col>
                         </Row>
                     </Grid>
