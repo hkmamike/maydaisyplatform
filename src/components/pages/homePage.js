@@ -90,10 +90,8 @@ export default class Homepage extends Component {
 
   componentWillReceiveProps (nextProps) {
     if (nextProps.languageChanged==='ch') {
-      console.log('get language show ch - homepage');
       strings.setLanguage('ch');
     } else if (nextProps.languageChanged==='en') {
-      console.log('get language show en - homepage');
       strings.setLanguage('en');
     }
   }
@@ -104,7 +102,6 @@ export default class Homepage extends Component {
 
   render() {
     const selectRegion = this.props.selectRegion;
-    var testVar = 'tester';
 
     return (
       <div className="no-padding">

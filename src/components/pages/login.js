@@ -2,6 +2,36 @@ import React, { Component } from 'react'
 import { login, resetPassword } from '../helpers/auth'
 import { Link } from 'react-router-dom';
 import { FormGroup, FormControl, Grid, Row, Col, Button, Glyphicon } from 'react-bootstrap';
+import LocalizedStrings from 'react-localization';
+
+let strings = new LocalizedStrings({
+    en:{
+      loginTitle: 'Welcome Back',
+      loginSubtitle: 'Log in to continue',
+      loginButton: 'Login',
+      forgotPW: 'Forgot Password?',
+      createAccount: 'Create Account',
+      email: 'Email',
+      password: 'Password',
+      invalidCredential: 'Invalid username/password.',
+      resetSent1_1: 'Password reset email has been sent to ',
+      resetSent1_2: '.',
+      noAccountFound: 'No account is registered under this email.'
+    },
+    ch: {
+      loginTitle: '歡迎回來',
+      loginSubtitle: '如要繼續請登入',
+      loginButton: '登入',
+      forgotPW: '忘記密碼?',
+      createAccount: '建立帳戶', 
+      email: '電郵',
+      password: '密碼',
+      invalidCredential: '電郵或密碼錯誤。',
+      resetSent1_1: '密碼重設方法已寄出:',
+      resetSent1_2: ' ',
+      noAccountFound: '並沒有以此電郵登記的帳戶。'
+    }
+  });
 
 function setErrorMsg(error) {
   return {
@@ -13,7 +43,6 @@ export default class Login extends Component {
 
   constructor() {
     super();
-
     this.handleEmailChange = this.handleEmailChange.bind(this);
     this.handlePWChange = this.handlePWChange.bind(this);
     this.state = {
@@ -21,6 +50,18 @@ export default class Login extends Component {
       password: '',
       loginMesssage: null
     }
+  }
+
+  componentWillReceiveProps (nextProps) {
+    if (nextProps.languageChanged==='ch') {
+      strings.setLanguage('ch');
+    } else if (nextProps.languageChanged==='en') {
+      strings.setLanguage('en');
+    }
+  }
+
+  componentWillMount() {
+    strings.setLanguage(this.props.languageChanged);
   }
 
   handleEmailChange(e) {
@@ -32,13 +73,13 @@ export default class Login extends Component {
   handleSubmit = (e) => {
     e.preventDefault()
     login(this.state.email, this.state.password).catch((error) => {
-      this.setState(setErrorMsg('Invalid username/password.'))
+      this.setState(setErrorMsg(strings.invalidCredential));
     })
   }
   resetPassword = () => {
     resetPassword(this.state.email)
-      .then(() => this.setState(setErrorMsg(`Password reset email has been sent to ${this.state.email}.`)))
-      .catch((error) => this.setState(setErrorMsg(`No account is registered under this email.`)))
+      .then(() => this.setState(setErrorMsg(`${strings.resetSent1_1}${this.state.email}${strings.resetSent1_2}`)))
+      .catch((error) => this.setState(setErrorMsg(strings.noAccountFound)))
   }
   render () {
     return (
@@ -48,8 +89,8 @@ export default class Login extends Component {
             <Col className="login-image-prompt">
   
                 <form className="login-form" onSubmit={this.handleSubmit}>
-                  <h2 className="login-title"><strong>Welcome Back</strong></h2>
-                  <div className="login-subtitle">Log in to continue</div>
+                  <h2 className="login-title"><strong>{strings.loginTitle}</strong></h2>
+                  <div className="login-subtitle">{strings.loginSubtitle}</div>
                   <div className="horizontal-line"></div>
                   { this.state.loginMessage &&
                     <div className="alert alert-danger login-error" role="alert">
@@ -57,14 +98,14 @@ export default class Login extends Component {
                     </div>
                   }
                   <FormGroup>
-                    <FormControl className="login-form-field" type="text" value={this.state.email} placeholder="Email" onChange={this.handleEmailChange}/>
-                    <FormControl className="login-form-field" type="password" value={this.state.password} placeholder="Password" onChange={this.handlePWChange}/>
+                    <FormControl className="login-form-field" type="text" value={this.state.email} placeholder={strings.email} onChange={this.handleEmailChange}/>
+                    <FormControl className="login-form-field" type="password" value={this.state.password} placeholder={strings.password} onChange={this.handlePWChange}/>
                   </FormGroup>
 
-                  <Button bsStyle="" type="submit" className="button">Login</Button>
+                  <Button bsStyle="" type="submit" className="button">{strings.loginButton}</Button>
                   <div className="link-group">
-                    <a onClick={this.resetPassword} className="alert-link link-forgot-pw">Forgot Password?</a>
-                    <Link to="/register" className="link-create-account">Create Account</Link>
+                    <a onClick={this.resetPassword} className="alert-link link-forgot-pw">{strings.forgotPW}</a>
+                    <Link to="/register" className="link-create-account">{strings.createAccount}</Link>
                   </div>
                 </form>
 

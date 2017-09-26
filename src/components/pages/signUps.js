@@ -27,7 +27,7 @@ let strings = new LocalizedStrings({
       bloom1_2: 'HKD223',
       bloom1_3: ' per week, delivery included',
       signUpTitle: 'Sign Up',
-      signUpSubtitle: 'Thank you for showing interest! Service in each area will begin when 150 sign ups are collected. Rolling out One Bloom by region helps to keep the price affordable to all lovers. Fill out this form and we will send you an invitation when the time comes! For those who are not in Hong Kong, we will come to you soon ^.^',
+      signUpSubtitle: 'Service in each area will begin when 150 sign ups are collected. Rolling out One Bloom by region helps to keep the price affordable to all lovers. Fill out this form and we will send you an invitation when the time comes! For those who are not in Hong Kong, we will come to you soon ^.^',
       signUpFormTitle: 'Sign Up Form',
       signUpFormrecipientRegion: "Recipient's Region:",
       signUpSender: "Sender's Name:",
@@ -49,28 +49,28 @@ let strings = new LocalizedStrings({
       subscribeButton: '訂購',
       galleryButton: '相簿',
       subscriptionTitle: "鮮花訂購",
-      subscriptionSubtitle1_1: "五月菊的服務已在",
-      subscriptionSubtitle1_2: "開啟，如要訂購，請登入您的帳戶。以下是我們可以提供的計劃，相簿裏有花卉樣本以供參考。請注意，花匠會用時令花材設計每週的花卉，品種隨機。",
-      simple1_1: 'Simple ',
-      simple1_2: 'HKD53',
-      simple1_3: ' per week, delivery included',
-      elegant1_1: 'Elegant ',
-      elegant1_2: 'HKD93',
-      elegant1_3: ' per week, delivery included',
-      bloom1_1: 'Bloom ',
-      bloom1_2: 'HKD223',
-      bloom1_3: ' per week, delivery included',
-      signUpTitle: 'Sign Up',
-      signUpSubtitle: 'Thank you for showing interest! Service in each area will begin when 150 sign ups are collected. Rolling out One Bloom by region helps to keep the price affordable to all lovers. Fill out this form and we will send you an invitation when the time comes! For those who are not in Hong Kong, we will come to you soon ^.^',
-      signUpFormTitle: 'Sign Up Form',
-      signUpFormrecipientRegion: "Recipient's Region:",
-      signUpSender: "Sender's Name:",
-      signUpEmail: "Email:",
-      signUpPhone: "Phone:",
-      signUpTip: '*We will notify you via email when your region opens.',
-      submitButton: 'Submit',
+      subscriptionSubtitle1_1: "五月菊的服務已在 ",
+      subscriptionSubtitle1_2: " 開啟! 如要訂購，請登入您的帳戶。以下是我們提供的計劃，相簿裏有花卉樣本以供參考。請注意，花匠會用時令花材設計每週的花卉，品種隨機。",
+      simple1_1: '簡單 ',
+      simple1_2: '每週 HKD53',
+      simple1_3: '，包配送',
+      elegant1_1: '優雅 ',
+      elegant1_2: '每週 HKD93',
+      elegant1_3: '，包配送',
+      bloom1_1: '盛會 ',
+      bloom1_2: '每週 HKD223',
+      bloom1_3: '，包配送',
+      signUpTitle: '報名',
+      signUpSubtitle: '為了令五月菊價格更大眾化，每個地區的服務會在收集到150個報名之後開啟，屆時已報名的客人會收到電郵邀請。請填寫以下的報名表。如果您的送花地點不在香港，我們很快會來到您的城市 ^.^',
+      signUpFormTitle: '報名表',
+      signUpFormrecipientRegion: "收花地區:",
+      signUpSender: "送花人名稱:",
+      signUpEmail: "電郵:",
+      signUpPhone: "電話:",
+      signUpTip: '當您的地區開啟的時候我們會用電郵聯繫您',
+      submitButton: '遞交',
       submitButtonLoading: '...',
-      submitButtonSubmitted: 'Submitted '
+      submitButtonSubmitted: '已遞交 '
     }
   });
 
@@ -90,6 +90,21 @@ class GreetingInBusinessHeader extends React.Component {
   }
 }
 class GreetingInBusiness extends React.Component {
+
+  componentWillReceiveProps (nextProps) {
+    if (nextProps.languageChanged==='ch') {
+      console.log('get language show ch - homepage');
+      strings.setLanguage('ch');
+    } else if (nextProps.languageChanged==='en') {
+      console.log('get language show en - homepage');
+      strings.setLanguage('en');
+    }
+  }
+
+  componentWillMount() {
+    strings.setLanguage(this.props.languageChanged);
+  }
+
   render() {
     return (
 
@@ -97,7 +112,7 @@ class GreetingInBusiness extends React.Component {
           <Row className="show-grid">
             <Col md={5} className="region-subscribe-shade">
               <h2 className="section-title"><strong>{strings.subscriptionTitle}</strong></h2>
-              <div className="section-subtitle">{strings.subscriptionSubtitle1_1}<strong>{strings[this.props.selectRegion]}!</strong>{strings.subscriptionSubtitle1_2}</div>
+              <div className="section-subtitle">{strings.subscriptionSubtitle1_1}<strong>{strings[this.props.selectRegion]}</strong>{strings.subscriptionSubtitle1_2}</div>
               <ul className="section-list">
                 <li><strong>{strings.simple1_1}</strong>{strings.simple1_2}{strings.simple1_3}</li>
                 <li><strong>{strings.elegant1_1}</strong>{strings.elegant1_2}{strings.elegant1_3}</li>
@@ -116,6 +131,19 @@ class GreetingInBusiness extends React.Component {
 }
 
 class GreetingDefault extends React.Component {
+
+  componentWillReceiveProps (nextProps) {
+    if (nextProps.languageChanged==='ch') {
+      strings.setLanguage('ch');
+    } else if (nextProps.languageChanged==='en') {
+      strings.setLanguage('en');
+    }
+  }
+
+  componentWillMount() {
+    strings.setLanguage(this.props.languageChanged);
+  }
+
   render() {
     return (
       <div className="text-section">
@@ -196,16 +224,16 @@ class GreetingSignUp extends React.Component {
 
   componentWillReceiveProps (nextProps) {
     if (nextProps.languageChanged==='ch') {
-      console.log('get language show ch_homepage');
+      console.log('get language show ch - homepage');
       strings.setLanguage('ch');
     } else if (nextProps.languageChanged==='en') {
-      console.log('get language show en_homepage');
+      console.log('get language show en - homepage');
       strings.setLanguage('en');
     }
   }
 
   componentWillMount() {
-    strings.setLanguage('ch');
+    strings.setLanguage(this.props.languageChanged);
   }
 
   render() {
@@ -421,6 +449,20 @@ export default class SignUps extends Component {
     });
   }
 
+  componentWillReceiveProps (nextProps) {
+    if (nextProps.languageChanged==='ch') {
+      console.log('get language show ch - homepage');
+      strings.setLanguage('ch');
+    } else if (nextProps.languageChanged==='en') {
+      console.log('get language show en - homepage');
+      strings.setLanguage('en');
+    }
+  }
+
+  componentWillMount() {
+    strings.setLanguage(this.props.languageChanged);
+  }
+
   render () {
 
     // var data = this.state.signUpsData;
@@ -443,11 +485,11 @@ export default class SignUps extends Component {
       greeting = <div className="loader-absolute"></div>
     }
     else if (regionStatus==="delivering" && regionReselect===false) {
-      greetingHeader = <GreetingInBusinessHeader selectRegion={selectRegion} />;
-      greeting = <GreetingInBusiness selectRegion={selectRegion} />;
+      greetingHeader = <GreetingInBusinessHeader selectRegion={selectRegion} languageChanged={this.props.languageChanged}/>;
+      greeting = <GreetingInBusiness selectRegion={selectRegion} languageChanged={this.props.languageChanged}/>;
     } else {
-      greetingHeader = <GreetingDefault/>;
-      greeting = <GreetingSignUp selectRegion={selectRegion} onRegionSelection={this.props.onRegionSelection} onRegionReselect={this.handleRegionReselect}/>;
+      greetingHeader = <GreetingDefault languageChanged={this.props.languageChanged}/>;
+      greeting = <GreetingSignUp selectRegion={selectRegion} onRegionSelection={this.props.onRegionSelection} onRegionReselect={this.handleRegionReselect} languageChanged={this.props.languageChanged}/>;
     }
 
     return (
