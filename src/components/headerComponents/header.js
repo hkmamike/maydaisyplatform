@@ -15,7 +15,7 @@ let strings = new LocalizedStrings({
     en:{
       companyTitle: "MayDaisy",
       languageButton: '中文',
-      accountButton: "My Account",
+      accountButton: "Account",
       login: "Login",
       logout: "Logout"
     }
