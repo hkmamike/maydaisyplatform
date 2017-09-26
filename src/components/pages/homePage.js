@@ -38,7 +38,7 @@ let strings = new LocalizedStrings({
     },
     ch: {
       signUp: '報名',
-      homeImgTitle: '本地花匠設計的鲜花，時令花材，每周一次。',
+      homeImgTitle: '本地花匠設計的花卉，時令花材，每周一次。',
       homeImgSubtitle: '你想送花去邊個地區?',
       howItWorks1: ' ',
       howItWorks2: '五月菊',
@@ -94,6 +94,10 @@ export default class Homepage extends Component {
     } else if (nextProps.languageChanged==='en') {
       strings.setLanguage('en');
     }
+  }
+
+  componentDidMount() {
+    window.scrollTo(0, 0);
   }
 
   componentWillMount() {

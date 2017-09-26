@@ -36,7 +36,14 @@ let strings = new LocalizedStrings({
     unSubText1: 'We are sorry to see you go. To continue, click "Unsubscribe" to confirm.',
     unSubText2: 'Please note that if your cancelation request is received after 11:59 pm HKT on Wednesday, your card has already been charged this week and one more delivery will be made in the following week.',
     unSubText3: 'For further assistance, please reach out to our support hotline: (852)9346-8427.',
-    cancelButton: 'Close'
+    cancelButton: 'Close',
+    everyMonday: 'Every Monday',
+    everyWednesday: 'Every Wednesday',
+    flower_all: 'Seasonal Flower (all)',
+    flower_rose: 'Seasonal Flower (rose only)',
+    plan_simple: 'Simple (1-2 blooms, HKD53/week)',
+    plan_elegant: 'Elegant (2-4 blooms, HKD93/week)',
+    noSub: 'You do not have any subscription.'
   },
   ch: {
     mySubscriptions1: ' ',
@@ -68,7 +75,15 @@ let strings = new LocalizedStrings({
     unSubText1: '看見您的離去令我們很遺憾，感謝您一直以來的支持。如要繼續，請點擊“取消訂購”以確認。',
     unSubText2: '請注意，五月菊服務的付款時間為配送前一週的星期三晚上 11:59 p.m. 。如果您這本週已經付款，我們下一週會為您提供最後一次服務。',
     unSubText3: '如果有其他需要，請聯絡客戶服務熱線: (852)9346-8427',
-    cancelButton: '關閉'
+    cancelButton: '關閉',
+    everyMonday: '每週星期一',
+    everyWednesday: '每週星期三',
+    flower_all: '時令花種(所有)',
+    flower_rose: '時令花種(只要玫瑰)',
+    plan_simple: '簡單(1-2朵主花，每週 HKD53)',
+    plan_elegant: '優雅(2-4朵主花，每週 HKD93)',
+    plan_bloom: '盛會(5-10朵主花，每週 HKD223)',
+    noSub: '您目前並沒有訂購。',
   }
 });
 
@@ -138,8 +153,8 @@ class SubDetails extends React.Component {
     }
   }
 
-  componentDidMount () {
-    firebaseAuth().onAuthStateChanged((user) => {
+  componentWillMount () {
+    this.fireBaseListenerForSubDetails = firebaseAuth().onAuthStateChanged((user) => {
       base.fetch(`users/${user.uid}/subscriptions/${this.props.selectedSub}`, {
         context: this,
         then(data) {
@@ -151,7 +166,7 @@ class SubDetails extends React.Component {
 
   componentWillUnmount () {
     //returns the unsubscribe function
-    firebaseAuth().onAuthStateChanged();
+    this.fireBaseListenerForSubDetails && this.fireBaseListenerForSubDetails();
   }
 
   handleCancelSub(uid, selectRegion, planID, subID) {
@@ -242,7 +257,7 @@ class SubDetails extends React.Component {
                       <div><strong>{strings.flowerType}</strong></div>
                   </Col>
                   <Col sm={8}>
-                    <div>{subDetails.selectPlanType}</div>
+                    <div>{strings[subDetails.selectPlanType]}</div>
                   </Col>
                 </FormGroup>
               </Row>
@@ -253,7 +268,7 @@ class SubDetails extends React.Component {
                       <div><strong>{strings.plan}</strong></div>
                   </Col>
                   <Col sm={8}>
-                    <div>{subDetails.selectPlanSize}</div>
+                    <div>{strings[subDetails.selectPlanSize]}</div>
                   </Col>
                 </FormGroup>
               </Row>
@@ -275,7 +290,7 @@ class SubDetails extends React.Component {
                       <div><strong>{strings.deliveryDay}</strong></div>
                   </Col>
                   <Col sm={8}>
-                    <div>{subDetails.deliveryDay}</div>
+                    <div>{strings[subDetails.deliveryDay]}</div>
                   </Col>
                 </FormGroup>
               </Row>
@@ -371,7 +386,7 @@ export default class Subscriptions extends Component {
 
   componentDidMount () {
     window.scrollTo(0, 0);
-    firebaseAuth().onAuthStateChanged((user) => {
+    this.fireBaseListenerForSub = firebaseAuth().onAuthStateChanged((user) => {
       base.fetch(`users/${user.uid}/subscriptions/`, {
         context: this,
         then(data) {
@@ -379,6 +394,11 @@ export default class Subscriptions extends Component {
         }
       });
     });
+  }
+
+  componentWillUnmount () {
+    //returns the unsubscribe function
+    this.fireBaseListenerForSub && this.fireBaseListenerForSub();
   }
 
   handleCardChange(e, key) {
@@ -432,7 +452,7 @@ export default class Subscriptions extends Component {
 
     // console.log('data check: ', Object.keys(data).length);
     if (Object.keys(data).length===0) {
-      subscriptions = <div className="center-text">You do not have any subscription</div>
+      subscriptions = <div className="center-text">{strings.noSub}</div>
     } else {
       subscriptions = Object.keys(data).map(function(key) {
         var chosenKey = data[key].stripeSubID;
@@ -469,7 +489,7 @@ export default class Subscriptions extends Component {
                         <div><strong>{strings.deliveryDay}</strong></div>
                     </Col>
                     <Col sm={3}>
-                      <div>{data[key].deliveryDay}</div>
+                      <div>{strings[data[key].deliveryDay]}</div>
                     </Col>
                   </FormGroup>
                 </Row>

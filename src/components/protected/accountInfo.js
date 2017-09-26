@@ -19,7 +19,10 @@ let strings = new LocalizedStrings({
     phoneNum: 'Phone number:',
     phoneNumTip: '*We may use this number to contact you regarding your account and subscription only.',
     updateAccountButton: 'Update Account',
-    resetPWButton: 'Reset Password'
+    resetPWButton: 'Reset Password',
+    errorOccured: 'An error occured, please try again later.',
+    accountUpdated: 'Account Information has been saved.',
+    resetPWSent: 'Password reset email has been sent to '
   },
   ch: {
     mySubscriptions1: ' ',
@@ -33,7 +36,10 @@ let strings = new LocalizedStrings({
     phoneNum: '電話:',
     phoneNumTip: '*電話號碼只會用作跟您的訂購和帳戶有關的聯絡。',
     updateAccountButton: '更新帳戶資料',
-    resetPWButton: '重設密碼'
+    resetPWButton: '重設密碼',
+    errorOccured: '系統錯誤，請稍後再試。',
+    accountUpdated: '帳戶資料已更新。',
+    resetPWSent: '密碼重設方法已寄出: '
   }
 });
 
@@ -91,19 +97,19 @@ export default class AccountInfo extends Component {
           phone: phone
       }
     }).then(() => 
-        this.setState({ accountInfoMessage: 'Account Information has been saved.'})
+        this.setState({ accountInfoMessage: `${strings.accountUpdated}`})
       ).catch(err => {
         console.log('An error occured when updating account information.');
-        this.setState({ accountInfoMessage: 'An error occured, please try again later.'});
+        this.setState({ accountInfoMessage: `${strings.errorOccured}`});
       });
   };
   
   resetPassword = () => {
     resetPassword(this.state.accountEmail)
       .then(() => 
-        this.setState({ accountInfoMessage: `Password reset email has been sent to ${this.state.accountEmail}.`})
+        this.setState({ accountInfoMessage: `${strings.resetPWSent}${this.state.accountEmail}.`})
       ).catch(err => {
-        this.setState({ accountInfoMessage: `An error occured, please try again later.`})
+        this.setState({ accountInfoMessage: `${strings.errorOccured}`})
       });
   }
 

@@ -22,7 +22,7 @@ let strings = new LocalizedStrings({
     backButton: 'Back',
     deliveryArea: 'Delivery Area:',
     deliveryTip1: '*Only one delivery day option is avaiable for this region at the moment.',
-    deliveryTip2_1: '**Weekly Delivery for ',
+    deliveryTip2_1: '**Delivery for ',
     deliveryTip2_2: ' is on',
     deliveryTip2_3: '. If the delivery day is a holiday or delivery is not available because of abnormal circumstances, delivery will take place on the next working day or according to special arrangements.',
     planFlowers: 'Flowers:',
@@ -53,7 +53,19 @@ let strings = new LocalizedStrings({
     subscribeButton: 'Subscribe',
     paymentTip: '*You are signing up for a weekly subscription service. Your card will be charged at the weekly cut off time at 11:59pm HKT on Wednesday, and delivery will made in the following week. If you would like to cancel the subscription, please go to My Subscriptions > Subscription Details.',
     subID: 'Subscription ID:',
-    mySubscriptionsButton: 'My Subscription'
+    mySubscriptionsButton: 'My Subscription',
+    HK_Admiralty: 'HK-Admiralty',
+    HK_Central: 'HK-Central',
+    HK_ChaiWan: 'HK-Chai Wan, Home/Office',
+    HK_ChaiWan_BMCPC: 'HK-Chai Wan, BMCPC',
+    HK_ChaiWan_CapeCollison: 'HK-Chai Wan, Cape Collison',
+    flower_all: 'Seasonal Flower (all)',
+    flower_rose: 'Seasonal Flower (rose only)',
+    plan_simple: 'Simple (1-2 blooms, HKD53/week)',
+    plan_elegant: 'Elegant (2-4 blooms, HKD93/week)',
+    plan_bloom: 'Bloom (5-10 blooms, HKD223/week)',
+    everyMonday: 'Every Monday',
+    everyWednesday: 'Every Wednesday',
     
   },
   ch: {
@@ -74,7 +86,7 @@ let strings = new LocalizedStrings({
     deliveryArea: '配送區域:',
     deliveryTip1: '*所選的地區目前只有一個收花日選擇。',
     deliveryTip2_1: '**',
-    deliveryTip2_2: '的每週配送日為',
+    deliveryTip2_2: '的配送日為',
     deliveryTip2_3: '。如果配送日為公眾假期或因為有其他不可抗力令配送不可能，我們會在下一個工作天或根據特別安排送貨。',
     planFlowers: '花種:',
     planSize: '大小:',
@@ -86,7 +98,7 @@ let strings = new LocalizedStrings({
     cardMessageTip1_2: '*更改問候卡信息的截止期限為配送日前一週的星期三晚上 11:59 p.m.',  
     from: '送花人:',
     fromPlaceholder: '送花人名字',
-    fromTip: '*在手寫問候卡信息時以問候卡信息欄中的名稱為準，如您已經在問候卡信息欄中填寫名稱，此欄只會用作帳戶資訊更新。',
+    fromTip: '*我們在手寫問候卡信息時會以問候卡信息欄中的名稱為準，如您已經在問候卡信息欄中填寫名稱，此欄只會用作帳戶資訊更新。',
     recipientName: "收花人名字:",
     recipientNamePlaceholder: '配送用',
     recipientNum: "收花人電話:",
@@ -102,9 +114,21 @@ let strings = new LocalizedStrings({
     deliveryFee: '配送費:',
     deliveryDay: '配送日:',
     subscribeButton: '訂購',
-    paymentTip: '*您現在訂購的是一個買週一次的鮮花設計和配送服務，您的信用卡會在每個配送週之前的星期三晚上 11:59 p.m. 付款。如果您想取消訂購，可以到 "我的帳戶"＞"訂購詳情"辦理。',
+    paymentTip: '*您現在訂購的是一個每週一次的鮮花設計和配送服務，您的信用卡會在每個配送週之前的星期三晚上 11:59 p.m. 付款。如果您想取消訂購，可以到 "我的帳戶" ＞ "訂購詳情" 辦理。',
     subID: '訂購號碼:',
-    mySubscriptionsButton: '我的訂購'
+    mySubscriptionsButton: '我的訂購',
+    HK_Admiralty: '香港-金鐘',
+    HK_Central: '香港-中環',
+    HK_ChaiWan: '香港-柴灣(住家/辦公室)',
+    HK_ChaiWan_BMCPC: '香港-柴灣墓園(華人永遠)',
+    HK_ChaiWan_CapeCollison: '香港-柴灣墓園(歌連臣角十字架)',
+    flower_all: '時令花種(所有)',
+    flower_rose: '時令花種(只要玫瑰)',
+    plan_simple: '簡單(1-2朵主花，每週 HKD53)',
+    plan_elegant: '優雅(2-4朵主花，每週 HKD93)',
+    plan_bloom: '盛會(5-10朵主花，每週 HKD223)',
+    everyMonday: '每週星期一',
+    everyWednesday: '每週星期三',
   }
 });
 
@@ -120,9 +144,9 @@ export default class NewSubscription extends Component {
       cardMessage: '',
       sender: '',
       address: '',
-      deliveryDay: 'Every Monday',
-      selectPlanType: 'Florist Choice (seasonal flower)',
-      selectPlanSize: 'Simple (single bloom, 53HKD/week)',
+      deliveryDay: 'everyMonday',
+      selectPlanType: 'flower_all',
+      selectPlanSize: 'plan_simple',
       price: 5300,
       deliveryFee: 0,
       grandTotal: 5300,
@@ -154,11 +178,11 @@ export default class NewSubscription extends Component {
       }
     //Redundant math is used to simulate calculation on webtask and stripe
     var firstPayment = new Date(Math.floor(d.getTime()/1000)*1000);
-    if (deliveryDay==="Every Monday") {
+    if (deliveryDay==="everyMonday") {
         firstDelivery.setDate(firstPayment.getDate() + (1 + 7 - firstPayment.getDay()) % 7);
         this.setState({firstDelivery: firstDelivery, firstPayment: firstPayment});
         console.log('first Monday delivery will happen on: ', firstDelivery);
-    } else if (deliveryDay==="Every Wednesday") {
+    } else if (deliveryDay==="everyWednesday") {
         firstDelivery.setDate(firstPayment.getDate() + 7);
         console.log('first Wednesday delivery will happen on: ', firstDelivery);
         this.setState({firstDelivery: firstDelivery, firstPayment: firstPayment});
@@ -173,10 +197,10 @@ export default class NewSubscription extends Component {
   }
   handleRegionSelect = (eventKey) => {
     this.props.onRegionSelection(eventKey);
-    if (eventKey === "HK - Admiralty" || eventKey === "HK - Central") {
-        this.setState({deliveryDay: 'Every Monday'}, this.calculateFirstDelivery);
-    } else if (eventKey ==="HK - Chai Wan") {
-        this.setState({deliveryDay: 'Every Wednesday'}, this.calculateFirstDelivery);
+    if (eventKey === "HK_Admiralty" || eventKey === "HK_Central") {
+        this.setState({deliveryDay: 'everyMonday'}, this.calculateFirstDelivery);
+    } else if (eventKey ==="HK_ChaiWan" || eventKey ==="HK_ChaiWan_BMCPC" || eventKey ==="HK_ChaiWan_CapeCollison") {
+        this.setState({deliveryDay: 'everyWednesday'}, this.calculateFirstDelivery);
     }
   }
   handlePlanTypeSelect = (eventKey) => {
@@ -184,10 +208,12 @@ export default class NewSubscription extends Component {
   }
   handlePlanSizeSelect = (eventKey) => {
     this.setState({selectPlanSize: eventKey});
-    if (eventKey === "Simple (single bloom, HKD53/week)") {
+    if (eventKey === "plan_simple") {
         this.setState({price: 5300, currencyType: 'HKD', grandTotal: 5300+this.state.deliveryFee, planID: 'HKSimple53'});
-    } else if (eventKey === "Boquet (6 blooms, HKD233/week)") {
-        this.setState({price: 23300, currencyType: 'HKD', grandTotal: 23300+this.state.deliveryFee, planID: 'HKBoquet223'});
+    } else if (eventKey === "plan_elegant") {
+        this.setState({price: 9300, currencyType: 'HKD', grandTotal: 9300+this.state.deliveryFee, planID: 'HKElegant93'});
+    } else if (eventKey === "plan_bloom") {
+        this.setState({price: 23300, currencyType: 'HKD', grandTotal: 23300+this.state.deliveryFee, planID: 'HKBloom223'});
     }
   }
   handleCardMessage = (e) => {
@@ -265,22 +291,25 @@ export default class NewSubscription extends Component {
                         <Col sm={2}></Col>
                         <Col sm={3}><div><strong>{strings.deliveryArea}</strong></div></Col>
                         <Col sm={6}>
-                            <DropdownButton title={selectRegion} className="subscription-select" id="subscriptioin-regionSelect-dropdown" onSelect={this.handleRegionSelect}>
-                                <MenuItem eventKey="HK - Admiralty">HK - Admiralty</MenuItem>
-                                <MenuItem eventKey="HK - Central">HK - Central</MenuItem>
-                                <MenuItem eventKey="HK - Chai Wan">HK - Chai Wan</MenuItem>
+                            <DropdownButton title={strings[selectRegion]} className="subscription-select" id="subscriptioin-regionSelect-dropdown" onSelect={this.handleRegionSelect}>
+                            <MenuItem eventKey="HK_Admiralty">{strings.HK_Admiralty}</MenuItem>
+                            <MenuItem eventKey="HK_Central">{strings.HK_Central}</MenuItem>
+                            <MenuItem eventKey="HK_ChaiWan">{strings.HK_ChaiWan}</MenuItem>
+                            <MenuItem eventKey="HK_ChaiWan_BMCPC">{strings.HK_ChaiWan_BMCPC}</MenuItem>
+                            <MenuItem eventKey="HK_ChaiWan_CapeCollison">{strings.HK_ChaiWan_CapeCollison}</MenuItem>
+                            <MenuItem eventKey="other">{strings.other}</MenuItem>
                             </DropdownButton>
                             <div className="subscription-tips">{strings.deliveryTip1}</div>
-                            <div className="subscription-tips">{strings.deliveryTip2_1} {selectRegion} {strings.deliveryTip2_2} <strong>{this.state.deliveryDay}</strong>{strings.deliveryTip2_3}</div>
+                            <div className="subscription-tips">{strings.deliveryTip2_1} <strong>{strings[selectRegion]}</strong> {strings.deliveryTip2_2} <strong>{strings[this.state.deliveryDay]}</strong>{strings.deliveryTip2_3}</div>
                         </Col>
                     </Row>
                     <Row className="show-grid">
                         <Col sm={2}></Col>
                         <Col sm={3}><div><strong>{strings.planFlowers}</strong></div></Col>
                         <Col sm={6}>
-                            <DropdownButton title={selectPlanType} className="subscription-select" id="subscriptioin-planTypeSelect-dropdown" onSelect={this.handlePlanTypeSelect}>
-                                <MenuItem eventKey="Florist Choice (seasonal flower)">Florist Choice (seasonal flower)</MenuItem>
-                                <MenuItem eventKey="Florist Choice (seasonal rose only)">Florist Choice (seasonal rose only)</MenuItem>
+                            <DropdownButton title={strings[selectPlanType]} className="subscription-select" id="subscriptioin-planTypeSelect-dropdown" onSelect={this.handlePlanTypeSelect}>
+                                <MenuItem eventKey="flower_all">{strings.flower_all}</MenuItem>
+                                <MenuItem eventKey="flower_rose">{strings.flower_rose}</MenuItem>
                             </DropdownButton>
                         </Col>
                     </Row>
@@ -288,9 +317,10 @@ export default class NewSubscription extends Component {
                         <Col sm={2}></Col>
                         <Col sm={3}><div><strong>{strings.planSize}</strong></div></Col>
                         <Col sm={6}>
-                            <DropdownButton title={selectPlanSize} className="subscription-select" id="subscriptioin-planTypeSelect-dropdown" onSelect={this.handlePlanSizeSelect}>
-                                <MenuItem eventKey="Simple (single bloom, HKD53/week)">Simple (single bloom, HKD53/week)</MenuItem>
-                                <MenuItem eventKey="Boquet (6 blooms, HKD233/week)">Boquet (6 blooms, HKD233/week)</MenuItem>
+                            <DropdownButton title={strings[selectPlanSize]} className="subscription-select" id="subscriptioin-planTypeSelect-dropdown" onSelect={this.handlePlanSizeSelect}>
+                                <MenuItem eventKey="plan_simple">{strings.plan_simple}</MenuItem>
+                                <MenuItem eventKey="plan_elegant">{strings.plan_elegant}</MenuItem>
+                                <MenuItem eventKey="plan_bloom">{strings.plan_bloom}</MenuItem>
                             </DropdownButton>
                         </Col>
                     </Row>
@@ -537,7 +567,7 @@ export default class NewSubscription extends Component {
                                 <div><strong>{strings.deliveryDay}</strong></div>
                             </Col>
                             <Col sm={6}>
-                                <div>{this.state.deliveryDay}</div>
+                                <div>{strings[this.state.deliveryDay]}</div>
                             </Col>
                         </FormGroup>
                     </Row>
@@ -581,7 +611,7 @@ export default class NewSubscription extends Component {
                                 <div><strong>{strings.planFlowers}</strong></div>
                             </Col>
                             <Col sm={6}>
-                            <div>{this.state.selectPlanType}</div>
+                            <div>{strings[this.state.selectPlanType]}</div>
                             </Col>
                         </FormGroup>
                     </Row>
@@ -592,7 +622,7 @@ export default class NewSubscription extends Component {
                                 <div><strong>{strings.planSize}</strong></div>
                             </Col>
                             <Col sm={6}>
-                            <div>{this.state.selectPlanSize}</div>
+                            <div>{strings[this.state.selectPlanSize]}</div>
                             </Col>
                         </FormGroup>
                     </Row>
@@ -662,7 +692,7 @@ export default class NewSubscription extends Component {
                                     <div><strong>{strings.planSize}</strong></div>
                                 </Col>
                                 <Col sm={6}>
-                                    <div>{this.state.selectPlanSize}</div>
+                                    <div>{strings[this.state.selectPlanSize]}</div>
                                 </Col>
                             </FormGroup>
                         </Row>

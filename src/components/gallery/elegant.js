@@ -38,7 +38,7 @@ let strings = new LocalizedStrings({
   
 
 const ButtonToRegionList = ({ title, history }) => (
-    <Button bsStyle="" className="button" onClick={() => history.push('/signups')}>Sign Up</Button>
+    <Button bsStyle="" className="button" onClick={() => history.push('/')}>Sign Up</Button>
   );
 
 export default class GalleryElegant extends Component {
