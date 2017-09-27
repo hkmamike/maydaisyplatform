@@ -19,8 +19,8 @@ let strings = new LocalizedStrings({
       receiveUpdateText: 'We will keep you updated about your subscription through email and your account page, and you can update your message card on this website.',
       delight: 'Delight',
       delightText: 'Your loved one receives flowers and your card (we hand write your message), prepared with heart by your local florist!',
-      simple: 'Simple',
-      simpleText: 'designer picked seasonal flowers, 1-2 blooms, HKD53 per week. >>click<<',
+      classic: 'Classic',
+      classicText: 'designer picked seasonal flowers, 1-2 blooms, HKD53 per week. >>click<<',
       elegant: 'Elegant',
       elegantText: 'designer picked seasonal flowers, 2-4 blooms, HKD93 per week. >>click<<',
       bloom: 'Bloom',
@@ -38,27 +38,27 @@ let strings = new LocalizedStrings({
     },
     ch: {
       signUp: '報名',
-      homeImgTitle: '本地花匠設計的花卉，時令花材，每周一次。',
-      homeImgSubtitle: '你想送花去邊個地區?',
+      homeImgTitle: '由本地花匠設計的時令花卉，每週一次。',
+      homeImgSubtitle: '花卉該送往哪裏?',
       howItWorks1: ' ',
       howItWorks2: '五月菊',
       howItWorks3: '是什麼',
-      howItWorks4: '1,2,3, 好簡單',
+      howItWorks4: '簡單如 1,2,3',
       subscribe: '訂購',
-      subscribeText: '獎勵自己或給您愛的人每週送花，由本地花匠設計，時令花材，品種不定。',
+      subscribeText: '驚喜！獎勵自己或給您愛的人每週送花，由本地花匠運用時令鮮花設計，品種隨機。',
       receiveUpdate: '訂單資訊',
       receiveUpdateText: '我們會用電郵和這網頁保持聯繫，您亦可以在這個網頁上更新您的問候卡。',
       delight: '收花',
-      delightText: '收花人會每週收到鲜花和您的問候卡，您的花匠會幫您手寫您的信息。',
-      simple: '簡單',
-      simpleText: '花匠用時令花材設計，1-2朵主花，每週 HKD53。 >>看圖<<',
+      delightText: '收花人會於每週收到鲜花和您的問候卡並由您的花匠送出手寫字表達心意。',
+      classic: '經典',
+      classicText: '花匠用時令花材設計，1-2朵主花，每週 HKD53。 >>看圖<<',
       elegant: '優雅',
       elegantText: '花匠用時令花材設計，2-4朵主花，每週 HKD93。 >>看圖<<',
       bloom: '盛會',
       bloomText: '花匠用時令花材設計，5-10朵主花，每週 HKD223。 >>看圖<<',
       aboutUs1: '關於',
       aboutUs2: '我們',
-      aboutUsText: '五月菊是一個關於簡單地享受花和細水長流的愛的運動。以每週無限制形式的訂購，我們令愛的表達變得更持久而有趣，更可以令愛花之人有更多驚喜。我們可以將鮮花配送給您(如果您想親自送花)，或直接配送給收花人。為了令五月菊價格更大眾化，每個地區的服務會在收集到150個報名之後開啟，屆時已報名的客人會收到電郵邀請。快來看看您的地區服務是否已開啟!',
+      aboutUsText: '五月菊的理念是推動細水長流的愛及簡單地享受鮮花。以每週發送無限制形式設計的鮮花，我們令愛的表達變得更持久而有趣，更可以令愛花之人有更多驚喜。我們可以將鮮花配送給您(如果您想親自送花)，或直接配送給收花人。為了令五月菊價格更大眾化，每個地區的服務會在收集到150個報名之後開啟，屆時已報名的客人會收到電郵邀請。快來看看您的地區服務是否已開啟!',
       joinNow: '快來加入愛花之人的五月菊運動 ',
       HK_Admiralty: '香港-金鐘',
       HK_Central: '香港-中環',
@@ -156,12 +156,12 @@ export default class Homepage extends Component {
         <div className="home-pic-section">
           <Grid>
             <Row className="show-grid home-pic-container">
-              <Link to="/gallery-simple">
+              <Link to="/gallery-classic">
                 <Col sm={4} className="home-pic-1 home-pic">
                   <div className="home-pic-shade"></div>
                   <div className="home-pic-text">
-                    <div className="home-pic-title">{strings.simple}</div>
-                    <div>{strings.simpleText}</div>
+                    <div className="home-pic-title">{strings.classic}</div>
+                    <div>{strings.classicText}</div>
                   </div>
                 </Col>
               </Link>

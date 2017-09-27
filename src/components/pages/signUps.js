@@ -17,9 +17,9 @@ let strings = new LocalizedStrings({
       subscriptionTitle: "Subscription",
       subscriptionSubtitle1_1: "MayDaisy is delivering to ",
       subscriptionSubtitle1_2: " Please log in to subscribe. These are the available plans in the region. Check out our gallery to see sample arrangements.",
-      simple1_1: 'Simple ',
-      simple1_2: 'HKD53',
-      simple1_3: ' per week, delivery included',
+      classic1_1: 'Classic ',
+      classic1_2: 'HKD53',
+      classic1_3: ' per week, delivery included',
       elegant1_1: 'Elegant ',
       elegant1_2: 'HKD93',
       elegant1_3: ' per week, delivery included',
@@ -141,9 +141,9 @@ let strings = new LocalizedStrings({
       subscriptionTitle: "鮮花訂購",
       subscriptionSubtitle1_1: "五月菊的服務已在 ",
       subscriptionSubtitle1_2: " 開啟! 如要訂購，請登入您的帳戶。以下是我們提供的計劃，相簿裏有花卉樣本以供參考。請注意，花匠會用時令花材設計每週的花卉，品種隨機。",
-      simple1_1: '簡單 ',
-      simple1_2: '每週 HKD53',
-      simple1_3: '，免費配送',
+      classic1_1: '經典 ',
+      classic1_2: '每週 HKD53',
+      classic1_3: '，免費配送',
       elegant1_1: '優雅 ',
       elegant1_2: '每週 HKD93',
       elegant1_3: '，免費配送',
@@ -260,7 +260,7 @@ const ButtonToLogin = ({ title, history }) => (
 );
 
 const ButtonToGallery = ({ title, history }) => (
-  <Button bsStyle="" className="button" onClick={() => history.push('/gallery-simple')}>{strings.galleryButton}</Button>
+  <Button bsStyle="" className="button" onClick={() => history.push('/gallery-classic')}>{strings.galleryButton}</Button>
 );
 
 class GreetingInBusinessHeader extends React.Component {
@@ -295,7 +295,7 @@ class GreetingInBusiness extends React.Component {
               <h2 className="section-title"><strong>{strings.subscriptionTitle}</strong></h2>
               <div className="section-subtitle">{strings.subscriptionSubtitle1_1}<strong>{strings[this.props.selectRegion]}</strong>{strings.subscriptionSubtitle1_2}</div>
               <ul className="section-list">
-                <li><strong>{strings.simple1_1}</strong>{strings.simple1_2}{strings.simple1_3}</li>
+                <li><strong>{strings.classic1_1}</strong>{strings.classic1_2}{strings.classic1_3}</li>
                 <li><strong>{strings.elegant1_1}</strong>{strings.elegant1_2}{strings.elegant1_3}</li>
                 <li><strong>{strings.bloom1_1}</strong>{strings.bloom1_2}{strings.bloom1_3}</li>
               </ul>

@@ -15,8 +15,12 @@ import AccountInfo from './components/protected/accountInfo';
 //text pages
 import PrivacyPolicy from './components/textPages/privacyPolicy'
 import TermsOfServices from './components/textPages/terms'
+import ContactUs from './components/textPages/contactUs'
+import About from './components/textPages/about'
+import FAQ from './components/textPages/faq'
+import Career from './components/textPages/career'
 //gallery
-import GallerySimple from './components/gallery/simple';
+import GalleryClassic from './components/gallery/classic';
 import GalleryElegant from './components/gallery/elegant';
 import GalleryBloom from './components/gallery/bloom';
 //includes
@@ -105,12 +109,17 @@ export default class App extends Component {
             <PublicRoute authed={this.state.authed} path='/register' component={Register} languageChanged={this.state.languageChanged}/>
 
 
-            <Route path='/gallery-simple' exact render={(props) => (<GallerySimple {...props} languageChanged={this.state.languageChanged}/>)}/>
+            <Route path='/gallery-classic' exact render={(props) => (<GalleryClassic {...props} languageChanged={this.state.languageChanged}/>)}/>
             <Route path='/gallery-elegant' exact render={(props) => (<GalleryElegant {...props} languageChanged={this.state.languageChanged}/>)}/>
             <Route path='/gallery-bloom' exact render={(props) => (<GalleryBloom {...props} languageChanged={this.state.languageChanged}/>)}/>
 
             <Route path='/privacy-policy' exact render={(props) => (<PrivacyPolicy {...props} languageChanged={this.state.languageChanged}/>)}/>
             <Route path='/terms' exact render={(props) => (<TermsOfServices {...props} languageChanged={this.state.languageChanged}/>)}/>
+
+            <Route path='/faq' exact render={(props) => (<FAQ {...props} languageChanged={this.state.languageChanged}/>)}/>
+            <Route path='/contact' exact render={(props) => (<ContactUs {...props} languageChanged={this.state.languageChanged}/>)}/>
+            <Route path='/career' exact render={(props) => (<Career {...props} languageChanged={this.state.languageChanged}/>)}/>
+            <Route path='/about' exact render={(props) => (<About {...props} languageChanged={this.state.languageChanged}/>)}/>
 
             <Route path='/signups' exact render={(props) => (<SignUps {...props} selectRegion={selectRegion} onRegionSelection={this.handleRegionSelection} languageChanged={this.state.languageChanged}/>)}/>
 

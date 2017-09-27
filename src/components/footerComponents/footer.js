@@ -7,7 +7,7 @@ let strings = new LocalizedStrings({
   en:{
     company: 'Company',
     careers: 'Careers',
-    partnership: 'Partnership',
+    about: 'About Us',
     support: 'Support',
     faq: 'FAQ',
     contactUs: 'Contact Us',
@@ -19,7 +19,7 @@ let strings = new LocalizedStrings({
   ch: {
     company: '公司',
     careers: '職位空缺',
-    partnership: '合作',
+    about: '關於我們',
     support: '客戶服務',
     faq: '常見問題',
     contactUs: '聯絡方法',
@@ -54,14 +54,14 @@ export default class Footer extends Component {
                 <div className="footer-title">{strings.company}</div>
                 <ul className="foote-list">
                   <li>{strings.careers}</li>
-                  <li>{strings.partnership}</li>
+                  <li>{strings.about}</li>
                 </ul>
               </Col>
               <Col xs={6} sm={4}>
                 <div className="footer-title">{strings.support}</div>
                 <ul className="foote-list">
-                  <li>{strings.faq}</li>
-                  <li>{strings.contactUs}</li>
+                  <li><Link to="/faq">{strings.faq}</Link></li>
+                  <li><Link to="/contact">{strings.contactUs}</Link></li>
                 </ul>
               </Col>
               <Col xs={6} sm={4}>

@@ -61,7 +61,7 @@ let strings = new LocalizedStrings({
     HK_ChaiWan_CapeCollison: 'HK-Chai Wan, Cape Collison',
     flower_all: 'Seasonal Flower (all)',
     flower_rose: 'Seasonal Flower (rose only)',
-    plan_simple: 'Simple (1-2 blooms, HKD53/week)',
+    plan_classic: 'Classic (1-2 blooms, HKD53/week)',
     plan_elegant: 'Elegant (2-4 blooms, HKD93/week)',
     plan_bloom: 'Bloom (5-10 blooms, HKD223/week)',
     everyMonday: 'Every Monday',
@@ -124,7 +124,7 @@ let strings = new LocalizedStrings({
     HK_ChaiWan_CapeCollison: '香港-柴灣墓園(歌連臣角十字架)',
     flower_all: '時令花種(所有)',
     flower_rose: '時令花種(只要玫瑰)',
-    plan_simple: '簡單(1-2朵主花，每週 HKD53)',
+    plan_classic: '經典(1-2朵主花，每週 HKD53)',
     plan_elegant: '優雅(2-4朵主花，每週 HKD93)',
     plan_bloom: '盛會(5-10朵主花，每週 HKD223)',
     everyMonday: '每週星期一',
@@ -146,12 +146,12 @@ export default class NewSubscription extends Component {
       address: '',
       deliveryDay: 'everyMonday',
       selectPlanType: 'flower_all',
-      selectPlanSize: 'plan_simple',
+      selectPlanSize: 'plan_classic',
       price: 5300,
       deliveryFee: 0,
       grandTotal: 5300,
       currencyType: 'HKD',
-      planID: 'HKSimple53',
+      planID: 'HKClassic53',
       recipient: '',
       recipientNum: '',
       company: '',
@@ -208,8 +208,8 @@ export default class NewSubscription extends Component {
   }
   handlePlanSizeSelect = (eventKey) => {
     this.setState({selectPlanSize: eventKey});
-    if (eventKey === "plan_simple") {
-        this.setState({price: 5300, currencyType: 'HKD', grandTotal: 5300+this.state.deliveryFee, planID: 'HKSimple53'});
+    if (eventKey === "plan_classic") {
+        this.setState({price: 5300, currencyType: 'HKD', grandTotal: 5300+this.state.deliveryFee, planID: 'HKClassic53'});
     } else if (eventKey === "plan_elegant") {
         this.setState({price: 9300, currencyType: 'HKD', grandTotal: 9300+this.state.deliveryFee, planID: 'HKElegant93'});
     } else if (eventKey === "plan_bloom") {
@@ -322,7 +322,7 @@ export default class NewSubscription extends Component {
                         <Col sm={3}><div><strong>{strings.planSize}</strong></div></Col>
                         <Col sm={6}>
                             <DropdownButton title={strings[selectPlanSize]} className="subscription-select" id="subscriptioin-planTypeSelect-dropdown" onSelect={this.handlePlanSizeSelect}>
-                                <MenuItem eventKey="plan_simple">{strings.plan_simple}</MenuItem>
+                                <MenuItem eventKey="plan_classic">{strings.plan_classic}</MenuItem>
                                 <MenuItem eventKey="plan_elegant">{strings.plan_elegant}</MenuItem>
                                 <MenuItem eventKey="plan_bloom">{strings.plan_bloom}</MenuItem>
                             </DropdownButton>

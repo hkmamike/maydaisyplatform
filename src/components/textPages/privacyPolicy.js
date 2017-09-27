@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { Button } from 'react-bootstrap';
 import { Grid, Row, Col } from 'react-bootstrap';
-import { Link, Route } from 'react-router-dom';
+import { Route } from 'react-router-dom';
 import LocalizedStrings from 'react-localization';
 
 let strings = new LocalizedStrings({
@@ -44,7 +44,7 @@ export default class PrivacyPolicy extends Component {
                 <div className="text-page-about">
                     <Grid>
                         <Row>
-                            <h2><span className="text-page-title">{strings.pageTitle}</span></h2>
+                            <h2 className="text-page-title"><span>{strings.pageTitle}</span></h2>
                             <Col sm={1}></Col>
                             <Col sm={10}>
                             <div className="text-page-text">

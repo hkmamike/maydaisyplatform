@@ -3,7 +3,7 @@
     color: $black;
     padding: 20px;
     text-align: center;
-    min-height: 400px;
+    min-height: 800px;
     font-size: 90%;
     .text-page-about {
         background-color: $white;
@@ -13,12 +13,24 @@
         min-height: 400px;
         .text-page-title {
             color: $darkpink;
+            margin-bottom: 40px;
+            @media (max-width: 600px) {
+                margin-bottom: 20px;
+            }
         }
         a {
             color: $darkpink !important;
         }
         .text-page-text {
             text-align: left;
+            .faq-question {
+                margin-top: 30px;
+                margin-bottom: 20px;
+                font-weight: bold;
+            }
+            .faq-answer {
+                margin: 20px;
+            }
         }
         .text-page-button-div {
             text-align: center !important;
