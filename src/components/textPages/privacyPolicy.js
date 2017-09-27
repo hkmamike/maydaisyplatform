@@ -52,7 +52,7 @@ export default class PrivacyPolicy extends Component {
                                 <p className="font-italic bold">如果您需要中文的私隱條款，請聯絡客戶服務熱線或客戶服務電郵 (please contact support via email or hotline if you would like to request our privacy terms in another language)</p>
                                 <p>This Privacy Policy describes how information about you is collected, used and disclosed by MayDaisy Co. and our subsidiaries and other affiliates (collectively, “MayDaisy,” “we,” “us” or “our”) when you access or use the websites, mobile applications or blogs provided by us (collectively, the “Sites”) or otherwise interact with us.</p>
                                 <p>MayDaisy reserves the right to change or modify this Privacy Policy at any time and in our sole discretion. If we make changes to this Privacy Policy, we will provide notice of such changes, such as by sending an email notification, providing notice through the Sites or updating the “Last Updated” date at the beginning of this Privacy Policy. We encourage you to review this Privacy Policy whenever you use or access the Sites or otherwise interact with us to stay informed about our information practices and the ways you can help protect your privacy.</p>
-                                <p>Collection of Information</p>
+                                <p><strong>Collection of Information</strong></p>
                                 <p>Information You Provide to Us</p>
                                 <p>We collect information you provide directly to us. For example, we collect information when you register for a MayDaisy account, sign up for a subscription, participate in any interactive features of the Sites, subscribe to a newsletter or email list, participate in a survey, contest, promotion or event, order or purchase (either for yourself or for another person) products made available through the Sites (collectively, the “Products”), apply for a job, communicate with us via third party social media sites, request customer support or otherwise communicate with us.</p>
                                 <p>The types of information we may collect from you include:</p>
@@ -71,7 +71,7 @@ export default class PrivacyPolicy extends Component {
                                 </ol>
                                 <p>Information We Collect From Other Sources</p>
                                 <p>We may also obtain information about you from other sources and combine that with information we collect directly. For example, we may collect information about you when you post content to our pages or feeds on third party social media sites, or if you use credentials (e.g., username and password) from a third party site to create or log into your MayDaisy account.</p>
-                                <p>Use of Information</p>
+                                <p><strong>Use of Information</strong></p>
                                 <p>We may use information about you for various purposes, including to:</p>
                                 <ol>
                                     <li>Provide, maintain and improve the Sites and Products;</li>
@@ -86,7 +86,7 @@ export default class PrivacyPolicy extends Component {
                                     <li>Carry out any other purpose for which the information was collected.</li>
                                 </ol>
                                 <p>MayDaisy is based in Hong Kong, and the information we collect is governed by Hong Kong law. By accessing or using the Sites or otherwise providing information to us, you consent to the processing and transfer of information in and to Hong Kong and other countries.</p>
-                                <p>Sharing of Information</p>
+                                <p><strong>Sharing of Information</strong></p>
                                 <p>We may share information about you as follows or as otherwise described in this Privacy Policy:</p>
                                 <ol>
                                     <li>With vendors, consultants and other service providers who need access to such information to carry out work or perform services on our behalf;</li>
@@ -108,7 +108,7 @@ export default class PrivacyPolicy extends Component {
                                 <p>We may also work with third party social media sites, such as Facebook, to serve ads to you as part of a customized campaign, unless you notify us that you prefer not to have information about you used in this way. For more information about how you can opt out of customized campaigns, please see “Your Choices” below.</p>
                                 <p>Security</p>
                                 <p>MayDaisy takes reasonable measures to help protect information about you from loss, theft, misuse and unauthorized access, disclosure, alteration and destruction. Please understand, however, that no security system is impenetrable. We cannot guarantee the security of our databases, nor can we guarantee that the information you supply will not be intercepted while being transmitted to or from us over the Internet. In particular, email sent to or from the Sites may not be secure, and you should therefore take special care in deciding what information you send to us via email.</p>
-                                <p>Your Choices</p>
+                                <p><strong>Your Choices</strong></p>
                                 <p>Account Information</p>
                                 <p>You may update, correct or modify information about you at any time by logging into your online account or by emailing us. If you wish to deactivate your account, please contact our support hotline or our support email, but note we may continue to store information about you as required by law or for legitimate business purposes. Updated details about our contact information is available under the “Support” section of our website at <a href="https://maydaisy.com">maydaisy.com</a>.</p>
                                 <p>Location Information</p>
@@ -123,7 +123,7 @@ export default class PrivacyPolicy extends Component {
                                 <p>You may opt out of receiving promotional communications from us by following the instructions in those communications or by emailing us. If you opt out, we may still send you non-promotional communications, such as those about your account or our ongoing business relations. Updated details about our contact information is available under the “Support” section of our website at <a href="https://maydaisy.com">maydaisy.com</a>.</p>
                                 <p>Push Notifications</p>
                                 <p>With your consent, we may send promotional and non-promotional push notifications or alerts to your mobile device. You can deactivate these messages at any time by changing the notification settings on your mobile device or within our mobile applications.</p>
-                                <p>Contact Us</p>
+                                <p><strong>Contact Us</strong></p>
                                 <p>If you have any questions about this Privacy Policy, please contact us at our support hotline or by emailing us. Updated details about our contact information is available under the “Support” section of our website at <a href="https://www.maydaisy.com">maydaisy.com</a>.</p>                       
                                 <div className="text-page-button-div">
                                     <Route path="/" render={(props) => <ButtonToRegionList {...props}/>} />

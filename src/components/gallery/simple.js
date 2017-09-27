@@ -34,7 +34,7 @@ let strings = new LocalizedStrings({
       li5: '建議花瓶尺寸: "簡單"的設計配以一個 10-15cm 高，開口直徑 1-2cm 大的花瓶效果會最好。',
       li6: '為了令五月菊價格更大眾化，每個地區的服務會在收集到150個報名之後開啟，屆時已報名的客人會收到電郵邀請。快來看看您的地區服務是否已開啟!'
     }
-  });
+});
   
 const ButtonToRegionList = ({ title, history }) => (
   <Button bsStyle="" className="button" onClick={() => history.push('/')}>{strings.signUp}</Button>

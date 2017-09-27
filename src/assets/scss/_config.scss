@@ -50,6 +50,11 @@ a {
         text-decoration: none !important;
         @include transition (.4s ease-in-out);
     }
+    &:focus {
+        color: $pink;
+        text-decoration: none !important;
+        @include transition (.4s ease-in-out);
+    }
 }
 
 .font-italic {

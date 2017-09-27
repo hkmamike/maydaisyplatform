@@ -67,7 +67,7 @@ export default class Footer extends Component {
               <Col xs={6} sm={4}>
                 <div className="footer-title">{strings.terms}</div>
                 <ul className="foote-list">
-                  <li>{strings.termsOfStervices}</li>
+                  <li><Link to="/terms">{strings.termsOfStervices}</Link></li>
                   <li><Link to="/privacy-policy">{strings.privacyPolicy}</Link></li>
                 </ul>
               </Col>
