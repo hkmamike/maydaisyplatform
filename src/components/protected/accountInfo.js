@@ -122,7 +122,10 @@ export default class AccountInfo extends Component {
 
     let content = null;
     if (loadingState) {
-      content = <div className="loader"></div>
+      content = <div>
+                  <div className="horizontal-line"></div>
+                  <div className="loader"></div>
+                </div>
     } else {
       content = (
         <div>
@@ -191,7 +194,7 @@ export default class AccountInfo extends Component {
           <Grid>
             <Row className="show-grid loggedin-nav">
               <Col xs={4} className="loggedin-nav-button">
-                <Link to="/subscriptions" className="nav-selected">
+                <Link to="/subscriptions">
                   <i className="fa fa-tags fa-lg nav-icon"></i>
                   <div className="nav-icon-title">{strings.mySubscriptions1}<br/>{strings.mySubscriptions2}</div>
                 </Link>
@@ -203,11 +206,12 @@ export default class AccountInfo extends Component {
                 </Link>
               </Col>
               <Col xs={4} className="loggedin-nav-button">
-                <Link to="/accountinfo">
+                <Link to="/accountinfo" className="nav-selected">
                   <i className="fa fa-user-circle fa-lg nav-icon"></i>
                   <div className="nav-icon-title">{strings.accountInformation1}<br/>{strings.accountInformation2}</div>
                 </Link>
               </Col>
+              <div className="horizontal-line"></div>
             </Row>
             <Row className="show-grid loggedin-margin-box">
               <Col className="loggedin-content">
