@@ -31,7 +31,7 @@ let strings = new LocalizedStrings({
     tip1_1: '*The cut off time to change card message is ',
     tip1_2: '11:59 p.m. on Wednesday',
     tip1_3: " prior to the next week's delivery.",
-    tip2: '**To change delivery address, flower type, or plan, please create a new subscription and unsubscribe from this one.',
+    tip2: '**To change delivery address, flower type, or plan, please create a new subscription and unsubscribe from this one. Sorry for any inconvience caused.',
     unSubModalTitle: 'Cancel Subscription',
     unSubText1: 'We are sorry to see you go. To continue, click "Unsubscribe" to confirm.',
     unSubText2: 'Please note that if your cancelation request is received after 11:59 pm HKT on Wednesday, your card has already been charged this week and one more delivery will be made in the following week.',

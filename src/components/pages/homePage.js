@@ -38,7 +38,7 @@ let strings = new LocalizedStrings({
     },
     ch: {
       signUp: '報名',
-      homeImgTitle: '由本地花匠設計的時令花卉，每週一次。',
+      homeImgTitle: '由本地花匠用時令鮮花設計的花卉，每週一次。',
       homeImgSubtitle: '花卉該送往哪裏?',
       howItWorks1: ' ',
       howItWorks2: '五月菊',
