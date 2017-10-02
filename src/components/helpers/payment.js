@@ -60,6 +60,7 @@ export default class ChargeMoney extends React.Component {
         var planID = this.props.planID;
         var selectPlanType = this.props.selectPlanType;
         var selectPlanSize = this.props.selectPlanSize;
+        var selectLocationType = this.props.selectLocationType;
         var grandTotalPerWeek = this.props.grandTotal;
         var senderName = this.props.sender;
         var senderNum = this.props.senderNum;
@@ -109,10 +110,10 @@ export default class ChargeMoney extends React.Component {
                         subscriptionTime = data.current_period_start;
                         firstPayment = new Date(data.current_period_end*1000);
                         console.log('firstPayment will happen on:', firstPayment);
-                        if (deliveryDay==="Every Monday") {
+                        if (deliveryDay==="everyMonday") {
                             firstDelivery.setDate(firstPayment.getDate() + (1 + 7 - firstPayment.getDay()) % 7);
                             console.log('first Monday delivery will happen on: ', firstDelivery);
-                        } else if (deliveryDay==="Every Wednesday") {
+                        } else if (deliveryDay==="everyWednesday") {
                             firstDelivery.setDate(firstPayment.getDate() + 7);
                             console.log('first Wednesday delivery will happen on: ', firstDelivery);
                         }
@@ -128,6 +129,7 @@ export default class ChargeMoney extends React.Component {
                                 uid: uid,
                                 selectPlanType: selectPlanType,
                                 selectPlanSize: selectPlanSize,
+                                selectLocationType: selectLocationType,
                                 grandTotalPerWeek: grandTotalPerWeek,
                                 senderName: senderName,
                                 senderNum: senderNum,
@@ -156,6 +158,7 @@ export default class ChargeMoney extends React.Component {
                                 planID: planID,
                                 selectPlanType: selectPlanType,
                                 selectPlanSize: selectPlanSize,
+                                selectLocationType: selectLocationType,
                                 grandTotalPerWeek: grandTotalPerWeek,
                                 senderName: senderName,
                                 senderNum: senderNum,
@@ -205,11 +208,11 @@ export default class ChargeMoney extends React.Component {
             <StripeCheckout
                 name={strings.checkOutName}
                 description={strings.checkOutDescription}
-                image="" //app icon
+                image="https://firebasestorage.googleapis.com/v0/b/onebloom-cfa9d.appspot.com/o/logo.png?alt=media&token=d3f89daa-2818-4ec2-9aed-b006e7cd9f24" //app icon
                 panelLabel="Pay" // prepended to the amount in the bottom pay button
                 amount={this.props.price} // cents
                 currency="HKD"
-                stripeKey="pk_test_5AFpArfSAWtcsdRPGtFItgiH"
+                stripeKey="pk_live_4DMkTz9So7I02XzeYkkKl6ye"
                 locale="auto"
                 label={strings.checkOutLabel}
                 allowRememberMe = {false} // "Remember Me" option (default true)

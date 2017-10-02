@@ -52,6 +52,9 @@ let strings = new LocalizedStrings({
     deliveryDay: 'Delivery Day:',
     subscribeButton: 'Subscribe',
     paymentTip: '*You are signing up for a weekly flower subscription and delivery service. Your card will be charged at the weekly cut off time at 11:59pm HKT on Wednesday, and delivery will be made in the following week. If you would like to cancel the subscription, please go to My Subscriptions > Subscription Details.',
+    termsTip1: '**By clicking "Subscribe" below, you confirm that you have viewed and accept our ',
+    termsTip2: 'Terms of Services',
+    termsTip3: '.',
     subID: 'Subscription ID:',
     mySubscriptionsButton: 'My Subscription',
     HK_Admiralty: 'HK-Admiralty',
@@ -59,6 +62,13 @@ let strings = new LocalizedStrings({
     HK_ChaiWan: 'HK-Chai Wan, Home/Office',
     HK_ChaiWan_BMCPC: 'HK-Chai Wan, BMCPC',
     HK_ChaiWan_CapeCollison: 'HK-Chai Wan, Cape Collison',
+    locationType: 'Location Type:',
+    location_office: 'Office ',
+    location_home: 'Home',
+    location_cemetery: 'Cemetery',
+    locationTypeTip1: '*Office locations receive wrapped arrangements',
+    locationTypeTip2: '*Home locations receive vase arrangements, please provide your vase in an area where our florist can access. If no one is at home, please put your vase in a safe location in front of the door.',
+    locationTypeTip3: '*Cemetery locations receive vase arrangements, please provide your vase in an area where our florist can access.',
     flower_all: 'Seasonal Flower (all)',
     flower_rose: 'Seasonal Flower (rose only)',
     plan_classic: 'Classic (1-2 blooms, HKD53/week)',
@@ -115,6 +125,9 @@ let strings = new LocalizedStrings({
     deliveryDay: '配送日:',
     subscribeButton: '訂購',
     paymentTip: '*您現在訂購的是一個每週一次的鮮花設計和配送服務，您的信用卡會在每個配送週之前的星期三香港時間晚上 11:59 p.m. 付款。如果您想取消訂購，可以到 "我的帳戶" ＞ "訂購詳情" 辦理。',
+    termsTip1: '**如果您繼續並按下 "訂購" 鍵，您確認您已經閱讀並同意接受我們的',
+    termsTip2: '服務條款',
+    termsTip3: '。',
     subID: '訂購號碼:',
     mySubscriptionsButton: '我的訂購',
     HK_Admiralty: '香港-金鐘',
@@ -122,6 +135,13 @@ let strings = new LocalizedStrings({
     HK_ChaiWan: '香港-柴灣(住家/辦公室)',
     HK_ChaiWan_BMCPC: '香港-柴灣墓園(華人永遠)',
     HK_ChaiWan_CapeCollison: '香港-柴灣墓園(歌連臣角十字架)',
+    locationType: '配送地點種類:',
+    location_office: '辦公室',
+    location_home: '住家',
+    location_cemetery: '墓園',
+    locationTypeTip1: '*辦公室地點會以花束形式配送。',
+    locationTypeTip2: '*住家地點會以到場插花的形式配送，請將花瓶放在一個花匠可以到達的地方。如果配送當天家中沒有人，請將花瓶放在門前一個安全的位置。',
+    locationTypeTip3: '*墓園地點會以到場插花的形式配送，請將花瓶放在一個花匠可以到達的地方。',
     flower_all: '時令花種(所有)',
     flower_rose: '時令花種(只要玫瑰)',
     plan_classic: '經典(1-2朵主花，每週 HKD53)',
@@ -147,6 +167,7 @@ export default class NewSubscription extends Component {
       deliveryDay: 'everyMonday',
       selectPlanType: 'flower_all',
       selectPlanSize: 'plan_classic',
+      selectLocationType: 'location_home',
       price: 5300,
       deliveryFee: 0,
       grandTotal: 5300,
@@ -161,90 +182,109 @@ export default class NewSubscription extends Component {
     }
   }
 
-  calculateFirstDelivery() {
-    var deliveryDay = this.state.deliveryDay;
-    //Calculate First Delivery Date
-    var d = new Date();
-    var firstDelivery = new Date();
-    if (d.getDay()!==3) {
-        d.setDate(d.getDate() + (3 + 7 - d.getDay()) % 7);
-        d.setHours(15);
-        d.setMinutes(59);
-        d.setSeconds(59);
-    } else {
-        d.setHours(15);
-        d.setMinutes(59);
-        d.setSeconds(59);
-      }
-    //Redundant math is used to simulate calculation on webtask and stripe
-    var firstPayment = new Date(Math.floor(d.getTime()/1000)*1000);
-    if (deliveryDay==="everyMonday") {
-        firstDelivery.setDate(firstPayment.getDate() + (1 + 7 - firstPayment.getDay()) % 7);
-        this.setState({firstDelivery: firstDelivery, firstPayment: firstPayment});
-        console.log('first Monday delivery will happen on: ', firstDelivery);
-    } else if (deliveryDay==="everyWednesday") {
-        firstDelivery.setDate(firstPayment.getDate() + 7);
-        console.log('first Wednesday delivery will happen on: ', firstDelivery);
-        this.setState({firstDelivery: firstDelivery, firstPayment: firstPayment});
+    calculateFirstDelivery() {
+        var deliveryDay = this.state.deliveryDay;
+        //Calculate First Delivery Date
+        var d = new Date();
+        var firstDelivery = new Date();
+        if (d.getDay()!==3) {
+            d.setDate(d.getDate() + (3 + 7 - d.getDay()) % 7);
+            d.setHours(15);
+            d.setMinutes(59);
+            d.setSeconds(59);
+        } else {
+            d.setHours(15);
+            d.setMinutes(59);
+            d.setSeconds(59);
+        }
+        //Redundant math is used to simulate calculation on webtask and stripe
+        var firstPayment = new Date(Math.floor(d.getTime()/1000)*1000);
+        if (deliveryDay==="everyMonday") {
+            firstDelivery.setDate(firstPayment.getDate() + (1 + 7 - firstPayment.getDay()) % 7);
+            this.setState({firstDelivery: firstDelivery, firstPayment: firstPayment});
+            console.log('first Monday delivery will happen on: ', firstDelivery);
+        } else if (deliveryDay==="everyWednesday") {
+            firstDelivery.setDate(firstPayment.getDate() + 7);
+            console.log('first Wednesday delivery will happen on: ', firstDelivery);
+            this.setState({firstDelivery: firstDelivery, firstPayment: firstPayment});
+        }
     }
-  }
 
-  handleSubscriptionStep(stripeSubID, firstPayment, firstDelivery) {
-    this.setState({subscriptionStep : 6, stripeSubID: stripeSubID, firstPayment: firstPayment, firstDelivery: firstDelivery, loading: false});
-  }
-  handleLoading() {
-    this.setState({loading: true});
-  }
-  handleRegionSelect = (eventKey) => {
-    this.props.onRegionSelection(eventKey);
-    if (eventKey === "HK_Admiralty" || eventKey === "HK_Central") {
-        this.setState({deliveryDay: 'everyMonday'}, this.calculateFirstDelivery);
-    } else if (eventKey ==="HK_ChaiWan" || eventKey ==="HK_ChaiWan_BMCPC" || eventKey ==="HK_ChaiWan_CapeCollison") {
-        this.setState({deliveryDay: 'everyWednesday'}, this.calculateFirstDelivery);
+    handleSubscriptionStep(stripeSubID, firstPayment, firstDelivery) {
+        this.setState({subscriptionStep : 6, stripeSubID: stripeSubID, firstPayment: firstPayment, firstDelivery: firstDelivery, loading: false});
     }
-  }
-  handlePlanTypeSelect = (eventKey) => {
-    this.setState({selectPlanType: eventKey});
-  }
-  handlePlanSizeSelect = (eventKey) => {
-    this.setState({selectPlanSize: eventKey});
-    if (eventKey === "plan_classic") {
-        this.setState({price: 5300, currencyType: 'HKD', grandTotal: 5300+this.state.deliveryFee, planID: 'HKClassic53'});
-    } else if (eventKey === "plan_elegant") {
-        this.setState({price: 9300, currencyType: 'HKD', grandTotal: 9300+this.state.deliveryFee, planID: 'HKElegant93'});
-    } else if (eventKey === "plan_bloom") {
-        this.setState({price: 23300, currencyType: 'HKD', grandTotal: 23300+this.state.deliveryFee, planID: 'HKBloom223'});
+    handleLoading() {
+        this.setState({loading: true});
     }
-  }
-  handleCardMessage = (e) => {
-    this.setState({cardMessage: e.target.value});
-  }
-  handleSender = (e) => {
-    this.setState({sender: e.target.value});
-  }
-  handleRecipient = (e) => {
-    this.setState({recipient: e.target.value});
-  }
-  handleRecipientNum = (e) => {
-    this.setState({recipientNum: e.target.value});
-  }
-  handleCompany = (e) => {
-    this.setState({company: e.target.value});
-  }
-  handleAddress = (e) => {
-    this.setState({address: e.target.value});
-  }
-  handleSenderNum = (e) => {
-    this.setState({senderNum: e.target.value});
-  }
+    handleRegionSelect = (eventKey) => {
+        this.props.onRegionSelection(eventKey);
+        if (eventKey === "HK_Admiralty" || eventKey === "HK_Central") {
+            this.setState({deliveryDay: 'everyMonday'}, this.calculateFirstDelivery);
+        } else if (eventKey ==="HK_ChaiWan" || eventKey ==="HK_ChaiWan_BMCPC" || eventKey ==="HK_ChaiWan_CapeCollison") {
+            this.setState({deliveryDay: 'everyWednesday'}, this.calculateFirstDelivery);
+        }
+        if (eventKey ==="HK_ChaiWan_BMCPC" || eventKey ==="HK_ChaiWan_CapeCollison") {
+            this.setState({selectLocationType: 'location_cemetery'});
+        } else {
+            this.setState({selectLocationType: 'location_office'});
+        } 
+    }
+    handlePlanTypeSelect = (eventKey) => {
+        this.setState({selectPlanType: eventKey});
+    }
+    handleLocationTypeSelect = (eventKey) => {
+        this.setState({selectLocationType: eventKey});
+    }
+    handlePlanSizeSelect = (eventKey) => {
+        this.setState({selectPlanSize: eventKey});
+        if (eventKey === "plan_classic") {
+            this.setState({price: 5300, currencyType: 'HKD', grandTotal: 5300+this.state.deliveryFee, planID: 'HKClassic53'});
+        } else if (eventKey === "plan_elegant") {
+            this.setState({price: 9300, currencyType: 'HKD', grandTotal: 9300+this.state.deliveryFee, planID: 'HKElegant93'});
+        } else if (eventKey === "plan_bloom") {
+            this.setState({price: 23300, currencyType: 'HKD', grandTotal: 23300+this.state.deliveryFee, planID: 'HKBloom223'});
+        }
+    }
+    handleCardMessage = (e) => {
+        this.setState({cardMessage: e.target.value});
+    }
+    handleSender = (e) => {
+        this.setState({sender: e.target.value});
+    }
+    handleRecipient = (e) => {
+        this.setState({recipient: e.target.value});
+    }
+    handleRecipientNum = (e) => {
+        this.setState({recipientNum: e.target.value});
+    }
+    handleCompany = (e) => {
+        this.setState({company: e.target.value});
+    }
+    handleAddress = (e) => {
+        this.setState({address: e.target.value});
+    }
+    handleSenderNum = (e) => {
+        this.setState({senderNum: e.target.value});
+    }
 
-  componentWillMount() {
-    this.calculateFirstDelivery();
-    strings.setLanguage(this.props.languageChanged);
-  }
+    componentWillMount() {
+        this.calculateFirstDelivery();
+        strings.setLanguage(this.props.languageChanged);
+    }
 
-  componentDidMount() {
-    this.setState({loading: false});
+    componentDidMount() {
+        var selectRegion = this.props.selectRegion;
+        this.setState({loading: false});
+        if ( selectRegion === "HK_Admiralty" || selectRegion === "HK_Central") {
+            this.setState({deliveryDay: 'everyMonday'}, this.calculateFirstDelivery);
+        } else if ( selectRegion ==="HK_ChaiWan" || selectRegion ==="HK_ChaiWan_BMCPC" || selectRegion ==="HK_ChaiWan_CapeCollison") {
+            this.setState({deliveryDay: 'everyWednesday'}, this.calculateFirstDelivery);
+        }
+        if ( selectRegion ==="HK_ChaiWan_BMCPC" || selectRegion ==="HK_ChaiWan_CapeCollison") {
+            this.setState({selectLocationType: 'location_cemetery'});
+        } else {
+            this.setState({selectLocationType: 'location_office'});
+        } 
     }
 
   componentWillReceiveProps (nextProps) {
@@ -262,6 +302,7 @@ export default class NewSubscription extends Component {
     var selectRegion = this.props.selectRegion;
     var selectPlanType = this.state.selectPlanType;
     var selectPlanSize = this.state.selectPlanSize;
+    var selectLocationType = this.state.selectLocationType;
 
     let content = null;
     if (subscriptionStep===1){
@@ -301,6 +342,26 @@ export default class NewSubscription extends Component {
                             </DropdownButton>
                             <div className="subscription-tips">{strings.deliveryTip1}</div>
                             <div className="subscription-tips">{strings.deliveryTip2_1} <strong>{strings[selectRegion]}</strong> {strings.deliveryTip2_2} <strong>{strings[this.state.deliveryDay]}</strong>{strings.deliveryTip2_3}</div>
+                        </Col>
+                    </Row>
+                    <Row className="show-grid">
+                        <Col sm={2}></Col>
+                        <Col sm={3}><div><strong>{strings.locationType}</strong></div></Col>
+                        <Col sm={6}>
+                            <DropdownButton title={strings[selectLocationType]} className="subscription-select" id="subscriptioin-planTypeSelect-dropdown" onSelect={this.handleLocationTypeSelect}>
+                                <MenuItem eventKey="location_office">{strings.location_office}</MenuItem>
+                                <MenuItem eventKey="location_home">{strings.location_home}</MenuItem>
+                                <MenuItem eventKey="location_cemetery">{strings.location_cemetery}</MenuItem>
+                            </DropdownButton>
+                            {this.state.selectLocationType==='location_office' &&
+                                <div className="subscription-tips">{strings.locationTypeTip1}</div>
+                            }
+                            {this.state.selectLocationType==='location_home' &&
+                                <div className="subscription-tips">{strings.locationTypeTip2}</div>
+                            }
+                            {this.state.selectLocationType==='location_cemetery' &&
+                                <div className="subscription-tips">{strings.locationTypeTip3}</div>
+                            }
                         </Col>
                     </Row>
                     <Row className="show-grid">
@@ -737,6 +798,7 @@ export default class NewSubscription extends Component {
                             <Col sm={2}></Col>
                             <Col sm={9}>
                                 <div className="subscription-tips">{strings.paymentTip}</div>
+                                <div className="subscription-tips"><strong>{strings.termsTip1}<Link to='/terms'>{strings.termsTip2}</Link></strong>{strings.termsTip3}</div>
                             </Col>
                         </Row>
 
@@ -749,6 +811,7 @@ export default class NewSubscription extends Component {
                                     selectRegion={selectRegion}
                                     selectPlanType={this.state.selectPlanType}
                                     selectPlanSize={this.state.selectPlanSize}
+                                    selectLocationType={this.state.selectLocationType}
                                     grandTotal ={this.state.grandTotal}
                                     sender={this.state.sender}
                                     senderNum={this.state.senderNum}

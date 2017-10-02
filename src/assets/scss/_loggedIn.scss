@@ -168,6 +168,17 @@
             }
             .subscription-tips {
                 font-size: 75%;
+                a {
+                    text-decoration: none !important;
+                    @include transition (.4s ease-in-out);
+                    color: $pink;
+                    cursor: pointer;
+                    &:hover {
+                        color: $pinkhover;
+                        text-decoration: none !important;
+                        @include transition (.4s ease-in-out);
+                    }
+                }
             }
             .cardMessage {
                 width: 100% !important;
