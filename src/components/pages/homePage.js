@@ -27,7 +27,7 @@ let strings = new LocalizedStrings({
       bloomText: 'designer picked seasonal flowers, 5-10 blooms, HKD223 per week. >>click<<',
       aboutUs1: 'About',
       aboutUs2: 'Us',
-      aboutUsText: 'MayDaisy is a movment of lasting love and simply enjoying flower. Through a weekly unrestricted design and delivery service, we make the expression of love persisting, fun, affordable, and full of surprises. We can deliver the weekly flowers to you (so you can deliver them in person), or deliver them directly to the reciepient. To make the movement more affordable to flower lovers, we begin to invite customers to subscribe when 150 customers have shown interest in an area. Check out if we are delivering your location now!',
+      aboutUsText: 'MayDaisy is a movement of lasting love and simply enjoying flower. Through a weekly unrestricted design and delivery service, we make the expression of love persisting, fun, affordable, and full of surprises. We can deliver the weekly flowers to you (so you can deliver them in person), or deliver them directly to the reciepient. To make the movement more affordable to flower lovers, we begin to invite customers to subscribe when 150 customers have shown interest in an area. Check out if we are delivering your location now!',
       joinNow: "Join the flower lovers' MayDaisy movement now ",
       HK_Admiralty: 'HK-Admiralty',
       HK_Central: 'HK-Central',
