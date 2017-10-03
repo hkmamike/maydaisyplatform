@@ -45,8 +45,8 @@ export default class ChargeMoney extends React.Component {
         }
     }
     
-    progressSubscriptionStep = (stripeSubID, firstPayment, firstdelivery) => {
-        this.props.onSubscriptionStep(stripeSubID, firstPayment, firstdelivery);
+    progressSubscriptionStep = (referenceCode, stripeSubID, firstPayment, firstdelivery) => {
+        this.props.onSubscriptionStep(referenceCode, stripeSubID, firstPayment, firstdelivery);
         console.log('proceeding to confirmation page');
     }
 
@@ -81,8 +81,12 @@ export default class ChargeMoney extends React.Component {
         var cardType;
         var cardExpYear;
         var cardExpMonth;
+        var referenceRan = Math.floor(Math.random()*1000);
+        var dateNow = new Date().getTime();
+        var referenceCode = "" + referenceRan + dateNow;
 
         console.log('stripe created token. Forwarding to web server : ', token);
+        console.log('reference code is :', referenceCode);
         this.showLoader();
 
         fetch('https://wt-47cf129daee3aa0bf6d4064463e232ef-0.run.webtask.io/webtask-stripe-order'
@@ -124,7 +128,7 @@ export default class ChargeMoney extends React.Component {
                             firstDelivery: firstDelivery
                         });
 
-                        base.post(`allSubscriptions/hongKong/${selectRegion}/${planID}/${stripeSubID}`, {
+                        base.post(`allSubscriptions/hongKong/${selectRegion}/${planID}/${referenceCode}`, {
                             data: {
                                 uid: uid,
                                 selectPlanType: selectPlanType,
@@ -150,9 +154,10 @@ export default class ChargeMoney extends React.Component {
                                 cardType: cardType,
                                 cardExpYear: cardExpYear,
                                 cardExpMonth: cardExpMonth,
+                                referenceCode: referenceCode,
                             }
                         });
-                        base.post(`users/${uid}/subscriptions/${stripeSubID}`, {
+                        base.post(`users/${uid}/subscriptions/${referenceCode}`, {
                             data: {
                                 selectRegion: selectRegion,
                                 planID: planID,
@@ -179,6 +184,7 @@ export default class ChargeMoney extends React.Component {
                                 cardType: cardType,
                                 cardExpYear: cardExpYear,
                                 cardExpMonth: cardExpMonth,
+                                referenceCode: referenceCode,
                             }
                         });
                         base.update(`users/${uid}/info/`, {
@@ -188,20 +194,12 @@ export default class ChargeMoney extends React.Component {
                             }
                         });
                         console.log ('subscriptioin processing succeeded.');
-                        this.progressSubscriptionStep(stripeSubID, firstPayment, firstDelivery);
-                    });
-                }, error => {
-                        error.json().then( error => {
-                            console.log ('subscription processing failed.');
-                        });
+                        this.progressSubscriptionStep(referenceCode, stripeSubID, firstPayment, firstDelivery);
                     });
                 });
-            }, error => {
-                error.json().then( error => {
-                    console.log ('checkout token processing failed.');
-                });
-            })
-        }
+            });
+        })
+    }
 
     render() {
         return (

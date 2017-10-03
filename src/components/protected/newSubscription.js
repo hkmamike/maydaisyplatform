@@ -1,6 +1,6 @@
 import React, { Component } from 'react'
 import { Link } from 'react-router-dom';
-import { FormGroup, FormControl, ControlLabel, Grid, Row, Col, Button, DropdownButton, MenuItem } from 'react-bootstrap';
+import { FormGroup, FormControl, ControlLabel, Grid, Row, Col, Button, DropdownButton, MenuItem, Modal } from 'react-bootstrap';
 import ChargeMoney from '../helpers/payment'
 import LocalizedStrings from 'react-localization';
 
@@ -55,7 +55,10 @@ let strings = new LocalizedStrings({
     termsTip1: '**By clicking "Subscribe" below, you confirm that you have viewed and accept our ',
     termsTip2: 'Terms of Services',
     termsTip3: '.',
-    subID: 'Subscription ID:',
+    referenceCode: 'Reference Code:',
+    referenceCodeTip: '*This is the reference code for this transaction with MayDaisy. Please use this number if you need to contact customer support.',
+    subID: 'Stripe Sub ID:',
+    subIDTip: '*This is the subscription ID issued by our payment processor Stripe.',
     mySubscriptionsButton: 'My Subscription',
     HK_Admiralty: 'HK-Admiralty',
     HK_Central: 'HK-Central',
@@ -76,6 +79,7 @@ let strings = new LocalizedStrings({
     plan_bloom: 'Bloom (5-10 blooms, HKD223/week)',
     everyMonday: 'Every Monday',
     everyWednesday: 'Every Wednesday',
+    subSucceed: 'Success! You have added a new subscription.'
     
   },
   ch: {
@@ -128,7 +132,10 @@ let strings = new LocalizedStrings({
     termsTip1: '**如果您繼續並按下 "訂購" 鍵，您確認您已經閱讀並同意接受我們的',
     termsTip2: '服務條款',
     termsTip3: '。',
-    subID: '訂購號碼:',
+    referenceCode: '參考號碼:',
+    referenceCodeTip: '*如要聯絡客戶服務部，請提供這個交易參考號碼。',
+    subID: 'Stripe 訂購號碼:',
+    subIDTip: '*這是我們的支付平台發出的訂購號碼。',
     mySubscriptionsButton: '我的訂購',
     HK_Admiralty: '香港-金鐘',
     HK_Central: '香港-中環',
@@ -149,6 +156,7 @@ let strings = new LocalizedStrings({
     plan_bloom: '盛會(5-10朵主花，每週 HKD223)',
     everyMonday: '每週星期一',
     everyWednesday: '每週星期三',
+    subSucceed: '您已成功新增一個訂購！'
   }
 });
 
@@ -210,8 +218,8 @@ export default class NewSubscription extends Component {
         }
     }
 
-    handleSubscriptionStep(stripeSubID, firstPayment, firstDelivery) {
-        this.setState({subscriptionStep : 6, stripeSubID: stripeSubID, firstPayment: firstPayment, firstDelivery: firstDelivery, loading: false});
+    handleSubscriptionStep(referenceCode, stripeSubID, firstPayment, firstDelivery) {
+        this.setState({subscriptionStep : 6, referenceCode: referenceCode, stripeSubID: stripeSubID, firstPayment: firstPayment, firstDelivery: firstDelivery, loading: false});
     }
     handleLoading() {
         this.setState({loading: true});
@@ -500,6 +508,7 @@ export default class NewSubscription extends Component {
                             </Col>
                         </FormGroup>
                     </Row>
+                    {this.state.selectLocationType==='location_office' &&
                     <Row className="show-grid">
                         <FormGroup>
                             <Col sm={2}></Col>
@@ -510,7 +519,19 @@ export default class NewSubscription extends Component {
                                 <FormControl value={this.state.recipientNum} type="text" placeholder={strings.recipientNumPlaceholder} onChange={this.handleRecipientNum}/>
                             </Col>
                         </FormGroup>
-                    </Row>
+                    </Row>}
+                    {this.state.selectLocationType==='location_home' &&
+                    <Row className="show-grid">
+                        <FormGroup>
+                            <Col sm={2}></Col>
+                            <Col sm={3}>
+                                <ControlLabel>{strings.recipientNum}</ControlLabel>
+                            </Col>
+                            <Col sm={6}>
+                                <FormControl value={this.state.recipientNum} type="text" placeholder={strings.recipientNumPlaceholder} onChange={this.handleRecipientNum}/>
+                            </Col>
+                        </FormGroup>
+                    </Row>}
                     <Row className="show-grid">
                         <FormGroup>
                             <Col sm={2}></Col>
@@ -589,7 +610,7 @@ export default class NewSubscription extends Component {
                             </Col>
                         </FormGroup>
                     </Row>
-                    <Row className="show-grid">
+                    {this.state.selectLocationType==='location_home' && <Row className="show-grid">
                         <FormGroup>
                             <Col sm={2}></Col>
                             <Col sm={3}>
@@ -599,7 +620,18 @@ export default class NewSubscription extends Component {
                                 <div>{this.state.recipientNum}</div>
                             </Col>
                         </FormGroup>
-                    </Row>
+                    </Row>}
+                    {this.state.selectLocationType==='location_office' && <Row className="show-grid">
+                        <FormGroup>
+                            <Col sm={2}></Col>
+                            <Col sm={3}>
+                                <div><strong>{strings.recipientNum}</strong></div>
+                            </Col>
+                            <Col sm={6}>
+                                <div>{this.state.recipientNum}</div>
+                            </Col>
+                        </FormGroup>
+                    </Row>}
                     <Row className="show-grid">
                         <FormGroup>
                             <Col sm={2}></Col>
@@ -798,7 +830,7 @@ export default class NewSubscription extends Component {
                             <Col sm={2}></Col>
                             <Col sm={9}>
                                 <div className="subscription-tips">{strings.paymentTip}</div>
-                                <div className="subscription-tips"><strong>{strings.termsTip1}<Link to='/terms'>{strings.termsTip2}</Link></strong>{strings.termsTip3}</div>
+                                <div className="subscription-tips"><strong>{strings.termsTip1}<Link to='/terms' target="_blank">{strings.termsTip2}</Link></strong>{strings.termsTip3}</div>
                             </Col>
                         </Row>
 
@@ -854,7 +886,20 @@ export default class NewSubscription extends Component {
                         <div className="horizontal-line"></div>
                     </Row>
                 </Grid>
+                <div className="sub-succeed">            
+                    <div className="center-text">{strings.subSucceed}</div>
+                </div>
                 <Grid>
+                    <Row className="show-grid">
+                        <Col sm={2}></Col>
+                        <Col sm={3}>
+                            <div><strong>{strings.referenceCode}</strong></div>
+                        </Col>
+                        <Col sm={6}>
+                            <div>{this.state.referenceCode}</div>
+                            <div className="subscription-tips">{strings.referenceCodeTip}</div>
+                        </Col>
+                    </Row>
                     <Row className="show-grid">
                         <Col sm={2}></Col>
                         <Col sm={3}>
@@ -862,6 +907,7 @@ export default class NewSubscription extends Component {
                         </Col>
                         <Col sm={6}>
                             <div>{this.state.stripeSubID}</div>
+                            <div className="subscription-tips">{strings.subIDTip}</div>
                         </Col>
                     </Row>
                     <Row className="show-grid">

@@ -129,7 +129,7 @@
         .loggedin-content {
             color: $darkGrey;
             background-color:$white;
-            min-height: 200px;
+            min-height: 800px;
             min-width: 260px;
             // max-height: 300px;
             // max-width: 600px;
@@ -291,5 +291,12 @@
                 background-color: $pinkhover ;
             }
         }
+    }
+    .sub-succeed {
+        margin-top: 20px;
+        margin-bottom: 20px;
+        font-weight: bold;
+        text-align: center;
+        color: $teal;
     }
 }

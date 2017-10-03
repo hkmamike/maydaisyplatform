@@ -15,16 +15,17 @@ let strings = new LocalizedStrings({
     accountInformation2: 'Information',
     subscriptionsList: 'Subscriptions List',
     detailsUpdate: 'Details & Update',
-    subID: 'Sub ID',
-    to: 'To',
-    deliveryDay: 'Delivery Day',
+    referenceCode: 'Reference Code:',
+    subID: 'Stripe Sub ID:',
+    to: 'To:',
+    deliveryDay: 'Delivery Day:',
     detailsButton: 'Details',
-    flowerType: 'Flower Type',
-    plan: 'Plan',
-    recipient: 'Recipient',
-    address: 'Address',
-    recipientNum: "Recipient's #",
-    card: 'Card',
+    flowerType: 'Flower Type:',
+    plan: 'Plan :',
+    recipient: 'Recipient:',
+    address: 'Address:',
+    recipientNum: "Recipient's # :",
+    card: 'Card :',
     unSubscribeButton: 'Unsubscribe',
     backButton: 'Back',
     updateButton: 'Update',
@@ -57,7 +58,8 @@ let strings = new LocalizedStrings({
     accountInformation2: '帳戶資料',
     subscriptionsList: '所有訂購',
     detailsUpdate: '詳情＆訂購更新',
-    subID: '訂購號碼:',
+    referenceCode: '參考號碼:',   
+    subID: 'Stripe 訂購號碼:',
     to: '收花人:',
     deliveryDay: '收花日:',
     detailsButton: '詳情',
@@ -119,8 +121,9 @@ class CancelSubModal extends React.Component {
     var selectRegion = this.props.selectRegion;
     var planID = this.props.planID;
     var subID = this.props.subID;
+    var stripeSub = this.props.stripeSub;
     console.log ('parameters are:', uid, selectRegion, planID, subID)
-    this.props.onUnsubscribe(uid, selectRegion, planID, subID);
+    this.props.onUnsubscribe(uid, selectRegion, planID, subID, stripeSub);
     this.close();
   }
   render() {
@@ -168,6 +171,7 @@ class SubDetails extends React.Component {
       base.fetch(`users/${user.uid}/subscriptions/${this.props.selectedSub}`, {
         context: this,
         then(data) {
+          console.log('data is :', data);
           this.setState({subDetails: data, loading: false, cardMessage: data.cardMessage, recipientNum: data.recipientNum, uid: user.uid});
         }
       });
@@ -179,9 +183,9 @@ class SubDetails extends React.Component {
     this.fireBaseListenerForSubDetails && this.fireBaseListenerForSubDetails();
   }
 
-  handleCancelSub(uid, selectRegion, planID, subID) {
+  handleCancelSub(uid, selectRegion, planID, subID, stripeSub) {
     fetch('https://wt-47cf129daee3aa0bf6d4064463e232ef-0.run.webtask.io/webtask-stripe-cancel-sub'
-      +'?subID=' + subID, {
+      +'?subID=' + stripeSub, {
       method: 'POST'
     }).then(response => {
         response.json().then(data => {
@@ -199,11 +203,7 @@ class SubDetails extends React.Component {
           });
           this.props.onSubscriptionCancelSuccess();
         });
-      }, error => {
-            error.json().then( error => {
-              console.log ('subscription cancel failed.');
-            });
-        });
+      });
   }
 
   handleBack = () => {
@@ -220,11 +220,13 @@ class SubDetails extends React.Component {
   }
   render() {
     var selectedSub = this.props.selectedSub;
+    var stripeSub = this.props.stripeSub;
     var subDetails = this.state.subDetails;
     var loadingState = this.state.loading;
     var recipientNum = this.state.recipientNum;
     var cardMessage = this.state.cardMessage;
     var selectRegion = this.state.subDetails.selectRegion;
+    var selectLocationType = this.state.subDetails.selectLocationType;
     var planID = this.state.subDetails.planID;
     let content = null;
 
@@ -244,10 +246,10 @@ class SubDetails extends React.Component {
                 <FormGroup>
                   <Col sm={1}></Col>
                   <Col sm={3}>
-                      <div><strong>{strings.subID}</strong></div>
+                      <div><strong>{strings.referenceCode}</strong></div>
                   </Col>
                   <Col sm={5}>
-                    <div>{selectedSub}</div>
+                    <div>{subDetails.referenceCode}</div>
                   </Col>
                   <Col sm={3}>
                     <CancelSubModal
@@ -256,10 +258,24 @@ class SubDetails extends React.Component {
                       selectRegion={selectRegion}
                       planID={planID}
                       subID={selectedSub}
+                      stripeSub={stripeSub}
                     />
                   </Col>
                 </FormGroup>
               </Row>
+
+              <Row className="show-grid">
+                <FormGroup>
+                  <Col sm={1}></Col>
+                  <Col sm={3}>
+                      <div><strong>{strings.subID}</strong></div>
+                  </Col>
+                  <Col sm={8}>
+                    <div>{stripeSub}</div>
+                  </Col>
+                </FormGroup>
+              </Row>
+              
               <Row className="show-grid">
                 <FormGroup>
                   <Col sm={1}></Col>
@@ -315,7 +331,7 @@ class SubDetails extends React.Component {
                   </Col>
                 </FormGroup>
               </Row>
-              <Row className="show-grid">
+              { selectLocationType === "location_office" && <Row className="show-grid">
                 <FormGroup>
                   <Col sm={1}></Col>
                   <Col sm={3}>
@@ -325,7 +341,18 @@ class SubDetails extends React.Component {
                     <FormControl className="data-field-update" type="text" value={recipientNum} onChange={this.handleNumChange}/>
                   </Col>
                 </FormGroup>
-              </Row>
+              </Row>}
+              { selectLocationType === "location_home" && <Row className="show-grid">
+                <FormGroup>
+                  <Col sm={1}></Col>
+                  <Col sm={3}>
+                      <div><strong>{strings.recipientNum}</strong></div>
+                  </Col>
+                  <Col sm={7}>
+                    <FormControl className="data-field-update" type="text" value={recipientNum} onChange={this.handleNumChange}/>
+                  </Col>
+                </FormGroup>
+              </Row>}
               <Row className="show-grid">
                 <FormGroup>
                   <Col sm={1}></Col>
@@ -417,8 +444,8 @@ export default class Subscriptions extends Component {
   handleFromChange(e, key) {
     this.setState({ newFrom: e.target.value });
   }
-  handleChooseSub(chosenKey) {
-    this.setState({subDetailsStatus: 1, selectedSub: chosenKey});
+  handleChooseSub(chosenKey, stripeSub) {
+    this.setState({subDetailsStatus: 1, selectedSub: chosenKey, stripeSub: stripeSub});
   }
   handleBack() {
     this.setState({subDetailsStatus: 0});
@@ -476,7 +503,8 @@ export default class Subscriptions extends Component {
       )
     } else {
       subscriptions = Object.keys(data).map(function(key) {
-        var chosenKey = data[key].stripeSubID;
+        var chosenKey = data[key].referenceCode;
+        var stripeSub = data[key].stripeSubID;
         return (
           <div key={key}>
             <Grid>
@@ -485,10 +513,10 @@ export default class Subscriptions extends Component {
                   <FormGroup>
                     <Col sm={1}></Col>
                     <Col sm={3}>
-                        <div><strong>{strings.subID}</strong></div>
+                        <div><strong>{strings.referenceCode}</strong></div>
                     </Col>
                     <Col sm={3}>
-                      <div>{data[key].stripeSubID}</div>
+                      <div>{data[key].referenceCode}</div>
                     </Col>
                   </FormGroup>
                 </Row>
@@ -518,7 +546,7 @@ export default class Subscriptions extends Component {
                   <FormGroup>
                     {/* <Col xs={} sm={5}></Col> */}
                     <Col xs={1} xsOffset={6} smOffset={9} mdOffset={10}>
-                      <Button bsStyle="" className="button sub-details-button" onClick={() => this.handleChooseSub(chosenKey)}>{strings.detailsButton}</Button>
+                      <Button bsStyle="" className="button sub-details-button" onClick={() => this.handleChooseSub(chosenKey, stripeSub)}>{strings.detailsButton}</Button>
                     </Col>
                   </FormGroup>
                 </Row>
@@ -570,6 +598,7 @@ export default class Subscriptions extends Component {
           </Grid>
           <SubDetails 
             selectedSub={this.state.selectedSub} 
+            stripeSub = {this.state.stripeSub}
             subInfoMessage={this.state.subInfoMessage} 
             onHandleBack={this.handleBack} 
             onHandleSubUpdate={this.handleSubUpdate}
