@@ -436,7 +436,7 @@ class GreetingSignUp extends React.Component {
               <form className="region-signup-form" onSubmit={this.handleSubmit}>
                 <h2 className="form-title"><strong>{strings.signUpFormTitle}</strong></h2>
                 <FormGroup controlId="region-signup-form-region" validationState={this.getSelectValidationState()}>
-                  <ControlLabel>{strings.signUpSender}</ControlLabel>
+                  <ControlLabel>{strings.signUpFormrecipientRegion}</ControlLabel>
                   <DropdownButton title={strings[signUpRegion]} placeholder='Select Region' className="region-signup-select" id="bg-nested-dropdown" onSelect={this.handleSelect}>
                     <MenuItem eventKey="HK_Aberdeen">{strings.HK_Aberdeen}</MenuItem>
                     <MenuItem eventKey="HK_ApLeiChau">{strings.HK_ApLeiChau}</MenuItem>
