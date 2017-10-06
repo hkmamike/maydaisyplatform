@@ -118,7 +118,7 @@ export default class ChargeMoney extends React.Component {
                             firstDelivery.setDate(firstPayment.getDate() + (1 + 7 - firstPayment.getDay()) % 7);
                             console.log('first Monday delivery will happen on: ', firstDelivery);
                         } else if (deliveryDay==="everyTuesday") {
-                            firstDelivery.setDate(firstPayment.getDate() + (1 + 7 - firstPayment.getDay()) % 7);
+                            firstDelivery.setDate(firstPayment.getDate() + (2 + 7 - firstPayment.getDay()) % 7);
                             console.log('first Tuesday delivery will happen on: ', firstDelivery);
                         } else if (deliveryDay==="everyWednesday") {
                             firstDelivery.setDate(firstPayment.getDate() + 7);
