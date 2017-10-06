@@ -32,6 +32,7 @@ let strings = new LocalizedStrings({
       HK_Admiralty: 'HK-Admiralty',
       HK_Central: 'HK-Central',
       HK_ChaiWan: 'HK-Chai Wan',
+      HK_Olympic: 'HK-Olympic',
       HK_ChaiWan_BMCPC: 'HK-Chai Wan, BMCPC',
       HK_ChaiWan_CapeCollison: 'HK-Chai Wan, Cape Collison',
       other: 'Other areas'
@@ -63,6 +64,7 @@ let strings = new LocalizedStrings({
       HK_Admiralty: '香港-金鐘',
       HK_Central: '香港-中環',
       HK_ChaiWan: '香港-柴灣',
+      HK_Olympic: '香港-奧運',
       HK_ChaiWan_BMCPC: '香港-柴灣墓園(華人永遠)',
       HK_ChaiWan_CapeCollison: '香港-柴灣墓園(歌連臣角十字架)',
       other: '其他地區'
@@ -121,6 +123,7 @@ export default class Homepage extends Component {
                     <MenuItem eventKey="HK_Admiralty">{strings.HK_Admiralty}</MenuItem>
                     <MenuItem eventKey="HK_Central">{strings.HK_Central}</MenuItem>
                     <MenuItem eventKey="HK_ChaiWan">{strings.HK_ChaiWan}</MenuItem>
+                    <MenuItem eventKey="HK_Olympic">{strings.HK_Olympic}</MenuItem>                 
                     <MenuItem eventKey="other">{strings.other}</MenuItem>
                   </DropdownButton>
                   <Route path="/" render={(props) => <ButtonToRegionList {...props}/>} />

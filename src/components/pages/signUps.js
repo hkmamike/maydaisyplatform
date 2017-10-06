@@ -8,7 +8,8 @@ let strings = new LocalizedStrings({
     en:{
       HK_Admiralty: 'HK-Admiralty',
       HK_Central: 'HK-Central',
-      HK_ChaiWan: 'HK-Chai Wan, Home/Office',
+      HK_ChaiWan: 'HK-Chai Wan',
+      HK_Olympic: 'HK-Olympic',
       HK_ChaiWan_BMCPC: 'HK-Chai Wan Cemetery, BMCPC',
       HK_ChaiWan_CapeCollison: 'HK-Chai Wan Cemetery, Cape Collison',
       other: 'Other areas',
@@ -132,7 +133,8 @@ let strings = new LocalizedStrings({
     ch: {
       HK_Admiralty: '香港-金鐘',
       HK_Central: '香港-中環',
-      HK_ChaiWan: '香港-柴灣(住家/辦公室)',
+      HK_ChaiWan: '香港-柴灣',
+      HK_Olympic: '香港-奧運',
       HK_ChaiWan_BMCPC: '香港-柴灣墓園(歌連臣角十字架)',
       HK_ChaiWan_CapeCollison: '香港-柴灣墓園(華人永遠)',
       other: '其他地區',

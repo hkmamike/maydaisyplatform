@@ -62,7 +62,8 @@ let strings = new LocalizedStrings({
     mySubscriptionsButton: 'My Subscription',
     HK_Admiralty: 'HK-Admiralty',
     HK_Central: 'HK-Central',
-    HK_ChaiWan: 'HK-Chai Wan, Home/Office',
+    HK_ChaiWan: 'HK-Chai Wan',
+    HK_Olympic: 'HK-Olympic',
     HK_ChaiWan_BMCPC: 'HK-Chai Wan, BMCPC',
     HK_ChaiWan_CapeCollison: 'HK-Chai Wan, Cape Collison',
     locationType: 'Location Type:',
@@ -78,9 +79,10 @@ let strings = new LocalizedStrings({
     plan_elegant: 'Elegant (2-4 blooms, HKD93/week)',
     plan_bloom: 'Bloom (5-10 blooms, HKD223/week)',
     everyMonday: 'Every Monday',
+    everyTuesday: 'Every Tuesday',
     everyWednesday: 'Every Wednesday',
-    subSucceed: 'Success! You have added a new subscription.'
-    
+    subSucceed: 'Success! You have added a new subscription.',
+    newSubTip: "*You are signing up for a weekly unrestricted design and delivery service, our florists will design your weekly arrangement using the flower types specified here."
   },
   ch: {
     mySubscriptions1: ' ',
@@ -139,7 +141,8 @@ let strings = new LocalizedStrings({
     mySubscriptionsButton: '我的訂購',
     HK_Admiralty: '香港-金鐘',
     HK_Central: '香港-中環',
-    HK_ChaiWan: '香港-柴灣(住家/辦公室)',
+    HK_ChaiWan: '香港-柴灣',
+    HK_Olympic: '香港-奧運',
     HK_ChaiWan_BMCPC: '香港-柴灣墓園(華人永遠)',
     HK_ChaiWan_CapeCollison: '香港-柴灣墓園(歌連臣角十字架)',
     locationType: '配送地點種類:',
@@ -155,8 +158,10 @@ let strings = new LocalizedStrings({
     plan_elegant: '優雅(2-4朵主花，每週 HKD93)',
     plan_bloom: '盛會(5-10朵主花，每週 HKD223)',
     everyMonday: '每週星期一',
+    everyTuesday: '每週星期二',
     everyWednesday: '每週星期三',
-    subSucceed: '您已成功新增一個訂購！'
+    subSucceed: '您已成功新增一個訂購！',
+    newSubTip: "*您現在訂購的是一個每週一次，無限制形式的鮮花設計和配送服務。花匠"
   }
 });
 
@@ -211,6 +216,10 @@ export default class NewSubscription extends Component {
             firstDelivery.setDate(firstPayment.getDate() + (1 + 7 - firstPayment.getDay()) % 7);
             this.setState({firstDelivery: firstDelivery, firstPayment: firstPayment});
             console.log('first Monday delivery will happen on: ', firstDelivery);
+        } else if (deliveryDay==="everyTuesday") {
+            firstDelivery.setDate(firstPayment.getDate() + (2 + 7 - firstPayment.getDay()) % 7);
+            console.log('first Tuesday delivery will happen on: ', firstDelivery);
+            this.setState({firstDelivery: firstDelivery, firstPayment: firstPayment});
         } else if (deliveryDay==="everyWednesday") {
             firstDelivery.setDate(firstPayment.getDate() + 7);
             console.log('first Wednesday delivery will happen on: ', firstDelivery);
@@ -228,6 +237,8 @@ export default class NewSubscription extends Component {
         this.props.onRegionSelection(eventKey);
         if (eventKey === "HK_Admiralty" || eventKey === "HK_Central") {
             this.setState({deliveryDay: 'everyMonday'}, this.calculateFirstDelivery);
+        } else if (eventKey === "HK_Olympic") {
+            this.setState({deliveryDay: 'everyTuesday'}, this.calculateFirstDelivery);
         } else if (eventKey ==="HK_ChaiWan" || eventKey ==="HK_ChaiWan_BMCPC" || eventKey ==="HK_ChaiWan_CapeCollison") {
             this.setState({deliveryDay: 'everyWednesday'}, this.calculateFirstDelivery);
         }
@@ -285,6 +296,8 @@ export default class NewSubscription extends Component {
         this.setState({loading: false});
         if ( selectRegion === "HK_Admiralty" || selectRegion === "HK_Central") {
             this.setState({deliveryDay: 'everyMonday'}, this.calculateFirstDelivery);
+        } else if (selectRegion === "HK_Olympic") {
+            this.setState({deliveryDay: 'everyTuesday'}, this.calculateFirstDelivery);
         } else if ( selectRegion ==="HK_ChaiWan" || selectRegion ==="HK_ChaiWan_BMCPC" || selectRegion ==="HK_ChaiWan_CapeCollison") {
             this.setState({deliveryDay: 'everyWednesday'}, this.calculateFirstDelivery);
         }
@@ -292,7 +305,7 @@ export default class NewSubscription extends Component {
             this.setState({selectLocationType: 'location_cemetery'});
         } else {
             this.setState({selectLocationType: 'location_office'});
-        } 
+        }
     }
 
   componentWillReceiveProps (nextProps) {
@@ -344,8 +357,7 @@ export default class NewSubscription extends Component {
                             <MenuItem eventKey="HK_Admiralty">{strings.HK_Admiralty}</MenuItem>
                             <MenuItem eventKey="HK_Central">{strings.HK_Central}</MenuItem>
                             <MenuItem eventKey="HK_ChaiWan">{strings.HK_ChaiWan}</MenuItem>
-                            <MenuItem eventKey="HK_ChaiWan_BMCPC">{strings.HK_ChaiWan_BMCPC}</MenuItem>
-                            <MenuItem eventKey="HK_ChaiWan_CapeCollison">{strings.HK_ChaiWan_CapeCollison}</MenuItem>
+                            <MenuItem eventKey="HK_Olympic">{strings.HK_Olympic}</MenuItem>
                             <MenuItem eventKey="other">{strings.other}</MenuItem>
                             </DropdownButton>
                             <div className="subscription-tips">{strings.deliveryTip1}</div>
