@@ -24,7 +24,7 @@ let strings = new LocalizedStrings({
     deliveryTip1: '*Only one delivery day option is available for this region at the moment.',
     deliveryTip2_1: '**Delivery for ',
     deliveryTip2_2: ' is on',
-    deliveryTip2_3: ". If the delivery day is a holiday or delivery is not available because of abnormal circumstances, we will compensate by adding flowers to the next week's design.",
+    deliveryTip2_3: ". If the delivery day is a holiday or delivery is not available because of abnormal circumstances, we will compensate by adding flowers to the following delivery week's design.",
     planFlowers: 'Flowers:',
     planSize: 'Size:',
     firstDelivery: 'First Delivery:',
@@ -82,7 +82,7 @@ let strings = new LocalizedStrings({
     everyTuesday: 'Every Tuesday',
     everyWednesday: 'Every Wednesday',
     subSucceed: 'Success! You have added a new subscription.',
-    newSubTip: "*You are signing up for a weekly unrestricted design and delivery service, our florists will design your weekly arrangement using the flower types specified here."
+    newSubTip: "*You are signing up for a weekly unrestricted design and delivery service."
   },
   ch: {
     mySubscriptions1: ' ',
@@ -103,7 +103,7 @@ let strings = new LocalizedStrings({
     deliveryTip1: '*所選的地區目前只有一個收花日選擇。',
     deliveryTip2_1: '**',
     deliveryTip2_2: '的配送日為',
-    deliveryTip2_3: '。如果配送日為公眾假期或由於異常情況導致未能送貨，我們會在下一週將設計的花材加量補償。',
+    deliveryTip2_3: '。如果配送日為公眾假期或由於異常情況導致未能送貨，我們會在下一個配送週將設計花材加量補償。',
     planFlowers: '花種:',
     planSize: '大小:',
     firstDelivery: '第一次配送:',
@@ -161,7 +161,7 @@ let strings = new LocalizedStrings({
     everyTuesday: '每週星期二',
     everyWednesday: '每週星期三',
     subSucceed: '您已成功新增一個訂購！',
-    newSubTip: "*您現在訂購的是一個每週一次，無限制形式的鮮花設計和配送服務。花匠"
+    newSubTip: "*您現在訂購的是一個每週一次，無限制形式的鮮花設計和配送服務。"
   }
 });
 
@@ -384,7 +384,7 @@ export default class NewSubscription extends Component {
                             }
                         </Col>
                     </Row>
-                    <Row className="show-grid">
+                    {/* <Row className="show-grid">
                         <Col sm={2}></Col>
                         <Col sm={3}><div><strong>{strings.planFlowers}</strong></div></Col>
                         <Col sm={6}>
@@ -393,7 +393,7 @@ export default class NewSubscription extends Component {
                                 <MenuItem eventKey="flower_rose">{strings.flower_rose}</MenuItem>
                             </DropdownButton>
                         </Col>
-                    </Row>
+                    </Row> */}
                     <Row className="show-grid">
                         <Col sm={2}></Col>
                         <Col sm={3}><div><strong>{strings.planSize}</strong></div></Col>
@@ -403,6 +403,7 @@ export default class NewSubscription extends Component {
                                 <MenuItem eventKey="plan_elegant">{strings.plan_elegant}</MenuItem>
                                 <MenuItem eventKey="plan_bloom">{strings.plan_bloom}</MenuItem>
                             </DropdownButton>
+                            <div className="subscription-tips">{strings.newSubTip}</div>
                         </Col>
                     </Row>
                     <Row className="show-grid">
