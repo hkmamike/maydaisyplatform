@@ -48,7 +48,7 @@ let strings = new LocalizedStrings({
       subscribe: '訂購',
       subscribeText: '驚喜！獎勵自己或給您愛的人每週送花，由本地花匠運用時令鮮花設計，品種隨機。',
       receiveUpdate: '訂單資訊',
-      receiveUpdateText: '我們會用電郵和這網頁保持聯繫，您亦可以在這個網頁上更新您的問候卡。',
+      receiveUpdateText: '我們會用電郵和這網頁保持聯繫，您亦可以在這個網頁上更新您的心意卡。',
       delight: '收花',
       delightText: '收花人會於每週收到鲜花和您的問候卡並由您的花匠送出手寫字表達心意。',
       classic: '經典',
