@@ -64,6 +64,10 @@ export default class Login extends Component {
     strings.setLanguage(this.props.languageChanged);
   }
 
+  componentDidMount () {
+    window.scrollTo(0, 0);
+  }
+
   handleEmailChange(e) {
     this.setState({ email: e.target.value });
   }

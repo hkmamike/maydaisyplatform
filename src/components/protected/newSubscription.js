@@ -63,7 +63,7 @@ let strings = new LocalizedStrings({
     HK_Admiralty: 'HK-Admiralty',
     HK_Central: 'HK-Central',
     HK_ChaiWan: 'HK-Chai Wan',
-    HK_Olympic: 'HK-Olympic',
+    KL_Olympic: 'KL-Olympic',
     HK_ChaiWan_BMCPC: 'HK-Chai Wan, BMCPC',
     HK_ChaiWan_CapeCollison: 'HK-Chai Wan, Cape Collison',
     locationType: 'Location Type:',
@@ -142,7 +142,7 @@ let strings = new LocalizedStrings({
     HK_Admiralty: '香港-金鐘',
     HK_Central: '香港-中環',
     HK_ChaiWan: '香港-柴灣',
-    HK_Olympic: '香港-奧運',
+    KL_Olympic: '九龍-奧運',
     HK_ChaiWan_BMCPC: '香港-柴灣墓園(華人永遠)',
     HK_ChaiWan_CapeCollison: '香港-柴灣墓園(歌連臣角十字架)',
     locationType: '配送地點種類:',
@@ -228,7 +228,7 @@ export default class NewSubscription extends Component {
     }
 
     handleSubscriptionStep(referenceCode, stripeSubID, firstPayment, firstDelivery) {
-        this.setState({subscriptionStep : 6, referenceCode: referenceCode, stripeSubID: stripeSubID, firstPayment: firstPayment, firstDelivery: firstDelivery, loading: false});
+        this.setState({subscriptionStep : 6, referenceCode: referenceCode, stripeSubID: stripeSubID, firstPayment: firstPayment, firstDelivery: firstDelivery, loading: false}, () => {window.scrollTo(0, 0);});
     }
     handleLoading() {
         this.setState({loading: true});
@@ -237,7 +237,7 @@ export default class NewSubscription extends Component {
         this.props.onRegionSelection(eventKey);
         if (eventKey === "HK_Admiralty" || eventKey === "HK_Central") {
             this.setState({deliveryDay: 'everyMonday'}, this.calculateFirstDelivery);
-        } else if (eventKey === "HK_Olympic") {
+        } else if (eventKey === "KL_Olympic") {
             this.setState({deliveryDay: 'everyTuesday'}, this.calculateFirstDelivery);
         } else if (eventKey ==="HK_ChaiWan" || eventKey ==="HK_ChaiWan_BMCPC" || eventKey ==="HK_ChaiWan_CapeCollison") {
             this.setState({deliveryDay: 'everyWednesday'}, this.calculateFirstDelivery);
@@ -296,7 +296,7 @@ export default class NewSubscription extends Component {
         this.setState({loading: false});
         if ( selectRegion === "HK_Admiralty" || selectRegion === "HK_Central") {
             this.setState({deliveryDay: 'everyMonday'}, this.calculateFirstDelivery);
-        } else if (selectRegion === "HK_Olympic") {
+        } else if (selectRegion === "KL_Olympic") {
             this.setState({deliveryDay: 'everyTuesday'}, this.calculateFirstDelivery);
         } else if ( selectRegion ==="HK_ChaiWan" || selectRegion ==="HK_ChaiWan_BMCPC" || selectRegion ==="HK_ChaiWan_CapeCollison") {
             this.setState({deliveryDay: 'everyWednesday'}, this.calculateFirstDelivery);
@@ -354,10 +354,9 @@ export default class NewSubscription extends Component {
                         <Col sm={3}><div><strong>{strings.deliveryArea}</strong></div></Col>
                         <Col sm={6}>
                             <DropdownButton title={strings[selectRegion]} className="subscription-select" id="subscriptioin-regionSelect-dropdown" onSelect={this.handleRegionSelect}>
-                            <MenuItem eventKey="HK_Admiralty">{strings.HK_Admiralty}</MenuItem>
                             <MenuItem eventKey="HK_Central">{strings.HK_Central}</MenuItem>
                             <MenuItem eventKey="HK_ChaiWan">{strings.HK_ChaiWan}</MenuItem>
-                            <MenuItem eventKey="HK_Olympic">{strings.HK_Olympic}</MenuItem>
+                            <MenuItem eventKey="KL_Olympic">{strings.KL_Olympic}</MenuItem>
                             <MenuItem eventKey="other">{strings.other}</MenuItem>
                             </DropdownButton>
                             <div className="subscription-tips">{strings.deliveryTip1}</div>

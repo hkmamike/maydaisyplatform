@@ -9,7 +9,7 @@ let strings = new LocalizedStrings({
       HK_Admiralty: 'HK-Admiralty',
       HK_Central: 'HK-Central',
       HK_ChaiWan: 'HK-Chai Wan',
-      HK_Olympic: 'HK-Olympic',
+      KL_Olympic: 'KL-Olympic',
       HK_ChaiWan_BMCPC: 'HK-Chai Wan Cemetery, BMCPC',
       HK_ChaiWan_CapeCollison: 'HK-Chai Wan Cemetery, Cape Collison',
       other: 'Other areas',
@@ -17,7 +17,7 @@ let strings = new LocalizedStrings({
       galleryButton: 'Gallery',
       subscriptionTitle: "Subscription",
       subscriptionSubtitle1_1: "MayDaisy is delivering to ",
-      subscriptionSubtitle1_2: " Please log in to subscribe. These are the available plans in the region. Check out our gallery to see sample arrangements!",
+      subscriptionSubtitle1_2: "! Please log in to subscribe. These are the available plans in the region. Check out our gallery to see sample arrangements!",
       classic1_1: 'Classic ',
       classic1_2: 'HKD53',
       classic1_3: ' per week, delivery included',
@@ -134,7 +134,7 @@ let strings = new LocalizedStrings({
       HK_Admiralty: '香港-金鐘',
       HK_Central: '香港-中環',
       HK_ChaiWan: '香港-柴灣',
-      HK_Olympic: '香港-奧運',
+      KL_Olympic: '九龍-奧運',
       HK_ChaiWan_BMCPC: '香港-柴灣墓園(歌連臣角十字架)',
       HK_ChaiWan_CapeCollison: '香港-柴灣墓園(華人永遠)',
       other: '其他地區',
@@ -441,6 +441,7 @@ class GreetingSignUp extends React.Component {
                   <ControlLabel>{strings.signUpFormrecipientRegion}</ControlLabel>
                   <DropdownButton title={strings[signUpRegion]} placeholder='Select Region' className="region-signup-select" id="bg-nested-dropdown" onSelect={this.handleSelect}>
                     <MenuItem eventKey="HK_Aberdeen">{strings.HK_Aberdeen}</MenuItem>
+                    <MenuItem eventKey="HK_Admiralty">{strings.HK_Admiralty}</MenuItem>
                     <MenuItem eventKey="HK_ApLeiChau">{strings.HK_ApLeiChau}</MenuItem>
                     <MenuItem eventKey="HK_CausewayBay">{strings.HK_Causeway_Bay}</MenuItem>
                     <MenuItem eventKey="HK_DeepWaterBay">{strings.HK_DeepWaterBay}</MenuItem>
