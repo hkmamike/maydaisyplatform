@@ -15,12 +15,11 @@ let strings = new LocalizedStrings({
       li1: 'For HKD93 per week, this plan is a weekly unrestricted flower design and delivery service prepared by our florists.',
       li2: "While each week's design is different, Elegant most often consists of 2-4 major blooms, sometimes supported by minor flowers.",
 
-      li3: 'To receive flowers, you (or the recipient) would need to prepare a vase in an area where our florist can access.',
-      li4: 'For office locations, please put your vase in your office pantry, and place a card under the vase that identifies the recipient.',
-      li5: 'For home locations, please put your vase in front of your door if no one is at home.',      
+      li3: 'For office and home locations, flowers will be delivered with a simple wrapping for delivery purposes.',
+      li4: 'For home locations, if your lobby reception does not take flowers, please place a vase in front of your door if no one is at home on the day of delivery.',
       
-      li6: "For the Elegant plan, the ideal vase height is 10-15cm and the ideal vase opening's diameter is 3-5cm.",
-      li7: 'To make MayDaisy affordable to flower lovers, we begin to invite customers to subscribe when 150 customers have shown interest in an area. Check out if we are servicing your area now!'
+      li5: "For the Elegant plan, the ideal vase height is 10-15cm and the ideal vase opening's diameter is 3-5cm.",
+      li6: 'To make MayDaisy affordable to flower lovers, we begin to invite customers to subscribe when 150 customers have shown interest in an area. Check out if we are servicing your area now!'
     },
     ch: {
       signUp: '報名',
@@ -33,12 +32,11 @@ let strings = new LocalizedStrings({
       li1: '「優雅」計劃由本地花匠籌劃，只需港幣93元就可享每週一次的花卉設計和配送服務。',
       li2: '我們的花匠會用時令花材設計您的花卉。「優雅」計劃的設計雖然每週不同，但一般會有2-4朵主花及以適合的配花作襯托。',
 
-      li3: '您或收花人需放在一個花匠可以到達的地方準備一個花瓶。',
-      li4: '如果配送辦公室，請將花瓶放在茶水間，並在花瓶下用紙寫上收花人名稱。',
-      li5: '如果配送住家地點但當天家中沒有人，請將花瓶放在門前一個安全的位置。',
+      li3: '住家地點和辦公室的花卉會以簡單的花紙包成花束發送。',
+      li4: '如果配送住家地點但當天家中沒有人而您的大堂前台不收花，請將一個花瓶放在門前一個安全的位置收花。',
 
-      li6: '建議花瓶尺寸:「優雅」計劃的設計配以一個 10-15cm 高，開口直徑 3-5cm 大的花瓶效果會較好。',
-      li7: '為了令五月菊價格更大眾化，每個地區的服務會在收集到150個報名之後開啟，屆時已報名的客人會收到電郵邀請。快來看看您的地區服務是否已開啟!'
+      li5: '建議花瓶尺寸:「優雅」計劃的設計配以一個 10-15cm 高，開口直徑 3-5cm 大的花瓶效果會較好。',
+      li6: '為了令五月菊價格更大眾化，每個地區的服務會在收集到150個報名之後開啟，屆時已報名的客人會收到電郵邀請。快來看看您的地區服務是否已開啟!'
     }
   });
   
@@ -133,7 +131,6 @@ export default class GalleryElegant extends Component {
                         <li>{strings.li4}</li>
                         <li>{strings.li5}</li>
                         <li>{strings.li6}</li>
-                        <li>{strings.li7}</li>
                     </ul>
                 </div>
                 </Col>

@@ -58,7 +58,7 @@ export default class ContactUs extends Component {
                             <div className="text-page-text">
                                 <p className="font-italic bold">{strings.lastUpdated}</p>
                                 <p>{strings.subtitle}</p>
-                                <p>{strings.email}<a href="mailto:maydaisyco@gmail.com">maydaisyco@gmail.com</a></p>
+                                <p>{strings.email}<a href="mailto:contact@maydaisy.com">contact@maydaisy.com</a></p>
                                 <p>{strings.hotline}(852)9346-8427</p>
                                 <div className="text-page-button-div">
                                     <Route path="/" render={(props) => <ButtonToRegionList {...props}/>} />
