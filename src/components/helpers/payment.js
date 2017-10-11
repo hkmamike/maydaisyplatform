@@ -61,6 +61,8 @@ export default class ChargeMoney extends React.Component {
         var selectPlanType = this.props.selectPlanType;
         var selectPlanSize = this.props.selectPlanSize;
         var selectLocationType = this.props.selectLocationType;
+        var selectDeliveryType = this.props.selectDeliveryType;
+        var languageChanged = this.props.languageChanged;
         var grandTotalPerWeek = this.props.grandTotal;
         var senderName = this.props.sender;
         var senderNum = this.props.senderNum;
@@ -158,6 +160,8 @@ export default class ChargeMoney extends React.Component {
                                 cardExpYear: cardExpYear,
                                 cardExpMonth: cardExpMonth,
                                 referenceCode: referenceCode,
+                                selectDeliveryType: selectDeliveryType,
+                                languageChanged: languageChanged
                             }
                         });
                         base.post(`users/${uid}/subscriptions/${referenceCode}`, {
@@ -188,6 +192,8 @@ export default class ChargeMoney extends React.Component {
                                 cardExpYear: cardExpYear,
                                 cardExpMonth: cardExpMonth,
                                 referenceCode: referenceCode,
+                                selectDeliveryType: selectDeliveryType,
+                                languageChanged: languageChanged
                             }
                         });
                         base.update(`users/${uid}/info/`, {

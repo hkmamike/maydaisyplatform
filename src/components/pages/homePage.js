@@ -7,7 +7,7 @@ import LocalizedStrings from 'react-localization';
 let strings = new LocalizedStrings({
     en:{
       signUp: 'Sign Up',
-      homeImgTitle: 'Weekly Designer Choice Flowers by Local Florists',
+      homeImgTitle: 'Weekly Designer Choice Flowers Brightens Your Week!',
       homeImgSubtitle: 'Where are the flowers going?',
       howItWorks1: 'How ',
       howItWorks2: 'MayDaisy',
@@ -26,7 +26,7 @@ let strings = new LocalizedStrings({
       bloom: 'Bloom',
       bloomText: 'designer picked seasonal flowers, 5-10 blooms, HKD223 per week. >>click<<',
       aboutUs1: 'About',
-      aboutUs2: 'Us',
+      aboutUs2: 'MayDaisy',
       aboutUsText: 'MayDaisy is a movement of lasting love and simply enjoying flower. Through a weekly unrestricted design and delivery service, we make the expression of love persisting, fun, affordable, and full of surprises. We can deliver the weekly flowers to you (so you can deliver them in person), or deliver them directly to the reciepient. To make the movement more affordable to flower lovers, we begin to invite customers to subscribe when 150 customers have shown interest in an area. Check out if we are delivering your location now!',
       joinNow: "Join the flower lovers' MayDaisy movement now ",
       HK_Admiralty: 'HK-Admiralty',
@@ -39,8 +39,8 @@ let strings = new LocalizedStrings({
     },
     ch: {
       signUp: '報名',
-      homeImgTitle: '由本地花匠用時令鮮花設計的花卉，每週一次。',
-      homeImgSubtitle: '花卉該送往哪裏?',
+      homeImgTitle: '時令鮮花花卉，每週一次，令您的每週更美好。',
+      homeImgSubtitle: '花卉送往哪裏?',
       howItWorks1: ' ',
       howItWorks2: '五月菊',
       howItWorks3: '是什麼',
@@ -58,7 +58,7 @@ let strings = new LocalizedStrings({
       bloom: '盛會',
       bloomText: '花匠用時令花材設計，5-10朵主花，每週 HKD223。 >>看圖<<',
       aboutUs1: '關於',
-      aboutUs2: '我們',
+      aboutUs2: '五月菊',
       aboutUsText: '五月菊的理念是推動細水長流的愛及簡單地享受鮮花。以每週發送無限制形式的藝術花卉，我們令愛的表達變得更持久而有趣，更可以令愛花之人有更多驚喜。我們可以將鮮花配送給您(如果您想親自送花)，或直接配送給收花人。為了令五月菊價格更大眾化，每個地區的服務會在收集到150個報名之後開啟，屆時已報名的客人會收到電郵邀請。快來看看您的地區服務是否已開啟!',
       joinNow: '快來加入愛花之人的五月菊運動 ',
       HK_Admiralty: '香港-金鐘',

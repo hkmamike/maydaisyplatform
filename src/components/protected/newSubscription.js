@@ -13,7 +13,7 @@ let strings = new LocalizedStrings({
     accountInformation1: 'Account',
     accountInformation2: 'Information',
     navChoose: 'Choose',
-    navCard: 'Card',
+    navCard: 'Message',
     navDelivery: 'Delivery',
     navReview: 'Review',
     navPayment: 'Payment',
@@ -82,7 +82,10 @@ let strings = new LocalizedStrings({
     everyTuesday: 'Every Tuesday',
     everyWednesday: 'Every Wednesday',
     subSucceed: 'Success! You have added a new subscription.',
-    newSubTip: "*You are signing up for a weekly unrestricted design and delivery service."
+    newSubTip: "*You are signing up for a weekly unrestricted design and delivery service.",
+    deliveryType: 'For:',
+    delivery_self: 'Reward Myself',
+    delivery_gift: 'Gift'
   },
   ch: {
     mySubscriptions1: ' ',
@@ -92,7 +95,7 @@ let strings = new LocalizedStrings({
     accountInformation1: ' ',
     accountInformation2: '帳戶資料',
     navChoose: '選擇計劃',
-    navCard: '信用卡',
+    navCard: '心意卡',
     navDelivery: '配送資料',
     navReview: '檢查',
     navPayment: '付款',
@@ -161,7 +164,10 @@ let strings = new LocalizedStrings({
     everyTuesday: '每週星期二',
     everyWednesday: '每週星期三',
     subSucceed: '您已成功新增一個訂購！',
-    newSubTip: "*您現在訂購的是一個每週一次，無限制形式的鮮花設計和配送服務。"
+    newSubTip: "*您現在訂購的是一個每週一次，無限制形式的鮮花設計和配送服務。",
+    deliveryType: '用途:',
+    delivery_self: '獎勵自己',
+    delivery_gift: '送人'
   }
 });
 
@@ -181,6 +187,7 @@ export default class NewSubscription extends Component {
       selectPlanType: 'flower_all',
       selectPlanSize: 'plan_classic',
       selectLocationType: 'location_home',
+      selectDeliveryType: 'delivery_self',
       price: 5300,
       deliveryFee: 0,
       grandTotal: 5300,
@@ -254,6 +261,9 @@ export default class NewSubscription extends Component {
     handleLocationTypeSelect = (eventKey) => {
         this.setState({selectLocationType: eventKey});
     }
+    handleDeliveryTypeSelect = (eventKey) => {
+        this.setState({selectDeliveryType: eventKey});
+    }
     handlePlanSizeSelect = (eventKey) => {
         this.setState({selectPlanSize: eventKey});
         if (eventKey === "plan_classic") {
@@ -324,6 +334,7 @@ export default class NewSubscription extends Component {
     var selectPlanType = this.state.selectPlanType;
     var selectPlanSize = this.state.selectPlanSize;
     var selectLocationType = this.state.selectLocationType;
+    var selectDeliveryType = this.state.selectDeliveryType;
 
     let content = null;
     if (subscriptionStep===1){
@@ -403,6 +414,16 @@ export default class NewSubscription extends Component {
                                 <MenuItem eventKey="plan_bloom">{strings.plan_bloom}</MenuItem>
                             </DropdownButton>
                             <div className="subscription-tips">{strings.newSubTip}</div>
+                        </Col>
+                    </Row>
+                    <Row className="show-grid">
+                        <Col sm={2}></Col>
+                        <Col sm={3}><div><strong>{strings.deliveryType}</strong></div></Col>
+                        <Col sm={6}>
+                            <DropdownButton title={strings[selectDeliveryType]} className="subscription-select" id="subscriptioin-planTypeSelect-dropdown" onSelect={this.handleDeliveryTypeSelect}>
+                                <MenuItem eventKey="delivery_self">{strings.delivery_self}</MenuItem>
+                                <MenuItem eventKey="delivery_gift">{strings.delivery_gift}</MenuItem>
+                            </DropdownButton>
                         </Col>
                     </Row>
                     <Row className="show-grid">
@@ -868,6 +889,7 @@ export default class NewSubscription extends Component {
                                     onSubscriptionStep={this.handleSubscriptionStep}
                                     onLoading={this.handleLoading}
                                     languageChanged={this.props.languageChanged}
+                                    selectDeliveryType = {this.state.selectDeliveryType}
                                 />
                                 <Button bsStyle="" className="button-new-sub button-back" onClick={() => this.setState({subscriptionStep: 4}, () => {window.scrollTo(0, 0);})}>{strings.backButton}</Button>
                             </Col>
