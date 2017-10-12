@@ -53,8 +53,7 @@ export default class Footer extends Component {
               <Col xsHidden sm={4}>
                 <div className="footer-title">{strings.company}</div>
                 <ul className="foote-list">
-                  <li>{strings.corporateClients}</li>
-                  <li>{strings.about}</li>
+                  <li><Link to="/about">{strings.about}</Link></li>
                 </ul>
               </Col>
               <Col xs={6} sm={4}>
