@@ -1,6 +1,6 @@
 import React, { Component } from 'react'
 import { Link } from 'react-router-dom';
-import { FormGroup, FormControl, ControlLabel, Grid, Row, Col, Button, DropdownButton, MenuItem, Modal } from 'react-bootstrap';
+import { FormGroup, FormControl, ControlLabel, Grid, Row, Col, Button, DropdownButton, MenuItem } from 'react-bootstrap';
 import ChargeMoney from '../helpers/payment'
 import LocalizedStrings from 'react-localization';
 
@@ -331,7 +331,6 @@ export default class NewSubscription extends Component {
     var loadingState = this.state.loading;
     var subscriptionStep = this.state.subscriptionStep;
     var selectRegion = this.props.selectRegion;
-    var selectPlanType = this.state.selectPlanType;
     var selectPlanSize = this.state.selectPlanSize;
     var selectLocationType = this.state.selectLocationType;
     var selectDeliveryType = this.state.selectDeliveryType;

@@ -76,9 +76,9 @@ export default class Footer extends Component {
 
         <div className="footer-end">
           <div className="footer-social">
-              <a href="https://fb.me/maydaisyco" target="_blank"><i className="fa fa-facebook-official"></i></a>
+              <a href="https://fb.me/maydaisyco" target="_blank" rel="noopener noreferrer"><i className="fa fa-facebook-official"></i></a>
               {/* <i className="fa fa-twitter"></i> */}
-              <a href="https://www.instagram.com/maydaisyco/" target="_blank"><i className="fa fa-instagram"></i></a>
+              <a href="https://www.instagram.com/maydaisyco/" target="_blank" rel="noopener noreferrer"><i className="fa fa-instagram"></i></a>
           </div>
           &copy; <span className="footer-company-name">{strings.companyName}</span> 2017.
         </div>
