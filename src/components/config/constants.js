@@ -2,12 +2,12 @@ import Rebase from 're-base';
 import * as firebase from 'firebase';
 
 const config = {
-    apiKey: "AIzaSyCdO59JRFsBdZvzoLE64VQEeSEcxKsdeyg",
-    authDomain: "onebloom-cfa9d.firebaseapp.com",
-    databaseURL: "https://onebloom-cfa9d.firebaseio.com",
-    projectId: "onebloom-cfa9d",
-    storageBucket: "onebloom-cfa9d.appspot.com",
-    messagingSenderId: "379070404951"
+    apiKey: "AIzaSyBZHwAIAzAG1cNjxHLgzzicr_NLkmucYGc",
+    authDomain: "maydaisy-platform.firebaseapp.com",
+    databaseURL: "https://maydaisy-platform.firebaseio.com",
+    projectId: "maydaisy-platform",
+    storageBucket: "maydaisy-platform.appspot.com",
+    messagingSenderId: "89018820797"
 };
 
 const app = firebase.initializeApp(config);
