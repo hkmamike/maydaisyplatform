@@ -1,0 +1,63 @@
+
+
+.list-container {
+    margin-top: 20px;
+    margin-bottom: 20px;
+    background-color: $white;
+    color: $darkGrey;
+    padding: 20px;
+    text-align: center;
+    min-height: 400px;
+    .small-screen-hide {
+        @media (max-width: 600px) {
+            display: none;
+        }
+    }
+
+    .list-pic {
+        padding: 0;
+        min-height: 250px;
+        max-height: 300px;
+        max-width: 300px;
+        background-position: center center;
+        background-repeat: no-repeat;
+        background-size: cover;
+        border-width: 0;
+        border-color: $white;
+        border-style: solid;
+    }
+
+    .list-box {
+        box-shadow: 1px 1px 1px #E1E1E1;
+        margin-bottom: 30px;
+        max-width: 300px;
+        font-size: 90%;
+        &:hover {
+            box-shadow: 2px 2px 2px #AEAEAE;
+        }
+    }
+
+    .text-line {
+        display: flex;
+        justify-content: space-between;
+        .list-name {
+            margin-left: 10px;
+        }
+        .list-price {
+            color: $teal;
+            margin-right: 10px;
+        }
+    }
+
+    .list-florist {
+        text-align: left;
+        margin-left: 10px;
+    }
+
+    .horizontal-line {
+        width: 90%;
+        margin: 3px auto;
+        background: #CCC;
+        height: 1px;
+    }
+}

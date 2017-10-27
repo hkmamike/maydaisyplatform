@@ -83,14 +83,23 @@ export default class ArrangementsList extends Component {
   render() {
 
     var listOfArrangements = this.state.arrangementsList.map(arrangement => 
-        <Col sm={4} key={arrangement.id} className="gallery-pic" style={{ backgroundImage: 'url(' + arrangement.image + ')'}}>
-            <div>{arrangement.name}</div>
-            <div>{arrangement.price}</div>
+        <Col xs={6} sm={3} key={arrangement.id}>
+            <div className="list-box">
+                <div className="list-pic" style={{ backgroundImage: 'url(' + arrangement.image + ')'}}></div>
+                <div className="text-box">
+                    <div className="text-line">
+                        <div className="list-name">{arrangement.name}</div>
+                        <div className="list-price">${arrangement.price}</div>
+                    </div>
+                    <div className="horizontal-line"></div>
+                    <div className="list-florist">by: {arrangement.florist}</div>
+                </div>
+            </div>
         </Col>
     );
 
     return (
-        <div className="no-padding gallery-container">
+        <div className="no-padding list-container">
             <Grid>{listOfArrangements}</Grid>
         </div>
     )
