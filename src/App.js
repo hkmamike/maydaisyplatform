@@ -23,6 +23,11 @@ import Career from './components/textPages/career'
 import GalleryClassic from './components/gallery/classic';
 import GalleryElegant from './components/gallery/elegant';
 import GalleryBloom from './components/gallery/bloom';
+
+//platform
+import ArrangementsList from './components/arrangements/arrangementsList';
+
+
 //includes
 import './assets/css/default.min.css';
 import * as firebase from 'firebase';
@@ -107,6 +112,9 @@ export default class App extends Component {
             
             <PublicRoute authed={this.state.authed} path='/login' component={Login} languageChanged={this.state.languageChanged}/>
             <PublicRoute authed={this.state.authed} path='/register' component={Register} languageChanged={this.state.languageChanged}/>
+
+
+            <Route path='/arrangements' exact render={(props) => (<ArrangementsList {...props} languageChanged={this.state.languageChanged}/>)}/>
 
 
             <Route path='/gallery-classic' exact render={(props) => (<GalleryClassic {...props} languageChanged={this.state.languageChanged}/>)}/>
