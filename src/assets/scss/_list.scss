@@ -5,7 +5,7 @@
     margin-bottom: 20px;
     background-color: $white;
     color: $darkGrey;
-    padding: 20px;
+    padding: 5px auto;
     text-align: center;
     min-height: 400px;
     .small-screen-hide {
@@ -30,6 +30,8 @@
     .list-box {
         box-shadow: 1px 1px 1px #E1E1E1;
         margin-bottom: 30px;
+
+        min-width: 140px;
         max-width: 300px;
         font-size: 90%;
         &:hover {
