@@ -24,8 +24,10 @@ import GalleryClassic from './components/gallery/classic';
 import GalleryElegant from './components/gallery/elegant';
 import GalleryBloom from './components/gallery/bloom';
 
-//platform
-import ArrangementsList from './components/arrangements/arrangementsList';
+//dynamic
+import ArrangementsList from './components/dynamic/arrangementsList';
+import Florist from './components/dynamic/florist';
+import Arrangement from './components/dynamic/arrangement';
 
 
 //includes
@@ -115,6 +117,8 @@ export default class App extends Component {
 
 
             <Route path='/arrangements' exact render={(props) => (<ArrangementsList {...props} languageChanged={this.state.languageChanged}/>)}/>
+            <Route path='/florist/:floristName' exact render={(props) => (<Florist {...props} languageChanged={this.state.languageChanged}/>)}/>
+            <Route path='/florist/:floristName/:arrangement' exact render={(props) => (<Arrangement {...props} languageChanged={this.state.languageChanged}/>)}/>
 
 
             <Route path='/gallery-classic' exact render={(props) => (<GalleryClassic {...props} languageChanged={this.state.languageChanged}/>)}/>

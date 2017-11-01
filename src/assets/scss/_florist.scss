@@ -1,0 +1,92 @@
+
+
+.florist-header {
+
+    width: 100%;
+    background: #333333;
+
+    .florist-info {
+        @media (max-width: 600px) {
+            padding: 2vh 2vw 2vh 2vw;
+            text-align: center;
+        }
+        @media (max-width: 800px) and (min-width: 601px) {
+            padding: 2vh 2vw 2vh 2vw;
+            text-align: center;
+        }
+        @media (min-width: 801px) {
+            padding: 6vh 6vw 6vh 6vw;
+            text-align: left;
+        }
+        .florist-pic-container {
+            display: inline-block;
+            box-sizing: border-box;
+            width: 100%;
+            max-width: 8em;
+            max-height: 8em;
+            padding: .4em;
+            margin-bottom: .4em;
+            border-radius: 2px;
+            background: #fff;
+            overflow: hidden;
+            @media (min-width: 801px) {
+                width: 100%;
+                max-width: 10em;
+                max-height: 10em;
+                padding: .5em;
+                border-radius: 4px;
+                margin-bottom: 0px;
+                margin-right: 3em;
+            }
+            img {
+                width: 100%;
+            }
+        }
+        .florist-name {
+            font-size: 130%;
+        }
+        .florist-address {
+            color: white;
+        }
+        .florist-website {
+            color: white;
+        }
+    }
+}
+
+.grid-bg {
+    background: #333333;
+
+    .florist-nav {
+        display: block;
+        background: #333333;
+        color: white;
+        ul {
+            list-style-type: none;
+            overflow: hidden;
+            margin: 0;
+
+            li.selected {
+                background: white;
+                color: black;
+            }
+
+            li {
+                float: left;
+                text-align: center;
+                text-decoration: none;
+                padding: 11px 16px;
+                &:hover {
+                    background: white;
+                    color: black;
+                    cursor: pointer;
+                }
+            }
+        }
+    }
+}
+
+.sub-content {
+    min-height: 400px;
+    overflow: auto;
+}
