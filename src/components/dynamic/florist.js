@@ -24,24 +24,25 @@ export default class Florist extends Component {
         window.scrollTo(0, 0);
         var thisRef = this;
         var arrangementsList = [];
-        this.setState ({floristID: this.props.match.params.floristName}, () => {
+        this.setState ({floristID: this.props.match.params.floristID}, () => {
             firebase.database().ref(`florists/${this.state.floristID}`).once('value', function(snapshot) {
+                var snapshotVal = snapshot.val();
                 thisRef.setState({
                     loading: false,
-                    floristDescription: snapshot.val().description,
-                    floristFB: snapshot.val().facebook,
-                    floristID: snapshot.val().id,
-                    floristInstagram: snapshot.val().instagram,
-                    floristName: snapshot.val().name,
-                    floristProfilePic: snapshot.val().profilePic,
-                    floristWebsite: snapshot.val().website,
-                    floristAddress: snapshot.val().address
+                    floristDescription: snapshotVal.description,
+                    floristFB: snapshotVal.facebook,
+                    floristID: snapshotVal.id,
+                    floristInstagram: snapshotVal.instagram,
+                    floristName: snapshotVal.name,
+                    floristProfilePic: snapshotVal.profilePic,
+                    floristWebsite: snapshotVal.website,
+                    floristAddress: snapshotVal.address
                 });
             });
         })
         firebase.database().ref('arrangementsList')
         .orderByChild('florist')
-        .equalTo(this.props.match.params.floristName)
+        .equalTo(this.props.match.params.floristID)
         .once('value', function(snapshot) {
             snapshot.forEach(function(childSnapshot) {
                 var childKey = childSnapshot.key;
