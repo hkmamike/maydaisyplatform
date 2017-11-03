@@ -1,17 +1,18 @@
 import React, { Component } from 'react'
+import { login, resetPassword } from '../helpers/auth'
 import { Link } from 'react-router-dom';
-import { FormGroup, FormControl, ControlLabel, Grid, Row, Col, Button, DropdownButton, MenuItem } from 'react-bootstrap';
-import ChargeMoney from '../helpers/payment'
+import { FormGroup, FormControl, ControlLabel, Grid, Row, Col, Button, DropdownButton, MenuItem, Glyphicon } from 'react-bootstrap';
+import PlaceOrder from '../helpers/singleOrderPayment'
 import LocalizedStrings from 'react-localization';
 import * as firebase from 'firebase';
 
 let strings = new LocalizedStrings({
   en:{
+    navLogin: 'Login',
     navCard: 'Message',
     navDelivery: 'Delivery',
     navReview: 'Review',
     navPayment: 'Payment',
-    navConfirm: 'Confirm',
     nextButton: 'Next',
     backButton: 'Back',
     cardMessage: 'Card Message:',
@@ -42,7 +43,7 @@ let strings = new LocalizedStrings({
     termsTip3: '.',
     referenceCode: 'Reference Code:',
     referenceCodeTip: '*This is the reference code for this transaction with MayDaisy. Please use this number if you need to contact customer support.',
-    txnID: 'Stripe ID:',
+    stripeTxnID: 'Stripe ID:',
     subIDTip: '*This is the transaction ID issued by our payment processor - Stripe.',
     orderHistoryButton: 'Order History',
     locationType: 'Location Type:',
@@ -52,32 +53,91 @@ let strings = new LocalizedStrings({
     orderSucceed: 'Success! You have placed an order.',
     deliveryType: 'Gift? :',
     delivery_self: 'For Myself',
-    delivery_gift: 'Gift'
+    delivery_gift: 'Gift',
+    loginTitle: 'Welcome Back',
+    loginSubtitle: 'Log in to continue',
+    loginButton: 'Login',
+    forgotPW: 'Forgot Password?',
+    createAccount: 'Create Account',
+    email: 'Email',
+    password: 'Password',
+    invalidCredential: 'Invalid username/password.',
+    resetSent1_1: 'Password reset email has been sent to ',
+    resetSent1_2: '.',
+    noAccountFound: 'No account is registered under this email.'
   },
-  ch: {}
+  ch: {
+    loginTitle: '歡迎回來',
+    loginSubtitle: '如要繼續請登入',
+    loginButton: '登入',
+    forgotPW: '忘記密碼?',
+    createAccount: '建立帳戶', 
+    email: '電郵',
+    password: '密碼',
+    invalidCredential: '電郵或密碼錯誤。',
+    resetSent1_1: '密碼重設方法已寄出:',
+    resetSent1_2: ' ',
+    noAccountFound: '並沒有以此電郵登記的帳戶。'
+  }
 });
+
+function setErrorMsg(error) {
+    return {
+      loginMessage: error
+    }
+  }
 
 export default class Order extends Component {
 
-  constructor() {
-    super();
-    // this.handleSubscriptionStep = this.handleSubscriptionStep.bind(this);
-    this.handleLoading = this.handleLoading.bind(this);
-    this.state = {
-      loading: true,
-      orderStep: 1,
-      cardMessage: '',
-      sender: '',
-      address: '',
-      selectLocationType: 'location_office',
-      selectDeliveryType: 'delivery_gift',
-      recipient: '',
-      recipientNum: '',
-      company: '',
-      senderNum: '',
-      stripeTransactionID: ''
+    constructor() {
+        super();
+        // this.handleSubscriptionStep = this.handleSubscriptionStep.bind(this);
+        this.handleLoading = this.handleLoading.bind(this);
+        this.handleEmailChange = this.handleEmailChange.bind(this);
+        this.handlePWChange = this.handlePWChange.bind(this);
+        this.handleOrderStep = this.handleOrderStep.bind(this);
+        this.state = {
+        loading: true,
+        orderStep: 0,
+        cardMessage: '',
+        sender: '',
+        address: '',
+        selectLocationType: 'location_office',
+        selectDeliveryType: 'delivery_gift',
+        recipient: '',
+        recipientNum: '',
+        company: '',
+        senderNum: '',
+        stripeTransactionID: ''
+        }
     }
-  }
+
+    resetPassword = () => {
+        resetPassword(this.state.email)
+        .then(() => this.setState(setErrorMsg(`${strings.resetSent1_1}${this.state.email}${strings.resetSent1_2}`)))
+        .catch((error) => this.setState(setErrorMsg(strings.noAccountFound)))
+    }
+
+    handleEmailChange(e) {
+        this.setState({ email: e.target.value });
+    }
+
+    handlePWChange(e) {
+        this.setState({ password: e.target.value });
+    }
+
+    handleSubmit = (e) => {
+        e.preventDefault()
+        login(this.state.email, this.state.password).then(() => 
+            this.setState({orderStep:1})
+          ).catch((error) => {
+          this.setState(setErrorMsg(strings.invalidCredential));
+        })
+      }
+
+    handleOrderStep(referenceCode, stripeTxnID, deliveryDay) {
+        this.setState({orderStep : 5, referenceCode: referenceCode, stripeTxnID: stripeTxnID, deliveryDay: deliveryDay, loading: false}, () => {window.scrollTo(0, 0);});
+    }
 
     handleLoading() {
         this.setState({loading: true});
@@ -118,6 +178,9 @@ export default class Order extends Component {
         var marketRegion = this.props.marketRegion;
         var thisRef = this;
         var floristID = this.props.match.params.floristID;
+        if (firebase.auth().currentUser !== null) {
+            this.setState({orderStep:1});
+        }
         this.setState({loading: false});
 
         this.setState ({arrangement: this.props.match.params.arrangement, floristID: this.props.match.params.floristID}, () => {
@@ -166,13 +229,66 @@ export default class Order extends Component {
     var deliveryFee = this.props.deliveryFee;
 
     let content = null;
-    if (orderStep===1){
+    if (orderStep===0){
         content = (
             <div>
                 <Grid>
                     <Row className="show-grid loggedin-flow">
                         <div className="horizontal-line"></div>
                         <Col xs={12}>
+                            <div className="flow-selected">{strings.navLogin}</div>
+                            <i className="fa fa-chevron-right"></i>
+                            <div>{strings.navCard}</div>
+                            <i className="fa fa-chevron-right"></i>
+                            <div>{strings.navDelivery}</div>
+                            <i className="fa fa-chevron-right"></i>
+                            <div>{strings.navReview}</div>
+                            <i className="fa fa-chevron-right"></i>
+                            <div>{strings.navPayment}</div>
+                        </Col>
+                        <div className="horizontal-line"></div>
+                    </Row>
+                </Grid>
+                <div className="login-image">
+                    <Grid>
+                    <Row className="show-grid login-margin-box">
+                        <Col className="login-image-prompt">
+            
+                            <form className="login-form" onSubmit={this.handleSubmit}>
+                            <h2 className="login-title"><strong>{strings.loginTitle}</strong></h2>
+                            <div className="login-subtitle">{strings.loginSubtitle}</div>
+                            <div className="horizontal-line"></div>
+                            { this.state.loginMessage &&
+                                <div className="alert alert-danger login-error" role="alert">
+                                <Glyphicon glyph="exclamation-sign" className="icons"/>&nbsp;{this.state.loginMessage} 
+                                </div>
+                            }
+                            <FormGroup>
+                                <FormControl className="login-form-field" type="text" value={this.state.email} placeholder={strings.email} onChange={this.handleEmailChange}/>
+                                <FormControl className="login-form-field" type="password" value={this.state.password} placeholder={strings.password} onChange={this.handlePWChange}/>
+                            </FormGroup>
+            
+                            <Button bsStyle="" type="submit" className="button">{strings.loginButton}</Button>
+                            <div className="link-group">
+                                <a onClick={this.resetPassword} className="alert-link link-forgot-pw">{strings.forgotPW}</a>
+                                <Link to="/register" className="link-create-account">{strings.createAccount}</Link>
+                            </div>
+                            </form>
+                        </Col>
+                    </Row>
+                    </Grid>
+                </div>
+            </div>
+        )
+    } else if (orderStep===1){
+        content = (
+            <div>
+                <Grid>
+                    <Row className="show-grid loggedin-flow">
+                        <div className="horizontal-line"></div>
+                        <Col xs={12}>
+                            <div>{strings.navLogin}</div>
+                            <i className="fa fa-chevron-right"></i>
                             <div className="flow-selected">{strings.navCard}</div>
                             <i className="fa fa-chevron-right"></i>
                             <div>{strings.navDelivery}</div>
@@ -180,8 +296,6 @@ export default class Order extends Component {
                             <div>{strings.navReview}</div>
                             <i className="fa fa-chevron-right"></i>
                             <div>{strings.navPayment}</div>
-                            <i className="fa fa-chevron-right"></i>
-                            <div>{strings.navConfirm}</div>
                         </Col>
                         <div className="horizontal-line"></div>
                     </Row>
@@ -250,6 +364,8 @@ export default class Order extends Component {
                     <Row className="show-grid loggedin-flow">
                         <div className="horizontal-line"></div>
                         <Col xs={12}>
+                            <div>{strings.navLogin}</div>
+                            <i className="fa fa-chevron-right"></i>
                             <div>{strings.navCard}</div>
                             <i className="fa fa-chevron-right"></i>
                             <div className="flow-selected">{strings.navDelivery}</div>
@@ -257,8 +373,6 @@ export default class Order extends Component {
                             <div>{strings.navReview}</div>
                             <i className="fa fa-chevron-right"></i>
                             <div>{strings.navPayment}</div>
-                            <i className="fa fa-chevron-right"></i>
-                            <div>{strings.navConfirm}</div>
                         </Col>
                         <div className="horizontal-line"></div>
                     </Row>
@@ -350,6 +464,8 @@ export default class Order extends Component {
                     <Row className="show-grid loggedin-flow">
                         <div className="horizontal-line"></div>
                         <Col xs={12}>
+                            <div>{strings.navLogin}</div>
+                            <i className="fa fa-chevron-right"></i>
                             <div>{strings.navCard}</div>
                             <i className="fa fa-chevron-right"></i>
                             <div>{strings.navDelivery}</div>
@@ -357,8 +473,6 @@ export default class Order extends Component {
                             <div className="flow-selected">{strings.navReview}</div>
                             <i className="fa fa-chevron-right"></i>
                             <div>{strings.navPayment}</div>
-                            <i className="fa fa-chevron-right"></i>
-                            <div>{strings.navConfirm}</div>
                         </Col>
                         <div className="horizontal-line"></div>
                     </Row>
@@ -481,6 +595,8 @@ export default class Order extends Component {
                         <Row className="show-grid loggedin-flow">
                             <div className="horizontal-line"></div>
                             <Col xs={12}>
+                                <div>{strings.navLogin}</div>
+                                <i className="fa fa-chevron-right"></i>
                                 <div>{strings.navChoose}</div>
                                 <i className="fa fa-chevron-right"></i>
                                 <div>{strings.navCard}</div>
@@ -490,8 +606,6 @@ export default class Order extends Component {
                                 <div>{strings.navReview}</div>
                                 <i className="fa fa-chevron-right"></i>
                                 <div className="flow-selected">{strings.navPayment}</div>
-                                <i className="fa fa-chevron-right"></i>
-                                <div>{strings.navConfirm}</div>
                             </Col>
                             <div className="horizontal-line"></div>
                         </Row>
@@ -506,6 +620,8 @@ export default class Order extends Component {
                         <Row className="show-grid loggedin-flow">
                             <div className="horizontal-line"></div>
                             <Col xs={12}>
+                                <div>{strings.navLogin}</div>
+                                <i className="fa fa-chevron-right"></i>
                                 <div>{strings.navCard}</div>
                                 <i className="fa fa-chevron-right"></i>
                                 <div>{strings.navDelivery}</div>
@@ -513,8 +629,6 @@ export default class Order extends Component {
                                 <div>{strings.navReview}</div>
                                 <i className="fa fa-chevron-right"></i>
                                 <div className="flow-selected">{strings.navPayment}</div>
-                                <i className="fa fa-chevron-right"></i>
-                                <div>{strings.navConfirm}</div>
                             </Col>
                             <div className="horizontal-line"></div>
                         </Row>
@@ -527,7 +641,7 @@ export default class Order extends Component {
                                     <div><strong>{strings.arrangementPrice}</strong></div>
                                 </Col>
                                 <Col sm={6}>
-                                    <div>{this.state.arrangementPrice}</div>
+                                    <div>{this.state.arrangementCurrency}{this.state.arrangementPrice}</div>
                                 </Col>
                             </FormGroup>
                         </Row>
@@ -549,7 +663,7 @@ export default class Order extends Component {
                                     <div><strong>{strings.total}</strong></div>
                                 </Col>
                                 <Col sm={6}>
-                                    <div>{this.state.currencyType}{this.state.grandTotal/100}</div>
+                                    <div>{this.state.arrangementCurrency}{this.state.arrangementPrice + this.state.arrangementDeliveryFee}</div>
                                 </Col>
                             </FormGroup>
                         </Row>
@@ -570,14 +684,11 @@ export default class Order extends Component {
                         <Row className="show-grid">
                             <Col sm={5}></Col>
                             <Col sm={4}>
-                                {/* <ChargeMoney
-                                    price={this.state.price} 
-                                    planID={this.state.planID}
-                                    selectRegion={selectRegion}
-                                    selectPlanType={this.state.selectPlanType}
-                                    selectPlanSize={this.state.selectPlanSize}
+                                <PlaceOrder
+                                    price={(this.state.arrangementPrice + this.state.arrangementDeliveryFee)*100}
+                                    currency={this.state.arrangementCurrency}
+                                    marketRegion={marketRegion}
                                     selectLocationType={this.state.selectLocationType}
-                                    grandTotal ={this.state.grandTotal}
                                     sender={this.state.sender}
                                     senderNum={this.state.senderNum}
                                     recipient={this.state.recipient}
@@ -585,12 +696,14 @@ export default class Order extends Component {
                                     company={this.state.company}
                                     address={this.state.address}
                                     cardMessage={this.state.cardMessage}
-                                    deliveryDay = {this.state.deliveryDay}
-                                    onSubscriptionStep={this.handleSubscriptionStep}
+                                    onOrderStep={this.handleOrderStep}
                                     onLoading={this.handleLoading}
                                     languageChanged={this.props.languageChanged}
                                     selectDeliveryType = {this.state.selectDeliveryType}
-                                /> */}
+                                    floristID={this.state.floristID}
+                                    arrangementName={this.state.arrangementName}
+                                    arrangementImage={this.state.arrangementImage}
+                                />
                                 <Button bsStyle="" className="button-new-sub button-back" onClick={() => this.setState({orderStep: 3}, () => {window.scrollTo(0, 0);})}>{strings.backButton}</Button>
                             </Col>
                         </Row>
@@ -601,23 +714,6 @@ export default class Order extends Component {
     }   else if (orderStep===5){
         content = (
             <div>
-                <Grid>
-                    <Row className="show-grid loggedin-flow">
-                        <div className="horizontal-line"></div>
-                        <Col xs={12}>
-                            <div>{strings.navCard}</div>
-                            <i className="fa fa-chevron-right"></i>
-                            <div>{strings.navDelivery}</div>
-                            <i className="fa fa-chevron-right"></i>
-                            <div>{strings.navReview}</div>
-                            <i className="fa fa-chevron-right"></i>
-                            <div>{strings.navPayment}</div>
-                            <i className="fa fa-chevron-right"></i>
-                            <div className="flow-selected">{strings.navConfirm}</div>
-                        </Col>
-                        <div className="horizontal-line"></div>
-                    </Row>
-                </Grid>
                 <div className="sub-succeed">            
                     <div className="center-text">{strings.orderSucceed}</div>
                 </div>
@@ -635,10 +731,10 @@ export default class Order extends Component {
                     <Row className="show-grid">
                         <Col sm={2}></Col>
                         <Col sm={3}>
-                            <div><strong>{strings.txnID}</strong></div>
+                            <div><strong>{strings.stripeTxnID}</strong></div>
                         </Col>
                         <Col sm={6}>
-                            <div>{this.state.stripeSubID}</div>
+                            <div>{this.state.stripeTxnID}</div>
                             <div className="subscription-tips">{strings.subIDTip}</div>
                         </Col>
                     </Row>

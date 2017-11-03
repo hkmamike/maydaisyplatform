@@ -9,19 +9,19 @@ let strings = new LocalizedStrings({
   en:{
     subscribeButton: 'Subscribe',
     checkOutName: 'MayDaisy',
-    checkOutDescription: 'Flower Subscription',
+    checkOutDescription: 'Flower Purchase',
     checkOutLabel: 'Subscribe'
 
   },
   ch: {
     subscribeButton: '訂購',
     checkOutName: '五月菊',
-    checkOutDescription: '鮮花訂購服務',
+    checkOutDescription: '鮮花訂購',
     checkOutLabel: '訂購'
   }
 });
 
-export default class ChargeMoney extends React.Component {
+export default class PlaceOrder extends React.Component {
 
     constructor() {
         super();
@@ -45,8 +45,8 @@ export default class ChargeMoney extends React.Component {
         }
     }
     
-    progressSubscriptionStep = (referenceCode, stripeSubID, firstPayment, firstdelivery) => {
-        this.props.onSubscriptionStep(referenceCode, stripeSubID, firstPayment, firstdelivery);
+    progressOrderStep = (referenceCode, stripeTxnID, deliveryDay) => {
+        this.props.onOrderStep(referenceCode, stripeTxnID, deliveryDay);
         console.log('proceeding to confirmation page');
     }
 
@@ -55,15 +55,17 @@ export default class ChargeMoney extends React.Component {
     }
 
     onToken = (token) => {
+        var token = token;
+        var floristID = this.props.floristID;
+        var arrangementName = this.props.arrangementName;
+        var arrangementImage = this.props.arrangementImage;
+        var currency = this.props.currency;
+        var price = this.props.price;
         var uid = firebase.auth().currentUser.uid;
-        var selectRegion = this.props.selectRegion;
-        var planID = this.props.planID;
-        var selectPlanType = this.props.selectPlanType;
-        var selectPlanSize = this.props.selectPlanSize;
+        var marketRegion = this.props.marketRegion;
         var selectLocationType = this.props.selectLocationType;
         var selectDeliveryType = this.props.selectDeliveryType;
         var languageChanged = this.props.languageChanged;
-        var grandTotalPerWeek = this.props.grandTotal;
         var senderName = this.props.sender;
         var senderNum = this.props.senderNum;
         var senderEmail = token.email;
@@ -75,10 +77,7 @@ export default class ChargeMoney extends React.Component {
         var cardMessage = this.props.cardMessage;
         var stripeTokID = token.id;
         var stripeCusID;
-        var stripeSubID;
-        var subscriptionTime;
-        var firstPayment;
-        var firstDelivery = new Date();
+        var stripeTxnID;
         var last4;
         var cardType;
         var cardExpYear;
@@ -91,55 +90,45 @@ export default class ChargeMoney extends React.Component {
         console.log('reference code is :', referenceCode);
         this.showLoader();
 
-        fetch('https://wt-47cf129daee3aa0bf6d4064463e232ef-0.run.webtask.io/webtask-stripe-order'
+        fetch('https://wt-47cf129daee3aa0bf6d4064463e232ef-0.run.webtask.io/web-task-stripe-order-marketplace'
         +'?paymentSource=' + token.id
         +'&paymentEmail=' + token.email, {
         method: 'POST',
         })
         .then(response => {
             response.json().then(data => {
-                console.log('customer created. Forwarding to subscription processor : ', data);
+                console.log('customer created. Proceeding to charge : ', data);
                 stripeCusID = data.id;
                 last4 = data.sources.data[0].last4;
                 cardType = data.sources.data[0].brand;
                 cardExpYear = data.sources.data[0].exp_year;
                 cardExpMonth = data.sources.data[0].exp_month;
-                fetch('https://wt-47cf129daee3aa0bf6d4064463e232ef-0.run.webtask.io/webtask-stripe-payment' 
-                + '?customerID=' + data.id 
-                + '&planID=' + this.props.planID, {
+                fetch('https://wt-47cf129daee3aa0bf6d4064463e232ef-0.run.webtask.io/webtask-stripe-charge' 
+                +'?paymentCustomer=' + stripeCusID
+                +'&paymentCurrency=' + currency
+                +'&paymentAmount=' + price, {
                     method: 'POST',
                 })
                 .then(response => {
                     response.json().then(data => {
-                        console.log('response from subscription processor: ', data);
-                        stripeSubID = data.id;
-                        subscriptionTime = data.current_period_start;
-                        firstPayment = new Date(data.current_period_end*1000);
-                        console.log('firstPayment will happen on:', firstPayment);
-                        if (deliveryDay==="everyMonday") {
-                            firstDelivery.setDate(firstPayment.getDate() + (1 + 7 - firstPayment.getDay()) % 7);
-                            console.log('first Monday delivery will happen on: ', firstDelivery);
-                        } else if (deliveryDay==="everyTuesday") {
-                            firstDelivery.setDate(firstPayment.getDate() + (2 + 7 - firstPayment.getDay()) % 7);
-                            console.log('first Tuesday delivery will happen on: ', firstDelivery);
-                        } else if (deliveryDay==="everyWednesday") {
-                            firstDelivery.setDate(firstPayment.getDate() + 7);
-                            console.log('first Wednesday delivery will happen on: ', firstDelivery);
-                        }
+                        console.log('response from charge: ', data);
+                        stripeTxnID = data.id;
 
                         this.setState({
-                            stripeSubID: stripeSubID,
-                            firstPayment: firstPayment,
-                            firstDelivery: firstDelivery
+                            stripeTxnID: stripeTxnID,
                         });
 
-                        base.post(`allSubscriptions/hongKong/${selectRegion}/${planID}/${referenceCode}`, {
+                        console.log ('floristID is :', floristID);
+
+                        base.post(`transactions/${floristID}`, {
                             data: {
+                                city: 'HK',
                                 uid: uid,
-                                selectPlanType: selectPlanType,
-                                selectPlanSize: selectPlanSize,
+                                price: price,
+                                currency, currency,
+                                arrangementName: arrangementName,
+                                arrangementImage: arrangementImage,
                                 selectLocationType: selectLocationType,
-                                grandTotalPerWeek: grandTotalPerWeek,
                                 senderName: senderName,
                                 senderNum: senderNum,
                                 senderEmail: senderEmail,
@@ -147,14 +136,11 @@ export default class ChargeMoney extends React.Component {
                                 recipientNum: recipientNum,
                                 company: company,
                                 address: address,
-                                deliveryDay: deliveryDay,
                                 cardMessage: cardMessage,
                                 stripeTokID: stripeTokID,
                                 stripeCusID: stripeCusID,
-                                stripeSubID: stripeSubID,
-                                subscriptionAt: subscriptionTime,
-                                firstPayment: firstPayment,
-                                firstDelivery: firstDelivery,
+                                stripeTxnID: stripeTxnID,
+                                subscriptionAt: dateNow,
                                 last4: last4,
                                 cardType: cardType,
                                 cardExpYear: cardExpYear,
@@ -164,14 +150,15 @@ export default class ChargeMoney extends React.Component {
                                 languageChanged: languageChanged
                             }
                         });
-                        base.post(`users/${uid}/subscriptions/${referenceCode}`, {
+                        base.post(`users/${uid}/transactions`, {
                             data: {
-                                selectRegion: selectRegion,
-                                planID: planID,
-                                selectPlanType: selectPlanType,
-                                selectPlanSize: selectPlanSize,
+                                city: 'HK',
+                                uid: uid,
+                                price: price,
+                                currency, currency,
+                                arrangementName: arrangementName,
+                                arrangementImage: arrangementImage,
                                 selectLocationType: selectLocationType,
-                                grandTotalPerWeek: grandTotalPerWeek,
                                 senderName: senderName,
                                 senderNum: senderNum,
                                 senderEmail: senderEmail,
@@ -179,14 +166,11 @@ export default class ChargeMoney extends React.Component {
                                 recipientNum: recipientNum,
                                 company: company,
                                 address: address,
-                                deliveryDay: deliveryDay,
                                 cardMessage: cardMessage,
                                 stripeTokID: stripeTokID,
                                 stripeCusID: stripeCusID,
-                                stripeSubID: stripeSubID,
-                                subscriptionAt: subscriptionTime,
-                                firstPayment: firstPayment,
-                                firstDelivery: firstDelivery,
+                                stripeTxnID: stripeTxnID,
+                                subscriptionAt: dateNow,
                                 last4: last4,
                                 cardType: cardType,
                                 cardExpYear: cardExpYear,
@@ -203,7 +187,7 @@ export default class ChargeMoney extends React.Component {
                             }
                         });
                         console.log ('subscriptioin processing succeeded.');
-                        this.progressSubscriptionStep(referenceCode, stripeSubID, firstPayment, firstDelivery);
+                        this.progressOrderStep(referenceCode, stripeTxnID, deliveryDay);
                     });
                 });
             });
@@ -218,12 +202,12 @@ export default class ChargeMoney extends React.Component {
                 image="https://firebasestorage.googleapis.com/v0/b/onebloom-cfa9d.appspot.com/o/logo.png?alt=media&token=d3f89daa-2818-4ec2-9aed-b006e7cd9f24" //app icon
                 panelLabel="Pay" // prepended to the amount in the bottom pay button
                 amount={this.props.price} // cents
-                currency="HKD"
-                stripeKey="pk_live_4DMkTz9So7I02XzeYkkKl6ye"
+                currency={this.props.currency}
+                stripeKey="pk_test_5AFpArfSAWtcsdRPGtFItgiH" //live or testing key
                 locale="auto"
                 label={strings.checkOutLabel}
-                allowRememberMe = {false} // "Remember Me" option (default true)
-                token={this.onToken} // submit callback    
+                allowRememberMe = {true} // "Remember Me" option (default true)
+                token={this.onToken} // submit callback
             >
                 <Button bsStyle="" className="button-new-sub">{strings.subscribeButton}</Button>
             </StripeCheckout>
