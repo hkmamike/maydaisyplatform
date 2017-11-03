@@ -28,6 +28,7 @@ import GalleryBloom from './components/gallery/bloom';
 import ArrangementsList from './components/dynamic/arrangementsList';
 import Florist from './components/dynamic/florist';
 import Arrangement from './components/dynamic/arrangement';
+import Order from './components/dynamic/order';
 
 
 //includes
@@ -56,16 +57,22 @@ export default class App extends Component {
     super();
     this.handleRegionSelection = this.handleRegionSelection.bind(this);
     this.handleLanguageToggle = this.handleLanguageToggle.bind(this);
+    this.handleMarketRegionSelect = this.handleMarketRegionSelect.bind(this);
     this.state = {
       authed: false,
       loading: true,
       selectRegion: 'HK_Central',
-      languageChanged: 'ch'
+      languageChanged: 'ch',
+      marketRegion: 'HK_CentralWestern'
     }
   }
 
   handleRegionSelection(region) {
     this.setState({selectRegion : region});
+  }
+
+  handleMarketRegionSelect(region) {
+    this.setState({marketRegion: region});
   }
 
   handleLanguageToggle(language) {
@@ -117,8 +124,9 @@ export default class App extends Component {
 
 
             <Route path='/arrangements' exact render={(props) => (<ArrangementsList {...props} languageChanged={this.state.languageChanged}/>)}/>
-            <Route path='/florist/:floristName' exact render={(props) => (<Florist {...props} languageChanged={this.state.languageChanged}/>)}/>
-            <Route path='/florist/:floristName/:arrangement' exact render={(props) => (<Arrangement {...props} languageChanged={this.state.languageChanged}/>)}/>
+            <Route path='/florist/:floristID' exact render={(props) => (<Florist {...props} languageChanged={this.state.languageChanged}/>)}/>
+            <Route path='/florist/:floristID/:arrangement' exact render={(props) => (<Arrangement {...props} languageChanged={this.state.languageChanged} marketRegion={this.state.marketRegion} onMarketRegionSelect={this.handleMarketRegionSelect}/>)}/>
+            <Route path='/order/:floristID/:arrangement' exact render={(props) => (<Order {...props} languageChanged={this.state.languageChanged} marketRegion={this.state.marketRegion}/>)}/>
 
 
             <Route path='/gallery-classic' exact render={(props) => (<GalleryClassic {...props} languageChanged={this.state.languageChanged}/>)}/>

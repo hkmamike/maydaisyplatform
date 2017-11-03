@@ -6,6 +6,7 @@
 @import "_textPages.scss";
 @import "_list.scss";
 @import "_florist.scss";
+@import "_arrangement.scss";
 
 .loader {
     border: 16px solid #f3f3f3; /* Light grey */
@@ -343,4 +344,11 @@ header {
         margin-left: 50px;
         margin-right: 50px;
     }
+}
+
+.horizontal-line {
+    width: 90%;
+    margin: 15px auto;
+    background: #CCC;
+    height: 2px;
 }

@@ -172,7 +172,7 @@ export default class ArrangementsList extends Component {
 
     var listOfArrangements = this.state.arrangementsList.map(arrangement => 
         <Col xs={6} sm={4} key={arrangement.id}>
-            <Link to={`/florist/${this.state.floristID}/${arrangement.id}`}  className="list-box">
+            <Link to={`/florist/${arrangement.florist}/${arrangement.id}`}  className="list-box">
                 <div className="list-pic" style={{ backgroundImage: 'url(' + arrangement.image + ')'}}></div>
                 <div className="text-box">
                     <div className="text-line">
@@ -180,7 +180,7 @@ export default class ArrangementsList extends Component {
                         <div className="list-price">${arrangement.price}</div>
                     </div>
                     <div className="horizontal-line"></div>
-                    <div className="list-florist">by: {arrangement.florist}</div>
+                    <div className="list-florist">by: {arrangement.floristName}</div>
                 </div>
             </Link>
         </Col>
