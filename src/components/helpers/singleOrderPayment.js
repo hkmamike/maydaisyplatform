@@ -56,6 +56,7 @@ export default class PlaceOrder extends React.Component {
 
     onToken = (token) => {
         var token = token;
+        var d
         var floristID = this.props.floristID;
         var arrangementName = this.props.arrangementName;
         var arrangementImage = this.props.arrangementImage;

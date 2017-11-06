@@ -175,6 +175,7 @@ export default class Order extends Component {
     }
 
     componentDidMount() {
+        console.log('delivery Date: ', this.props.deliveryDate.toDate());
         var marketRegion = this.props.marketRegion;
         var thisRef = this;
         var floristID = this.props.match.params.floristID;

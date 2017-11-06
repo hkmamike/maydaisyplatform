@@ -211,7 +211,7 @@ export default class AccountInfo extends Component {
                   <div className="nav-icon-title">{strings.accountInformation1}<br/>{strings.accountInformation2}</div>
                 </Link>
               </Col>
-              <div className="horizontal-line"></div>
+              {/* <div className="horizontal-line"></div> */}
             </Row>
             <Row className="show-grid loggedin-margin-box">
               <Col className="loggedin-content">

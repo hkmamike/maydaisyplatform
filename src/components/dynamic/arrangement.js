@@ -3,6 +3,7 @@ import { Grid, Row, Col, Button, ToggleButton, ToggleButtonGroup, DropdownButton
 import { Link, Route } from 'react-router-dom';
 import LocalizedStrings from 'react-localization';
 import * as firebase from 'firebase';
+import { SingleDatePicker } from 'react-dates';
 
 let strings = new LocalizedStrings({
     en:{},
@@ -10,12 +11,12 @@ let strings = new LocalizedStrings({
   });
 
 const ButtonToMarket = ({ history }) => (
-<Button bsStyle="" className="button-to-market" onClick={() => history.push('/arrangements')}>Back to Market</Button>
+    <Button bsStyle="" className="button-to-market" onClick={() => history.push('/arrangements')}>Back to Market</Button>
 );
 
 const ButtonToOrder = ({ history, floristID, arrangementID }) => (
     <Button bsStyle="" className="button-to-order" onClick={() => history.push(`/order/${floristID}/${arrangementID}`)}>Order Now</Button>
-    );
+);
 
 export default class Arrangement extends Component {
 
@@ -78,6 +79,10 @@ export default class Arrangement extends Component {
 
     handleSelectRegion = (eventKey) => {
         this.props.onMarketRegionSelect(eventKey);
+    }
+
+    handleDeliveryDateSelect = (date) => {
+        this.props.onDeliveryDateSelect(date);
     }
 
     componentDidMount() {
@@ -228,6 +233,15 @@ export default class Arrangement extends Component {
                         <MenuItem eventKey="NT_TuenMun">NT - Tuen Mun District</MenuItem>
                         <MenuItem eventKey="NT_YuenLong">NT - Yuen Long District</MenuItem>
                     </DropdownButton>
+                    <SingleDatePicker
+                        date={this.state.date} // momentPropTypes.momentObj or null
+                        onDateChange={date => {
+                            this.setState({date});
+                            this.handleDeliveryDateSelect(date);
+                        }} // PropTypes.func.isRequired
+                        focused={this.state.focused} // PropTypes.bool
+                        onFocusChange={({ focused }) => this.setState({ focused })} // PropTypes.func.isRequired
+                    />
                     { this.state.arrangementDeliveryFee!== -1 &&
                         <div>
                             <div className="arrangement-delivery-fee">Delivery Fee: {this.state.arrangementDeliveryCurrency}{this.state.arrangementDeliveryFee}</div>

@@ -30,10 +30,14 @@ import Florist from './components/dynamic/florist';
 import Arrangement from './components/dynamic/arrangement';
 import Order from './components/dynamic/order';
 
-
-//includes
+//compressed css
 import './assets/css/default.min.css';
+//airbnb date picker
+import 'react-dates/lib/css/_datepicker.css';
+import 'react-dates/initialize';
+//firebase
 import * as firebase from 'firebase';
+
 
 function PrivateRoute ({component: Component, authed, selectRegion, onRegionSelection, languageChanged, ...rest}) {
   return (
@@ -58,12 +62,14 @@ export default class App extends Component {
     this.handleRegionSelection = this.handleRegionSelection.bind(this);
     this.handleLanguageToggle = this.handleLanguageToggle.bind(this);
     this.handleMarketRegionSelect = this.handleMarketRegionSelect.bind(this);
+    this.handleDeliveryDateSelect = this.handleDeliveryDateSelect.bind(this);
     this.state = {
       authed: false,
       loading: true,
       selectRegion: 'HK_Central',
       languageChanged: 'ch',
-      marketRegion: 'HK_CentralWestern'
+      marketRegion: 'HK_CentralWestern',
+      // deliveryDate: 1
     }
   }
 
@@ -73,6 +79,10 @@ export default class App extends Component {
 
   handleMarketRegionSelect(region) {
     this.setState({marketRegion: region});
+  }
+
+  handleDeliveryDateSelect(date) {
+    this.setState({deliveryDate: date});
   }
 
   handleLanguageToggle(language) {
@@ -125,9 +135,15 @@ export default class App extends Component {
 
             <Route path='/arrangements' exact render={(props) => (<ArrangementsList {...props} languageChanged={this.state.languageChanged}/>)}/>
             <Route path='/florist/:floristID' exact render={(props) => (<Florist {...props} languageChanged={this.state.languageChanged}/>)}/>
-            <Route path='/florist/:floristID/:arrangement' exact render={(props) => (<Arrangement {...props} languageChanged={this.state.languageChanged} marketRegion={this.state.marketRegion} onMarketRegionSelect={this.handleMarketRegionSelect}/>)}/>
-            <Route path='/order/:floristID/:arrangement' exact render={(props) => (<Order {...props} languageChanged={this.state.languageChanged} marketRegion={this.state.marketRegion}/>)}/>
-
+            <Route path='/florist/:floristID/:arrangement' exact render={(props) => (<Arrangement {...props} 
+              languageChanged={this.state.languageChanged}
+              onDeliveryDateSelect={this.handleDeliveryDateSelect} 
+              marketRegion={this.state.marketRegion} 
+              onMarketRegionSelect={this.handleMarketRegionSelect}/>)}/>
+            <Route path='/order/:floristID/:arrangement' exact render={(props) => (<Order {...props} 
+              languageChanged={this.state.languageChanged}
+              deliveryDate={this.state.deliveryDate}
+              marketRegion={this.state.marketRegion}/>)}/>
 
             <Route path='/gallery-classic' exact render={(props) => (<GalleryClassic {...props} languageChanged={this.state.languageChanged}/>)}/>
             <Route path='/gallery-elegant' exact render={(props) => (<GalleryElegant {...props} languageChanged={this.state.languageChanged}/>)}/>
