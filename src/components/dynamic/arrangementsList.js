@@ -5,6 +5,9 @@ import LocalizedStrings from 'react-localization';
 import * as firebase from 'firebase';
 import Slider from 'rc-slider';
 import ReactDOM from 'react-dom';
+
+import {InstantSearch, Hits, SearchBox, Highlight} from 'react-instantsearch/dom';
+
 import 'rc-slider/assets/index.css';
 
 
@@ -15,11 +18,43 @@ const wrapperStyle = { width: 400, margin: 50 };
 let strings = new LocalizedStrings({
     en:{},
     ch: {}
-  });
+});
 
 const ButtonToRegionList = ({ title, history }) => (
     <Button bsStyle="" className="button" onClick={() => history.push('/')}>{strings.signUp}</Button>
-  );
+);
+
+function Search() {
+    return (
+        <div className="no-padding list-container">
+            <Hits hitComponent={Product}/>
+        </div>
+    );
+}
+
+function Product({hit}) {
+    return (
+        // <div style={{marginTop: '10px'}}>
+        //     <span className="hit-name">
+        //         <Highlight attributeName="name" hit={hit} />
+        //     </span>
+        // </div>
+
+        <Col xs={6} sm={4}>
+            <Link to={`/florist/${hit.florist}/${hit.id}`}  className="list-box">
+                <div className="list-pic" style={{ backgroundImage: 'url(' + hit.image + ')'}}></div>
+                <div className="text-box">
+                    <div className="text-line">
+                        <div className="list-name">{hit.name}</div>
+                        <div className="list-price">{hit.price}</div>
+                    </div>
+                    <div className="horizontal-line"></div>
+                    <div className="list-florist">by: {hit.floristName}</div>
+                </div>
+            </Link>
+        </Col>
+    );
+}
 
 class ToggleColor extends React.Component {
 
@@ -170,21 +205,21 @@ export default class ArrangementsList extends Component {
 
   render() {
 
-    var listOfArrangements = this.state.arrangementsList.map(arrangement => 
-        <Col xs={6} sm={4} key={arrangement.id}>
-            <Link to={`/florist/${arrangement.florist}/${arrangement.id}`}  className="list-box">
-                <div className="list-pic" style={{ backgroundImage: 'url(' + arrangement.image + ')'}}></div>
-                <div className="text-box">
-                    <div className="text-line">
-                        <div className="list-name">{arrangement.name}</div>
-                        <div className="list-price">${arrangement.price}</div>
-                    </div>
-                    <div className="horizontal-line"></div>
-                    <div className="list-florist">by: {arrangement.floristName}</div>
-                </div>
-            </Link>
-        </Col>
-    );
+    // var listOfArrangements = this.state.arrangementsList.map(arrangement => 
+    //     <Col xs={6} sm={4} key={arrangement.id}>
+    //         <Link to={`/florist/${arrangement.florist}/${arrangement.id}`}  className="list-box">
+    //             <div className="list-pic" style={{ backgroundImage: 'url(' + arrangement.image + ')'}}></div>
+    //             <div className="text-box">
+    //                 <div className="text-line">
+    //                     <div className="list-name">{arrangement.name}</div>
+    //                     <div className="list-price">${arrangement.price}</div>
+    //                 </div>
+    //                 <div className="horizontal-line"></div>
+    //                 <div className="list-florist">by: {arrangement.floristName}</div>
+    //             </div>
+    //         </Link>
+    //     </Col>
+    // );
 
     return (
         <div>
@@ -200,11 +235,21 @@ export default class ArrangementsList extends Component {
                 <p>Flower</p>
                 <ToggleFlower onHandleFlowerSelect={this.handleFlowerSelect} flowerFilter={this.state.flowerFilter}/>
             </div>
-            <div className="no-padding list-container">
+
+            <InstantSearch
+                appId="IWC5275GW4"
+                apiKey="24a14549af086c57dc295ac4bc6f5cc5"
+                indexName="arrangementsList"
+            >
+                <SearchBox/>
+                <Search/>
+            </InstantSearch>
+
+            {/* <div className="no-padding list-container">
                 <Grid>
                     {listOfArrangements}
                 </Grid>
-            </div>
+            </div> */}
         </div>
     )
   }
