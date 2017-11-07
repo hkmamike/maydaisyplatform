@@ -6,7 +6,8 @@ import * as firebase from 'firebase';
 import Slider from 'rc-slider';
 import ReactDOM from 'react-dom';
 
-import {InstantSearch, Hits, SearchBox, Highlight} from 'react-instantsearch/dom';
+import {InstantSearch, Hits, SearchBox, Highlight, RefinementList,
+    Pagination, CurrentRefinements, ClearAll} from 'react-instantsearch/dom';
 
 import 'rc-slider/assets/index.css';
 
@@ -34,11 +35,6 @@ function Search() {
 
 function Product({hit}) {
     return (
-        // <div style={{marginTop: '10px'}}>
-        //     <span className="hit-name">
-        //         <Highlight attributeName="name" hit={hit} />
-        //     </span>
-        // </div>
 
         <Col xs={6} sm={4}>
             <Link to={`/florist/${hit.florist}/${hit.id}`}  className="list-box">
@@ -130,9 +126,6 @@ export default class ArrangementsList extends Component {
             sliderMin: 0,
             
         };
-        this.handleSlider = this.handleSlider.bind(this);
-        this.handleColorSelect = this.handleColorSelect.bind(this);
-        this.handleFlowerSelect = this.handleFlowerSelect.bind(this);
     }
 
     componentDidMount() {
@@ -161,96 +154,25 @@ export default class ArrangementsList extends Component {
     componentWillMount() {
         strings.setLanguage(this.props.languageChanged);
     }
-    
-    handleSlider(value) {
-        var thisRef = this;
-        var arrangementsList = [];
-        var sliderMax = value[1];
-        if (value[1]===500) {
-            sliderMax = 9999;
-        }
-        
-        this.setState({sliderMax : sliderMax, sliderMin: value[0]});
-        console.log('price filter bounds: ', value);
 
-        firebase.database().ref('arrangementsList')
-        .orderByChild('price')
-        .startAt(value[0])
-        .endAt(sliderMax)
-        .once('value', function(snapshot) {
-            
-            snapshot.forEach(function(childSnapshot) {
-                var childKey = childSnapshot.key;
-                var childData = childSnapshot.val();
-            arrangementsList.push(childData);
-            });
+    render() {
 
-            thisRef.setState({arrangementsList: arrangementsList});
-
-        });
-    }
-
-    handleColorSelect(value) {
-        this.setState ({colorFilter : value});
-        console.log('color', value);
-        var thisRef = this;
-        var arrangementsList = [];
-
-    }
-
-    handleFlowerSelect(value) {
-        this.setState ({flowerFilter : value});
-        console.log('flower', value);
-    }
-
-  render() {
-
-    // var listOfArrangements = this.state.arrangementsList.map(arrangement => 
-    //     <Col xs={6} sm={4} key={arrangement.id}>
-    //         <Link to={`/florist/${arrangement.florist}/${arrangement.id}`}  className="list-box">
-    //             <div className="list-pic" style={{ backgroundImage: 'url(' + arrangement.image + ')'}}></div>
-    //             <div className="text-box">
-    //                 <div className="text-line">
-    //                     <div className="list-name">{arrangement.name}</div>
-    //                     <div className="list-price">${arrangement.price}</div>
-    //                 </div>
-    //                 <div className="horizontal-line"></div>
-    //                 <div className="list-florist">by: {arrangement.floristName}</div>
-    //             </div>
-    //         </Link>
-    //     </Col>
-    // );
-
-    return (
-        <div>
-            <div style={wrapperStyle}>
-                <p>Price Range</p>
-                <Range min={0} max={500} defaultValue={[0,500]} tipFormatter={value => `${value}`} pushable={false} onAfterChange={this.handleSlider} marks={{0:'0',500:'$500+'}}/>
+        return (
+            <div>
+                <InstantSearch
+                    appId="IWC5275GW4"
+                    apiKey="24a14549af086c57dc295ac4bc6f5cc5"
+                    indexName="arrangementsList"
+                >
+                    <CurrentRefinements/>
+                    <ClearAll/>
+                    <SearchBox/>
+                    <RefinementList attributeName="flower" />
+                    <RefinementList attributeName="color" />
+                    <Search/>
+                    <Pagination/>
+                </InstantSearch>
             </div>
-            <div style={wrapperStyle}>
-                <p>Color</p>
-                <ToggleColor onHandleColorSelect={this.handleColorSelect} colofilter={this.state.colofilter}/>
-            </div>
-            <div style={wrapperStyle}>
-                <p>Flower</p>
-                <ToggleFlower onHandleFlowerSelect={this.handleFlowerSelect} flowerFilter={this.state.flowerFilter}/>
-            </div>
-
-            <InstantSearch
-                appId="IWC5275GW4"
-                apiKey="24a14549af086c57dc295ac4bc6f5cc5"
-                indexName="arrangementsList"
-            >
-                <SearchBox/>
-                <Search/>
-            </InstantSearch>
-
-            {/* <div className="no-padding list-container">
-                <Grid>
-                    {listOfArrangements}
-                </Grid>
-            </div> */}
-        </div>
-    )
-  }
+        )
+    }
 }

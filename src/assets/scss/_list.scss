@@ -36,6 +36,7 @@
     padding: 5px auto;
     text-align: center;
     min-height: 400px;
+    overflow: auto;
     .small-screen-hide {
         @media (max-width: 600px) {
             display: none;

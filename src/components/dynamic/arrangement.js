@@ -63,7 +63,7 @@ export default class Arrangement extends Component {
             });
             firebase.database().ref('arrangementsList')
             .orderByChild('florist')
-            .equalTo(this.props.match.params.floristName)
+            .equalTo(this.props.match.params.floristID)
             .once('value', function(snapshot) {
                 snapshot.forEach(function(childSnapshot) {
                     var childKey = childSnapshot.key;
