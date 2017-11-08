@@ -6,24 +6,18 @@ import * as firebase from 'firebase';
 import Slider from 'rc-slider';
 import ReactDOM from 'react-dom';
 
-import {InstantSearch, Hits, SearchBox, Highlight, RefinementList,
-    Pagination, CurrentRefinements, ClearAll} from 'react-instantsearch/dom';
+import {InstantSearch, Hits, SearchBox, Highlight, RefinementList, Pagination, CurrentRefinements, ClearAll, Menu } from 'react-instantsearch/dom';
+
+import {connectMenu} from 'react-instantsearch/connectors';
 
 import 'rc-slider/assets/index.css';
 
-
-const createSliderWithTooltip = Slider.createSliderWithTooltip;
-const Range = createSliderWithTooltip(Slider.Range);
-const wrapperStyle = { width: 400, margin: 50 };
+const VirtualMenu = connectMenu(() => null);
 
 let strings = new LocalizedStrings({
     en:{},
     ch: {}
 });
-
-const ButtonToRegionList = ({ title, history }) => (
-    <Button bsStyle="" className="button" onClick={() => history.push('/')}>{strings.signUp}</Button>
-);
 
 function Search() {
     return (
@@ -52,95 +46,16 @@ function Product({hit}) {
     );
 }
 
-class ToggleColor extends React.Component {
-
-    constructor(props, context) {
-      super(props, context);
-      this.state = {
-        value: [1, 3],
-      };
-    }
-  
-    onChange = (value) => {
-        this.props.onHandleColorSelect(value);
-    };
-  
-    render() {
-      return (
-        <ToggleButtonGroup
-          type="checkbox"
-          value={this.props.colorFilter}
-          onChange={this.onChange}
-        >
-          <ToggleButton value={'red'} style={{backgroundColor: 'red', backgroundImage: 'none'}}><i className="fa fa-check fa-white"/></ToggleButton>
-          <ToggleButton value={'pink'} style={{backgroundColor: 'pink', backgroundImage: 'none'}}><i className="fa fa-check fa-white"/></ToggleButton>
-          <ToggleButton value={'orange'} style={{backgroundColor: 'orange', backgroundImage: 'none'}}><i className="fa fa-check fa-white"/></ToggleButton>
-          <ToggleButton value={'yellow'} style={{backgroundColor: 'yellow', backgroundImage: 'none'}}><i className="fa fa-check fa-black"/></ToggleButton>
-          <ToggleButton value={'purple'} style={{backgroundColor: 'purple', backgroundImage: 'none'}}><i className="fa fa-check fa-white"/></ToggleButton>
-          <ToggleButton value={'white'} style={{backgroundColor: 'white', backgroundImage: 'none'}}><i className="fa fa-check fa-black"/></ToggleButton>
-        </ToggleButtonGroup>
-      );
-    }
-}
-
-class ToggleFlower extends React.Component {
-    
-        constructor(props, context) {
-          super(props, context);
-          this.state = {
-            value: [1, 3],
-          };
-        }
-      
-        onChange = (value) => {
-            this.props.onHandleFlowerSelect(value);
-
-        };
-      
-        render() {
-          return (
-            <ToggleButtonGroup
-              type="checkbox"
-              value={this.props.flowerFilter}
-              onChange={this.onChange}
-            >
-                <ToggleButton value={'roses'}>Roses</ToggleButton>
-                <ToggleButton value={'hydrangea'}>Hydrangea</ToggleButton>
-                <ToggleButton value={'daisies'}>Daisies</ToggleButton>
-                <ToggleButton value={'lilies'}>Lilies</ToggleButton>
-                <ToggleButton value={'tulips'}>Tulips</ToggleButton>
-                <ToggleButton value={'peonie'}>Peonies</ToggleButton>
-                <ToggleButton value={'sunflower'}>Sun Flower</ToggleButton>
-            </ToggleButtonGroup>
-          );
-        }
-    }
-
 export default class ArrangementsList extends Component {
 
     constructor() {
         super();
         this.state = { 
-            arrangementsList: [],
-            sliderMax: 9999,
-            sliderMin: 0,
-            
         };
     }
 
     componentDidMount() {
         window.scrollTo(0, 0);
-        var arrangementsList = [];
-        var thisRef = this;
-        firebase.database().ref('arrangementsList').once('value', function(snapshot) {
-
-            snapshot.forEach(function(childSnapshot) {
-              var childKey = childSnapshot.key;
-              var childData = childSnapshot.val();
-            arrangementsList.push(childData);
-            });
-            thisRef.setState({arrangementsList: arrangementsList});
-        });
     }
     
     componentWillReceiveProps (nextProps) {
@@ -157,6 +72,8 @@ export default class ArrangementsList extends Component {
 
     render() {
 
+        var marketRegion = this.props.match.params.marketRegion;
+
         return (
             <div>
                 <InstantSearch
@@ -167,8 +84,9 @@ export default class ArrangementsList extends Component {
                     <CurrentRefinements/>
                     <ClearAll/>
                     <SearchBox/>
-                    <RefinementList attributeName="flower" />
-                    <RefinementList attributeName="color" />
+                    <VirtualMenu attributeName="deliveryAreas" defaultRefinement={marketRegion} />
+                    <RefinementList attributeName="flower" container= '#flowers'/>
+                    <RefinementList attributeName="color" container= '#colors'/>
                     <Search/>
                     <Pagination/>
                 </InstantSearch>

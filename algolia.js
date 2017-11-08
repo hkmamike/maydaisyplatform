@@ -48,5 +48,5 @@ database.ref('/arrangementsList').once('value', contacts => {
 });
 
 index.setSettings({
-  'attributesForFaceting': ['color', 'flower']
+  'attributesForFaceting': ['color', 'flower', 'price', 'deliveryAreas']
 })

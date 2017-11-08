@@ -74,7 +74,7 @@ export default class App extends Component {
   }
 
   handleRegionSelection(region) {
-    this.setState({selectRegion : region});
+    this.setState({marketRegion : region});
   }
 
   handleMarketRegionSelect(region) {
@@ -117,6 +117,7 @@ export default class App extends Component {
   }
 
   render() {
+    const marketRegion = this.state.marketRegion;
     const selectRegion = this.state.selectRegion;
 
     return (
@@ -126,18 +127,19 @@ export default class App extends Component {
           <Header authed={this.state.authed} onLanguageToggle={this.handleLanguageToggle}/>
 
           <Switch>
-            <Route path='/' exact render={(props) => (<Homepage {...props} selectRegion={selectRegion} onRegionSelection={this.handleRegionSelection} languageChanged={this.state.languageChanged}/>)}/>
+            <Route path='/' exact render={(props) => (<Homepage {...props} marketRegion={marketRegion} onRegionSelection={this.handleRegionSelection} languageChanged={this.state.languageChanged}/>)}/>
           
             
             <PublicRoute authed={this.state.authed} path='/login' component={Login} languageChanged={this.state.languageChanged}/>
             <PublicRoute authed={this.state.authed} path='/register' component={Register} languageChanged={this.state.languageChanged}/>
 
 
-            <Route path='/arrangements' exact render={(props) => (<ArrangementsList {...props} languageChanged={this.state.languageChanged}/>)}/>
+            <Route path='/arrangements/:marketRegion?' exact render={(props) => (<ArrangementsList {...props} languageChanged={this.state.languageChanged}/>)}/>
             <Route path='/florist/:floristID' exact render={(props) => (<Florist {...props} languageChanged={this.state.languageChanged}/>)}/>
             <Route path='/florist/:floristID/:arrangement' exact render={(props) => (<Arrangement {...props} 
               languageChanged={this.state.languageChanged}
-              onDeliveryDateSelect={this.handleDeliveryDateSelect} 
+              onDeliveryDateSelect={this.handleDeliveryDateSelect}
+              deliveryDate={this.state.deliveryDate}
               marketRegion={this.state.marketRegion} 
               onMarketRegionSelect={this.handleMarketRegionSelect}/>)}/>
             <Route path='/order/:floristID/:arrangement' exact render={(props) => (<Order {...props} 

@@ -8,14 +8,10 @@ import { SingleDatePicker } from 'react-dates';
 let strings = new LocalizedStrings({
     en:{},
     ch: {}
-  });
+});
 
 const ButtonToMarket = ({ history }) => (
     <Button bsStyle="" className="button-to-market" onClick={() => history.push('/arrangements')}>Back to Market</Button>
-);
-
-const ButtonToOrder = ({ history, floristID, arrangementID }) => (
-    <Button bsStyle="" className="button-to-order" onClick={() => history.push(`/order/${floristID}/${arrangementID}`)}>Order Now</Button>
 );
 
 export default class Arrangement extends Component {
@@ -23,6 +19,7 @@ export default class Arrangement extends Component {
     constructor() {
         super();
         this.toggleContent = this.toggleContent.bind(this);
+        this.handleOrder = this.handleOrder.bind(this);
         this.state = {
             loading: true,
             descriptionActive: true,
@@ -83,6 +80,15 @@ export default class Arrangement extends Component {
 
     handleDeliveryDateSelect = (date) => {
         this.props.onDeliveryDateSelect(date);
+    }
+
+    handleOrder = (floristID, arrangement) => {
+        if (this.props.deliveryDate) {
+            this.props.history.push(`/order/${floristID}/${arrangement}`);
+        }
+        else {
+            this.setState({orderButtonPressed: true});
+        }
     }
 
     componentDidMount() {
@@ -242,10 +248,15 @@ export default class Arrangement extends Component {
                         focused={this.state.focused} // PropTypes.bool
                         onFocusChange={({ focused }) => this.setState({ focused })} // PropTypes.func.isRequired
                     />
+                    { (!this.props.deliveryDate && this.state.orderButtonPressed) &&
+                        <div>
+                            <div>Please select a delivery date.</div>
+                        </div>
+                    }
                     { this.state.arrangementDeliveryFee!== -1 &&
                         <div>
                             <div className="arrangement-delivery-fee">Delivery Fee: {this.state.arrangementDeliveryCurrency}{this.state.arrangementDeliveryFee}</div>
-                            <Route path="/" render={(props) => <ButtonToOrder {...props} marketRegion={marketRegion} arrangementID={this.state.arrangement} floristID={this.state.floristID}/>} />
+                            <Route path="/" render={() => <Button bsStyle="" className="button-to-order" onClick={() => this.handleOrder(this.state.floristID, this.state.arrangement)}>Order Now</Button>}/>
                         </div>
                     }
                     { this.state.arrangementDeliveryFee== -1 &&

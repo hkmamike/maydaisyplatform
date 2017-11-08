@@ -71,8 +71,8 @@ let strings = new LocalizedStrings({
     }
   });
 
-const ButtonToRegionList = ({ title, history }) => (
-  <Button bsStyle="" className="button" onClick={() => history.push('/signups')}>{strings.signUp}</Button>
+const ButtonToMarket = ({ title, history, marketRegion }) => (
+  <Button bsStyle="" className="button" onClick={() => history.push(`/arrangements/${marketRegion}`)}>Go</Button>
 );
 
 const ButtonToScrollUp = ({ title, history }) => (
@@ -107,7 +107,7 @@ export default class Homepage extends Component {
   }
 
   render() {
-    const selectRegion = this.props.selectRegion;
+    const marketRegion = this.props.marketRegion;
 
     return (
       <div className="no-padding">
@@ -117,15 +117,29 @@ export default class Homepage extends Component {
             <Grid>
               <Row className="show-grid">
                 <Col md={5} className="home-image-prompt">
-                  <h3 className="home-image-title">{strings.homeImgTitle}</h3>
+                  <h3 className="home-image-title">Discover dazzling designs from independent florists</h3>
                   <div className="home-image-pink">{strings.homeImgSubtitle}</div>
-                  <DropdownButton title={strings[selectRegion]} className="home-image-select" id="bg-nested-dropdown" onSelect={this.handleSelect}>
-                    <MenuItem eventKey="HK_Central">{strings.HK_Central}</MenuItem>
-                    <MenuItem eventKey="HK_ChaiWan">{strings.HK_ChaiWan}</MenuItem>
-                    <MenuItem eventKey="KL_Olympic">{strings.KL_Olympic}</MenuItem>                 
-                    <MenuItem eventKey="other">{strings.other}</MenuItem>
+                  <DropdownButton title={marketRegion} className="home-image-select" id="bg-nested-dropdown" onSelect={this.handleSelect}>
+                    <MenuItem eventKey="HK_CentralWestern">HK Island - Central/Western District</MenuItem>
+                    <MenuItem eventKey="HK_Eastern">HK Island - Eastern District</MenuItem>
+                    <MenuItem eventKey="HK_Southern">HK Island - Southern District</MenuItem>
+                    <MenuItem eventKey="HK_WanChai">HK Island - Wan Chai District</MenuItem>
+                    <MenuItem eventKey="KL_ShamShuiPo">KL - Sam Shui Po District</MenuItem>
+                    <MenuItem eventKey="KL_KowloonCity">KL - Kowloon City District</MenuItem>
+                    <MenuItem eventKey="KL_KwunTong">KL - Kwun Tong District</MenuItem>
+                    <MenuItem eventKey="KL_WongTaiSin">KL - Wong Tai Sin District</MenuItem>
+                    <MenuItem eventKey="KL_YauTsimMong">KL - Yau Tsim Mong District</MenuItem>
+                    <MenuItem eventKey="NT_Islands">NT - Outlying Islands</MenuItem>
+                    <MenuItem eventKey="NT_KwaiTsing">NT - Kwai Tsing District</MenuItem>
+                    <MenuItem eventKey="NT_North">NT - Northern District</MenuItem>
+                    <MenuItem eventKey="NT_SaiKung">NT - Sai Kung District</MenuItem>
+                    <MenuItem eventKey="NT_ShaTin">NT - Sha Tin District</MenuItem>
+                    <MenuItem eventKey="NT_TaiPo">NT - Tai Po District</MenuItem>
+                    <MenuItem eventKey="NT_TsuenWan">NT - Tsuen Wan District</MenuItem>
+                    <MenuItem eventKey="NT_TuenMun">NT - Tuen Mun District</MenuItem>
+                    <MenuItem eventKey="NT_YuenLong">NT - Yuen Long District</MenuItem>
                   </DropdownButton>
-                  <Route path="/" render={(props) => <ButtonToRegionList {...props}/>} />
+                  <Route path="/" render={(props) => <ButtonToMarket marketRegion={marketRegion} {...props}/>} />
                 </Col>
               </Row>
             </Grid>
