@@ -175,7 +175,6 @@ export default class Order extends Component {
     }
 
     componentDidMount() {
-        console.log('delivery Date: ', this.props.deliveryDate.toDate());
         var marketRegion = this.props.marketRegion;
         var thisRef = this;
         var floristID = this.props.match.params.floristID;
@@ -541,7 +540,7 @@ export default class Order extends Component {
                                 <div><strong>{strings.deliveryDay}</strong></div>
                             </Col>
                             <Col sm={6}>
-                                <div>To be completed</div>
+                                <div>{this.props.deliveryDate.format("YYYY-MMM-DD")}</div>
                             </Col>
                         </FormGroup>
                     </Row>
@@ -672,7 +671,7 @@ export default class Order extends Component {
                             <Col sm={2}></Col>
                             <Col sm={3}><div><strong>{strings.deliveryDay}</strong></div></Col>
                             <Col sm={6}>
-                                <div>To be completed</div>
+                                <div>{this.props.deliveryDate.format("YYYY-MMM-DD")}</div>
                             </Col>
                         </Row>
                         <Row className="show-grid">

@@ -20,6 +20,7 @@ export default class Arrangement extends Component {
         super();
         this.toggleContent = this.toggleContent.bind(this);
         this.handleOrder = this.handleOrder.bind(this);
+        this.checkFloristCalendar = this.checkFloristCalendar.bind(this);
         this.state = {
             loading: true,
             descriptionActive: true,
@@ -91,6 +92,17 @@ export default class Arrangement extends Component {
         }
     }
 
+    checkFloristCalendar(day) {
+        var arrangementDeliveryBlockedDays = this.state.arrangementDeliveryBlockedDays;
+        if (arrangementDeliveryBlockedDays===null) {
+            return false;
+        } else if (arrangementDeliveryBlockedDays.indexOf(day.day()) > -1) {
+            return true;
+        } else {
+            return false;
+        }
+    }
+
     componentDidMount() {
         window.scrollTo(0, 0);
         var thisRef = this;
@@ -132,6 +144,12 @@ export default class Arrangement extends Component {
                 thisRef.setState({
                     arrangementDeliveryFee: snapshotVal[marketRegion],
                     arrangementDeliveryCurrency: snapshotVal.currency,
+                });
+            });
+            firebase.database().ref(`florists/${floristID}/deliveryBlockedDays`).once('value', function(snapshot) {
+                var snapshotVal = snapshot.val()
+                thisRef.setState({
+                    arrangementDeliveryBlockedDays: snapshotVal
                 });
             });
         });
@@ -247,6 +265,7 @@ export default class Arrangement extends Component {
                         }} // PropTypes.func.isRequired
                         focused={this.state.focused} // PropTypes.bool
                         onFocusChange={({ focused }) => this.setState({ focused })} // PropTypes.func.isRequired
+                        isDayBlocked={this.checkFloristCalendar}
                     />
                     { (!this.props.deliveryDate && this.state.orderButtonPressed) &&
                         <div>
