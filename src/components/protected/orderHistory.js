@@ -7,13 +7,13 @@ import LocalizedStrings from 'react-localization';
 
 let strings = new LocalizedStrings({
   en:{
-    mySubscriptions1: 'Order',
-    mySubscriptions2: 'History',
-    newSubscription1: 'Address',
-    newSubscription2: 'Book',
+    orderHistory1: 'Order',
+    orderHistory2: 'History',
+    addressBook1: 'Address',
+    addressBook2: 'Book',
     accountInformation1: 'Account',
     accountInformation2: 'Information',
-    subscriptionsList: 'Subscriptions List',
+    allOrders: 'All Orders',
     detailsUpdate: 'Details & Update',
     referenceCode: 'Reference Code:',
     subID: 'Stripe Sub ID:',
@@ -33,10 +33,9 @@ let strings = new LocalizedStrings({
     tip1_2: '11:59 p.m. on Wednesday',
     tip1_3: " prior to the next week's delivery.",
     tip2: '**To change delivery address, flower type, or plan, please create a new subscription and unsubscribe from this one. Sorry for any inconvience caused.',
-    unSubModalTitle: 'Cancel Subscription',
-    unSubText1: 'We are sorry to see you go. To continue, click "Unsubscribe" to confirm.',
-    unSubText2: 'Please note that if your cancelation request is received after 11:59 pm HKT on Wednesday, your card has already been charged this week and one more delivery will be made in the following week.',
-    unSubText3: 'For further assistance, please reach out to our support hotline: (852)9346-8427.',
+    submitReviewTitle: 'Submit a review',
+    submitReviewText1: 'Let other customers know about your experience with this florist. It helps good florists get more exposure!',
+    submitReviewText2: 'Only verified customers with purchases are allowed to submit a review.',
     cancelButton: 'Close',
     everyMonday: 'Every Monday',
     everyTuesday: 'Every Tuesday',
@@ -45,147 +44,117 @@ let strings = new LocalizedStrings({
     flower_rose: 'Seasonal Flower (rose only)',
     plan_classic: 'Classic (1-2 blooms, HKD53/week)',
     plan_elegant: 'Elegant (2-4 blooms, HKD93/week)',
-    noSub: 'You do not have any subscription.',
+    noOrder: 'You do not have any order history.',
     errorOccured: 'An error occured, please try again later.',
     subscriptionUpdated: 'Subscription has been updated.',
     subscriptionCanceled: 'Subscription has been canceled.',
+    browseMarket: 'Browse Market'
   },
   ch: {}
 });
 
-const ButtonToNewSubscriptioin = ({ title, history }) => (
-  <Button bsStyle="" className="no-sub-button" onClick={() => history.push('/newsubscription')}>{strings.newSubscription2}</Button>
+const ButtonToMarket = ({ title, history }) => (
+  <Button bsStyle="" className="no-sub-button" onClick={() => history.push('/arrangements')}>{strings.browseMarket}</Button>
 );
 
-class CancelSubModal extends React.Component {
-  constructor() {
-    super();
-    this.open = this.open.bind(this);
-    this.close = this.close.bind(this);
-    this.unSubscribe = this.unSubscribe.bind(this);
-    this.state = {
-      showModal: false
+class SubmitReview extends React.Component {
+    constructor() {
+      super();
+      this.open = this.open.bind(this);
+      this.close = this.close.bind(this);
+      this.submitReview = this.submitReview.bind(this);
+      this.state = {
+        showModal: false
+      }
+    }
+  
+    close() {
+      this.setState({showModal: false});
+    }
+    open() {
+      this.setState({showModal: true});
+    }
+    submitReview() {
+      var uid = this.props.uid;
+      var referenceCode = this.props.referenceCode;
+      var florist = this.props.florist;
+      var floristName = this.props.floristName;
+      this.props.onSubmitReview(uid, referenceCode, florist, floristName);
+      this.close();
+    }
+    render() {
+      return (
+        <div>
+          <Button bsStyle="" className="sub-details-unsub"onClick={this.open}>Submit a review</Button>
+          <Modal show={this.state.showModal} onHide={this.close}>
+            <Modal.Header closeButton>
+              <Modal.Title><strong>{strings.submitReviewTitle}</strong></Modal.Title>
+            </Modal.Header>
+            <Modal.Body>
+              <h4>{strings.submitReviewText1}</h4>
+              <p>{strings.submitReviewText2}</p>
+            </Modal.Body>
+            <Modal.Footer>
+              <Button bsStyle="" className="button button-back" onClick={this.close}>{strings.cancelButton}</Button>
+              <Button bsStyle="" className="button" onClick={this.submitReview}>Submit</Button>
+            </Modal.Footer>
+          </Modal>
+        </div>
+      )
     }
   }
 
-  close() {
-    this.setState({showModal: false});
-  }
-  open() {
-    this.setState({showModal: true});
-  }
-  unSubscribe() {
-    var uid = this.props.uid;
-    var selectRegion = this.props.selectRegion;
-    var planID = this.props.planID;
-    var subID = this.props.subID;
-    var stripeSub = this.props.stripeSub;
-    console.log ('parameters are:', uid, selectRegion, planID, subID)
-    this.props.onUnsubscribe(uid, selectRegion, planID, subID, stripeSub);
-    this.close();
-  }
-  render() {
-    return (
-      <div>
-        <Button bsStyle="" className="sub-details-unsub"onClick={this.open}>{strings.unSubscribeButton}</Button>
-        <Modal show={this.state.showModal} onHide={this.close}>
-          <Modal.Header closeButton>
-            <Modal.Title><strong>{strings.unSubModalTitle}</strong></Modal.Title>
-          </Modal.Header>
-          <Modal.Body>
-            <h4>{strings.unSubText1}</h4>
-            <p>{strings.unSubText2}</p>
-            <p>{strings.unSubText3}</p>
-          </Modal.Body>
-          <Modal.Footer>
-            <Button bsStyle="" className="button button-back" onClick={this.close}>{strings.cancelButton}</Button>
-            <Button bsStyle="" className="button" onClick={this.unSubscribe}>{strings.unSubscribeButton}</Button>
-          </Modal.Footer>
-        </Modal>
-      </div>
-    )
-  }
-}
+class OrderDetails extends React.Component {
 
-class SubDetails extends React.Component {
-
-  constructor() {
-    super();
-    this.handleBack = this.handleBack.bind(this);
-    this.handleSubUpdate = this.handleSubUpdate.bind(this);
-    this.handleNumChange = this.handleNumChange.bind(this);
-    this.handleCancelSub = this.handleCancelSub.bind(this);
-    this.handleMessageChange = this.handleMessageChange.bind(this);
-    this.state = {
-      loading: true,
-      subDetails: {},
-      cardMessage: '',
-      recipientNum: ''
-    }
-  }
-
-  componentWillMount () {
-    this.fireBaseListenerForSubDetails = firebaseAuth().onAuthStateChanged((user) => {
-      base.fetch(`users/${user.uid}/subscriptions/${this.props.selectedSub}`, {
-        context: this,
-        then(data) {
-          console.log('data is :', data);
-          this.setState({subDetails: data, loading: false, cardMessage: data.cardMessage, recipientNum: data.recipientNum, uid: user.uid});
+    constructor() {
+        super();
+        this.handleBack = this.handleBack.bind(this);
+        this.handleSubmitReview = this.handleSubmitReview.bind(this);
+        this.state = {
+        loading: true,
+        orderDetails: {}
         }
-      });
-    });
-  }
+    }
 
-  componentWillUnmount () {
-    //returns the unsubscribe function
-    this.fireBaseListenerForSubDetails && this.fireBaseListenerForSubDetails();
-  }
-
-  handleCancelSub(uid, selectRegion, planID, subID, stripeSub) {
-    fetch('https://wt-47cf129daee3aa0bf6d4064463e232ef-0.run.webtask.io/webtask-stripe-cancel-sub'
-      +'?subID=' + stripeSub, {
-      method: 'POST'
-    }).then(response => {
-        response.json().then(data => {
-          console.log('response from subscription cancel request: ', data);
-          base.remove(`allSubscriptions/hongKong/${selectRegion}/${planID}/${subID}`);
-          base.fetch(`users/${uid}/subscriptions/${subID}`, {
-            context: this,
-            then(data) {
-              var postData = data;
-              base.post(`users/${uid}/canceledSubscriptions/${subID}`, {
-                data: postData
-              });
-              base.remove(`users/${uid}/subscriptions/${subID}`);
-            }
-          });
-          this.props.onSubscriptionCancelSuccess();
+    componentWillMount () {
+        this.fireBaseListenerForSubDetails = firebaseAuth().onAuthStateChanged((user) => {
+            base.fetch(`users/${user.uid}/transactions/${this.props.selectedOrder}`, {
+                context: this,
+                then(data) {
+                    console.log('data is :', data);
+                    this.setState({orderDetails: data, loading: false, cardMessage: data.cardMessage, recipientNum: data.recipientNum, uid: user.uid});
+                }
+            });
         });
-      });
-  }
+    }
 
-  handleBack = () => {
-    this.props.onHandleBack();
-  }
-  handleSubUpdate = (selectRegion, planID, recipientNum, cardMessage) => {
-    this.props.onHandleSubUpdate(selectRegion, planID, recipientNum, cardMessage);
-  }
-  handleNumChange(e) {
-    this.setState({ recipientNum: e.target.value });
-  }
-  handleMessageChange(e) {
-    this.setState({ cardMessage: e.target.value });
-  }
+    componentWillUnmount () {
+        //returns the unsubscribe function
+        //this.fireBaseListenerForSubDetails && this.fireBaseListenerForSubDetails();
+    }
+
+    handleSubmitReview () {
+
+    }
+
+    handleBack = () => {
+        this.props.onHandleBack();
+    }
+    handleNumChange(e) {
+        this.setState({ recipientNum: e.target.value });
+    }
+    handleMessageChange(e) {
+        this.setState({ cardMessage: e.target.value });
+    }
+
   render() {
-    var selectedSub = this.props.selectedSub;
-    var stripeSub = this.props.stripeSub;
-    var subDetails = this.state.subDetails;
+    var selectedOrder = this.props.selectedOrder;
+    var stripeTxnID = this.props.stripeTxnID;
+    var orderDetails = this.state.orderDetails;
+    var selectLocationType = this.state.orderDetails[selectLocationType];
     var loadingState = this.state.loading;
     var recipientNum = this.state.recipientNum;
     var cardMessage = this.state.cardMessage;
-    var selectRegion = this.state.subDetails.selectRegion;
-    var selectLocationType = this.state.subDetails.selectLocationType;
-    var planID = this.state.subDetails.planID;
     let content = null;
 
     if (loadingState) {
@@ -200,6 +169,25 @@ class SubDetails extends React.Component {
               </div>
             }
             <div className="sub-list-item">
+                <Row className="show-grid">
+                    <FormGroup>
+                    <Col sm={1}></Col>
+                    <Col sm={3}>
+                        <div><strong>Status:</strong></div>
+                    </Col>
+                    <Col sm={5}>
+                        <div>{orderDetails.status}</div>
+                    </Col>
+                    <Col sm={3}>
+                        <SubmitReview
+                        uid={this.state.uid}
+                        florist={orderDetails.florist}
+                        floristName={orderDetails.floristName}
+                        referenceCode={orderDetails.referenceCode}
+                        />
+                    </Col>
+                    </FormGroup>
+                </Row>
               <Row className="show-grid">
                 <FormGroup>
                   <Col sm={1}></Col>
@@ -207,21 +195,12 @@ class SubDetails extends React.Component {
                       <div><strong>{strings.referenceCode}</strong></div>
                   </Col>
                   <Col sm={5}>
-                    <div>{subDetails.referenceCode}</div>
+                    <div>{orderDetails.referenceCode}</div>
                   </Col>
                   <Col sm={3}>
-                    <CancelSubModal
-                      onUnsubscribe={this.handleCancelSub}
-                      uid={this.state.uid}
-                      selectRegion={selectRegion}
-                      planID={planID}
-                      subID={selectedSub}
-                      stripeSub={stripeSub}
-                    />
                   </Col>
                 </FormGroup>
               </Row>
-
               <Row className="show-grid">
                 <FormGroup>
                   <Col sm={1}></Col>
@@ -229,41 +208,7 @@ class SubDetails extends React.Component {
                       <div><strong>{strings.subID}</strong></div>
                   </Col>
                   <Col sm={8}>
-                    <div>{stripeSub}</div>
-                  </Col>
-                </FormGroup>
-              </Row>
-              
-              <Row className="show-grid">
-                <FormGroup>
-                  <Col sm={1}></Col>
-                  <Col sm={3}>
-                      <div><strong>{strings.flowerType}</strong></div>
-                  </Col>
-                  <Col sm={8}>
-                    <div>{strings[subDetails.selectPlanType]}</div>
-                  </Col>
-                </FormGroup>
-              </Row>
-              <Row className="show-grid">
-                <FormGroup>
-                  <Col sm={1}></Col>
-                  <Col sm={3}>
-                      <div><strong>{strings.plan}</strong></div>
-                  </Col>
-                  <Col sm={8}>
-                    <div>{strings[subDetails.selectPlanSize]}</div>
-                  </Col>
-                </FormGroup>
-              </Row>
-              <Row className="show-grid">
-                <FormGroup>
-                  <Col sm={1}></Col>
-                  <Col sm={3}>
-                      <div><strong>{strings.recipient}</strong></div>
-                  </Col>
-                  <Col sm={8}>
-                    <div>{subDetails.recipient}</div>
+                    <div>{stripeTxnID}</div>
                   </Col>
                 </FormGroup>
               </Row>
@@ -274,7 +219,40 @@ class SubDetails extends React.Component {
                       <div><strong>{strings.deliveryDay}</strong></div>
                   </Col>
                   <Col sm={8}>
-                    <div>{strings[subDetails.deliveryDay]}</div>
+                    <div>{orderDetails.deliveryDate}</div>
+                  </Col>
+                </FormGroup>
+              </Row>
+              <Row className="show-grid">
+                <FormGroup>
+                  <Col sm={1}></Col>
+                  <Col sm={3}>
+                      <div><strong>Arrangement:</strong></div>
+                  </Col>
+                  <Col sm={8}>
+                    <div>{orderDetails.arrangementName}</div>
+                  </Col>
+                </FormGroup>
+              </Row>
+              <Row className="show-grid">
+                <FormGroup>
+                  <Col sm={1}></Col>
+                  <Col sm={3}>
+                      <div><strong>Florist:</strong></div>
+                  </Col>
+                  <Col sm={8}>
+                    <div className="order-history-florist-name"><Link to={`/florist/${orderDetails.florist}`}>{orderDetails.floristName}</Link></div>
+                  </Col>
+                </FormGroup>
+              </Row>
+              <Row className="show-grid">
+                <FormGroup>
+                  <Col sm={1}></Col>
+                  <Col sm={3}>
+                      <div><strong>{strings.recipient}</strong></div>
+                  </Col>
+                  <Col sm={8}>
+                    <div>{orderDetails.recipient}</div>
                   </Col>
                 </FormGroup>
               </Row>
@@ -285,32 +263,10 @@ class SubDetails extends React.Component {
                       <div><strong>{strings.address}</strong></div>
                   </Col>
                   <Col sm={8}>
-                    <div>{subDetails.address}</div>
+                    <div>{orderDetails.address}</div>
                   </Col>
                 </FormGroup>
               </Row>
-              { selectLocationType === "location_office" && <Row className="show-grid">
-                <FormGroup>
-                  <Col sm={1}></Col>
-                  <Col sm={3}>
-                      <div><strong>{strings.recipientNum}</strong></div>
-                  </Col>
-                  <Col sm={7}>
-                    <FormControl className="data-field-update" type="text" value={recipientNum} onChange={this.handleNumChange}/>
-                  </Col>
-                </FormGroup>
-              </Row>}
-              { selectLocationType === "location_home" && <Row className="show-grid">
-                <FormGroup>
-                  <Col sm={1}></Col>
-                  <Col sm={3}>
-                      <div><strong>{strings.recipientNum}</strong></div>
-                  </Col>
-                  <Col sm={7}>
-                    <FormControl className="data-field-update" type="text" value={recipientNum} onChange={this.handleNumChange}/>
-                  </Col>
-                </FormGroup>
-              </Row>}
               <Row className="show-grid">
                 <FormGroup>
                   <Col sm={1}></Col>
@@ -318,9 +274,7 @@ class SubDetails extends React.Component {
                       <div><strong>{strings.card}</strong></div>
                   </Col>
                   <Col sm={7}>
-                    <FormControl className="card-text-area data-field-update" componentClass="textarea" value={cardMessage} onChange={this.handleMessageChange}/>
-                    <div className="subscription-tips">{strings.tip1_1}<strong>{strings.tip1_2}</strong>{strings.tip1_3}</div>
-                    <div className="subscription-tips">{strings.tip2}</div>
+                    <div className="card-text-area data-field-update">{cardMessage}</div>
                   </Col>
                 </FormGroup>
               </Row>
@@ -330,7 +284,6 @@ class SubDetails extends React.Component {
                   </Col>
                   <Col sm={4}>
                     <Button bsStyle="" className="button sub-details-back" onClick={() => this.handleBack()}>{strings.backButton}</Button>
-                    <Button bsStyle="" className="button sub-details-update" onClick={() => this.handleSubUpdate(selectRegion, planID, recipientNum, cardMessage)}>{strings.updateButton}</Button>
                   </Col>
                 </FormGroup>
               </Row>
@@ -345,25 +298,20 @@ class SubDetails extends React.Component {
   }
 }
 
-export default class Subscriptions extends Component {
+export default class OrderHistory extends Component {
 
   constructor() {
     super();
-    this.handleFromChange = this.handleFromChange.bind(this);
-    this.handleChooseSub = this.handleChooseSub.bind(this);
+    this.handleChooseOrder = this.handleChooseOrder.bind(this);
     this.handleBack = this.handleBack.bind(this);
-    this.handleSubUpdate = this.handleSubUpdate.bind(this);
-    this.subscriptionCancelSuccess = this.subscriptionCancelSuccess.bind(this);
-    this.subscriptionCancelFail = this.subscriptionCancelFail.bind(this);
     this.state = {
-      subscriptionData: {},
+      orderData: {},
       loading: true,
-      newFrom: '',
       newCardMessage: '',
-      subDetailsStatus: 0,
-      selectedSub: '',
+      orderDetailsStatus: 0,
+      selectedOrder: '',
       userID: '',
-      subInfoMessage: null
+      orderInfoMessage: null
     }
   }
 
@@ -374,110 +322,54 @@ export default class Subscriptions extends Component {
       strings.setLanguage('en');
     }
   }
-
   componentWillMount() {
     strings.setLanguage(this.props.languageChanged);
   }
-
   componentDidMount () {
     window.scrollTo(0, 0);
     this.fireBaseListenerForSub = firebaseAuth().onAuthStateChanged((user) => {
-      base.fetch(`users/${user.uid}/subscriptions/`, {
+      base.fetch(`users/${user.uid}/transactions/`, {
         context: this,
         then(data) {
-          this.setState({subscriptionData: data, loading: false, userID: user.uid});
+          this.setState({orderData: data, loading: false, userID: user.uid});
         }
       });
     });
   }
-
   componentWillUnmount () {
     //returns the unsubscribe function
     this.fireBaseListenerForSub && this.fireBaseListenerForSub();
   }
-
-  handleCardChange(e, key) {
-    this.setState({ newCardMessage: e.target.value });
-  }
-  handleFromChange(e, key) {
-    this.setState({ newFrom: e.target.value });
-  }
-  handleChooseSub(chosenKey, stripeSub) {
-    this.setState({subDetailsStatus: 1, selectedSub: chosenKey, stripeSub: stripeSub});
+  handleChooseOrder(chosenKey, stripeTxnID) {
+    this.setState({orderDetailsStatus: 1, selectedOrder: chosenKey, stripeTxnID: stripeTxnID});
   }
   handleBack() {
-    this.setState({subDetailsStatus: 0});
-  }
-  handleSubUpdate(selectRegion, planID, recipientNum, cardMessage) {
-    var uid = this.state.userID;
-    var selectedSub = this.state.selectedSub;
-    console.log('handleSubUpdate checkpoint, uid is : ', uid, 'selectedSub is : ', selectedSub);
-
-    base.update(`users/${uid}/subscriptions/${selectedSub}`, {
-      data: {
-        recipientNum: recipientNum,
-        cardMessage: cardMessage,
-      }
-    });
-    base.update(`allSubscriptions/hongKong/${selectRegion}/${planID}/${selectedSub}`, {
-      data: {
-        recipientNum: recipientNum,
-        cardMessage: cardMessage,
-      }
-    }).then(() => 
-        this.setState({ subInfoMessage: strings.subscriptionUpdated})
-      ).catch(err => {
-        console.log('An error occured when updating account information.');
-        this.setState({ subInfoMessage: strings.errorOccured});
-      });
-  }
-  subscriptionCancelSuccess() {
-    this.setState({subInfoMessage: strings.subscriptionCanceled, subDetailsStatus: 0});
-    base.fetch(`users/${this.state.userID}/subscriptions/`, {
-      context: this,
-      then(data) {
-        this.setState({subscriptionData: data, loading: false});
-      }
-    });
-  }
-  subscriptionCancelFail() {
-    this.setState({subInfoMessage: strings.errorOccured});
+    this.setState({orderDetailsStatus: 0});
   }
 
   render () {
 
-    var data = this.state.subscriptionData;
+    var data = this.state.orderData;
     var loadingState = this.state.loading;
-    var subDetailsStatus = this.state.subDetailsStatus;
-    var subscriptions;
+    var orderDetailsStatus = this.state.orderDetailsStatus;
+    var orders;
 
     // console.log('data check: ', Object.keys(data).length);
     if (Object.keys(data).length===0) {
-      subscriptions = (
+      orders = (
         <div className="no-sub-section">            
-          <div className="center-text">{strings.noSub}</div>
-          <Route path="/" render={(props) => <ButtonToNewSubscriptioin {...props}/>} />
+          <div className="center-text">{strings.noOrder}</div>
+          <Route path="/" render={(props) => <ButtonToMarket {...props}/>} />
         </div>
       )
     } else {
-      subscriptions = Object.keys(data).map(function(key) {
+      orders = Object.keys(data).map(function(key) {
         var chosenKey = data[key].referenceCode;
-        var stripeSub = data[key].stripeSubID;
+        var stripeTxnID = data[key].stripeTxnID;
         return (
           <div key={key}>
             <Grid>
               <div className="sub-list-item">
-                <Row className="show-grid">
-                  <FormGroup>
-                    <Col sm={1}></Col>
-                    <Col sm={3}>
-                        <div><strong>{strings.referenceCode}</strong></div>
-                    </Col>
-                    <Col sm={3}>
-                      <div>{data[key].referenceCode}</div>
-                    </Col>
-                  </FormGroup>
-                </Row>
                 <Row className="show-grid">
                   <FormGroup>
                     <Col sm={1}></Col>
@@ -496,7 +388,18 @@ export default class Subscriptions extends Component {
                         <div><strong>{strings.deliveryDay}</strong></div>
                     </Col>
                     <Col sm={3}>
-                      <div>{strings[data[key].deliveryDay]}</div>
+                      <div>{data[key].deliveryDate}</div>
+                    </Col>
+                  </FormGroup>
+                </Row>
+                <Row className="show-grid">
+                  <FormGroup>
+                    <Col sm={1}></Col>
+                    <Col sm={3}>
+                        <div><strong>Order Status</strong></div>
+                    </Col>
+                    <Col sm={3}>
+                      <div>{data[key].status}</div>
                     </Col>
                   </FormGroup>
                 </Row>
@@ -504,7 +407,7 @@ export default class Subscriptions extends Component {
                   <FormGroup>
                     {/* <Col xs={} sm={5}></Col> */}
                     <Col xs={1} xsOffset={6} smOffset={9} mdOffset={10}>
-                      <Button bsStyle="" className="button sub-details-button" onClick={() => this.handleChooseSub(chosenKey, stripeSub)}>{strings.detailsButton}</Button>
+                      <Button bsStyle="" className="button sub-details-button" onClick={() => this.handleChooseOrder(chosenKey, stripeTxnID)}>{strings.detailsButton}</Button>
                     </Col>
                   </FormGroup>
                 </Row>
@@ -523,45 +426,43 @@ export default class Subscriptions extends Component {
           <div className="loader"></div>
         </div>
       )
-    } else if (subDetailsStatus===0){
+    } else if (orderDetailsStatus===0){
       content = (
         <div>
           <Grid>
             <Row className="show-grid loggedin-flow">
               <div className="horizontal-line"></div>
               <Col xs={12}>
-                  <div className="flow-selected">{strings.subscriptionsList}</div>
+                  <div className="flow-selected">{strings.allOrders}</div>
                     <i className="fa fa-chevron-right"></i>
                   <div>{strings.detailsUpdate}</div>
               </Col>
               <div className="horizontal-line"></div>
             </Row>
           </Grid>
-          {subscriptions}
+          {orders}
         </div>
       )
-    } else if (subDetailsStatus===1) {
+    } else if (orderDetailsStatus===1) {
       content = (
         <div>
           <Grid>
             <Row className="show-grid loggedin-flow">
               <div className="horizontal-line"></div>
               <Col xs={12}>
-                  <div>{strings.subscriptionsList}</div>
+                  <div>{strings.allOrders}</div>
                     <i className="fa fa-chevron-right"></i>
                   <div className="flow-selected">{strings.detailsUpdate}</div>
               </Col>
               <div className="horizontal-line"></div>
             </Row>
           </Grid>
-          <SubDetails 
-            selectedSub={this.state.selectedSub} 
-            stripeSub = {this.state.stripeSub}
-            subInfoMessage={this.state.subInfoMessage} 
-            onHandleBack={this.handleBack} 
-            onHandleSubUpdate={this.handleSubUpdate}
-            onSubscriptionCancelSuccess={this.subscriptionCancelSuccess}
-            onSubscriptionCancelFail={this.subscriptionCancelFail}
+          <OrderDetails
+            onSubmitReview={this.handleSubmitReview}
+            selectedOrder={this.state.selectedOrder} 
+            stripeTxnID = {this.state.stripeTxnID}
+            orderInfoMessage={this.state.orderInfoMessage} 
+            onHandleBack={this.handleBack}
           />
         </div>
       )
@@ -572,15 +473,15 @@ export default class Subscriptions extends Component {
         <Grid>
           <Row className="show-grid loggedin-nav">
             <Col xs={4} className="loggedin-nav-button">
-              <Link to="/subscriptions" className="nav-selected">
+              <Link to="/orderhistory" className="nav-selected">
                 <i className="fa fa-tags fa-lg nav-icon"></i>
-                <div className="nav-icon-title">{strings.mySubscriptions1}<br/>{strings.mySubscriptions2}</div>
+                <div className="nav-icon-title">{strings.orderHistory1}<br/>{strings.orderHistory2}</div>
               </Link>
             </Col>
             <Col xs={4} className="loggedin-nav-button">
-              <Link to="/newsubscription">
+              <Link to="/addressbook">
                 <i className="fa fa-plus fa-lg nav-icon"></i>
-                <div className="nav-icon-title">{strings.newSubscription1}<br/>{strings.newSubscription2}</div>
+                <div className="nav-icon-title">{strings.addressBook1}<br/>{strings.addressBook2}</div>
               </Link>
             </Col>
             <Col xs={4} className="loggedin-nav-button">

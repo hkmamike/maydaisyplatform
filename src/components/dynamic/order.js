@@ -727,6 +727,7 @@ export default class Order extends Component {
                                     languageChanged={this.props.languageChanged}
                                     selectDeliveryType = {this.state.selectDeliveryType}
                                     floristID={this.state.floristID}
+                                    floristname={this.state.arrangementFloristName}
                                     arrangementName={this.state.arrangementName}
                                     arrangementImage={this.state.arrangementImage}
                                     deliveryDate={this.props.deliveryDate}
@@ -779,7 +780,7 @@ export default class Order extends Component {
                     <Row className="show-grid">
                         <Col sm={5}></Col>
                         <Col sm={4}>
-                            <Button bsStyle="" className="button-new-sub button-back"><Link to="/subscriptions">{strings.orderHistoryButton}</Link></Button>
+                            <Button bsStyle="" className="button-new-sub button-back"><Link to="/orderhistory">{strings.orderHistoryButton}</Link></Button>
                         </Col>
                     </Row>
                 </Grid>

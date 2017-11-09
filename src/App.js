@@ -41,7 +41,6 @@ import 'react-dates/initialize';
 //firebase
 import * as firebase from 'firebase';
 
-
 function PrivateRoute ({component: Component, authed, selectRegion, onRegionSelection, languageChanged, ...rest}) {
   return (
     <Route {...rest} render={(props) => authed === true? 
@@ -54,7 +53,7 @@ function PublicRoute ({component: Component, authed, selectRegion, onRegionSelec
   return (
     <Route {...rest} render={(props) => authed === false?
         <Component {...props} selectRegion={selectRegion} onRegionSelection={onRegionSelection} languageChanged={languageChanged}/>
-        : <Redirect to='/subscriptions' />}
+        : <Redirect to='/orderhistory' />}
     />
   )
 }

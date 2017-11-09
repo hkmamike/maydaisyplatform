@@ -58,6 +58,7 @@ export default class PlaceOrder extends React.Component {
         var token = token;
         var d
         var floristID = this.props.floristID;
+        var floristName = this.props.floristName;
         var arrangementName = this.props.arrangementName;
         var arrangementImage = this.props.arrangementImage;
         var currency = this.props.currency;
@@ -75,7 +76,7 @@ export default class PlaceOrder extends React.Component {
         var company = this.props.company;
         var address = this.props.address;
         var deliveryInstruction = this.props.deliveryInstruction;
-        var deliveryDate = this.props.deliveryDate.valueOf();
+        var deliveryDate = this.props.deliveryDate.format("YYYY-MMM-DD");
         var cardMessage = this.props.cardMessage;
         var stripeTokID = token.id;
         var stripeCusID;
@@ -86,7 +87,7 @@ export default class PlaceOrder extends React.Component {
         var cardExpMonth;
         var referenceRan = Math.floor(Math.random()*(999 - 100) + 100);
         var dateNow = new Date().getTime();
-        var referenceCode = "" + referenceRan + dateNow;
+        var referenceCode = "" + dateNow + referenceRan;
 
         console.log('stripe created token. Forwarding to web server : ', token);
         console.log('reference code is :', referenceCode);
@@ -125,6 +126,9 @@ export default class PlaceOrder extends React.Component {
                         base.post(`allTransactions/${floristID}/${referenceCode}`, {
                             data: {
                                 city: 'HK',
+                                status: 'Order Submitted',
+                                florist: floristID,
+                                floristName: floristName,
                                 uid: uid,
                                 price: price,
                                 currency, currency,
@@ -157,6 +161,9 @@ export default class PlaceOrder extends React.Component {
                         base.post(`users/${uid}/transactions/${referenceCode}`, {
                             data: {
                                 city: 'HK',
+                                status: 'Order Submitted',
+                                florist: floristID,
+                                floristName: floristName,
                                 uid: uid,
                                 price: price,
                                 currency, currency,

@@ -1,0 +1,9 @@
+.order-history-florist-name {
+    margin: 0 0 0;
+    a {
+        color: $pink !important;
+        &:hover {
+            color: $darkpink;
+        }
+    }
+}
