@@ -7,10 +7,10 @@ import LocalizedStrings from 'react-localization';
 
 let strings = new LocalizedStrings({
   en:{
-    mySubscriptions1: 'My',
-    mySubscriptions2: 'Subscriptions',
-    newSubscription1: 'New',
-    newSubscription2: 'Subscription',
+    mySubscriptions1: 'Order',
+    mySubscriptions2: 'History',
+    newSubscription1: 'Address',
+    newSubscription2: 'Book',
     accountInformation1: 'Account',
     accountInformation2: 'Information',
     subscriptionsList: 'Subscriptions List',
@@ -50,51 +50,7 @@ let strings = new LocalizedStrings({
     subscriptionUpdated: 'Subscription has been updated.',
     subscriptionCanceled: 'Subscription has been canceled.',
   },
-  ch: {
-    mySubscriptions1: ' ',
-    mySubscriptions2: '我的訂購',
-    newSubscription1: ' ',
-    newSubscription2: '新訂購',
-    accountInformation1: ' ',
-    accountInformation2: '帳戶資料',
-    subscriptionsList: '所有訂購',
-    detailsUpdate: '詳情＆訂購更新',
-    referenceCode: '參考號碼:',   
-    subID: 'Stripe 訂購號碼:',
-    to: '收花人:',
-    deliveryDay: '收花日:',
-    detailsButton: '詳情',
-    flowerType: '花的種類:',
-    plan: '訂購計劃:',
-    recipient: '收花人:',
-    address: '收花地址:',
-    recipientNum: '收花人電話:',
-    card: '問候卡:',
-    unSubscribeButton: '取消訂購',
-    backButton: '返回',
-    updateButton: '更新',
-    tip1_1: '*更改問候卡信息的截止期限為配送日前一週的',
-    tip1_2: '星期三晚上 11:59 p.m.', 
-    tip1_3: ' ',
-    tip2: '**如果您想更改收花地址，花的種類，或訂購計劃，請開始一個新的訂購，然後取消這個訂購。不便之處，敬請原諒。',
-    unSubModalTitle: '取消訂購',
-    unSubText1: '看見您的離去令我們很遺憾，感謝您一直以來的支持。如要繼續，請點擊“取消訂購”以確認。',
-    unSubText2: '請注意，五月菊服務的付款時間為配送前一週的星期三晚上 11:59 p.m. 。如果您本週已經付款，我們下一週會為您提供最後一次服務。',
-    unSubText3: '如果有其他需要，請聯絡客戶服務熱線: (852)9346-8427',
-    cancelButton: '關閉',
-    everyMonday: '每週星期一',
-    everyTuesday: '每週星期二',
-    everyWednesday: '每週星期三',
-    flower_all: '時令花種(所有)',
-    flower_rose: '時令花種(只要玫瑰)',
-    plan_classic: '經典(1-2朵主花，每週 HKD53)',
-    plan_elegant: '優雅(2-4朵主花，每週 HKD93)',
-    plan_bloom: '盛會(5-10朵主花，每週 HKD223)',
-    noSub: '您目前並沒有訂購。',
-    errorOccured: '系統錯誤，請稍後再試。',
-    subscriptionUpdated: '訂單資料已更新。',
-    subscriptionCanceled: '訂單已取消。',
-  }
+  ch: {}
 });
 
 const ButtonToNewSubscriptioin = ({ title, history }) => (
@@ -389,7 +345,7 @@ class SubDetails extends React.Component {
   }
 }
 
-export default class OrderHistory extends Component {
+export default class Subscriptions extends Component {
 
   constructor() {
     super();

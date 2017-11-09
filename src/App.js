@@ -24,11 +24,14 @@ import GalleryClassic from './components/gallery/classic';
 import GalleryElegant from './components/gallery/elegant';
 import GalleryBloom from './components/gallery/bloom';
 
-//dynamic
+//dynamic - marketplace
 import ArrangementsList from './components/dynamic/arrangementsList';
 import Florist from './components/dynamic/florist';
 import Arrangement from './components/dynamic/arrangement';
 import Order from './components/dynamic/order';
+
+//marketplace - user account
+import OrderHistory from './components/protected/orderHistory';
 
 //compressed css
 import './assets/css/default.min.css';
@@ -160,6 +163,11 @@ export default class App extends Component {
             <Route path='/about' exact render={(props) => (<About {...props} languageChanged={this.state.languageChanged}/>)}/>
 
             <Route path='/signups' exact render={(props) => (<SignUps {...props} selectRegion={selectRegion} onRegionSelection={this.handleRegionSelection} languageChanged={this.state.languageChanged}/>)}/>
+
+
+
+            <PrivateRoute authed={this.state.authed} path='/orderhistory' component={OrderHistory} languageChanged={this.state.languageChanged}/>
+
 
             <PrivateRoute authed={this.state.authed} path='/subscriptions' component={Subscriptions} languageChanged={this.state.languageChanged}/>
             <PrivateRoute authed={this.state.authed} selectRegion={selectRegion} onRegionSelection={this.handleRegionSelection} path='/newsubscription' component={NewSubscription} languageChanged={this.state.languageChanged}/>

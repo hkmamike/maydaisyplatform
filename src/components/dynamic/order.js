@@ -30,6 +30,8 @@ let strings = new LocalizedStrings({
     recipientCompanyPlaceholder: "recipient's company or location name",
     recipientAddress: 'Address:',
     recipientAddressPlaceholder: 'delivery address',
+    deliveryInstruction: "Delivery Instruction:",
+    deliveryInstructionPlaceholder: "Florists will try their best to accommodate. Please reference selected florist's delivery policy.",
     senderNum: "Sender's number:",
     senderNumPlaceholder: 'your phone number',
     senderNumTip: '*We will use this to update your account information and to service your subscription.',
@@ -135,8 +137,8 @@ export default class Order extends Component {
         })
       }
 
-    handleOrderStep(referenceCode, stripeTxnID, deliveryDay) {
-        this.setState({orderStep : 5, referenceCode: referenceCode, stripeTxnID: stripeTxnID, deliveryDay: deliveryDay, loading: false}, () => {window.scrollTo(0, 0);});
+    handleOrderStep(referenceCode, stripeTxnID, deliveryDate) {
+        this.setState({orderStep : 5, referenceCode: referenceCode, stripeTxnID: stripeTxnID, deliveryDate: deliveryDate, loading: false}, () => {window.scrollTo(0, 0);});
     }
 
     handleLoading() {
@@ -166,6 +168,9 @@ export default class Order extends Component {
     }
     handleAddress = (e) => {
         this.setState({address: e.target.value});
+    }
+    handleDeliveryInstruction = (e) => {
+        this.setState({deliveryInstruction: e.target.value});
     }
     handleSenderNum = (e) => {
         this.setState({senderNum: e.target.value});
@@ -439,6 +444,17 @@ export default class Order extends Component {
                         <FormGroup>
                             <Col sm={2}></Col>
                             <Col sm={3}>
+                                <ControlLabel>{strings.deliveryInstruction}</ControlLabel>
+                            </Col>
+                            <Col sm={6}>
+                                <FormControl value={this.state.deliveryInstruction} componentClass="textarea" className="deliveryInstruction" onChange={this.handleDeliveryInstruction} placeholder={strings.deliveryInstructionPlaceholder}/>
+                            </Col>
+                        </FormGroup>
+                    </Row>
+                    <Row className="show-grid">
+                        <FormGroup>
+                            <Col sm={2}></Col>
+                            <Col sm={3}>
                                 <ControlLabel>{strings.senderNum}</ControlLabel>
                             </Col>
                             <Col sm={6}>
@@ -537,6 +553,17 @@ export default class Order extends Component {
                         <FormGroup>
                             <Col sm={2}></Col>
                             <Col sm={3}>
+                                <div><strong>{strings.deliveryInstruction}</strong></div>
+                            </Col>
+                            <Col sm={6}>
+                                <div>{this.state.deliveryInstruction}</div>
+                            </Col>
+                        </FormGroup>
+                    </Row>
+                    <Row className="show-grid">
+                        <FormGroup>
+                            <Col sm={2}></Col>
+                            <Col sm={3}>
                                 <div><strong>{strings.deliveryDay}</strong></div>
                             </Col>
                             <Col sm={6}>
@@ -596,8 +623,6 @@ export default class Order extends Component {
                             <div className="horizontal-line"></div>
                             <Col xs={12}>
                                 <div>{strings.navLogin}</div>
-                                <i className="fa fa-chevron-right"></i>
-                                <div>{strings.navChoose}</div>
                                 <i className="fa fa-chevron-right"></i>
                                 <div>{strings.navCard}</div>
                                 <i className="fa fa-chevron-right"></i>
@@ -695,6 +720,7 @@ export default class Order extends Component {
                                     recipientNum={this.state.recipientNum}
                                     company={this.state.company}
                                     address={this.state.address}
+                                    deliveryInstruction={this.state.deliveryInstruction}
                                     cardMessage={this.state.cardMessage}
                                     onOrderStep={this.handleOrderStep}
                                     onLoading={this.handleLoading}
@@ -703,6 +729,7 @@ export default class Order extends Component {
                                     floristID={this.state.floristID}
                                     arrangementName={this.state.arrangementName}
                                     arrangementImage={this.state.arrangementImage}
+                                    deliveryDate={this.props.deliveryDate}
                                 />
                                 <Button bsStyle="" className="button-new-sub button-back" onClick={() => this.setState({orderStep: 3}, () => {window.scrollTo(0, 0);})}>{strings.backButton}</Button>
                             </Col>

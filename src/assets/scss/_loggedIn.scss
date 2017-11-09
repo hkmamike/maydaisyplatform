@@ -186,7 +186,11 @@
             }
             .recipientAddress {
                 width: 100% !important;
-                min-height: 150px;
+                min-height: 100px;
+            }
+            .deliveryInstruction {
+                width: 100% !important;
+                min-height: 100px;
             }
             .button {
                 margin-left: 10px !important;

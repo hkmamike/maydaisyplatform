@@ -45,8 +45,8 @@ export default class PlaceOrder extends React.Component {
         }
     }
     
-    progressOrderStep = (referenceCode, stripeTxnID, deliveryDay) => {
-        this.props.onOrderStep(referenceCode, stripeTxnID, deliveryDay);
+    progressOrderStep = (referenceCode, stripeTxnID, deliveryDate) => {
+        this.props.onOrderStep(referenceCode, stripeTxnID, deliveryDate);
         console.log('proceeding to confirmation page');
     }
 
@@ -74,7 +74,8 @@ export default class PlaceOrder extends React.Component {
         var recipientNum = this.props.recipientNum;
         var company = this.props.company;
         var address = this.props.address;
-        var deliveryDay = this.props.deliveryDay;
+        var deliveryInstruction = this.props.deliveryInstruction;
+        var deliveryDate = this.props.deliveryDate.valueOf();
         var cardMessage = this.props.cardMessage;
         var stripeTokID = token.id;
         var stripeCusID;
@@ -121,7 +122,7 @@ export default class PlaceOrder extends React.Component {
 
                         console.log ('floristID is :', floristID);
 
-                        base.post(`transactions/${floristID}`, {
+                        base.post(`allTransactions/${floristID}/${referenceCode}`, {
                             data: {
                                 city: 'HK',
                                 uid: uid,
@@ -129,6 +130,7 @@ export default class PlaceOrder extends React.Component {
                                 currency, currency,
                                 arrangementName: arrangementName,
                                 arrangementImage: arrangementImage,
+                                deliveryDate: deliveryDate,
                                 selectLocationType: selectLocationType,
                                 senderName: senderName,
                                 senderNum: senderNum,
@@ -148,10 +150,11 @@ export default class PlaceOrder extends React.Component {
                                 cardExpMonth: cardExpMonth,
                                 referenceCode: referenceCode,
                                 selectDeliveryType: selectDeliveryType,
-                                languageChanged: languageChanged
+                                languageChanged: languageChanged,
+                                deliveryInstruction: deliveryInstruction
                             }
                         });
-                        base.post(`users/${uid}/transactions`, {
+                        base.post(`users/${uid}/transactions/${referenceCode}`, {
                             data: {
                                 city: 'HK',
                                 uid: uid,
@@ -159,6 +162,7 @@ export default class PlaceOrder extends React.Component {
                                 currency, currency,
                                 arrangementName: arrangementName,
                                 arrangementImage: arrangementImage,
+                                deliveryDate: deliveryDate,
                                 selectLocationType: selectLocationType,
                                 senderName: senderName,
                                 senderNum: senderNum,
@@ -178,7 +182,8 @@ export default class PlaceOrder extends React.Component {
                                 cardExpMonth: cardExpMonth,
                                 referenceCode: referenceCode,
                                 selectDeliveryType: selectDeliveryType,
-                                languageChanged: languageChanged
+                                languageChanged: languageChanged,
+                                deliveryInstruction: deliveryInstruction
                             }
                         });
                         base.update(`users/${uid}/info/`, {
@@ -188,7 +193,7 @@ export default class PlaceOrder extends React.Component {
                             }
                         });
                         console.log ('subscriptioin processing succeeded.');
-                        this.progressOrderStep(referenceCode, stripeTxnID, deliveryDay);
+                        this.progressOrderStep(referenceCode, stripeTxnID, deliveryDate);
                     });
                 });
             });
