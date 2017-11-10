@@ -1,4 +1,5 @@
 import React, { Component } from 'react'
+import { firebaseAuth } from '../config/constants';
 import { login, resetPassword } from '../helpers/auth'
 import { Link } from 'react-router-dom';
 import { FormGroup, FormControl, ControlLabel, Grid, Row, Col, Button, DropdownButton, MenuItem, Glyphicon } from 'react-bootstrap';
@@ -130,10 +131,19 @@ export default class Order extends Component {
 
     handleSubmit = (e) => {
         e.preventDefault()
-        login(this.state.email, this.state.password).then(() => 
-            this.setState({orderStep:1})
-          ).catch((error) => {
-          this.setState(setErrorMsg(strings.invalidCredential));
+        login(this.state.email, this.state.password).then(() => {
+                this.setState({orderStep:1});
+                // var uid = firebase.auth().currentUser.uid;
+                // var thisRef = this;
+                // firebase.database().ref(`users/${uid}/info`).once('value', function(snapshot) {
+                //     var snapshotVal = snapshot.val();
+                //     thisRef.setState({
+                //         sender: snapshotVal.name,
+                //         senderNum: snapshotVal.phone
+                //     });
+                // });
+            }).catch((error) => {
+            this.setState(setErrorMsg(strings.invalidCredential));
         })
       }
 
@@ -180,14 +190,13 @@ export default class Order extends Component {
     }
 
     componentDidMount() {
-        var marketRegion = this.props.marketRegion;
         var thisRef = this;
+        var marketRegion = this.props.marketRegion;
         var floristID = this.props.match.params.floristID;
         if (firebase.auth().currentUser !== null) {
             this.setState({orderStep:1});
         }
         this.setState({loading: false});
-
         this.setState ({arrangement: this.props.match.params.arrangement, floristID: this.props.match.params.floristID}, () => {
             firebase.database().ref(`arrangementsList/${this.state.arrangement}`).once('value', function(snapshot) {
                 var snapshotVal = snapshot.val();
@@ -215,12 +224,30 @@ export default class Order extends Component {
         });
     }
 
+    componentWillMount () {
+        var thisRef = this;
+        this.fireBaseListenerForUserData = firebaseAuth().onAuthStateChanged((user) => {
+            firebase.database().ref(`users/${user.uid}/info`).once('value', function(snapshot) {
+                var snapshotVal = snapshot.val();
+                thisRef.setState({
+                    sender: snapshotVal.name,
+                    senderNum: snapshotVal.phone
+                });
+            });
+        });
+    }
+
     componentWillReceiveProps (nextProps) {
         if (nextProps.languageChanged==='ch') {
         strings.setLanguage('ch');
         } else if (nextProps.languageChanged==='en') {
         strings.setLanguage('en');
         }
+    }
+
+    componentWillUnmount () {
+        //returns the unsubscribe function
+        this.fireBaseListenerForUserData && this.fireBaseListenerForUserData();
     }
 
   render() {
@@ -727,7 +754,7 @@ export default class Order extends Component {
                                     languageChanged={this.props.languageChanged}
                                     selectDeliveryType = {this.state.selectDeliveryType}
                                     floristID={this.state.floristID}
-                                    floristname={this.state.arrangementFloristName}
+                                    floristName={this.state.arrangementFloristName}
                                     arrangementName={this.state.arrangementName}
                                     arrangementImage={this.state.arrangementImage}
                                     deliveryDate={this.props.deliveryDate}
@@ -773,7 +800,7 @@ export default class Order extends Component {
                             <div><strong>{strings.deliveryDay}</strong></div>
                         </Col>
                         <Col sm={6}>
-                            <div>To be completed</div>
+                            <div>{this.props.deliveryDate.format("YYYY-MMM-DD")}</div>
                         </Col>
                      
                     </Row>

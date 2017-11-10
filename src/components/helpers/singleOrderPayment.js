@@ -126,6 +126,7 @@ export default class PlaceOrder extends React.Component {
                         base.post(`allTransactions/${floristID}/${referenceCode}`, {
                             data: {
                                 city: 'HK',
+                                reviewed: false,
                                 status: 'Order Submitted',
                                 florist: floristID,
                                 floristName: floristName,
@@ -161,6 +162,7 @@ export default class PlaceOrder extends React.Component {
                         base.post(`users/${uid}/transactions/${referenceCode}`, {
                             data: {
                                 city: 'HK',
+                                reviewed: false,
                                 status: 'Order Submitted',
                                 florist: floristID,
                                 floristName: floristName,

@@ -148,7 +148,7 @@ class OrderDetails extends React.Component {
                 context: this,
                 then(data) {
                     console.log('data is :', data);
-                    this.setState({orderDetails: data, loading: false, cardMessage: data.cardMessage, recipientNum: data.recipientNum, uid: user.uid});
+                    this.setState({orderDetails: data, loading: false, cardMessage: data.cardMessage, recipientNum: data.recipientNum, uid: user.uid, reviewed: data.reviewed});
                 }
             });
         });
@@ -168,22 +168,22 @@ class OrderDetails extends React.Component {
                 florist: florist,
                 rating: rating,
                 reviewMessage: reviewMessage,
-                reviewDate,
+                reviewDate: reviewDate,
                 sender: this.state.orderDetails.senderName
 
             }
         });
         base.update(`users/${uid}/transactions/${referenceCode}`, {
             data: {
-                status: 'Reviewed'
+                reviewed: true
             }
         })
         base.update(`allTransactions/${florist}/${referenceCode}`, {
             data: {
-                status: 'Reviewed'
+                reviewed: true
             }
         }).then(() => 
-            this.setState({ InfoMessage: strings.reviewSubmitted})
+            this.setState({ InfoMessage: strings.reviewSubmitted, reviewed: true})
         ).catch(err => {
             console.log('An error occured when updating account information.');
             this.setState({ InfoMessage: strings.errorOccured});
@@ -232,13 +232,13 @@ class OrderDetails extends React.Component {
                         <div>{orderDetails.status}</div>
                     </Col>
                     <Col sm={3}>
-                        <SubmitReview
+                        {!orderDetails.reviewed && !this.state.reviewed && <SubmitReview
                             uid={this.state.uid}
                             florist={orderDetails.florist}
                             floristName={orderDetails.floristName}
                             referenceCode={orderDetails.referenceCode}
                             onSubmitReview={this.handleSubmitReview}
-                        />
+                        />}
                     </Col>
                     </FormGroup>
                 </Row>
@@ -328,7 +328,7 @@ class OrderDetails extends React.Component {
                       <div><strong>{strings.card}</strong></div>
                   </Col>
                   <Col sm={7}>
-                    <div className="card-text-area data-field-update">{cardMessage}</div>
+                    <div className="history-text-area data-field-update">{cardMessage}</div>
                   </Col>
                 </FormGroup>
               </Row>
@@ -399,6 +399,14 @@ export default class OrderHistory extends Component {
   }
   handleBack() {
     this.setState({orderDetailsStatus: 0});
+
+    // reloading data since a review might have been posted
+    base.fetch(`users/${this.state.userID}/transactions/`, {
+        context: this,
+        then(data) {
+            this.setState({orderData: data});
+        }
+    });
   }
 
   render () {
@@ -450,10 +458,22 @@ export default class OrderHistory extends Component {
                   <FormGroup>
                     <Col sm={1}></Col>
                     <Col sm={3}>
-                        <div><strong>Order Status</strong></div>
+                        <div><strong>Order Status: </strong></div>
                     </Col>
                     <Col sm={3}>
                       <div>{data[key].status}</div>
+                    </Col>
+                  </FormGroup>
+                </Row>
+                <Row className="show-grid">
+                  <FormGroup>
+                    <Col sm={1}></Col>
+                    <Col sm={3}>
+                        <div><strong>Review Submitted: </strong></div>
+                    </Col>
+                    <Col sm={3}>
+                      <div>{data[key].reviewed && 'Yes'}</div>
+                      <div>{!data[key].reviewed && 'No'}</div>
                     </Col>
                   </FormGroup>
                 </Row>
