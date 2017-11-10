@@ -3,6 +3,7 @@ import { Grid, Row, Col, Button, ToggleButton, ToggleButtonGroup } from 'react-b
 import { Link, Route } from 'react-router-dom';
 import LocalizedStrings from 'react-localization';
 import * as firebase from 'firebase';
+import StarRatingComponent from 'react-star-rating-component';
 
 let strings = new LocalizedStrings({
     en:{},
@@ -15,6 +16,7 @@ export default class Florist extends Component {
         super();
         this.state = {
             arrangementsList: [],
+            reviews: [],
             onTab: 0,
             loading: true
         };
@@ -24,6 +26,7 @@ export default class Florist extends Component {
         window.scrollTo(0, 0);
         var thisRef = this;
         var arrangementsList = [];
+        var reviews = [];
         this.setState ({floristID: this.props.match.params.floristID}, () => {
             firebase.database().ref(`florists/${this.state.floristID}`).once('value', function(snapshot) {
                 var snapshotVal = snapshot.val();
@@ -47,9 +50,19 @@ export default class Florist extends Component {
             snapshot.forEach(function(childSnapshot) {
                 var childKey = childSnapshot.key;
                 var childData = childSnapshot.val();
-            arrangementsList.push(childData);
+                arrangementsList.push(childData);
             });
             thisRef.setState({arrangementsList: arrangementsList});
+        });
+        firebase.database().ref(`florists/${this.props.match.params.floristID}/reviews`)
+        .once('value', function(snapshot) {
+            snapshot.forEach(function(childSnapshot) {
+                var childKey = childSnapshot.key;
+                var childData = childSnapshot.val();
+                reviews.push(childData);
+            });
+            console.log('checking value of reviews', reviews);
+            thisRef.setState({reviews: reviews});
         });
     }
     
@@ -85,6 +98,21 @@ export default class Florist extends Component {
                     <div className="list-florist">by: {arrangement.florist}</div>
                 </div>
             </Link>
+        </Col>
+    );
+
+    var reviews = this.state.reviews.map(review => 
+        <Col xs={6} sm={4} md={3} lg={2} key={review.referenceCode}>
+            <div>{review.sender}</div>
+            <StarRatingComponent 
+                    name="reviews" 
+                    editing={false}
+                    starColor="#EC6BAA"
+                    starCount={5}
+                    value={review.rating}
+            />
+            <div>{review.reviewDate} verified purchase</div>
+            <div>{review.reviewMessage}</div>
         </Col>
     );
 
@@ -166,7 +194,7 @@ export default class Florist extends Component {
                         </Row>
                     </Grid>
                 </div>
-                <div className="sub-content">{this.state.floristDescription}</div>
+                <div className="sub-content">{reviews}</div>
           </div>
         )
       }

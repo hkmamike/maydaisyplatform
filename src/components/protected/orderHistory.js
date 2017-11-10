@@ -4,6 +4,8 @@ import { Link, Route } from 'react-router-dom';
 import { FormGroup, FormControl, Grid, Row, Col, Button, Glyphicon, Modal } from 'react-bootstrap';
 import { base } from '../config/constants';
 import LocalizedStrings from 'react-localization';
+import StarRatingComponent from 'react-star-rating-component';
+import moment from 'moment';
 
 let strings = new LocalizedStrings({
   en:{
@@ -34,7 +36,7 @@ let strings = new LocalizedStrings({
     tip1_3: " prior to the next week's delivery.",
     tip2: '**To change delivery address, flower type, or plan, please create a new subscription and unsubscribe from this one. Sorry for any inconvience caused.',
     submitReviewTitle: 'Submit a review',
-    submitReviewText1: 'Let other customers know about your experience with this florist. It helps good florists get more exposure!',
+    submitReviewText1: 'Rate this florist, it helps good florists get more exposure!',
     submitReviewText2: 'Only verified customers with purchases are allowed to submit a review.',
     cancelButton: 'Close',
     everyMonday: 'Every Monday',
@@ -46,8 +48,7 @@ let strings = new LocalizedStrings({
     plan_elegant: 'Elegant (2-4 blooms, HKD93/week)',
     noOrder: 'You do not have any order history.',
     errorOccured: 'An error occured, please try again later.',
-    subscriptionUpdated: 'Subscription has been updated.',
-    subscriptionCanceled: 'Subscription has been canceled.',
+    reviewSubmitted: 'Your review has been submited.',
     browseMarket: 'Browse Market'
   },
   ch: {}
@@ -63,44 +64,69 @@ class SubmitReview extends React.Component {
       this.open = this.open.bind(this);
       this.close = this.close.bind(this);
       this.submitReview = this.submitReview.bind(this);
+      this.handleReviewChange = this.handleReviewChange.bind(this);
+      this.onStarClick = this.onStarClick.bind(this);
       this.state = {
-        showModal: false
+        showModal: false,
+        rating: 5,
+        reviewMessage: ''
       }
     }
-  
+    
+    onStarClick(nextValue, prevValue, name) {
+        this.setState({rating: nextValue});
+    }
     close() {
       this.setState({showModal: false});
     }
     open() {
       this.setState({showModal: true});
     }
+    handleReviewChange(e) {
+        this.setState({ reviewMessage: e.target.value });
+    }
     submitReview() {
       var uid = this.props.uid;
       var referenceCode = this.props.referenceCode;
       var florist = this.props.florist;
       var floristName = this.props.floristName;
-      this.props.onSubmitReview(uid, referenceCode, florist, floristName);
+      var rating = this.state.rating;
+      var reviewMessage = this.state.reviewMessage;
+      var reviewDate = moment().format("DD-MMM-YYYY");
+      this.props.onSubmitReview(uid, referenceCode, florist, floristName, rating, reviewMessage, reviewDate);
       this.close();
     }
     render() {
-      return (
-        <div>
-          <Button bsStyle="" className="sub-details-unsub"onClick={this.open}>Submit a review</Button>
-          <Modal show={this.state.showModal} onHide={this.close}>
-            <Modal.Header closeButton>
-              <Modal.Title><strong>{strings.submitReviewTitle}</strong></Modal.Title>
-            </Modal.Header>
-            <Modal.Body>
-              <h4>{strings.submitReviewText1}</h4>
-              <p>{strings.submitReviewText2}</p>
-            </Modal.Body>
-            <Modal.Footer>
-              <Button bsStyle="" className="button button-back" onClick={this.close}>{strings.cancelButton}</Button>
-              <Button bsStyle="" className="button" onClick={this.submitReview}>Submit</Button>
-            </Modal.Footer>
-          </Modal>
-        </div>
-      )
+        var rating = this.state.rating;
+        var reviewMessage = this.state.reviewMessage;
+        return (
+            <div>
+                <Button bsStyle="" className="sub-details-unsub"onClick={this.open}>Submit a review</Button>
+                <Modal show={this.state.showModal} onHide={this.close}>
+                    <Modal.Header closeButton>
+                    <Modal.Title><strong>{strings.submitReviewTitle}</strong></Modal.Title>
+                    </Modal.Header>
+                    <Modal.Body>
+                    <h4>{strings.submitReviewText1}</h4>
+                    <p>{strings.submitReviewText2}</p>
+                    <h2>Rating: {rating}</h2>
+                    <StarRatingComponent 
+                        name="rate1" 
+                        starCount={5}
+                        value={rating}
+                        onStarClick={this.onStarClick}
+                    />
+                    <FormGroup>
+                        <FormControl className="card-text-area data-field-update" placeholder="how was your experience with this florist?" componentClass="textarea" value={reviewMessage} onChange={this.handleReviewChange}/>
+                    </FormGroup>
+                    </Modal.Body>
+                    <Modal.Footer>
+                    <Button bsStyle="" className="button button-back" onClick={this.close}>{strings.cancelButton}</Button>
+                    <Button bsStyle="" className="button" onClick={this.submitReview}>Submit</Button>
+                    </Modal.Footer>
+                </Modal>
+            </div>
+        )
     }
   }
 
@@ -133,8 +159,35 @@ class OrderDetails extends React.Component {
         //this.fireBaseListenerForSubDetails && this.fireBaseListenerForSubDetails();
     }
 
-    handleSubmitReview () {
+    handleSubmitReview (uid, referenceCode, florist, floristName, rating, reviewMessage, reviewDate) {
+        base.post(`florists/${florist}/reviews/${referenceCode}`, {
+            data: {
+                uid: uid,
+                referenceCode: referenceCode,
+                floristName : floristName,
+                florist: florist,
+                rating: rating,
+                reviewMessage: reviewMessage,
+                reviewDate,
+                sender: this.state.orderDetails.senderName
 
+            }
+        });
+        base.update(`users/${uid}/transactions/${referenceCode}`, {
+            data: {
+                status: 'Reviewed'
+            }
+        })
+        base.update(`allTransactions/${florist}/${referenceCode}`, {
+            data: {
+                status: 'Reviewed'
+            }
+        }).then(() => 
+            this.setState({ InfoMessage: strings.reviewSubmitted})
+        ).catch(err => {
+            console.log('An error occured when updating account information.');
+            this.setState({ InfoMessage: strings.errorOccured});
+        });
     }
 
     handleBack = () => {
@@ -163,9 +216,9 @@ class OrderDetails extends React.Component {
       content = (
         <div>
           <Grid>
-            { this.props.subInfoMessage &&
+            { this.state.InfoMessage &&
               <div className="alert alert-success update-message" role="alert">
-                <Glyphicon glyph="exclamation-sign" className="icons"/>&nbsp;{this.props.subInfoMessage} 
+                <Glyphicon glyph="exclamation-sign" className="icons"/>&nbsp;{this.state.InfoMessage} 
               </div>
             }
             <div className="sub-list-item">
@@ -180,10 +233,11 @@ class OrderDetails extends React.Component {
                     </Col>
                     <Col sm={3}>
                         <SubmitReview
-                        uid={this.state.uid}
-                        florist={orderDetails.florist}
-                        floristName={orderDetails.floristName}
-                        referenceCode={orderDetails.referenceCode}
+                            uid={this.state.uid}
+                            florist={orderDetails.florist}
+                            floristName={orderDetails.floristName}
+                            referenceCode={orderDetails.referenceCode}
+                            onSubmitReview={this.handleSubmitReview}
                         />
                     </Col>
                     </FormGroup>
@@ -458,7 +512,6 @@ export default class OrderHistory extends Component {
             </Row>
           </Grid>
           <OrderDetails
-            onSubmitReview={this.handleSubmitReview}
             selectedOrder={this.state.selectedOrder} 
             stripeTxnID = {this.state.stripeTxnID}
             orderInfoMessage={this.state.orderInfoMessage} 
