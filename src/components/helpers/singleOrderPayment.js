@@ -195,6 +195,21 @@ export default class PlaceOrder extends React.Component {
                                 deliveryInstruction: deliveryInstruction
                             }
                         });
+                        base.post(`users/${uid}/address/${referenceCode}`, {
+                            data: {
+                                city: 'HK',
+                                uid: uid,
+                                referenceCode: referenceCode,
+                                selectLocationType: selectLocationType,
+                                recipient: recipient,
+                                recipientNum: recipientNum,
+                                company: company,
+                                address: address,
+                                selectDeliveryType: selectDeliveryType,
+                                deliveryInstruction: deliveryInstruction,
+                                defaultAddress: false
+                            }
+                        });
                         base.update(`users/${uid}/info/`, {
                             data: {
                                 name: senderName,

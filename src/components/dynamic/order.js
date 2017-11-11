@@ -133,15 +133,6 @@ export default class Order extends Component {
         e.preventDefault()
         login(this.state.email, this.state.password).then(() => {
                 this.setState({orderStep:1});
-                // var uid = firebase.auth().currentUser.uid;
-                // var thisRef = this;
-                // firebase.database().ref(`users/${uid}/info`).once('value', function(snapshot) {
-                //     var snapshotVal = snapshot.val();
-                //     thisRef.setState({
-                //         sender: snapshotVal.name,
-                //         senderNum: snapshotVal.phone
-                //     });
-                // });
             }).catch((error) => {
             this.setState(setErrorMsg(strings.invalidCredential));
         })
@@ -229,9 +220,34 @@ export default class Order extends Component {
         this.fireBaseListenerForUserData = firebaseAuth().onAuthStateChanged((user) => {
             firebase.database().ref(`users/${user.uid}/info`).once('value', function(snapshot) {
                 var snapshotVal = snapshot.val();
-                thisRef.setState({
-                    sender: snapshotVal.name,
-                    senderNum: snapshotVal.phone
+                console.log(snapshotVal);
+                console.log(snapshotVal.name);
+                if (snapshotVal) {
+                    thisRef.setState({
+                        sender: snapshotVal.name,
+                        senderNum: snapshotVal.phone
+                    });
+                }
+            });
+
+            firebase.database().ref(`users/${user.uid}/address`)
+            .orderByChild('defaultAddress')
+            .limitToFirst(1)
+            .once('value', function(snapshot) {
+                snapshot.forEach(function(childSnapshot) {
+                    var childData = childSnapshot.val();
+                    if (childData) {
+                        thisRef.setState({
+                            address: childData.address,
+                            selectLocationType: childData.selectLocationType,
+                            selectDeliveryType: childData.selectDeliveryType,
+                            recipient: childData.recipient,
+                            recipientNum: childData.recipientNum,
+                            company: childData.company,
+                            deliveryInstruction: childData.deliveryInstruction
+                            
+                        });
+                    }
                 });
             });
         });
@@ -335,17 +351,6 @@ export default class Order extends Component {
                 <Grid>
                     <Row className="show-grid">
                         <Col sm={2}></Col>
-                        <Col sm={3}><div><strong>{strings.locationType}</strong></div></Col>
-                        <Col sm={6}>
-                            <DropdownButton title={strings[selectLocationType]} className="subscription-select" id="subscriptioin-planTypeSelect-dropdown" onSelect={this.handleLocationTypeSelect}>
-                                <MenuItem eventKey="location_office">{strings.location_office}</MenuItem>
-                                <MenuItem eventKey="location_home">{strings.location_home}</MenuItem>
-                                <MenuItem eventKey="location_cemetery">{strings.location_cemetery}</MenuItem>
-                            </DropdownButton>
-                        </Col>
-                    </Row>
-                    <Row className="show-grid">
-                        <Col sm={2}></Col>
                         <Col sm={3}><div><strong>{strings.deliveryType}</strong></div></Col>
                         <Col sm={6}>
                             <DropdownButton title={strings[selectDeliveryType]} className="subscription-select" id="subscriptioin-planTypeSelect-dropdown" onSelect={this.handleDeliveryTypeSelect}>
@@ -368,18 +373,20 @@ export default class Order extends Component {
                             </Col>
                         </Row>
                     }
-                    <Row className="show-grid">
-                        <Col sm={2}></Col>
-                        <Col sm={3}>
-                            <div><strong>{strings.from}</strong></div>
-                        </Col>
-                        <Col sm={6}>
-                            <FormGroup>
-                                <FormControl value={this.state.sender} type="text" placeholder={strings.fromPlaceholder} onChange={this.handleSender}/>
-                                <div className="subscription-tips">{strings.fromTip}</div>
-                            </FormGroup>
-                        </Col>
-                    </Row>
+                    { this.state.selectDeliveryType =='delivery_gift' && 
+                        <Row className="show-grid">
+                            <Col sm={2}></Col>
+                            <Col sm={3}>
+                                <div><strong>{strings.from}</strong></div>
+                            </Col>
+                            <Col sm={6}>
+                                <FormGroup>
+                                    <FormControl value={this.state.sender} type="text" placeholder={strings.fromPlaceholder} onChange={this.handleSender}/>
+                                    <div className="subscription-tips">{strings.fromTip}</div>
+                                </FormGroup>
+                            </Col>
+                        </Row>
+                    }
                     <Row className="show-grid">
                         <Col sm={5}></Col>
                         <Col sm={4}>
@@ -409,7 +416,19 @@ export default class Order extends Component {
                         <div className="horizontal-line"></div>
                     </Row>
                 </Grid>
+                
                 <Grid>
+                    <Row className="show-grid">
+                        <Col sm={2}></Col>
+                        <Col sm={3}><div><strong>{strings.locationType}</strong></div></Col>
+                        <Col sm={6}>
+                            <DropdownButton title={strings[selectLocationType]} className="subscription-select" id="subscriptioin-planTypeSelect-dropdown" onSelect={this.handleLocationTypeSelect}>
+                                <MenuItem eventKey="location_office">{strings.location_office}</MenuItem>
+                                <MenuItem eventKey="location_home">{strings.location_home}</MenuItem>
+                                <MenuItem eventKey="location_cemetery">{strings.location_cemetery}</MenuItem>
+                            </DropdownButton>
+                        </Col>
+                    </Row>
                     <Row className="show-grid">
                         <FormGroup>
                             <Col sm={2}></Col>
@@ -421,7 +440,7 @@ export default class Order extends Component {
                             </Col>
                         </FormGroup>
                     </Row>
-                    {this.state.selectLocationType==='location_office' &&
+                    {this.state.selectLocationType==='location_office' && this.state.selectDeliveryType == 'delivery_gift' &&
                     <Row className="show-grid">
                         <FormGroup>
                             <Col sm={2}></Col>
@@ -433,7 +452,7 @@ export default class Order extends Component {
                             </Col>
                         </FormGroup>
                     </Row>}
-                    {this.state.selectLocationType==='location_home' &&
+                    {this.state.selectLocationType==='location_home' && this.state.selectDeliveryType == 'delivery_gift' &&
                     <Row className="show-grid">
                         <FormGroup>
                             <Col sm={2}></Col>

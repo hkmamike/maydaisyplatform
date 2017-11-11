@@ -183,11 +183,8 @@ class OrderDetails extends React.Component {
                 reviewed: true
             }
         }).then(() => 
-            this.setState({ InfoMessage: strings.reviewSubmitted, reviewed: true})
-        ).catch(err => {
-            console.log('An error occured when updating account information.');
-            this.setState({ InfoMessage: strings.errorOccured});
-        });
+            this.setState({ InfoMessage: strings.reviewSubmitted, reviewed: true}, () => this.props.onHandleBack()
+        ));
     }
 
     handleBack = () => {

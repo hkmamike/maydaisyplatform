@@ -32,6 +32,7 @@ import Order from './components/dynamic/order';
 
 //marketplace - user account
 import OrderHistory from './components/protected/orderHistory';
+import AddressBook from './components/protected/addressBook';
 
 //compressed css
 import './assets/css/default.min.css';
@@ -166,7 +167,7 @@ export default class App extends Component {
 
 
             <PrivateRoute authed={this.state.authed} path='/orderhistory' component={OrderHistory} languageChanged={this.state.languageChanged}/>
-
+            <PrivateRoute authed={this.state.authed} path='/addressbook' component={AddressBook} languageChanged={this.state.languageChanged}/>
 
             <PrivateRoute authed={this.state.authed} path='/subscriptions' component={Subscriptions} languageChanged={this.state.languageChanged}/>
             <PrivateRoute authed={this.state.authed} selectRegion={selectRegion} onRegionSelection={this.handleRegionSelection} path='/newsubscription' component={NewSubscription} languageChanged={this.state.languageChanged}/>
