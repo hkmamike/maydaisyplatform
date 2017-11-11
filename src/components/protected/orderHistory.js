@@ -555,7 +555,7 @@ export default class OrderHistory extends Component {
               </Link>
             </Col>
             <Col xs={4} className="loggedin-nav-button">
-              <Link to="/accountinfo">
+              <Link to="/userinfo">
                 <i className="fa fa-user-circle fa-lg nav-icon"></i>
                 <div className="nav-icon-title">{strings.accountInformation1}<br/>{strings.accountInformation2}</div>
               </Link>

@@ -33,6 +33,7 @@ import Order from './components/dynamic/order';
 //marketplace - user account
 import OrderHistory from './components/protected/orderHistory';
 import AddressBook from './components/protected/addressBook';
+import MarketAccountInfo from './components/protected/marketAccountInfo';
 
 //compressed css
 import './assets/css/default.min.css';
@@ -164,10 +165,9 @@ export default class App extends Component {
 
             <Route path='/signups' exact render={(props) => (<SignUps {...props} selectRegion={selectRegion} onRegionSelection={this.handleRegionSelection} languageChanged={this.state.languageChanged}/>)}/>
 
-
-
             <PrivateRoute authed={this.state.authed} path='/orderhistory' component={OrderHistory} languageChanged={this.state.languageChanged}/>
             <PrivateRoute authed={this.state.authed} path='/addressbook' component={AddressBook} languageChanged={this.state.languageChanged}/>
+            <PrivateRoute authed={this.state.authed} path='/userinfo' component={MarketAccountInfo} languageChanged={this.state.languageChanged}/>
 
             <PrivateRoute authed={this.state.authed} path='/subscriptions' component={Subscriptions} languageChanged={this.state.languageChanged}/>
             <PrivateRoute authed={this.state.authed} selectRegion={selectRegion} onRegionSelection={this.handleRegionSelection} path='/newsubscription' component={NewSubscription} languageChanged={this.state.languageChanged}/>

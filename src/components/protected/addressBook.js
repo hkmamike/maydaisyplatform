@@ -97,22 +97,47 @@ class AddressDetails extends React.Component {
                 context: this,
                 then(data) {
                     console.log('data is :', data);
-                    this.setState({addressDetails: data, loading: false, recipientNum: data.recipientNum, uid: user.uid});
+                    this.setState({
+                        addressDetails: data, 
+                        loading: false, 
+                        recipient: data.recipient,
+                        company: data.company,
+                        address: data.address,
+                        deliveryInstruction: data.deliveryInstruction,
+                        recipientNum: data.recipientNum,
+                        uid: user.uid
+                    });
                 }
             });
         });
     }
-
     componentWillUnmount () {
         //returns the unsubscribe function
         this.fireBaseListenerForAddressDetails && this.fireBaseListenerForAddressDetails();
     }
 
+
+    handleRecipientChange = (e) => {
+        this.setState({ recipient: e.target.value });
+    }
+    handleRecipientNumChange = (e) => {
+        this.setState({ recipientNum: e.target.value });
+    }
+    handleCompanyChange = (e) => {
+        this.setState({ company: e.target.value });
+    }
+    handleAddressChange = (e) => {
+        this.setState({ address: e.target.value });
+    }
+    handleDeliveryInstructionChange = (e) => {
+        this.setState({ deliveryInstruction: e.target.value });
+    }
+
     handleBack = () => {
         this.props.onHandleBack();
     }
-    handleUpdate = (ecipient, recipientNum, company, address, deliveryInstruction) => {
-        this.props.onHandleAddressUpdate(ecipient, recipientNum, company, address, deliveryInstruction);
+    handleUpdate = () => {
+        this.props.onHandleAddressUpdate(this.state.recipient, this.state.recipientNum, this.state.company, this.state.address, this.state.deliveryInstruction);
     }
     handleDelete = () => {
         this.fireBaseListenerForDeleteAddress = firebaseAuth().onAuthStateChanged((user) => {
@@ -143,6 +168,11 @@ class AddressDetails extends React.Component {
                 <Glyphicon glyph="exclamation-sign" className="icons"/>&nbsp;{this.state.InfoMessage} 
               </div>
             }
+            { this.props.addressInfoMessage &&
+              <div className="alert alert-success update-message" role="alert">
+                <Glyphicon glyph="exclamation-sign" className="icons"/>&nbsp;{this.props.addressInfoMessage} 
+              </div>
+            }
             <div className="sub-list-item">
               <Row className="show-grid">
                 <FormGroup>
@@ -151,7 +181,7 @@ class AddressDetails extends React.Component {
                       <div><strong>{strings.recipient}</strong></div>
                   </Col>
                   <Col sm={5}>
-                    <div>{addressDetails.recipient}</div>
+                    <FormControl className="data-field-update" type="text" value={this.state.recipient} onChange={this.handleRecipientChange}/>
                   </Col>
                   <Col sm={3}>
                     <DeleteAddressModal
@@ -168,7 +198,7 @@ class AddressDetails extends React.Component {
                       <div><strong>{strings.recipientNum}</strong></div>
                   </Col>
                   <Col sm={8}>
-                    <div>{addressDetails.recipientNum}</div>
+                    <FormControl className="data-field-update" type="text" value={this.state.recipientNum} onChange={this.handleRecipientNumChange}/>
                   </Col>
                 </FormGroup>
               </Row>
@@ -179,7 +209,7 @@ class AddressDetails extends React.Component {
                       <div><strong>{strings.company}</strong></div>
                   </Col>
                   <Col sm={8}>
-                    <div>{addressDetails.company}</div>
+                  <FormControl className="data-field-update" type="text" value={this.state.company} onChange={this.handleCompanyChange}/>
                   </Col>
                 </FormGroup>
               </Row>
@@ -190,7 +220,7 @@ class AddressDetails extends React.Component {
                       <div><strong>{strings.address}</strong></div>
                   </Col>
                   <Col sm={8}>
-                    <div>{addressDetails.address}</div>
+                    <FormControl className="data-field-update" type="text" value={this.state.address} onChange={this.handleAddressChange}/>
                   </Col>
                 </FormGroup>
               </Row>
@@ -201,7 +231,7 @@ class AddressDetails extends React.Component {
                       <div><strong>{strings.deliveryInstruction}</strong></div>
                   </Col>
                   <Col sm={8}>
-                    <div>{addressDetails.deliveryInstruction}</div>
+                    <FormControl className="data-field-update" type="text" value={this.state.deliveryInstruction} onChange={this.handleDeliveryInstructionChange}/>
                   </Col>
                 </FormGroup>
               </Row>
@@ -232,6 +262,7 @@ export default class AddressBook extends Component {
     super();
     this.handleChooseAddress = this.handleChooseAddress.bind(this);
     this.handleBack = this.handleBack.bind(this);
+    this.handleAddressUpdate = this.handleAddressUpdate.bind(this);
     this.addressDeleteSuccess = this.addressDeleteSuccess.bind(this);
     this.state = {
       addressData: {},
@@ -286,9 +317,9 @@ export default class AddressBook extends Component {
         recipientNum: recipientNum
       }
     }).then(() => 
-        this.setState({ addressInfoMessage: strings.addressUpdated})
+        this.setState({ addressInfoMessage: strings.addressUpdated}, () => setTimeout(() => { this.setState({addressDetailsStatus:0})}, 1000))
       ).catch(err => {
-        console.log('An error occured when updating address.');
+        console.log('An error occured when updating address.', err);
         this.setState({ addressInfoMessage: strings.errorOccured});
       });
   }
@@ -428,7 +459,7 @@ export default class AddressBook extends Component {
               </Link>
             </Col>
             <Col xs={4} className="loggedin-nav-button">
-              <Link to="/accountinfo">
+              <Link to="/userinfo">
                 <i className="fa fa-user-circle fa-lg nav-icon"></i>
                 <div className="nav-icon-title">{strings.accountInformation1}<br/>{strings.accountInformation2}</div>
               </Link>
