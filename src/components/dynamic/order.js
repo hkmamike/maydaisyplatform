@@ -2,10 +2,11 @@ import React, { Component } from 'react'
 import { firebaseAuth } from '../config/constants';
 import { login, resetPassword } from '../helpers/auth'
 import { Link } from 'react-router-dom';
-import { FormGroup, FormControl, ControlLabel, Grid, Row, Col, Button, DropdownButton, MenuItem, Glyphicon } from 'react-bootstrap';
+import { FormGroup, FormControl, ControlLabel, Grid, Row, Col, Button, DropdownButton, MenuItem, Glyphicon, Modal,Checkbox } from 'react-bootstrap';
 import PlaceOrder from '../helpers/singleOrderPayment'
 import LocalizedStrings from 'react-localization';
 import * as firebase from 'firebase';
+import { base } from '../config/constants';
 
 let strings = new LocalizedStrings({
   en:{
@@ -88,7 +89,107 @@ function setErrorMsg(error) {
     return {
       loginMessage: error
     }
-  }
+}
+
+class ImportAddressModal extends React.Component {
+    constructor() {
+      super();
+      this.open = this.open.bind(this);
+      this.close = this.close.bind(this);
+      this.importAddress = this.importAddress.bind(this);
+      this.state = {
+        showModal: false,
+        addressData: {},
+      }
+    }
+    close() {
+      this.setState({showModal: false});
+    }
+    open() {
+      this.setState({showModal: true});
+    }
+    importAddress = () => {
+      this.props.onImportAddress(this.state.selectedAddress);
+      this.close();
+    }
+    selectAddress = (key) => {
+        this.setState({selectedAddress: key});
+    }
+    componentDidMount() {
+        var uid = firebase.auth().currentUser.uid;
+        base.fetch(`users/${uid}/address/`, {
+            context: this,
+            then(data) {
+                this.setState({addressData: data});
+            }
+        });
+    }
+    render() {
+        var data = this.state.addressData;
+        var addresses;
+        if (Object.keys(data).length===0) {
+            addresses = (
+              <div className="no-sub-section">            
+                <div className="center-text">No record</div>
+              </div>
+            )
+        } else {
+            addresses = Object.keys(data).map(function(key) {
+                var chosenKey = data[key].referenceCode;
+                return (
+                    <div key={key}>
+                        <Grid>
+                            <div className="sub-list-item">
+                                <Row className="show-grid">
+                                <FormGroup>
+                                    <Col sm={1}></Col>
+                                    <Col sm={3}>
+                                        <div><strong>Recipient:</strong></div>
+                                    </Col>
+                                    <Col sm={3}>
+                                    <div>{data[key].recipient}</div>
+                                    </Col>
+                                </FormGroup>
+                                </Row>
+                                <Row className="show-grid">
+                                <FormGroup>
+                                    <Col sm={1}></Col>
+                                    <Col sm={3}>
+                                        <div><strong>Address:</strong></div>
+                                    </Col>
+                                    <Col sm={3}>
+                                        <div>{data[key].address}</div>
+                                        <Button bsStyle="" className="button" onClick={() => {this.selectAddress(key)}}>Select</Button>
+                                    </Col>
+                                </FormGroup>
+                                </Row>
+                            </div>
+                        </Grid>
+                    </div>
+                )
+            }, this)
+        }
+
+        return (
+            <div>
+                <Button bsStyle="" className="sub-details-unsub" onClick={this.open}>Import from Address Book</Button>
+                <Modal show={this.state.showModal} onHide={this.close}>
+                    <Modal.Header closeButton>
+                    <Modal.Title><strong>Import Delivery Address</strong></Modal.Title>
+                    </Modal.Header>
+                    <Modal.Body>
+                        {addresses} 
+                    </Modal.Body>
+                                <div> Selected Address: {this.state.selectedAddress}</div>
+                    <Modal.Footer>
+                    <Button bsStyle="" className="button button-back" onClick={this.close}>Cancel</Button>
+                    <Button bsStyle="" className="button" onClick={this.importAddress}>Import</Button>
+                    </Modal.Footer>
+                </Modal>
+            </div>
+        )
+    }
+}
 
 export default class Order extends Component {
 
@@ -100,18 +201,21 @@ export default class Order extends Component {
         this.handlePWChange = this.handlePWChange.bind(this);
         this.handleOrderStep = this.handleOrderStep.bind(this);
         this.state = {
-        loading: true,
-        orderStep: 0,
-        cardMessage: '',
-        sender: '',
-        address: '',
-        selectLocationType: 'location_office',
-        selectDeliveryType: 'delivery_gift',
-        recipient: '',
-        recipientNum: '',
-        company: '',
-        senderNum: '',
-        stripeTransactionID: ''
+            loading: true,
+            orderStep: 0,
+            cardMessage: '',
+            sender: '',
+            address: '',
+            selectLocationType: 'location_office',
+            selectDeliveryType: 'delivery_gift',
+            recipient: '',
+            recipientNum: '',
+            company: '',
+            senderNum: '',
+            stripeTransactionID: '',
+            email: '',
+            password: '',
+            addressBookChecked: false,
         }
     }
 
@@ -176,10 +280,28 @@ export default class Order extends Component {
     handleSenderNum = (e) => {
         this.setState({senderNum: e.target.value});
     }
+    handleImportAddress = (selectedAddress) => {
+        var thisRef = this;
+        var uid = firebase.auth().currentUser.uid;
+        firebase.database().ref(`users/${uid}/address/${selectedAddress}`).once('value', function(snapshot) {
+            var snapshotVal = snapshot.val();
+            thisRef.setState({
+                recipient: snapshotVal.recipient,
+                recipientNum: snapshotVal.recipientNum,
+                company: snapshotVal.company,
+                address: snapshotVal.address,
+                deliveryinstruction: snapshotVal.deliveryInstruction,
+                selectLocationType: snapshotVal.selectLocationType,
+                deliveryInstruction: snapshotVal.deliveryInstruction,
+            });
+        });
+    }
+    addressBookOption = (e) => {
+        this.setState({addressBookChecked: e.target.checked});
+    }
     componentWillMount() {
         strings.setLanguage(this.props.languageChanged);
     }
-
     componentDidMount() {
         var thisRef = this;
         var marketRegion = this.props.marketRegion;
@@ -214,41 +336,17 @@ export default class Order extends Component {
             });
         });
     }
-
     componentWillMount () {
         var thisRef = this;
         this.fireBaseListenerForUserData = firebaseAuth().onAuthStateChanged((user) => {
             firebase.database().ref(`users/${user.uid}/info`).once('value', function(snapshot) {
                 var snapshotVal = snapshot.val();
-                console.log(snapshotVal);
-                console.log(snapshotVal.name);
                 if (snapshotVal) {
                     thisRef.setState({
                         sender: snapshotVal.name,
                         senderNum: snapshotVal.phone
                     });
                 }
-            });
-
-            firebase.database().ref(`users/${user.uid}/address`)
-            .orderByChild('defaultAddress')
-            .limitToFirst(1)
-            .once('value', function(snapshot) {
-                snapshot.forEach(function(childSnapshot) {
-                    var childData = childSnapshot.val();
-                    if (childData) {
-                        thisRef.setState({
-                            address: childData.address,
-                            selectLocationType: childData.selectLocationType,
-                            selectDeliveryType: childData.selectDeliveryType,
-                            recipient: childData.recipient,
-                            recipientNum: childData.recipientNum,
-                            company: childData.company,
-                            deliveryInstruction: childData.deliveryInstruction
-                            
-                        });
-                    }
-                });
             });
         });
     }
@@ -419,6 +517,15 @@ export default class Order extends Component {
                 
                 <Grid>
                     <Row className="show-grid">
+                        <Col sm={9}></Col>
+                        <Col sm={3}>
+                            <ImportAddressModal
+                                uid={this.state.uid}
+                                onImportAddress={this.handleImportAddress}
+                            />
+                        </Col>
+                    </Row>
+                    <Row className="show-grid">
                         <Col sm={2}></Col>
                         <Col sm={3}><div><strong>{strings.locationType}</strong></div></Col>
                         <Col sm={6}>
@@ -483,6 +590,12 @@ export default class Order extends Component {
                             </Col>
                             <Col sm={6}>
                                 <FormControl value={this.state.address} componentClass="textarea" className="recipientAddress" onChange={this.handleAddress} placeholder={strings.recipientAddressPlaceholder}/>
+                                <Checkbox 
+                                    onChange={this.addressBookOption}
+                                    checked={this.state.addressBookChecked}
+                                >
+                                    Save this to my address book.
+                                </Checkbox>
                             </Col>
                         </FormGroup>
                     </Row>
@@ -777,6 +890,7 @@ export default class Order extends Component {
                                     arrangementName={this.state.arrangementName}
                                     arrangementImage={this.state.arrangementImage}
                                     deliveryDate={this.props.deliveryDate}
+                                    addressBookChecked={this.state.addressBookChecked}
                                 />
                                 <Button bsStyle="" className="button-new-sub button-back" onClick={() => this.setState({orderStep: 3}, () => {window.scrollTo(0, 0);})}>{strings.backButton}</Button>
                             </Col>
