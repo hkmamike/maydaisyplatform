@@ -4,6 +4,7 @@ import { Link, Route } from 'react-router-dom';
 import LocalizedStrings from 'react-localization';
 import * as firebase from 'firebase';
 import { SingleDatePicker } from 'react-dates';
+import moment from 'moment';
 
 let strings = new LocalizedStrings({
     en:{},
@@ -94,12 +95,19 @@ export default class Arrangement extends Component {
 
     checkFloristCalendar(day) {
         var arrangementDeliveryBlockedDays = this.state.arrangementDeliveryBlockedDays;
-        if (arrangementDeliveryBlockedDays===null) {
-            return false;
-        } else if (arrangementDeliveryBlockedDays.indexOf(day.day()) > -1) {
-            return true;
+        var arrangementDeliveryLeadTime = this.state.arrangementDeliveryLeadTime;
+        var blockedDayFail = false;
+        var leadTimeFail = false;
+        if (arrangementDeliveryBlockedDays.indexOf(day.day()) > -1) {
+            blockedDayFail = true;
+        }
+        if ((day.date() - moment().date()) - arrangementDeliveryLeadTime < 0 ) {
+            leadTimeFail = true;
+        }
+        if ( leadTimeFail || blockedDayFail) {
+            return true
         } else {
-            return false;
+            return false
         }
     }
 
@@ -150,6 +158,12 @@ export default class Arrangement extends Component {
                 var snapshotVal = snapshot.val()
                 thisRef.setState({
                     arrangementDeliveryBlockedDays: snapshotVal
+                });
+            });
+            firebase.database().ref(`florists/${floristID}/deliveryLeadTime`).once('value', function(snapshot) {
+                var snapshotVal = snapshot.val()
+                thisRef.setState({
+                    arrangementDeliveryLeadTime: snapshotVal
                 });
             });
         });
