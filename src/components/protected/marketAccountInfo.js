@@ -59,6 +59,17 @@ export default class MarketAccountInfo extends Component {
     }
   }
 
+  componentDidMount () {
+    this.fireBaseListenerForSub = firebaseAuth().onAuthStateChanged((user) => {
+      base.fetch(`users/${user.uid}/transactions/`, {
+        context: this,
+        then(data) {
+          this.setState({orderData: data, loading: false, userID: user.uid});
+        }
+      });
+    });
+  }
+
   componentWillMount() {
     strings.setLanguage(this.props.languageChanged);
   }

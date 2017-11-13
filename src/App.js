@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import { BrowserRouter, Route, Redirect, Switch } from 'react-router-dom';
+import { base } from './components/config/constants';
 //auth
 import Login from './components/pages/login';
 import Register from './components/pages/register';
@@ -35,6 +36,10 @@ import OrderHistory from './components/protected/orderHistory';
 import AddressBook from './components/protected/addressBook';
 import MarketAccountInfo from './components/protected/marketAccountInfo';
 
+//marketplace - florist account
+import OrdersDashboard from './components/designerPages/ordersDashboard';
+import DesignerLogin from './components/pages/designerLogin';
+
 //compressed css
 import './assets/css/default.min.css';
 //airbnb date picker
@@ -51,11 +56,12 @@ function PrivateRoute ({component: Component, authed, selectRegion, onRegionSele
     />
   )
 }
-function PublicRoute ({component: Component, authed, selectRegion, onRegionSelection, languageChanged, ...rest}) {
+function PublicRoute ({component: Component, isDesigner, authed, selectRegion, onRegionSelection, languageChanged, ...rest}) {
+  console.log('is designer: ', isDesigner);
   return (
     <Route {...rest} render={(props) => authed === false?
         <Component {...props} selectRegion={selectRegion} onRegionSelection={onRegionSelection} languageChanged={languageChanged}/>
-        : <Redirect to='/orderhistory' />}
+        : (isDesigner? <Redirect to='/ordersdashboard'/> : <Redirect to='/orderhistory'/>) }
     />
   )
 }
@@ -69,6 +75,7 @@ export default class App extends Component {
     this.handleDeliveryDateSelect = this.handleDeliveryDateSelect.bind(this);
     this.state = {
       authed: false,
+      isDesigner: false,
       loading: true,
       selectRegion: 'HK_Central',
       languageChanged: 'ch',
@@ -101,18 +108,27 @@ export default class App extends Component {
   componentDidMount () {
     this.removeListener = firebaseAuth().onAuthStateChanged((user) => {
       if (user) {
-        this.setState({
-          authed: true,
-          loading: false,
-          UserID: firebase.auth().currentUser
-        })
+        base.fetch(`users/${user.uid}/info/`, {
+          context: this,
+          then(data) {
+            if (data.shop) {
+              this.setState({
+                authed: true, 
+                loading: false, 
+                UserID: firebase.auth().currentUser, 
+                isDesigner: true, 
+                designerCode: data.shop
+              });
+            }
+          }
+        });
       } else {
         this.setState({
           authed: false,
           loading: false,
           UserID: null
         })
-      }      
+      }
     })
   }
 
@@ -134,9 +150,8 @@ export default class App extends Component {
             <Route path='/' exact render={(props) => (<Homepage {...props} marketRegion={marketRegion} onRegionSelection={this.handleRegionSelection} languageChanged={this.state.languageChanged}/>)}/>
           
             
-            <PublicRoute authed={this.state.authed} path='/login' component={Login} languageChanged={this.state.languageChanged}/>
-            <PublicRoute authed={this.state.authed} path='/register' component={Register} languageChanged={this.state.languageChanged}/>
-
+            <PublicRoute authed={this.state.authed} isDesigner={this.state.isDesigner} path='/login' component={Login} languageChanged={this.state.languageChanged}/>
+            <PublicRoute authed={this.state.authed} isDesigner={this.state.isDesigner} path='/register' component={Register} languageChanged={this.state.languageChanged}/>
 
             <Route path='/arrangements/:marketRegion?' exact render={(props) => (<ArrangementsList {...props} languageChanged={this.state.languageChanged}/>)}/>
             <Route path='/florist/:floristID' exact render={(props) => (<Florist {...props} languageChanged={this.state.languageChanged}/>)}/>
@@ -157,13 +172,14 @@ export default class App extends Component {
 
             <Route path='/privacy-policy' exact render={(props) => (<PrivacyPolicy {...props} languageChanged={this.state.languageChanged}/>)}/>
             <Route path='/terms' exact render={(props) => (<TermsOfServices {...props} languageChanged={this.state.languageChanged}/>)}/>
-
             <Route path='/faq' exact render={(props) => (<FAQ {...props} languageChanged={this.state.languageChanged}/>)}/>
             <Route path='/contact' exact render={(props) => (<ContactUs {...props} languageChanged={this.state.languageChanged}/>)}/>
             <Route path='/career' exact render={(props) => (<Career {...props} languageChanged={this.state.languageChanged}/>)}/>
             <Route path='/about' exact render={(props) => (<About {...props} languageChanged={this.state.languageChanged}/>)}/>
 
+
             <Route path='/signups' exact render={(props) => (<SignUps {...props} selectRegion={selectRegion} onRegionSelection={this.handleRegionSelection} languageChanged={this.state.languageChanged}/>)}/>
+
 
             <PrivateRoute authed={this.state.authed} path='/orderhistory' component={OrderHistory} languageChanged={this.state.languageChanged}/>
             <PrivateRoute authed={this.state.authed} path='/addressbook' component={AddressBook} languageChanged={this.state.languageChanged}/>
@@ -172,6 +188,11 @@ export default class App extends Component {
             <PrivateRoute authed={this.state.authed} path='/subscriptions' component={Subscriptions} languageChanged={this.state.languageChanged}/>
             <PrivateRoute authed={this.state.authed} selectRegion={selectRegion} onRegionSelection={this.handleRegionSelection} path='/newsubscription' component={NewSubscription} languageChanged={this.state.languageChanged}/>
             <PrivateRoute authed={this.state.authed} path='/accountinfo' component={AccountInfo} languageChanged={this.state.languageChanged}/>
+ 
+ 
+            <PrivateRoute authed={this.state.authed} path='/ordersdashboard' component={OrdersDashboard} languageChanged={this.state.languageChanged}/>
+
+
             <Route render={() => <h3>Uhoh...we couldn't find your page</h3>} />
 
           </Switch>
