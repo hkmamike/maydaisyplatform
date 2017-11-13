@@ -135,7 +135,6 @@ class ImportAddressModal extends React.Component {
             )
         } else {
             addresses = Object.keys(data).map(function(key) {
-                var chosenKey = data[key].referenceCode;
                 return (
                     <div key={key}>
                         <Grid>
@@ -299,9 +298,6 @@ export default class Order extends Component {
     addressBookOption = (e) => {
         this.setState({addressBookChecked: e.target.checked});
     }
-    componentWillMount() {
-        strings.setLanguage(this.props.languageChanged);
-    }
     componentDidMount() {
         var thisRef = this;
         var marketRegion = this.props.marketRegion;
@@ -337,6 +333,9 @@ export default class Order extends Component {
         });
     }
     componentWillMount () {
+
+        strings.setLanguage(this.props.languageChanged);
+
         var thisRef = this;
         this.fireBaseListenerForUserData = firebaseAuth().onAuthStateChanged((user) => {
             firebase.database().ref(`users/${user.uid}/info`).once('value', function(snapshot) {
@@ -371,8 +370,6 @@ export default class Order extends Component {
     var marketRegion = this.props.marketRegion;
     var selectLocationType = this.state.selectLocationType;
     var selectDeliveryType = this.state.selectDeliveryType;
-    var arrangementPrice = this.props.arrangementPrice;
-    var deliveryFee = this.props.deliveryFee;
 
     let content = null;
     if (orderStep===0){
@@ -457,7 +454,7 @@ export default class Order extends Component {
                             </DropdownButton>
                         </Col>
                     </Row>
-                    { this.state.selectDeliveryType == 'delivery_gift' &&
+                    { this.state.selectDeliveryType === 'delivery_gift' &&
                         <Row className="show-grid">
                             <Col sm={2}></Col>
                             <Col sm={3}>
@@ -471,7 +468,7 @@ export default class Order extends Component {
                             </Col>
                         </Row>
                     }
-                    { this.state.selectDeliveryType =='delivery_gift' && 
+                    { this.state.selectDeliveryType ==='delivery_gift' && 
                         <Row className="show-grid">
                             <Col sm={2}></Col>
                             <Col sm={3}>
@@ -547,7 +544,7 @@ export default class Order extends Component {
                             </Col>
                         </FormGroup>
                     </Row>
-                    {this.state.selectLocationType==='location_office' && this.state.selectDeliveryType == 'delivery_gift' &&
+                    {this.state.selectLocationType==='location_office' && this.state.selectDeliveryType === 'delivery_gift' &&
                     <Row className="show-grid">
                         <FormGroup>
                             <Col sm={2}></Col>
@@ -559,7 +556,7 @@ export default class Order extends Component {
                             </Col>
                         </FormGroup>
                     </Row>}
-                    {this.state.selectLocationType==='location_home' && this.state.selectDeliveryType == 'delivery_gift' &&
+                    {this.state.selectLocationType==='location_home' && this.state.selectDeliveryType === 'delivery_gift' &&
                     <Row className="show-grid">
                         <FormGroup>
                             <Col sm={2}></Col>

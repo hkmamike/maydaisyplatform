@@ -55,7 +55,6 @@ export default class PlaceOrder extends React.Component {
     }
 
     onToken = (token) => {
-        var token = token;
         var addressBookChecked = this.props.addressBookChecked;
         var floristID = this.props.floristID;
         var floristName = this.props.floristName;
@@ -64,7 +63,6 @@ export default class PlaceOrder extends React.Component {
         var currency = this.props.currency;
         var price = this.props.price;
         var uid = firebase.auth().currentUser.uid;
-        var marketRegion = this.props.marketRegion;
         var selectLocationType = this.props.selectLocationType;
         var selectDeliveryType = this.props.selectDeliveryType;
         var languageChanged = this.props.languageChanged;
@@ -132,7 +130,7 @@ export default class PlaceOrder extends React.Component {
                                 floristName: floristName,
                                 uid: uid,
                                 price: price,
-                                currency, currency,
+                                currency: currency,
                                 arrangementName: arrangementName,
                                 arrangementImage: arrangementImage,
                                 deliveryDate: deliveryDate,
@@ -168,7 +166,7 @@ export default class PlaceOrder extends React.Component {
                                 floristName: floristName,
                                 uid: uid,
                                 price: price,
-                                currency, currency,
+                                currency: currency,
                                 arrangementName: arrangementName,
                                 arrangementImage: arrangementImage,
                                 deliveryDate: deliveryDate,

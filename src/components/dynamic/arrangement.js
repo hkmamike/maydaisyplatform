@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { Grid, Row, Col, Button, ToggleButton, ToggleButtonGroup, DropdownButton, MenuItem } from 'react-bootstrap';
+import { Grid, Row, Col, Button, DropdownButton, MenuItem } from 'react-bootstrap';
 import { Link, Route } from 'react-router-dom';
 import LocalizedStrings from 'react-localization';
 import * as firebase from 'firebase';
@@ -31,9 +31,9 @@ export default class Arrangement extends Component {
     }
 
     toggleContent(tab) {
-        if (tab==0) {
+        if (tab===0) {
             this.setState({descriptionActive: true, deliveryActive: false});
-        } else if (tab==1) {
+        } else if (tab===1) {
             this.setState({descriptionActive: false, deliveryActive: true});
         }
     }
@@ -41,8 +41,6 @@ export default class Arrangement extends Component {
     toOtherArrangement(id) {
         window.scrollTo(0, 0);
         var thisRef = this;
-        var floristID = this.props.match.params.floristID;
-        var marketRegion = this.props.marketRegion;
         var arrangementsList = [];
         this.setState ({arrangement: id, floristID: this.props.match.params.floristID}, () => {
             firebase.database().ref(`arrangementsList/${this.state.arrangement}`).once('value', function(snapshot) {
@@ -180,7 +178,6 @@ export default class Arrangement extends Component {
 
         var thisRef = this;
         var floristID = this.props.match.params.floristID;
-        var marketRegion = this.props.marketRegion;
         firebase.database().ref(`florists/${floristID}/deliveryFee`).once('value', function(snapshot) {
             var snapshotVal = snapshot.val();
             thisRef.setState({
@@ -198,9 +195,7 @@ export default class Arrangement extends Component {
 
     var loadingState = this.state.loading;
     var marketRegion = this.props.marketRegion;
-    var onTab = this.state.onTab;
     let content = null;
-    let header = null;
 
     var listOfArrangements = this.state.arrangementsList.map(arrangement => 
         <Col xs={6} sm={4} md={3} lg={2} key={arrangement.id}>
@@ -294,7 +289,7 @@ export default class Arrangement extends Component {
                             <Route path="/" render={() => <Button bsStyle="" className="button-to-order" onClick={() => this.handleOrder(this.state.floristID, this.state.arrangement)}>Order Now</Button>}/>
                         </div>
                     }
-                    { this.state.arrangementDeliveryFee== -1 &&
+                    { this.state.arrangementDeliveryFee=== -1 &&
                         <div>
                             <div className="arrangement-delivery-fee">Oh no! This florist does not deliver to {marketRegion}. Let's go back to the market to find one that does.</div>
                             <Route path="/" render={(props) => <ButtonToMarket {...props}/>} />

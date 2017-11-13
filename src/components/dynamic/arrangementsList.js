@@ -1,12 +1,9 @@
 import React, { Component } from 'react';
-import { Grid, Row, Col, Button, ToggleButton, ToggleButtonGroup } from 'react-bootstrap';
-import { Link, Route } from 'react-router-dom';
+import { Col } from 'react-bootstrap';
+import { Link } from 'react-router-dom';
 import LocalizedStrings from 'react-localization';
-import * as firebase from 'firebase';
-import Slider from 'rc-slider';
-import ReactDOM from 'react-dom';
 
-import {InstantSearch, Hits, SearchBox, Highlight, RefinementList, Pagination, CurrentRefinements, ClearAll, Menu } from 'react-instantsearch/dom';
+import {InstantSearch, Hits, SearchBox, RefinementList, Pagination, CurrentRefinements, ClearAll } from 'react-instantsearch/dom';
 
 import {connectMenu} from 'react-instantsearch/connectors';
 

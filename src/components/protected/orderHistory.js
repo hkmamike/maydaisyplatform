@@ -198,12 +198,9 @@ class OrderDetails extends React.Component {
     }
 
   render() {
-    var selectedOrder = this.props.selectedOrder;
     var stripeTxnID = this.props.stripeTxnID;
     var orderDetails = this.state.orderDetails;
-    var selectLocationType = this.state.orderDetails[selectLocationType];
     var loadingState = this.state.loading;
-    var recipientNum = this.state.recipientNum;
     var cardMessage = this.state.cardMessage;
     let content = null;
 

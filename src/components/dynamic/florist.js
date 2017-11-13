@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
-import { Grid, Row, Col, Button, ToggleButton, ToggleButtonGroup } from 'react-bootstrap';
-import { Link, Route } from 'react-router-dom';
+import { Grid, Row, Col } from 'react-bootstrap';
+import { Link } from 'react-router-dom';
 import LocalizedStrings from 'react-localization';
 import * as firebase from 'firebase';
 import StarRatingComponent from 'react-star-rating-component';
@@ -48,7 +48,6 @@ export default class Florist extends Component {
         .equalTo(this.props.match.params.floristID)
         .once('value', function(snapshot) {
             snapshot.forEach(function(childSnapshot) {
-                var childKey = childSnapshot.key;
                 var childData = childSnapshot.val();
                 arrangementsList.push(childData);
             });
@@ -57,7 +56,6 @@ export default class Florist extends Component {
         firebase.database().ref(`florists/${this.props.match.params.floristID}/reviews`)
         .once('value', function(snapshot) {
             snapshot.forEach(function(childSnapshot) {
-                var childKey = childSnapshot.key;
                 var childData = childSnapshot.val();
                 reviews.push(childData);
             });
@@ -120,7 +118,7 @@ export default class Florist extends Component {
         <div className="florist-header">
             <div className="florist-info">
                 <div className="florist-pic-container">
-                    <img src={this.state.floristProfilePic}/>
+                    <img src={this.state.floristProfilePic} alt=""/>
                 </div>
                 <div className="florist-address">{this.state.floristName}</div>
                 <div className="florist-address">{this.state.floristAddress}</div>

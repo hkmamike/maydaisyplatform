@@ -1,11 +1,9 @@
 import React, { Component } from 'react'
 import { firebaseAuth } from '../config/constants';
-import { Link, Route } from 'react-router-dom';
+import { Link } from 'react-router-dom';
 import { FormGroup, FormControl, Grid, Row, Col, Button, Glyphicon, Modal } from 'react-bootstrap';
 import { base } from '../config/constants';
 import LocalizedStrings from 'react-localization';
-import StarRatingComponent from 'react-star-rating-component';
-import moment from 'moment';
 
 let strings = new LocalizedStrings({
   en:{
@@ -54,7 +52,6 @@ class DeleteAddressModal extends React.Component {
       this.setState({showModal: true});
     }
     deleteAddress() {
-      var uid = this.props.uid;
       this.props.onDeleteAddress();
       this.close();
     }
@@ -78,7 +75,7 @@ class DeleteAddressModal extends React.Component {
         </div>
       )
     }
-  }
+}
 
 class AddressDetails extends React.Component {
 
@@ -150,11 +147,7 @@ class AddressDetails extends React.Component {
     }
 
   render() {
-    var selectedAddress = this.props.selectedAddress;
-    var addressDetails = this.state.addressDetails;
-    var selectLocationType = this.state.addressDetails[selectLocationType];
     var loadingState = this.state.loading;
-    var recipientNum = this.state.recipientNum;
     let content = null;
 
     if (loadingState) {
