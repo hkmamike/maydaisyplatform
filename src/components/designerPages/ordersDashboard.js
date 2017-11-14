@@ -1,7 +1,7 @@
 import React, { Component } from 'react'
 import { firebaseAuth } from '../config/constants';
 import { Link, Route } from 'react-router-dom';
-import { FormGroup, FormControl, Grid, Row, Col, Button, Glyphicon, Modal } from 'react-bootstrap';
+import { FormGroup, FormControl, Grid, Row, Col, Button, Glyphicon, Modal, DropdownButton, MenuItem } from 'react-bootstrap';
 import { base } from '../config/constants';
 import LocalizedStrings from 'react-localization';
 import StarRatingComponent from 'react-star-rating-component';
@@ -9,12 +9,13 @@ import moment from 'moment';
 
 let strings = new LocalizedStrings({
   en:{
-    orderHistory1: 'Order',
-    orderHistory2: 'History',
-    addressBook1: 'Address',
-    addressBook2: 'Book',
-    accountInformation1: 'Account',
-    accountInformation2: 'Information',
+    ordersDashboard1: 'Orders',
+    ordersDashboard2: 'Dashboard',
+    designs1: "Shop's",
+    designs2: 'Designs',
+    shopInformation1: 'Shop',
+    shopInformation2: 'Information',
+
     allOrders: 'All Orders',
     detailsUpdate: 'Details & Update',
     referenceCode: 'Reference Code:',
@@ -35,9 +36,22 @@ let strings = new LocalizedStrings({
     tip1_2: '11:59 p.m. on Wednesday',
     tip1_3: " prior to the next week's delivery.",
     tip2: '**To change delivery address, flower type, or plan, please create a new subscription and unsubscribe from this one. Sorry for any inconvience caused.',
-    submitReviewTitle: 'Submit a review',
-    submitReviewText1: 'Rate this florist, it helps good florists get more exposure!',
-    submitReviewText2: 'Only verified customers with purchases are allowed to submit a review.',
+    
+    
+    progressUpdateTitle: 'Progress Update - Order Received',
+    progressUpdateText1: 'Update customers on delivery progress keeps them happy.',
+    progressUpdateText2: 'Florist who give timely update receive 50% more 5 stars reviews and are twice as likely to get customer referrals.',
+    progressUpdateText3: 'When you click the red button below, we will send an email to the customer on your behalf to acknowledge that you have received this order.',
+
+    orderUpdate: 'Your update has been sent.',
+
+
+    progressUpdate2Title: 'Progress Update - Order Fulfilled',
+    progressUpdate2Text1: 'Timely update keeps customers happy.',
+    progressUpdate2Text2: 'According to our study, florists who give timely update receive 50% more 5 stars reviews and are twice as likely to get customer referrals.',
+    progressUpdate2Text3: 'When you click the red button below, we will send an email to the customer on your behalf to let him/her know that this order has been fulfilled.',
+
+
     cancelButton: 'Close',
     everyMonday: 'Every Monday',
     everyTuesday: 'Every Tuesday',
@@ -49,7 +63,13 @@ let strings = new LocalizedStrings({
     noOrder: 'You do not have any order history.',
     errorOccured: 'An error occured, please try again later.',
     reviewSubmitted: 'Your review has been submited.',
-    browseMarket: 'Browse Market'
+    browseMarket: 'Browse Market',
+
+    order_submitted: 'Order Submitted',
+    order_delivered: 'Order Delivered',
+    order_received: 'Order Received'
+
+
   },
   ch: {}
 });
@@ -58,12 +78,98 @@ const ButtonToMarket = ({ title, history }) => (
   <Button bsStyle="" className="no-sub-button" onClick={() => history.push('/arrangements')}>{strings.browseMarket}</Button>
 );
 
+class UpdateProgress extends React.Component {
+    constructor() {
+      super();
+      this.open = this.open.bind(this);
+      this.close = this.close.bind(this);
+      this.orderReceivedUpdate = this.orderReceivedUpdate.bind(this);
+      this.orderFulfilledUpdate = this.orderFulfilledUpdate.bind(this);
+      this.state = {
+        showModal: false,
+      }
+    }
+    
+    close() {
+      this.setState({showModal: false});
+    }
+    open() {
+      this.setState({showModal: true});
+    }
+
+    orderReceivedUpdate() {
+        var selectedOrder = this.props.selectedOrder;
+        var designerCode = this.props.designerCode;
+        var senderID = this.props.senderID;
+        this.props.onOrderReceivedUpdate(selectedOrder, designerCode, senderID);
+        this.close();
+    }
+
+    orderFulfilledUpdate() {
+        var selectedOrder = this.props.selectedOrder;
+        var designerCode = this.props.designerCode;
+        var senderID = this.props.senderID;
+        this.props.onOrderFulfilledUpdate(selectedOrder, designerCode, senderID);
+        this.close();
+    }
+
+    render() {
+        return (
+            <div>
+                <Button bsStyle="" className="sub-details-unsub"onClick={this.open}>Update</Button>
+                <Modal show={this.state.showModal} onHide={this.close}>
+                    
+                    { this.props.status === 'order_submitted' &&
+                    <div>
+                        <Modal.Header closeButton>
+                        <Modal.Title><strong>{strings.progressUpdateTitle}</strong></Modal.Title>
+                        </Modal.Header>
+                        <Modal.Body>
+                            <h4>{strings.progressUpdateText1}</h4>
+                            <p>{strings.progressUpdateText2}</p>
+                            <p>{strings.progressUpdateText3}</p>
+                        </Modal.Body>
+                    </div>
+                    }
+
+                    { this.props.status === 'order_received' &&
+                    <div>
+                        <Modal.Header closeButton>
+                        <Modal.Title><strong>{strings.progressUpdate2Title}</strong></Modal.Title>
+                        </Modal.Header>
+                        <Modal.Body>
+                            <h4>{strings.progressUpdate2Text1}</h4>
+                            <p>{strings.progressUpdate2Text2}</p>
+                            <p>{strings.progressUpdate2Text3}</p>
+                        </Modal.Body>
+                    </div>
+                    }
+
+                    <Modal.Footer>
+                    <Button bsStyle="" className="button button-back" onClick={this.close}>{strings.cancelButton}</Button>
+                    
+                    { this.props.status === 'order_submitted' &&
+                    <Button bsStyle="" className="button" onClick={this.orderReceivedUpdate}>Order Received</Button>
+                    }
+
+                    { this.props.status === 'order_received' &&
+                    <Button bsStyle="" className="button" onClick={this.orderFulfilledUpdate}>Order Fulfilled</Button>
+                    }
+                    
+                    </Modal.Footer>
+                </Modal>
+            </div>
+        )
+    }
+}
+
 class OrderDetails extends React.Component {
 
     constructor() {
         super();
         this.handleBack = this.handleBack.bind(this);
-        this.handleSubmitReview = this.handleSubmitReview.bind(this);
+        this.handleOrderReceivedUpdate = this.handleOrderReceivedUpdate.bind(this);
+        this.handleOrderFulfilledUpdate = this.handleOrderFulfilledUpdate.bind(this);
         this.state = {
         loading: true,
         orderDetails: {}
@@ -72,11 +178,10 @@ class OrderDetails extends React.Component {
 
     componentWillMount () {
         this.fireBaseListenerForSubDetails = firebaseAuth().onAuthStateChanged((user) => {
-            base.fetch(`users/${user.uid}/transactions/${this.props.selectedOrder}`, {
+            base.fetch(`allTransactions/${this.props.designerCode}/${this.props.selectedOrder}`, {
                 context: this,
                 then(data) {
-                    console.log('data is :', data);
-                    this.setState({orderDetails: data, loading: false, cardMessage: data.cardMessage, recipientNum: data.recipientNum, uid: user.uid, reviewed: data.reviewed});
+                    this.setState({orderDetails: data, loading: false, uid: user.uid});
                 }
             });
         });
@@ -87,32 +192,48 @@ class OrderDetails extends React.Component {
         //this.fireBaseListenerForSubDetails && this.fireBaseListenerForSubDetails();
     }
 
-    handleSubmitReview (uid, referenceCode, florist, floristName, rating, reviewMessage, reviewDate) {
-        base.post(`florists/${florist}/reviews/${referenceCode}`, {
+    handleOrderReceivedUpdate (selectedOrder, designerCode, senderID) {
+        base.update(`allTransactions/${designerCode}/${selectedOrder}`, {
             data: {
-                uid: uid,
-                referenceCode: referenceCode,
-                floristName : floristName,
-                florist: florist,
-                rating: rating,
-                reviewMessage: reviewMessage,
-                reviewDate: reviewDate,
-                sender: this.state.orderDetails.senderName
-
+                status: 'order_received'
             }
         });
-        base.update(`users/${uid}/transactions/${referenceCode}`, {
+        base.update(`users/${senderID}/transactions/${selectedOrder}`, {
             data: {
-                reviewed: true
-            }
-        })
-        base.update(`allTransactions/${florist}/${referenceCode}`, {
-            data: {
-                reviewed: true
+                status: 'order_received'
             }
         }).then(() => 
-            this.setState({ InfoMessage: strings.reviewSubmitted, reviewed: true}, () => this.props.onHandleBack()
-        ));
+            this.setState({ InfoMessage: strings.orderUpdate}, () => {
+                base.fetch(`allTransactions/${designerCode}/${selectedOrder}`, {
+                    context: this,
+                    then(data) {
+                        this.setState({orderDetails: data});
+                    }
+                });
+            })
+        );
+    }
+
+    handleOrderFulfilledUpdate (selectedOrder, designerCode, senderID) {
+        base.update(`allTransactions/${designerCode}/${selectedOrder}`, {
+            data: {
+                status: 'order_fulfilled'
+            }
+        });
+        base.update(`users/${senderID}/transactions/${selectedOrder}`, {
+            data: {
+                status: 'order_fulfilled'
+            }
+        }).then(() => 
+            this.setState({ InfoMessage: strings.orderUpdate}, () => {
+                base.fetch(`allTransactions/${designerCode}/${selectedOrder}`, {
+                    context: this,
+                    then(data) {
+                        this.setState({orderDetails: data});
+                    }
+                });
+            })
+        );
     }
 
     handleBack = () => {
@@ -126,7 +247,6 @@ class OrderDetails extends React.Component {
     }
 
   render() {
-    var stripeTxnID = this.props.stripeTxnID;
     var orderDetails = this.state.orderDetails;
     var loadingState = this.state.loading;
     var cardMessage = this.state.cardMessage;
@@ -154,6 +274,14 @@ class OrderDetails extends React.Component {
                         <div>{orderDetails.status}</div>
                     </Col>
                     <Col sm={3}>
+                        {(orderDetails.status ==='order_received' || orderDetails.status ==='order_submitted') && <UpdateProgress
+                            selectedOrder={this.props.selectedOrder}
+                            designerCode={this.props.designerCode}
+                            senderID={orderDetails.uid}
+                            status={orderDetails.status}
+                            onOrderReceivedUpdate={this.handleOrderReceivedUpdate}
+                            onOrderFulfilledUpdate={this.handleOrderFulfilledUpdate}
+                        />}
                     </Col>
                     </FormGroup>
                 </Row>
@@ -167,17 +295,6 @@ class OrderDetails extends React.Component {
                     <div>{orderDetails.referenceCode}</div>
                   </Col>
                   <Col sm={3}>
-                  </Col>
-                </FormGroup>
-              </Row>
-              <Row className="show-grid">
-                <FormGroup>
-                  <Col sm={1}></Col>
-                  <Col sm={3}>
-                      <div><strong>{strings.subID}</strong></div>
-                  </Col>
-                  <Col sm={8}>
-                    <div>{stripeTxnID}</div>
                   </Col>
                 </FormGroup>
               </Row>
@@ -199,7 +316,7 @@ class OrderDetails extends React.Component {
                       <div><strong>Arrangement:</strong></div>
                   </Col>
                   <Col sm={8}>
-                    <div>{orderDetails.arrangementName}</div>
+                  <div className="order-history-arrangement-name"><Link to={`/florist/${orderDetails.florist}/${orderDetails.arrangementCode}`}>{orderDetails.arrangementName}</Link></div>
                   </Col>
                 </FormGroup>
               </Row>
@@ -207,14 +324,14 @@ class OrderDetails extends React.Component {
                 <FormGroup>
                   <Col sm={1}></Col>
                   <Col sm={3}>
-                      <div><strong>Florist:</strong></div>
+                      <div><strong>Delivery Type:</strong></div>
                   </Col>
                   <Col sm={8}>
-                    <div className="order-history-florist-name"><Link to={`/florist/${orderDetails.florist}`}>{orderDetails.floristName}</Link></div>
+                    <div>{orderDetails.selectDeliveryType}</div>
                   </Col>
                 </FormGroup>
               </Row>
-              <Row className="show-grid">
+              { orderDetails.selectDeliveryType === 'delivery_gift' && <Row className="show-grid">
                 <FormGroup>
                   <Col sm={1}></Col>
                   <Col sm={3}>
@@ -222,6 +339,28 @@ class OrderDetails extends React.Component {
                   </Col>
                   <Col sm={8}>
                     <div>{orderDetails.recipient}</div>
+                  </Col>
+                </FormGroup>
+              </Row> }
+              { orderDetails.selectDeliveryType === 'delivery_gift' && <Row className="show-grid">
+                <FormGroup>
+                  <Col sm={1}></Col>
+                  <Col sm={3}>
+                      <div><strong>{strings.recipientNum}</strong></div>
+                  </Col>
+                  <Col sm={8}>
+                    <div>{orderDetails.recipientNum}</div>
+                  </Col>
+                </FormGroup>
+              </Row> }
+              <Row className="show-grid">
+                <FormGroup>
+                  <Col sm={1}></Col>
+                  <Col sm={3}>
+                      <div><strong>Location Type:</strong></div>
+                  </Col>
+                  <Col sm={8}>
+                    <div>{orderDetails.selectLocationType}</div>
                   </Col>
                 </FormGroup>
               </Row>
@@ -243,7 +382,56 @@ class OrderDetails extends React.Component {
                       <div><strong>{strings.card}</strong></div>
                   </Col>
                   <Col sm={7}>
-                    <div className="history-text-area data-field-update">{cardMessage}</div>
+                    { orderDetails.selectDeliveryType === 'delivery_gift'&& 
+                        <div className="history-text-area data-field-update">{orderDetails.cardMessage}</div>
+                    }
+                    { orderDetails.selectDeliveryType === 'delivery_self'&& 
+                        <div className="history-text-area data-field-update">This is a delivery for the customer him(her)self, feel free to write a message yourself!</div>
+                    }
+                  </Col>
+                </FormGroup>
+              </Row>
+              <Row className="show-grid">
+                <FormGroup>
+                  <Col sm={1}></Col>
+                  <Col sm={3}>
+                      <div><strong>Instruction:</strong></div>
+                  </Col>
+                  <Col sm={7}>
+                    <div className="history-text-area data-field-update">{orderDetails.deliveryInstruction}</div>
+                  </Col>
+                </FormGroup>
+              </Row>
+              <Row className="show-grid">
+                <FormGroup>
+                  <Col sm={1}></Col>
+                  <Col sm={3}>
+                      <div><strong>Sender:</strong></div>
+                  </Col>
+                  <Col sm={7}>
+                    <div>{orderDetails.senderName}</div>
+                  </Col>
+                </FormGroup>
+              </Row>
+              <Row className="show-grid">
+                <FormGroup>
+                  <Col sm={1}></Col>
+                  <Col sm={3}>
+                      <div><strong>Sender's #:</strong></div>
+                  </Col>
+                  <Col sm={7}>
+                    <div>{orderDetails.senderNum}</div>
+                  </Col>
+                </FormGroup>
+              </Row>
+              <Row className="show-grid">
+                <FormGroup>
+                  <Col sm={1}></Col>
+                  <Col sm={3}>
+                      <div><strong>Sender's email:</strong></div>
+                  </Col>
+                  <Col sm={7}>
+                    <div>{orderDetails.senderEmail}</div>
                   </Col>
                 </FormGroup>
               </Row>
@@ -268,7 +456,6 @@ class OrderDetails extends React.Component {
 }
 
 export default class OrdersDashboard extends Component {
-
   constructor() {
     super();
     this.handleChooseOrder = this.handleChooseOrder.bind(this);
@@ -276,14 +463,11 @@ export default class OrdersDashboard extends Component {
     this.state = {
       orderData: {},
       loading: true,
-      newCardMessage: '',
       orderDetailsStatus: 0,
       selectedOrder: '',
-      userID: '',
       orderInfoMessage: null
     }
   }
-
   componentWillReceiveProps (nextProps) {
     if (nextProps.languageChanged==='ch') {
       strings.setLanguage('ch');
@@ -293,30 +477,33 @@ export default class OrdersDashboard extends Component {
   }
   componentWillMount() {
     strings.setLanguage(this.props.languageChanged);
+    this.fireBaseListenerForOrder = firebaseAuth().onAuthStateChanged((user) => {
+        base.fetch(`allTransactions/${this.props.designerCode}`, {
+            context: this,
+            queries: {
+                orderByChild: 'referenceCode'
+            },
+            then(data) {
+                this.setState({orderData: data, loading: false, userID: user.uid});
+            }
+        });
+      });
   }
   componentDidMount () {
     window.scrollTo(0, 0);
-    this.fireBaseListenerForSub = firebaseAuth().onAuthStateChanged((user) => {
-      base.fetch(`users/${user.uid}/info/shop`, {
-        context: this,
-        then(data) {
-          console.log('data is ', data);
-        }
-      });
-    });
   }
   componentWillUnmount () {
     //returns the unsubscribe function
-    this.fireBaseListenerForSub && this.fireBaseListenerForSub();
+    this.fireBaseListenerForOrder && this.fireBaseListenerForOrder();
   }
-  handleChooseOrder(chosenKey, stripeTxnID) {
-    this.setState({orderDetailsStatus: 1, selectedOrder: chosenKey, stripeTxnID: stripeTxnID});
+  handleChooseOrder(chosenKey) {
+    this.setState({orderDetailsStatus: 1, selectedOrder: chosenKey});
   }
   handleBack() {
     this.setState({orderDetailsStatus: 0});
 
     // reloading data since a review might have been posted
-    base.fetch(`users/${this.state.userID}/transactions/`, {
+    base.fetch(`allTransactions/${this.props.designerCode}`, {
         context: this,
         then(data) {
             this.setState({orderData: data});
@@ -336,13 +523,11 @@ export default class OrdersDashboard extends Component {
       orders = (
         <div className="no-sub-section">            
           <div className="center-text">{strings.noOrder}</div>
-          <Route path="/" render={(props) => <ButtonToMarket {...props}/>} />
         </div>
       )
     } else {
       orders = Object.keys(data).map(function(key) {
         var chosenKey = data[key].referenceCode;
-        var stripeTxnID = data[key].stripeTxnID;
         return (
           <div key={key}>
             <Grid>
@@ -351,10 +536,10 @@ export default class OrdersDashboard extends Component {
                   <FormGroup>
                     <Col sm={1}></Col>
                     <Col sm={3}>
-                        <div><strong>{strings.to}</strong></div>
+                        <div><strong>Reference Code:</strong></div>
                     </Col>
                     <Col sm={3}>
-                      <div>{data[key].recipient}</div>
+                      <div>{data[key].referenceCode}</div>
                     </Col>
                   </FormGroup>
                 </Row>
@@ -382,21 +567,9 @@ export default class OrdersDashboard extends Component {
                 </Row>
                 <Row className="show-grid">
                   <FormGroup>
-                    <Col sm={1}></Col>
-                    <Col sm={3}>
-                        <div><strong>Review Submitted: </strong></div>
-                    </Col>
-                    <Col sm={3}>
-                      <div>{data[key].reviewed && 'Yes'}</div>
-                      <div>{!data[key].reviewed && 'No'}</div>
-                    </Col>
-                  </FormGroup>
-                </Row>
-                <Row className="show-grid">
-                  <FormGroup>
                     {/* <Col xs={} sm={5}></Col> */}
                     <Col xs={1} xsOffset={6} smOffset={9} mdOffset={10}>
-                      <Button bsStyle="" className="button sub-details-button" onClick={() => this.handleChooseOrder(chosenKey, stripeTxnID)}>{strings.detailsButton}</Button>
+                      <Button bsStyle="" className="button sub-details-button" onClick={() => this.handleChooseOrder(chosenKey)}>{strings.detailsButton}</Button>
                     </Col>
                   </FormGroup>
                 </Row>
@@ -448,9 +621,9 @@ export default class OrdersDashboard extends Component {
           </Grid>
           <OrderDetails
             selectedOrder={this.state.selectedOrder} 
-            stripeTxnID = {this.state.stripeTxnID}
             orderInfoMessage={this.state.orderInfoMessage} 
             onHandleBack={this.handleBack}
+            designerCode={this.props.designerCode}
           />
         </div>
       )
@@ -462,20 +635,20 @@ export default class OrdersDashboard extends Component {
           <Row className="show-grid loggedin-nav">
             <Col xs={4} className="loggedin-nav-button">
               <Link to="/orderhistory" className="nav-selected">
-                <i className="fa fa-tags fa-lg nav-icon"></i>
-                <div className="nav-icon-title">{strings.orderHistory1}<br/>{strings.orderHistory2}</div>
+                <i className="fa fa-book fa-lg nav-icon"></i>
+                <div className="nav-icon-title">{strings.ordersDashboard1}<br/>{strings.ordersDashboard2}</div>
               </Link>
             </Col>
             <Col xs={4} className="loggedin-nav-button">
               <Link to="/addressbook">
-                <i className="fa fa-plus fa-lg nav-icon"></i>
-                <div className="nav-icon-title">{strings.addressBook1}<br/>{strings.addressBook2}</div>
+                <i className="fa fa-star fa-lg nav-icon"></i>
+                <div className="nav-icon-title">{strings.designs1}<br/>{strings.designs2}</div>
               </Link>
             </Col>
             <Col xs={4} className="loggedin-nav-button">
               <Link to="/userinfo">
-                <i className="fa fa-user-circle fa-lg nav-icon"></i>
-                <div className="nav-icon-title">{strings.accountInformation1}<br/>{strings.accountInformation2}</div>
+                <i className="fa fa-home fa-lg nav-icon"></i>
+                <div className="nav-icon-title">{strings.shopInformation1}<br/>{strings.shopInformation2}</div>
               </Link>
             </Col>
           </Row>

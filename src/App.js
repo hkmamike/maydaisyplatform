@@ -48,16 +48,15 @@ import 'react-dates/initialize';
 //firebase
 import * as firebase from 'firebase';
 
-function PrivateRoute ({component: Component, authed, selectRegion, onRegionSelection, languageChanged, ...rest}) {
+function PrivateRoute ({component: Component, authed, selectRegion, onRegionSelection, languageChanged, designerCode, ...rest}) {
   return (
     <Route {...rest} render={(props) => authed === true? 
-        <Component {...props} selectRegion={selectRegion} onRegionSelection={onRegionSelection} languageChanged={languageChanged}/>
+        <Component {...props} selectRegion={selectRegion} onRegionSelection={onRegionSelection} designerCode={designerCode} languageChanged={languageChanged}/>
         : <Redirect to={{pathname: '/login', state: {from: props.location}}} />}
     />
   )
 }
 function PublicRoute ({component: Component, isDesigner, authed, selectRegion, onRegionSelection, languageChanged, ...rest}) {
-  console.log('is designer: ', isDesigner);
   return (
     <Route {...rest} render={(props) => authed === false?
         <Component {...props} selectRegion={selectRegion} onRegionSelection={onRegionSelection} languageChanged={languageChanged}/>
@@ -116,8 +115,16 @@ export default class App extends Component {
                 authed: true, 
                 loading: false, 
                 UserID: firebase.auth().currentUser, 
+                //login redirects to dashboard if user has a shop
                 isDesigner: true, 
                 designerCode: data.shop
+              });
+            } else {
+              this.setState({
+                authed: true, 
+                loading: false, 
+                UserID: firebase.auth().currentUser,
+                isDesigner: false, 
               });
             }
           }
@@ -190,7 +197,7 @@ export default class App extends Component {
             <PrivateRoute authed={this.state.authed} path='/accountinfo' component={AccountInfo} languageChanged={this.state.languageChanged}/>
  
  
-            <PrivateRoute authed={this.state.authed} path='/ordersdashboard' component={OrdersDashboard} languageChanged={this.state.languageChanged}/>
+            <PrivateRoute authed={this.state.authed} path='/ordersdashboard' component={OrdersDashboard} designerCode={this.state.designerCode} languageChanged={this.state.languageChanged}/>
 
 
             <Route render={() => <h3>Uhoh...we couldn't find your page</h3>} />

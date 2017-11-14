@@ -278,7 +278,7 @@ class OrderDetails extends React.Component {
                       <div><strong>Arrangement:</strong></div>
                   </Col>
                   <Col sm={8}>
-                    <div>{orderDetails.arrangementName}</div>
+                    <div className="order-history-arrangement-name"><Link to={`/florist/${orderDetails.florist}/${orderDetails.arrangementCode}`}>{orderDetails.arrangementName}</Link></div>
                   </Col>
                 </FormGroup>
               </Row>
@@ -375,7 +375,7 @@ export default class OrderHistory extends Component {
   }
   componentDidMount () {
     window.scrollTo(0, 0);
-    this.fireBaseListenerForSub = firebaseAuth().onAuthStateChanged((user) => {
+    this.fireBaseListenerForOrder = firebaseAuth().onAuthStateChanged((user) => {
       base.fetch(`users/${user.uid}/transactions/`, {
         context: this,
         then(data) {
@@ -386,7 +386,7 @@ export default class OrderHistory extends Component {
   }
   componentWillUnmount () {
     //returns the unsubscribe function
-    this.fireBaseListenerForSub && this.fireBaseListenerForSub();
+    this.fireBaseListenerForOrder && this.fireBaseListenerForOrder();
   }
   handleChooseOrder(chosenKey, stripeTxnID) {
     this.setState({orderDetailsStatus: 1, selectedOrder: chosenKey, stripeTxnID: stripeTxnID});

@@ -8,6 +8,16 @@
     }
 }
 
+.order-history-arrangement-name {
+    margin: 0 0 0;
+    a {
+        color: $pink !important;
+        &:hover {
+            color: $darkpink;
+        }
+    }
+}
+
 .history-text-area {
-    min-height: 100px;
+    min-height: 50px;
 }

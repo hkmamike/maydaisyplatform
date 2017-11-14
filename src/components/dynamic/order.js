@@ -867,6 +867,7 @@ export default class Order extends Component {
                             <Col sm={4}>
                                 <PlaceOrder
                                     price={(this.state.arrangementPrice + this.state.arrangementDeliveryFee)*100}
+                                    arrangement={this.state.arrangement}
                                     currency={this.state.arrangementCurrency}
                                     marketRegion={marketRegion}
                                     selectLocationType={this.state.selectLocationType}

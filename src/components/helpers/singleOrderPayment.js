@@ -58,6 +58,7 @@ export default class PlaceOrder extends React.Component {
         var addressBookChecked = this.props.addressBookChecked;
         var floristID = this.props.floristID;
         var floristName = this.props.floristName;
+        var arrangementCode = this.props.arrangement;
         var arrangementName = this.props.arrangementName;
         var arrangementImage = this.props.arrangementImage;
         var currency = this.props.currency;
@@ -125,7 +126,7 @@ export default class PlaceOrder extends React.Component {
                             data: {
                                 city: 'HK',
                                 reviewed: false,
-                                status: 'Order Submitted',
+                                status: 'order_submitted',
                                 florist: floristID,
                                 floristName: floristName,
                                 uid: uid,
@@ -133,6 +134,7 @@ export default class PlaceOrder extends React.Component {
                                 currency: currency,
                                 arrangementName: arrangementName,
                                 arrangementImage: arrangementImage,
+                                arrangementCode: arrangementCode,
                                 deliveryDate: deliveryDate,
                                 selectLocationType: selectLocationType,
                                 senderName: senderName,
@@ -146,7 +148,7 @@ export default class PlaceOrder extends React.Component {
                                 stripeTokID: stripeTokID,
                                 stripeCusID: stripeCusID,
                                 stripeTxnID: stripeTxnID,
-                                subscriptionAt: dateNow,
+                                orderReceivedAt: dateNow,
                                 last4: last4,
                                 cardType: cardType,
                                 cardExpYear: cardExpYear,
@@ -161,7 +163,7 @@ export default class PlaceOrder extends React.Component {
                             data: {
                                 city: 'HK',
                                 reviewed: false,
-                                status: 'Order Submitted',
+                                status: 'order_submitted',
                                 florist: floristID,
                                 floristName: floristName,
                                 uid: uid,
@@ -169,6 +171,7 @@ export default class PlaceOrder extends React.Component {
                                 currency: currency,
                                 arrangementName: arrangementName,
                                 arrangementImage: arrangementImage,
+                                arrangementCode: arrangementCode,
                                 deliveryDate: deliveryDate,
                                 selectLocationType: selectLocationType,
                                 senderName: senderName,
@@ -182,7 +185,7 @@ export default class PlaceOrder extends React.Component {
                                 stripeTokID: stripeTokID,
                                 stripeCusID: stripeCusID,
                                 stripeTxnID: stripeTxnID,
-                                subscriptionAt: dateNow,
+                                orderReceivedAt: dateNow,
                                 last4: last4,
                                 cardType: cardType,
                                 cardExpYear: cardExpYear,
