@@ -39,12 +39,15 @@ import MarketAccountInfo from './components/protected/marketAccountInfo';
 //marketplace - florist account
 import OrdersDashboard from './components/designerPages/ordersDashboard';
 import DesignerLogin from './components/pages/designerLogin';
+import Designs from './components/designerPages/designs';
+import ShopInfo from './components/designerPages/shopInfo';
 
 //compressed css
 import './assets/css/default.min.css';
 //airbnb date picker
 import 'react-dates/lib/css/_datepicker.css';
 import 'react-dates/initialize';
+
 //firebase
 import * as firebase from 'firebase';
 
@@ -198,7 +201,8 @@ export default class App extends Component {
  
  
             <PrivateRoute authed={this.state.authed} path='/ordersdashboard' component={OrdersDashboard} designerCode={this.state.designerCode} languageChanged={this.state.languageChanged}/>
-
+            <PrivateRoute authed={this.state.authed} path='/designs' component={Designs} designerCode={this.state.designerCode} languageChanged={this.state.languageChanged}/>
+            <PrivateRoute authed={this.state.authed} path='/shopinfo' component={ShopInfo} designerCode={this.state.designerCode} languageChanged={this.state.languageChanged}/>
 
             <Route render={() => <h3>Uhoh...we couldn't find your page</h3>} />
 

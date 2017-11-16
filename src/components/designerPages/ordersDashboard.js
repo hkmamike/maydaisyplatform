@@ -53,13 +53,9 @@ let strings = new LocalizedStrings({
 
 
     cancelButton: 'Close',
-    everyMonday: 'Every Monday',
-    everyTuesday: 'Every Tuesday',
-    everyWednesday: 'Every Wednesday',
-    flower_all: 'Seasonal Flower (all)',
-    flower_rose: 'Seasonal Flower (rose only)',
-    plan_classic: 'Classic (1-2 blooms, HKD53/week)',
-    plan_elegant: 'Elegant (2-4 blooms, HKD93/week)',
+
+
+
     noOrder: 'You do not have any order history.',
     errorOccured: 'An error occured, please try again later.',
     reviewSubmitted: 'Your review has been submited.',
@@ -634,19 +630,19 @@ export default class OrdersDashboard extends Component {
         <Grid>
           <Row className="show-grid loggedin-nav">
             <Col xs={4} className="loggedin-nav-button">
-              <Link to="/orderhistory" className="nav-selected">
+              <Link to="/ordersdashboard" className="nav-selected">
                 <i className="fa fa-book fa-lg nav-icon"></i>
                 <div className="nav-icon-title">{strings.ordersDashboard1}<br/>{strings.ordersDashboard2}</div>
               </Link>
             </Col>
             <Col xs={4} className="loggedin-nav-button">
-              <Link to="/addressbook">
+              <Link to="/designs">
                 <i className="fa fa-star fa-lg nav-icon"></i>
                 <div className="nav-icon-title">{strings.designs1}<br/>{strings.designs2}</div>
               </Link>
             </Col>
             <Col xs={4} className="loggedin-nav-button">
-              <Link to="/userinfo">
+              <Link to="/shopinfo">
                 <i className="fa fa-home fa-lg nav-icon"></i>
                 <div className="nav-icon-title">{strings.shopInformation1}<br/>{strings.shopInformation2}</div>
               </Link>
