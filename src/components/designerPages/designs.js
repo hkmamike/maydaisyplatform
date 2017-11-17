@@ -27,28 +27,17 @@ let strings = new LocalizedStrings({
     deliveryDay: 'Delivery Day:',
     detailsButton: 'Details',
 
-
-
     backButton: 'Back',
     updateButton: 'Update',
-     
-    
-    progressUpdateTitle: 'Progress Update - Order Received',
-    progressUpdateText1: 'Update customers on delivery progress keeps them happy.',
-    progressUpdateText2: 'Florist who give timely update receive 50% more 5 stars reviews and are twice as likely to get customer referrals.',
-    progressUpdateText3: 'When you click the red button below, we will send an email to the customer on your behalf to acknowledge that you have received this order.',
+         
+    colorSettingsTitle: 'Color Type',
+    colorSettingsText1: 'This helps customers search for designs.',
+    colorSettingsText2: 'Which of these frequently searched for colors does your design contain?',
+
 
     orderUpdate: 'Your update has been sent.',
 
-
-    progressUpdate2Title: 'Progress Update - Order Fulfilled',
-    progressUpdate2Text1: 'Timely update keeps customers happy.',
-    progressUpdate2Text2: 'According to our study, florists who give timely update receive 50% more 5 stars reviews and are twice as likely to get customer referrals.',
-    progressUpdate2Text3: 'When you click the red button below, we will send an email to the customer on your behalf to let him/her know that this order has been fulfilled.',
-
-
     cancelButton: 'Close',
-
 
     noOrder: 'You do not have any design listed.',
 
@@ -59,16 +48,332 @@ let strings = new LocalizedStrings({
 
     order_submitted: 'Order Submitted',
     order_delivered: 'Order Delivered',
-    order_received: 'Order Received'
+    order_received: 'Order Received',
 
+    n: 'no',
+    y: 'yes'
 
   },
   ch: {}
 });
 
-const ButtonToMarket = ({ title, history }) => (
-  <Button bsStyle="" className="no-sub-button" onClick={() => history.push('/arrangements')}>{strings.browseMarket}</Button>
-);
+class ColorType extends React.Component {
+    constructor() {
+      super();
+      this.open = this.open.bind(this);
+      this.close = this.close.bind(this);
+      this.state = {
+        showModal: false,
+        blue: 'n',
+        green: 'n',
+        lavender: 'n',
+        orange: 'n',
+        pink: 'n',
+        purple: 'n',
+        red: 'n',
+        white: 'n',
+        yellow: 'n'
+      }
+    }
+  
+    fetchData = () => {
+      base.fetch(`arrangementsList/${this.props.selectedDesign}/color`, {
+        context: this,
+        then(data) {
+            var blue = 'n';
+            var green = 'n';
+            var lavender = 'n';
+            var orange = 'n';
+            var pink = 'n';
+            var purple= 'n';
+            var red = 'n';
+            var white = 'n';
+            var yellow = 'n';
+  
+            if (data.length > 0) {
+              if (data.indexOf('blue')> -1) {
+                blue='y'
+              }
+              if (data.indexOf('green')> -1) {
+                green='y'
+              }
+              if (data.indexOf('lavender')> -1) {
+                lavender='y'
+              }
+              if (data.indexOf('orange')> -1) {
+                orange='y'
+              }
+              if (data.indexOf('pink')> -1) {
+                pink='y'
+              }
+              if (data.indexOf('purple')> -1) {
+                purple='y'
+              }
+              if (data.indexOf('red')> -1) {
+                red='y'
+              }
+              if (data.indexOf('white')> -1) {
+                white='y'
+              }
+              if (data.indexOf('yellow')> -1) {
+                yellow='y'
+              }
+            }
+  
+            this.setState({
+                blue: blue,
+                green: green,
+                lavender: lavender,
+                orange: orange,
+                pink: pink,
+                purple: purple,
+                red: red,
+                white: white,
+                yellow: yellow
+            });
+        }
+      });
+    }
+    
+    close() {
+      this.setState({showModal: false});
+      //force states to update since it does not dismount on close. It cases content to flash if placed on open()
+      this.fetchData();
+    }
+    open() {
+      this.setState({showModal: true});
+    }
+    handleSettingChange = (color, eventKey) => {
+        console.log ('color is', color);
+        console.log ('logic check', color==='blue');
+        console.log('event key: ', eventKey);
+      switch (color) {
+        case 'blue': 
+          this.setState({blue: eventKey});
+          break
+        case 'green': 
+          this.setState({green: eventKey});
+          break
+        case 'lavender': 
+          this.setState({lavender: eventKey});
+          break
+        case 'orange': 
+          this.setState({orange: eventKey});
+          break
+        case 'pink': 
+          this.setState({pink: eventKey});
+          break
+        case 'purple': 
+          this.setState({purple: eventKey});
+          break
+        case 'red': 
+          this.setState({red: eventKey});
+          break
+        case 'white': 
+          this.setState({white: eventKey});
+          break
+        case 'yellow': 
+          this.setState({yellow: eventKey});
+          break
+      }
+    }
+    componentWillMount () {
+      this.fetchData();
+    }
+  
+    handleColorUpdate = () => {
+      var colorsArray = [];
+      if (this.state.blue === 'y') {
+        colorsArray.push('blue');
+      }
+      if (this.state.green === 'y') {
+        colorsArray.push('green');
+      }
+      if (this.state.lavender === 'y') {
+        colorsArray.push('lavender');
+      }
+      if (this.state.orange === 'y') {
+        colorsArray.push('orange');
+      }
+      if (this.state.pink === 'y') {
+        colorsArray.push('pink');
+      }
+      if (this.state.purple === 'y') {
+        colorsArray.push('purple');
+      }
+      if (this.state.red === 'y') {
+        colorsArray.push('red');
+      }
+      if (this.state.white === 'y') {
+        colorsArray.push('white');
+      }
+      if (this.state.yellow === 'y') {
+        colorsArray.push('yellow');
+      }
+
+      base.post(`arrangementsList/${this.props.selectedDesign}/color`, {
+        data: colorsArray
+      }).then(() => 
+        this.close()
+      ).catch(err => {
+        console.log("An error occured when updating design's color.");
+      });
+    }
+  
+    render() {
+        return (
+            <div>
+                <Button bsStyle="" className="sub-details-unsub"onClick={this.open}>Settings</Button>
+                <Modal show={this.state.showModal} onHide={this.close}>
+  
+                    <div>
+                        <Modal.Header closeButton>
+                        <Modal.Title><strong>{strings.colorSettingsTitle}</strong></Modal.Title>
+                        </Modal.Header>
+                        <Modal.Body>
+                            <h4>{strings.colorSettingsText1}</h4>
+                            <p>{strings.colorSettingsText2}</p>
+                            <Grid>
+                              <div className="sub-list-item">
+                                <Row className="show-grid">
+                                  <FormGroup>
+                                    <Col sm={1}></Col>
+                                    <Col sm={3}>
+                                      Blue:
+                                    </Col>
+                                    <Col sm={3}>
+                                      <DropdownButton title={strings[this.state.blue]} className="subscription-select" id="subscriptioin-planTypeSelect-dropdown" onSelect={(eventKey)=>this.handleSettingChange('blue',eventKey)}>
+                                        <MenuItem eventKey="y">{strings.y}</MenuItem>
+                                        <MenuItem eventKey="n">{strings.n}</MenuItem>
+                                      </DropdownButton>
+                                    </Col>
+                                  </FormGroup>
+                                </Row>
+                                <Row className="show-grid">
+                                  <FormGroup>
+                                    <Col sm={1}></Col>
+                                    <Col sm={3}>
+                                      Green:
+                                    </Col>
+                                    <Col sm={3}>
+                                      <DropdownButton title={strings[this.state.green]} className="subscription-select" id="subscriptioin-planTypeSelect-dropdown" onSelect={(eventKey)=>this.handleSettingChange('green',eventKey)}>
+                                        <MenuItem eventKey="y">{strings.y}</MenuItem>
+                                        <MenuItem eventKey="n">{strings.n}</MenuItem>
+                                      </DropdownButton>
+                                    </Col>
+                                  </FormGroup>
+                                </Row>
+                                <Row className="show-grid">
+                                  <FormGroup>
+                                    <Col sm={1}></Col>
+                                    <Col sm={3}>
+                                      Lavender:
+                                    </Col>
+                                    <Col sm={3}>
+                                      <DropdownButton title={strings[this.state.lavender]} className="subscription-select" id="subscriptioin-planTypeSelect-dropdown" onSelect={(eventKey)=>this.handleSettingChange('lavender',eventKey)}>
+                                        <MenuItem eventKey="y">{strings.y}</MenuItem>
+                                        <MenuItem eventKey="n">{strings.n}</MenuItem>
+                                      </DropdownButton>
+                                    </Col>
+                                  </FormGroup>
+                                </Row>
+                                <Row className="show-grid">
+                                  <FormGroup>
+                                    <Col sm={1}></Col>
+                                    <Col sm={3}>
+                                      Orange:
+                                    </Col>
+                                    <Col sm={3}>
+                                      <DropdownButton title={strings[this.state.orange]} className="subscription-select" id="subscriptioin-planTypeSelect-dropdown" onSelect={(eventKey)=>this.handleSettingChange('orange',eventKey)}>
+                                        <MenuItem eventKey="y">{strings.y}</MenuItem>
+                                        <MenuItem eventKey="n">{strings.n}</MenuItem>
+                                      </DropdownButton>
+                                    </Col>
+                                  </FormGroup>
+                                </Row>
+                                <Row className="show-grid">
+                                  <FormGroup>
+                                    <Col sm={1}></Col>
+                                    <Col sm={3}>
+                                      Pink:
+                                    </Col>
+                                    <Col sm={3}>
+                                      <DropdownButton title={strings[this.state.pink]} className="subscription-select" id="subscriptioin-planTypeSelect-dropdown" onSelect={(eventKey)=>this.handleSettingChange('pink',eventKey)}>
+                                        <MenuItem eventKey="y">{strings.y}</MenuItem>
+                                        <MenuItem eventKey="n">{strings.n}</MenuItem>
+                                      </DropdownButton>
+                                    </Col>
+                                  </FormGroup>
+                                </Row>
+                                <Row className="show-grid">
+                                  <FormGroup>
+                                    <Col sm={1}></Col>
+                                    <Col sm={3}>
+                                      Purple:
+                                    </Col>
+                                    <Col sm={3}>
+                                      <DropdownButton title={strings[this.state.green]} className="subscription-select" id="subscriptioin-planTypeSelect-dropdown" onSelect={(eventKey)=>this.handleSettingChange('purple',eventKey)}>
+                                        <MenuItem eventKey="y">{strings.y}</MenuItem>
+                                        <MenuItem eventKey="n">{strings.n}</MenuItem>
+                                      </DropdownButton>
+                                    </Col>
+                                  </FormGroup>
+                                </Row>
+                                <Row className="show-grid">
+                                  <FormGroup>
+                                    <Col sm={1}></Col>
+                                    <Col sm={3}>
+                                      Red:
+                                    </Col>
+                                    <Col sm={3}>
+                                      <DropdownButton title={strings[this.state.red]} className="subscription-select" id="subscriptioin-planTypeSelect-dropdown" onSelect={(eventKey)=>this.handleSettingChange('red',eventKey)}>
+                                        <MenuItem eventKey="y">{strings.y}</MenuItem>
+                                        <MenuItem eventKey="n">{strings.n}</MenuItem>
+                                      </DropdownButton>
+                                    </Col>
+                                  </FormGroup>
+                                </Row>
+                                <Row className="show-grid">
+                                  <FormGroup>
+                                    <Col sm={1}></Col>
+                                    <Col sm={3}>
+                                      White:
+                                    </Col>
+                                    <Col sm={3}>
+                                      <DropdownButton title={strings[this.state.white]} className="subscription-select" id="subscriptioin-planTypeSelect-dropdown" onSelect={(eventKey)=>this.handleSettingChange('white',eventKey)}>
+                                        <MenuItem eventKey="y">{strings.y}</MenuItem>
+                                        <MenuItem eventKey="n">{strings.n}</MenuItem>
+                                      </DropdownButton>
+                                    </Col>
+                                  </FormGroup>
+                                </Row>
+                                <Row className="show-grid">
+                                  <FormGroup>
+                                    <Col sm={1}></Col>
+                                    <Col sm={3}>
+                                      Yellow:
+                                    </Col>
+                                    <Col sm={3}>
+                                      <DropdownButton title={strings[this.state.green]} className="subscription-select" id="subscriptioin-planTypeSelect-dropdown" onSelect={(eventKey)=>this.handleSettingChange('yellow',eventKey)}>
+                                        <MenuItem eventKey="y">{strings.y}</MenuItem>
+                                        <MenuItem eventKey="n">{strings.n}</MenuItem>
+                                      </DropdownButton>
+                                    </Col>
+                                  </FormGroup>
+                                </Row>
+                              </div>
+                            </Grid>
+                        </Modal.Body>
+                    </div>
+                    <Modal.Footer>
+                    <Button bsStyle="" className="button button-back" onClick={this.close}>{strings.backButton}</Button>
+                    <Button bsStyle="" className="button button-back" onClick={this.handleColorUpdate}>{strings.updateButton}</Button>
+                    </Modal.Footer>
+                </Modal>
+            </div>
+        )
+    }
+  }
 
 class FileUpload extends React.Component {
     handleFile = (e) => {
@@ -278,7 +583,10 @@ class DesignDetails extends React.Component {
                       <div><strong>Color:</strong></div>
                   </Col>
                   <Col sm={8}>
-                  <div>{designDetails.color}</div>
+                        <ColorType
+                            selectedDesign={this.props.selectedDesign}
+                            designerCode={this.props.designerCode}
+                        />
                   </Col>
                 </FormGroup>
               </Row>
