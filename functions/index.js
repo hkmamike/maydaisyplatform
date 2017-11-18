@@ -144,7 +144,7 @@ function sendEmailCustomerOnFulfilled (email, arrangementCode, arrangementName, 
     });
 }
 
-exports.EmailCustomerOnUpdate = functions.database.ref('/allTransactions/{CusID}/transactions/{TxnID}').onWrite(event => {
+exports.EmailCustomerOnUpdate = functions.database.ref('/allTransactions/{CusID}/transactions/{TxnID}').onUpdate(event => {
     var CusID = event.params.CusID;
     var TxnID = event.params.TxnID;
     var email;
