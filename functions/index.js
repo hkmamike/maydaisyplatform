@@ -4,6 +4,18 @@ const functions = require('firebase-functions');
 const admin = require('firebase-admin');
 admin.initializeApp(functions.config().firebase);
 
+//create email transporter
+const nodemailer = require('nodemailer');
+const gmailEmail = functions.config().gmail.email;
+const gmailPassword = functions.config().gmail.password;
+const mailTransport = nodemailer.createTransport({
+    service: 'gmail',
+    auth: {
+      user: gmailEmail,
+      pass: gmailPassword
+    }
+  });
+
 ///////
 exports.SignUpResponse = functions.database.ref('/signUp/{CityID}/areas/{RegionID}/records').onWrite(event => {
 
@@ -21,12 +33,12 @@ exports.SignUpResponse = functions.database.ref('/signUp/{CityID}/areas/{RegionI
 });
 
 ////////
-sendEmailFloristOnTxn = (email) => {
+function sendEmailFloristOnTxn (email) {
     const mailOptions = {
-        from: `${APP_NAME} <noreply@maydaisy.com>`, 
+        from: `MayDaisy Update <noreply@maydaisy.com>`, 
         to: email
     };
-    mailOptions.subject = `A customer placed an order at your ${APP_NAME} shop!`;
+    mailOptions.subject = `A customer placed an order at your MayDaisy shop!`;
     mailOptions.text = `Please login to check your orders dashboard.`;
     return mailTransport.sendMail(mailOptions).then(() => {
       console.log('new order alert email sent to:', email);
@@ -36,10 +48,20 @@ sendEmailFloristOnTxn = (email) => {
 exports.EmailFloristOnTxn = functions.database.ref('/allTransactions/{FloristID}').onWrite(event => {
     var FloristID = event.params.FloristID;
     var email;
+    var arrangementCode;
+    var arrangementName;
+    var deliveryDate;
+    var referenceCode;
 
     admin.database().ref('/florists/' + FloristID + '/email/').once('value', function(snapshot) { 
        email = snapshot.val();
     });
+
+    email = event.data.email;
+    arrangementCode = event.data.arrangementCode;
+    arrangementName = event.data.arrangementName;
+    deliveryDate = event.data.deliveryDate;
+    referenceCode = event.data.referenceCode;
 
     return sendEmailFloristOnTxn(email);
 });

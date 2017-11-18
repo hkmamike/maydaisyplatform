@@ -98,8 +98,10 @@ export default class Arrangement extends Component {
         var leadTimeFail = false;
         var diff = day.diff(moment(), 'days');
 
-        if (arrangementDeliveryBlockedDays.indexOf(day.day()) > -1) {
-            blockedDayFail = true;
+        if (arrangementDeliveryBlockedDays!==null) {
+            if (arrangementDeliveryBlockedDays.indexOf(day.day()) > -1) {
+                blockedDayFail = true;
+            }
         }
         if (diff - arrangementDeliveryLeadTime < 0 ) {
             leadTimeFail = true;

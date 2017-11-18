@@ -1,5 +1,6 @@
 {
   "projects": {
-    "default": "onebloom-cfa9d"
+    "default": "onebloom-cfa9d",
+    "marketplace": "maydaisy-platform"
   }
 }

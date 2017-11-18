@@ -1,53 +1,6 @@
 {
     "rules": {
-  
-          "allSubscriptions": {
-              "$city" : {
-                    "$region" : {
-                        "$plan" : {
-                            "$key" : {
-                                ".write": "!data.exists() || data.child('uid').val() === auth.uid"
-                        }
-                      }
-                }
-            }
-            },
-      
-          "signUp": {
-            ".read": true,
-            "$city" : {
-                  "areas" : { 
-                    "$area" : {
-                        "records" : {
-                            "$key" : {
-                                ".write": "!data.exists()"
-                            }
-                        }
-                    }
-                }
-            }
-            },
-            
-          "users": {
-            
-          "$uid": {
-                  ".read": "$uid === auth.uid",
-  
-                    "subscriptions" : {
-                            "$key" : {
-                                ".write": "$uid === auth.uid"
-                        }
-                    },
-                    "canceledSubscriptions" : {
-                            "$key" : {
-                                ".write": "$uid === auth.uid && !data.exists()"
-                        }
-                    },
-                    "info" : {
-                        ".read": "$uid === auth.uid",
-                        ".write": "$uid === auth.uid"
-                    }
-                } 
-            }
-      }
+      ".read": true,
+      ".write": true
+    }
   }
