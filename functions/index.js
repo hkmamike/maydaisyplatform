@@ -33,36 +33,38 @@ exports.SignUpResponse = functions.database.ref('/signUp/{CityID}/areas/{RegionI
 });
 
 ////////
-function sendEmailFloristOnTxn (email) {
+function sendEmailFloristOnTxn (email, arrangementCode, arrangementName, deliveryDate, referenceCode) {
     const mailOptions = {
         from: `MayDaisy Update <noreply@maydaisy.com>`, 
         to: email
     };
-    mailOptions.subject = `A customer placed an order at your MayDaisy shop!`;
-    mailOptions.text = `Please login to check your orders dashboard.`;
+    mailOptions.subject = `${arrangementCode} - New Order Received!`;
+    mailOptions.text = `Customer order received at your MayDaisy shop!. Reference Code: ${referenceCode}, Arrangement: ${arrangementName}, Arrangement ID: ${arrangementCode}, Delivery Date: ${deliveryDate}. Please login to check details on your orders dashboard.`;
+    mailOptions.html = (
+    `<h3>A customer placed an order at your MayDaisy shop!</h3>
+    <p>Reference Code: ${referenceCode}</p> 
+    <p>Arrangement: ${arrangementName}</p>
+    <p>Arrangement ID: ${arrangementCode}</p>
+    <p>Delivery Date: ${deliveryDate}</p>
+    <p>Please login to check details on your orders dashboard.</p>`
+    );
     return mailTransport.sendMail(mailOptions).then(() => {
       console.log('new order alert email sent to:', email);
     });
 }
 
-exports.EmailFloristOnTxn = functions.database.ref('/allTransactions/{FloristID}').onWrite(event => {
+exports.EmailFloristOnTxn = functions.database.ref('/allTransactions/{FloristID}/{TxnRef}').onWrite(event => {
     var FloristID = event.params.FloristID;
     var email;
-    var arrangementCode;
-    var arrangementName;
-    var deliveryDate;
-    var referenceCode;
+    var arrangementCode = event.data.child('arrangementCode').val();
+    var arrangementName = event.data.child('arrangementName');
+    var deliveryDate = event.data.child('deliveryDate').val();
+    var referenceCode = event.data.child('referenceCode').val();
 
-    admin.database().ref('/florists/' + FloristID + '/email/').once('value', function(snapshot) { 
+    admin.database().ref('/florists/' + FloristID + '/email/').once('value', function(snapshot) {
        email = snapshot.val();
-    });
-
-    email = event.data.email;
-    arrangementCode = event.data.arrangementCode;
-    arrangementName = event.data.arrangementName;
-    deliveryDate = event.data.deliveryDate;
-    referenceCode = event.data.referenceCode;
-
-    return sendEmailFloristOnTxn(email);
+    }).then(() => {
+        return sendEmailFloristOnTxn(email, arrangementCode, arrangementName, deliveryDate, referenceCode);
+    })
 });
 /////////

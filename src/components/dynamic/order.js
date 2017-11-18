@@ -833,7 +833,7 @@ export default class Order extends Component {
                                     <div><strong>{strings.deliveryFee}</strong></div>
                                 </Col>
                                 <Col sm={6}>
-                                    <div>{this.state.arrangementDeliveryCurrency}{this.state.arrangementDeliveryFee}</div>
+                                    <div>{this.state.arrangementCurrency}{this.state.arrangementDeliveryFee}</div>
                                 </Col>
                             </FormGroup>
                         </Row>
