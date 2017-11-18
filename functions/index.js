@@ -150,7 +150,7 @@ exports.EmailCustomerOnUpdate = functions.database.ref('/allTransactions/{CusID}
     var email;
     var status = event.data.child('status').val();
     var arrangementCode = event.data.child('arrangementCode').val();
-    var arrangementName = event.data.child('arrangementName');
+    var arrangementName = event.data.child('arrangementName').val();
     var deliveryDate = event.data.child('deliveryDate').val();
     var referenceCode = event.data.child('referenceCode').val();
     var floristName = event.data.child('floristName').val();
