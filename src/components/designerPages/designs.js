@@ -20,6 +20,7 @@ let strings = new LocalizedStrings({
     shopInformation2: 'Information',
 
     allDesigns: 'All Designs',
+    newDesign: 'New Design',
     designsUpdate: 'Details & Update',
     referenceCode: 'Reference Code:',
 
@@ -29,6 +30,8 @@ let strings = new LocalizedStrings({
 
     backButton: 'Back',
     updateButton: 'Update',
+    saveButton: 'Save',
+    createButton: 'Create',
          
     colorSettingsTitle: 'Color Type',
     colorSettingsText1: 'This helps customers search for designs.',
@@ -58,12 +61,27 @@ let strings = new LocalizedStrings({
 });
 
 class ColorType extends React.Component {
-    constructor() {
-      super();
-      this.open = this.open.bind(this);
-      this.close = this.close.bind(this);
-      this.state = {
-        showModal: false,
+  constructor() {
+    super();
+    this.open = this.open.bind(this);
+    this.close = this.close.bind(this);
+    this.state = {
+      showModal: false,
+      blue: 'n',
+      green: 'n',
+      lavender: 'n',
+      orange: 'n',
+      pink: 'n',
+      purple: 'n',
+      red: 'n',
+      white: 'n',
+      yellow: 'n'
+    }
+  }
+
+  fetchData = () => {
+    if (this.props.selectedDesign === null) {
+      this.setState({
         blue: 'n',
         green: 'n',
         lavender: 'n',
@@ -73,10 +91,8 @@ class ColorType extends React.Component {
         red: 'n',
         white: 'n',
         yellow: 'n'
-      }
-    }
-  
-    fetchData = () => {
+      });
+    } else {
       base.fetch(`arrangementsList/${this.props.selectedDesign}/color`, {
         context: this,
         then(data) {
@@ -89,7 +105,7 @@ class ColorType extends React.Component {
             var red = 'n';
             var white = 'n';
             var yellow = 'n';
-  
+
             if (data.length > 0) {
               if (data.indexOf('blue')> -1) {
                 blue='y'
@@ -119,7 +135,6 @@ class ColorType extends React.Component {
                 yellow='y'
               }
             }
-  
             this.setState({
                 blue: blue,
                 green: green,
@@ -131,83 +146,89 @@ class ColorType extends React.Component {
                 white: white,
                 yellow: yellow
             });
-        }
-      });
+          }
+        }); 
     }
-    
-    close() {
-      this.setState({showModal: false});
-      //force states to update since it does not dismount on close. It cases content to flash if placed on open()
-      this.fetchData();
-    }
-    open() {
-      this.setState({showModal: true});
-    }
-    handleSettingChange = (color, eventKey) => {
-      switch (color) {
-        case 'blue': 
-          this.setState({blue: eventKey});
-          break
-        case 'green': 
-          this.setState({green: eventKey});
-          break
-        case 'lavender': 
-          this.setState({lavender: eventKey});
-          break
-        case 'orange': 
-          this.setState({orange: eventKey});
-          break
-        case 'pink': 
-          this.setState({pink: eventKey});
-          break
-        case 'purple': 
-          this.setState({purple: eventKey});
-          break
-        case 'red': 
-          this.setState({red: eventKey});
-          break
-        case 'white': 
-          this.setState({white: eventKey});
-          break
-        case 'yellow': 
-          this.setState({yellow: eventKey});
-          break
-      }
-    }
-    componentWillMount () {
-      this.fetchData();
-    }
+  }
   
-    handleColorUpdate = () => {
-      var colorsArray = [];
-      if (this.state.blue === 'y') {
-        colorsArray.push('blue');
-      }
-      if (this.state.green === 'y') {
-        colorsArray.push('green');
-      }
-      if (this.state.lavender === 'y') {
-        colorsArray.push('lavender');
-      }
-      if (this.state.orange === 'y') {
-        colorsArray.push('orange');
-      }
-      if (this.state.pink === 'y') {
-        colorsArray.push('pink');
-      }
-      if (this.state.purple === 'y') {
-        colorsArray.push('purple');
-      }
-      if (this.state.red === 'y') {
-        colorsArray.push('red');
-      }
-      if (this.state.white === 'y') {
-        colorsArray.push('white');
-      }
-      if (this.state.yellow === 'y') {
-        colorsArray.push('yellow');
-      }
+  close() {
+    this.setState({showModal: false});
+    //force states to update since it does not dismount on close. It cases content to flash if placed on open()
+    this.fetchData();
+  }
+  open() {
+    this.setState({showModal: true});
+  }
+  handleSettingChange = (color, eventKey) => {
+    switch (color) {
+      case 'blue': 
+        this.setState({blue: eventKey});
+        break
+      case 'green': 
+        this.setState({green: eventKey});
+        break
+      case 'lavender': 
+        this.setState({lavender: eventKey});
+        break
+      case 'orange': 
+        this.setState({orange: eventKey});
+        break
+      case 'pink': 
+        this.setState({pink: eventKey});
+        break
+      case 'purple': 
+        this.setState({purple: eventKey});
+        break
+      case 'red': 
+        this.setState({red: eventKey});
+        break
+      case 'white': 
+        this.setState({white: eventKey});
+        break
+      case 'yellow': 
+        this.setState({yellow: eventKey});
+        break
+    }
+  }
+  componentWillMount () {
+    this.fetchData();
+  }
 
+  handleColorUpdate = () => {
+    var colorsArray = [];
+
+    if (this.state.blue === 'y') {
+      colorsArray.push('blue');
+    }
+    if (this.state.green === 'y') {
+      colorsArray.push('green');
+    }
+    if (this.state.lavender === 'y') {
+      colorsArray.push('lavender');
+    }
+    if (this.state.orange === 'y') {
+      colorsArray.push('orange');
+    }
+    if (this.state.pink === 'y') {
+      colorsArray.push('pink');
+    }
+    if (this.state.purple === 'y') {
+      colorsArray.push('purple');
+    }
+    if (this.state.red === 'y') {
+      colorsArray.push('red');
+    }
+    if (this.state.white === 'y') {
+      colorsArray.push('white');
+    }
+    if (this.state.yellow === 'y') {
+      colorsArray.push('yellow');
+    }
+
+    if (this.props.selectedDesign === null) {
+      this.props.onCreateDesignColorUpdate(colorsArray);
+      this.close();
+    } else {
       base.post(`arrangementsList/${this.props.selectedDesign}/color`, {
         data: colorsArray
       }).then(() => 
@@ -216,169 +237,188 @@ class ColorType extends React.Component {
         console.log("An error occured when updating design's color.");
       });
     }
-  
-    render() {
-        return (
-            <div>
-                <Button bsStyle="" className="sub-details-unsub"onClick={this.open}>Settings</Button>
-                <Modal show={this.state.showModal} onHide={this.close}>
-  
-                    <div>
-                        <Modal.Header closeButton>
-                        <Modal.Title><strong>{strings.colorSettingsTitle}</strong></Modal.Title>
-                        </Modal.Header>
-                        <Modal.Body>
-                            <h4>{strings.colorSettingsText1}</h4>
-                            <p>{strings.colorSettingsText2}</p>
-                            <Grid>
-                              <div className="sub-list-item">
-                                <Row className="show-grid">
-                                  <FormGroup>
-                                    <Col sm={1}></Col>
-                                    <Col sm={3}>
-                                      Blue:
-                                    </Col>
-                                    <Col sm={3}>
-                                      <DropdownButton title={strings[this.state.blue]} className="subscription-select" id="subscriptioin-planTypeSelect-dropdown" onSelect={(eventKey)=>this.handleSettingChange('blue',eventKey)}>
-                                        <MenuItem eventKey="y">{strings.y}</MenuItem>
-                                        <MenuItem eventKey="n">{strings.n}</MenuItem>
-                                      </DropdownButton>
-                                    </Col>
-                                  </FormGroup>
-                                </Row>
-                                <Row className="show-grid">
-                                  <FormGroup>
-                                    <Col sm={1}></Col>
-                                    <Col sm={3}>
-                                      Green:
-                                    </Col>
-                                    <Col sm={3}>
-                                      <DropdownButton title={strings[this.state.green]} className="subscription-select" id="subscriptioin-planTypeSelect-dropdown" onSelect={(eventKey)=>this.handleSettingChange('green',eventKey)}>
-                                        <MenuItem eventKey="y">{strings.y}</MenuItem>
-                                        <MenuItem eventKey="n">{strings.n}</MenuItem>
-                                      </DropdownButton>
-                                    </Col>
-                                  </FormGroup>
-                                </Row>
-                                <Row className="show-grid">
-                                  <FormGroup>
-                                    <Col sm={1}></Col>
-                                    <Col sm={3}>
-                                      Lavender:
-                                    </Col>
-                                    <Col sm={3}>
-                                      <DropdownButton title={strings[this.state.lavender]} className="subscription-select" id="subscriptioin-planTypeSelect-dropdown" onSelect={(eventKey)=>this.handleSettingChange('lavender',eventKey)}>
-                                        <MenuItem eventKey="y">{strings.y}</MenuItem>
-                                        <MenuItem eventKey="n">{strings.n}</MenuItem>
-                                      </DropdownButton>
-                                    </Col>
-                                  </FormGroup>
-                                </Row>
-                                <Row className="show-grid">
-                                  <FormGroup>
-                                    <Col sm={1}></Col>
-                                    <Col sm={3}>
-                                      Orange:
-                                    </Col>
-                                    <Col sm={3}>
-                                      <DropdownButton title={strings[this.state.orange]} className="subscription-select" id="subscriptioin-planTypeSelect-dropdown" onSelect={(eventKey)=>this.handleSettingChange('orange',eventKey)}>
-                                        <MenuItem eventKey="y">{strings.y}</MenuItem>
-                                        <MenuItem eventKey="n">{strings.n}</MenuItem>
-                                      </DropdownButton>
-                                    </Col>
-                                  </FormGroup>
-                                </Row>
-                                <Row className="show-grid">
-                                  <FormGroup>
-                                    <Col sm={1}></Col>
-                                    <Col sm={3}>
-                                      Pink:
-                                    </Col>
-                                    <Col sm={3}>
-                                      <DropdownButton title={strings[this.state.pink]} className="subscription-select" id="subscriptioin-planTypeSelect-dropdown" onSelect={(eventKey)=>this.handleSettingChange('pink',eventKey)}>
-                                        <MenuItem eventKey="y">{strings.y}</MenuItem>
-                                        <MenuItem eventKey="n">{strings.n}</MenuItem>
-                                      </DropdownButton>
-                                    </Col>
-                                  </FormGroup>
-                                </Row>
-                                <Row className="show-grid">
-                                  <FormGroup>
-                                    <Col sm={1}></Col>
-                                    <Col sm={3}>
-                                      Purple:
-                                    </Col>
-                                    <Col sm={3}>
-                                      <DropdownButton title={strings[this.state.purple]} className="subscription-select" id="subscriptioin-planTypeSelect-dropdown" onSelect={(eventKey)=>this.handleSettingChange('purple',eventKey)}>
-                                        <MenuItem eventKey="y">{strings.y}</MenuItem>
-                                        <MenuItem eventKey="n">{strings.n}</MenuItem>
-                                      </DropdownButton>
-                                    </Col>
-                                  </FormGroup>
-                                </Row>
-                                <Row className="show-grid">
-                                  <FormGroup>
-                                    <Col sm={1}></Col>
-                                    <Col sm={3}>
-                                      Red:
-                                    </Col>
-                                    <Col sm={3}>
-                                      <DropdownButton title={strings[this.state.red]} className="subscription-select" id="subscriptioin-planTypeSelect-dropdown" onSelect={(eventKey)=>this.handleSettingChange('red',eventKey)}>
-                                        <MenuItem eventKey="y">{strings.y}</MenuItem>
-                                        <MenuItem eventKey="n">{strings.n}</MenuItem>
-                                      </DropdownButton>
-                                    </Col>
-                                  </FormGroup>
-                                </Row>
-                                <Row className="show-grid">
-                                  <FormGroup>
-                                    <Col sm={1}></Col>
-                                    <Col sm={3}>
-                                      White:
-                                    </Col>
-                                    <Col sm={3}>
-                                      <DropdownButton title={strings[this.state.white]} className="subscription-select" id="subscriptioin-planTypeSelect-dropdown" onSelect={(eventKey)=>this.handleSettingChange('white',eventKey)}>
-                                        <MenuItem eventKey="y">{strings.y}</MenuItem>
-                                        <MenuItem eventKey="n">{strings.n}</MenuItem>
-                                      </DropdownButton>
-                                    </Col>
-                                  </FormGroup>
-                                </Row>
-                                <Row className="show-grid">
-                                  <FormGroup>
-                                    <Col sm={1}></Col>
-                                    <Col sm={3}>
-                                      Yellow:
-                                    </Col>
-                                    <Col sm={3}>
-                                      <DropdownButton title={strings[this.state.yellow]} className="subscription-select" id="subscriptioin-planTypeSelect-dropdown" onSelect={(eventKey)=>this.handleSettingChange('yellow',eventKey)}>
-                                        <MenuItem eventKey="y">{strings.y}</MenuItem>
-                                        <MenuItem eventKey="n">{strings.n}</MenuItem>
-                                      </DropdownButton>
-                                    </Col>
-                                  </FormGroup>
-                                </Row>
-                              </div>
-                            </Grid>
-                        </Modal.Body>
-                    </div>
-                    <Modal.Footer>
-                    <Button bsStyle="" className="button button-back" onClick={this.close}>{strings.backButton}</Button>
-                    <Button bsStyle="" className="button button-back" onClick={this.handleColorUpdate}>{strings.updateButton}</Button>
-                    </Modal.Footer>
-                </Modal>
-            </div>
-        )
+  }
+
+  render() {
+      return (
+          <div>
+              <Button bsStyle="" className="sub-details-unsub"onClick={this.open}>Settings</Button>
+              <Modal show={this.state.showModal} onHide={this.close}>
+
+                  <div>
+                      <Modal.Header closeButton>
+                      <Modal.Title><strong>{strings.colorSettingsTitle}</strong></Modal.Title>
+                      </Modal.Header>
+                      <Modal.Body>
+                          <h4>{strings.colorSettingsText1}</h4>
+                          <p>{strings.colorSettingsText2}</p>
+                          <Grid>
+                            <div className="sub-list-item">
+                              <Row className="show-grid">
+                                <FormGroup>
+                                  <Col sm={1}></Col>
+                                  <Col sm={3}>
+                                    Blue:
+                                  </Col>
+                                  <Col sm={3}>
+                                    <DropdownButton title={strings[this.state.blue]} className="subscription-select" id="subscriptioin-planTypeSelect-dropdown" onSelect={(eventKey)=>this.handleSettingChange('blue',eventKey)}>
+                                      <MenuItem eventKey="y">{strings.y}</MenuItem>
+                                      <MenuItem eventKey="n">{strings.n}</MenuItem>
+                                    </DropdownButton>
+                                  </Col>
+                                </FormGroup>
+                              </Row>
+                              <Row className="show-grid">
+                                <FormGroup>
+                                  <Col sm={1}></Col>
+                                  <Col sm={3}>
+                                    Green:
+                                  </Col>
+                                  <Col sm={3}>
+                                    <DropdownButton title={strings[this.state.green]} className="subscription-select" id="subscriptioin-planTypeSelect-dropdown" onSelect={(eventKey)=>this.handleSettingChange('green',eventKey)}>
+                                      <MenuItem eventKey="y">{strings.y}</MenuItem>
+                                      <MenuItem eventKey="n">{strings.n}</MenuItem>
+                                    </DropdownButton>
+                                  </Col>
+                                </FormGroup>
+                              </Row>
+                              <Row className="show-grid">
+                                <FormGroup>
+                                  <Col sm={1}></Col>
+                                  <Col sm={3}>
+                                    Lavender:
+                                  </Col>
+                                  <Col sm={3}>
+                                    <DropdownButton title={strings[this.state.lavender]} className="subscription-select" id="subscriptioin-planTypeSelect-dropdown" onSelect={(eventKey)=>this.handleSettingChange('lavender',eventKey)}>
+                                      <MenuItem eventKey="y">{strings.y}</MenuItem>
+                                      <MenuItem eventKey="n">{strings.n}</MenuItem>
+                                    </DropdownButton>
+                                  </Col>
+                                </FormGroup>
+                              </Row>
+                              <Row className="show-grid">
+                                <FormGroup>
+                                  <Col sm={1}></Col>
+                                  <Col sm={3}>
+                                    Orange:
+                                  </Col>
+                                  <Col sm={3}>
+                                    <DropdownButton title={strings[this.state.orange]} className="subscription-select" id="subscriptioin-planTypeSelect-dropdown" onSelect={(eventKey)=>this.handleSettingChange('orange',eventKey)}>
+                                      <MenuItem eventKey="y">{strings.y}</MenuItem>
+                                      <MenuItem eventKey="n">{strings.n}</MenuItem>
+                                    </DropdownButton>
+                                  </Col>
+                                </FormGroup>
+                              </Row>
+                              <Row className="show-grid">
+                                <FormGroup>
+                                  <Col sm={1}></Col>
+                                  <Col sm={3}>
+                                    Pink:
+                                  </Col>
+                                  <Col sm={3}>
+                                    <DropdownButton title={strings[this.state.pink]} className="subscription-select" id="subscriptioin-planTypeSelect-dropdown" onSelect={(eventKey)=>this.handleSettingChange('pink',eventKey)}>
+                                      <MenuItem eventKey="y">{strings.y}</MenuItem>
+                                      <MenuItem eventKey="n">{strings.n}</MenuItem>
+                                    </DropdownButton>
+                                  </Col>
+                                </FormGroup>
+                              </Row>
+                              <Row className="show-grid">
+                                <FormGroup>
+                                  <Col sm={1}></Col>
+                                  <Col sm={3}>
+                                    Purple:
+                                  </Col>
+                                  <Col sm={3}>
+                                    <DropdownButton title={strings[this.state.purple]} className="subscription-select" id="subscriptioin-planTypeSelect-dropdown" onSelect={(eventKey)=>this.handleSettingChange('purple',eventKey)}>
+                                      <MenuItem eventKey="y">{strings.y}</MenuItem>
+                                      <MenuItem eventKey="n">{strings.n}</MenuItem>
+                                    </DropdownButton>
+                                  </Col>
+                                </FormGroup>
+                              </Row>
+                              <Row className="show-grid">
+                                <FormGroup>
+                                  <Col sm={1}></Col>
+                                  <Col sm={3}>
+                                    Red:
+                                  </Col>
+                                  <Col sm={3}>
+                                    <DropdownButton title={strings[this.state.red]} className="subscription-select" id="subscriptioin-planTypeSelect-dropdown" onSelect={(eventKey)=>this.handleSettingChange('red',eventKey)}>
+                                      <MenuItem eventKey="y">{strings.y}</MenuItem>
+                                      <MenuItem eventKey="n">{strings.n}</MenuItem>
+                                    </DropdownButton>
+                                  </Col>
+                                </FormGroup>
+                              </Row>
+                              <Row className="show-grid">
+                                <FormGroup>
+                                  <Col sm={1}></Col>
+                                  <Col sm={3}>
+                                    White:
+                                  </Col>
+                                  <Col sm={3}>
+                                    <DropdownButton title={strings[this.state.white]} className="subscription-select" id="subscriptioin-planTypeSelect-dropdown" onSelect={(eventKey)=>this.handleSettingChange('white',eventKey)}>
+                                      <MenuItem eventKey="y">{strings.y}</MenuItem>
+                                      <MenuItem eventKey="n">{strings.n}</MenuItem>
+                                    </DropdownButton>
+                                  </Col>
+                                </FormGroup>
+                              </Row>
+                              <Row className="show-grid">
+                                <FormGroup>
+                                  <Col sm={1}></Col>
+                                  <Col sm={3}>
+                                    Yellow:
+                                  </Col>
+                                  <Col sm={3}>
+                                    <DropdownButton title={strings[this.state.yellow]} className="subscription-select" id="subscriptioin-planTypeSelect-dropdown" onSelect={(eventKey)=>this.handleSettingChange('yellow',eventKey)}>
+                                      <MenuItem eventKey="y">{strings.y}</MenuItem>
+                                      <MenuItem eventKey="n">{strings.n}</MenuItem>
+                                    </DropdownButton>
+                                  </Col>
+                                </FormGroup>
+                              </Row>
+                            </div>
+                          </Grid>
+                      </Modal.Body>
+                  </div>
+                  <Modal.Footer>
+                  <Button bsStyle="" className="button button-back" onClick={this.close}>{strings.backButton}</Button>
+                  <Button bsStyle="" className="button button-back" onClick={this.handleColorUpdate}>{strings.saveButton}</Button>
+                  </Modal.Footer>
+              </Modal>
+          </div>
+      )
+  }
+}
+
+class FlowerType extends React.Component {
+  constructor() {
+    super();
+    this.open = this.open.bind(this);
+    this.close = this.close.bind(this);
+    this.state = {
+      showModal: false,
+      dahlias: 'n',
+      delphinium: 'n',
+      daisies: 'n',
+      hydrangeas: 'n',
+      iris: 'n',
+      orchids: 'n',
+      peonies: 'n',
+      roses: 'n',
+      sunflowers: 'n',
+      tulips: 'n',
+      carnations: 'n'
     }
   }
 
-  class FlowerType extends React.Component {
-    constructor() {
-      super();
-      this.open = this.open.bind(this);
-      this.close = this.close.bind(this);
-      this.state = {
-        showModal: false,
+  fetchData = () => {
+
+    if (this.props.selectedDesign === null) {
+      this.setState({
         dahlias: 'n',
         delphinium: 'n',
         daisies: 'n',
@@ -390,10 +430,8 @@ class ColorType extends React.Component {
         sunflowers: 'n',
         tulips: 'n',
         carnations: 'n'
-      }
-    }
-  
-    fetchData = () => {
+      });
+    } else {
       base.fetch(`arrangementsList/${this.props.selectedDesign}/flower`, {
         context: this,
         then(data) {
@@ -408,7 +446,7 @@ class ColorType extends React.Component {
             var sunflowers = 'n';
             var tulips = 'n';
             var carnations = 'n';
-  
+
             if (data.length > 0) {
               if (data.indexOf('dahlias')> -1) {
                 dahlias='y'
@@ -444,7 +482,7 @@ class ColorType extends React.Component {
                 carnations='y'
               }
             }
-  
+
             this.setState({
                 dahlias: dahlias,
                 delphinium: delphinium,
@@ -461,92 +499,97 @@ class ColorType extends React.Component {
         }
       });
     }
-    
-    close() {
-      this.setState({showModal: false});
-      //force states to update since it does not dismount on close. It cases content to flash if placed on open()
-      this.fetchData();
-    }
-    open() {
-      this.setState({showModal: true});
-    }
-    handleSettingChange = (flower, eventKey) => {
-      switch (flower) {
-        case 'dahlias': 
-          this.setState({dahlias: eventKey});
-          break
-        case 'delphinium': 
-          this.setState({delphinium: eventKey});
-          break
-        case 'daisies': 
-          this.setState({daisies: eventKey});
-          break
-        case 'hydrangeas': 
-          this.setState({hydrangeas: eventKey});
-          break
-        case 'iris': 
-          this.setState({iris: eventKey});
-          break
-        case 'orchids': 
-          this.setState({orchids: eventKey});
-          break
-        case 'peonies': 
-          this.setState({peonies: eventKey});
-          break
-        case 'roses': 
-          this.setState({roses: eventKey});
-          break
-        case 'sunflowers': 
-          this.setState({sunflowers: eventKey});
-          break
-        case 'tulips': 
-          this.setState({tulips: eventKey});
-          break
-        case 'carnations': 
-          this.setState({carnations: eventKey});
-          break
-      }
-    }
-    componentWillMount () {
-      this.fetchData();
-    }
+  }
   
-    handleFlowerUpdate = () => {
-      var flowersArray = [];
-      if (this.state.dahlias === 'y') {
-        flowersArray.push('dahlias');
-      }
-      if (this.state.delphinium === 'y') {
-        flowersArray.push('delphinium');
-      }
-      if (this.state.daisies === 'y') {
-        flowersArray.push('daisies');
-      }
-      if (this.state.hydrangeas === 'y') {
-        flowersArray.push('hydrangeas');
-      }
-      if (this.state.iris === 'y') {
-        flowersArray.push('iris');
-      }
-      if (this.state.orchids === 'y') {
-        flowersArray.push('orchids');
-      }
-      if (this.state.peonies === 'y') {
-        flowersArray.push('peonies');
-      }
-      if (this.state.roses === 'y') {
-        flowersArray.push('roses');
-      }
-      if (this.state.sunflowers === 'y') {
-        flowersArray.push('sunflowers');
-      }
-      if (this.state.tulips === 'y') {
-        flowersArray.push('tulips');
-      }
-      if (this.state.carnations === 'y') {
-        flowersArray.push('carnations');
-      }
+  close() {
+    this.setState({showModal: false});
+    //force states to update since it does not dismount on close. It cases content to flash if placed on open()
+    this.fetchData();
+  }
+  open() {
+    this.setState({showModal: true});
+  }
+  handleSettingChange = (flower, eventKey) => {
+    switch (flower) {
+      case 'dahlias': 
+        this.setState({dahlias: eventKey});
+        break
+      case 'delphinium': 
+        this.setState({delphinium: eventKey});
+        break
+      case 'daisies': 
+        this.setState({daisies: eventKey});
+        break
+      case 'hydrangeas': 
+        this.setState({hydrangeas: eventKey});
+        break
+      case 'iris': 
+        this.setState({iris: eventKey});
+        break
+      case 'orchids': 
+        this.setState({orchids: eventKey});
+        break
+      case 'peonies': 
+        this.setState({peonies: eventKey});
+        break
+      case 'roses': 
+        this.setState({roses: eventKey});
+        break
+      case 'sunflowers': 
+        this.setState({sunflowers: eventKey});
+        break
+      case 'tulips': 
+        this.setState({tulips: eventKey});
+        break
+      case 'carnations': 
+        this.setState({carnations: eventKey});
+        break
+    }
+  }
+  componentWillMount () {
+    this.fetchData();
+  }
 
+  handleFlowerUpdate = () => {
+    var flowersArray = [];
+    if (this.state.dahlias === 'y') {
+      flowersArray.push('dahlias');
+    }
+    if (this.state.delphinium === 'y') {
+      flowersArray.push('delphinium');
+    }
+    if (this.state.daisies === 'y') {
+      flowersArray.push('daisies');
+    }
+    if (this.state.hydrangeas === 'y') {
+      flowersArray.push('hydrangeas');
+    }
+    if (this.state.iris === 'y') {
+      flowersArray.push('iris');
+    }
+    if (this.state.orchids === 'y') {
+      flowersArray.push('orchids');
+    }
+    if (this.state.peonies === 'y') {
+      flowersArray.push('peonies');
+    }
+    if (this.state.roses === 'y') {
+      flowersArray.push('roses');
+    }
+    if (this.state.sunflowers === 'y') {
+      flowersArray.push('sunflowers');
+    }
+    if (this.state.tulips === 'y') {
+      flowersArray.push('tulips');
+    }
+    if (this.state.carnations === 'y') {
+      flowersArray.push('carnations');
+    }
+
+    if (this.props.selectedDesign === null) {
+      this.props.onCreateDesignFlowerUpdate(flowersArray);
+      this.close();
+    } else {
       base.post(`arrangementsList/${this.props.selectedDesign}/flower`, {
         data: flowersArray
       }).then(() => 
@@ -555,233 +598,234 @@ class ColorType extends React.Component {
         console.log("An error occured when updating design's flower type.");
       });
     }
-  
-    render() {
-        return (
-            <div>
-                <Button bsStyle="" className="sub-details-unsub"onClick={this.open}>Settings</Button>
-                <Modal show={this.state.showModal} onHide={this.close}>
-  
-                    <div>
-                        <Modal.Header closeButton>
-                        <Modal.Title><strong>{strings.colorSettingsTitle}</strong></Modal.Title>
-                        </Modal.Header>
-                        <Modal.Body>
-                            <h4>{strings.flowerSettingsText1}</h4>
-                            <p>{strings.flowerSettingsText2}</p>
-                            <Grid>
-                              <div className="sub-list-item">
-                                <Row className="show-grid">
-                                  <FormGroup>
-                                    <Col sm={1}></Col>
-                                    <Col sm={3}>
-                                      Dahlias:
-                                    </Col>
-                                    <Col sm={3}>
-                                      <DropdownButton 
-                                        title={strings[this.state.dahlias]} 
-                                        className="subscription-select" id="subscriptioin-planTypeSelect-dropdown" 
-                                        onSelect={(eventKey)=>this.handleSettingChange('dahlias',eventKey)}
-                                      >
-                                        <MenuItem eventKey="y">{strings.y}</MenuItem>
-                                        <MenuItem eventKey="n">{strings.n}</MenuItem>
-                                      </DropdownButton>
-                                    </Col>
-                                  </FormGroup>
-                                </Row>
-                                <Row className="show-grid">
-                                  <FormGroup>
-                                    <Col sm={1}></Col>
-                                    <Col sm={3}>
-                                      Delphinium:
-                                    </Col>
-                                    <Col sm={3}>
-                                      <DropdownButton 
-                                        title={strings[this.state.delphinium]} 
-                                        className="subscription-select" id="subscriptioin-planTypeSelect-dropdown" 
-                                        onSelect={(eventKey)=>this.handleSettingChange('delphinium',eventKey)}
-                                      >
-                                        <MenuItem eventKey="y">{strings.y}</MenuItem>
-                                        <MenuItem eventKey="n">{strings.n}</MenuItem>
-                                      </DropdownButton>
-                                    </Col>
-                                  </FormGroup>
-                                </Row>
-                                <Row className="show-grid">
-                                  <FormGroup>
-                                    <Col sm={1}></Col>
-                                    <Col sm={3}>
-                                      Daisies:
-                                    </Col>
-                                    <Col sm={3}>
-                                      <DropdownButton 
-                                        title={strings[this.state.daisies]} 
-                                        className="subscription-select" id="subscriptioin-planTypeSelect-dropdown" 
-                                        onSelect={(eventKey)=>this.handleSettingChange('daisies',eventKey)}
-                                      >
-                                        <MenuItem eventKey="y">{strings.y}</MenuItem>
-                                        <MenuItem eventKey="n">{strings.n}</MenuItem>
-                                      </DropdownButton>
-                                    </Col>
-                                  </FormGroup>
-                                </Row>
-                                <Row className="show-grid">
-                                  <FormGroup>
-                                    <Col sm={1}></Col>
-                                    <Col sm={3}>
-                                      Hydrangeas:
-                                    </Col>
-                                    <Col sm={3}>
-                                      <DropdownButton 
-                                        title={strings[this.state.hydrangeas]} 
-                                        className="subscription-select" id="subscriptioin-planTypeSelect-dropdown" 
-                                        onSelect={(eventKey)=>this.handleSettingChange('hydrangeas',eventKey)}
-                                      >
-                                        <MenuItem eventKey="y">{strings.y}</MenuItem>
-                                        <MenuItem eventKey="n">{strings.n}</MenuItem>
-                                      </DropdownButton>
-                                    </Col>
-                                  </FormGroup>
-                                </Row>
-                                <Row className="show-grid">
-                                  <FormGroup>
-                                    <Col sm={1}></Col>
-                                    <Col sm={3}>
-                                      Iris:
-                                    </Col>
-                                    <Col sm={3}>
-                                      <DropdownButton 
-                                        title={strings[this.state.iris]} 
-                                        className="subscription-select" id="subscriptioin-planTypeSelect-dropdown" 
-                                        onSelect={(eventKey)=>this.handleSettingChange('iris',eventKey)}
-                                      >
-                                        <MenuItem eventKey="y">{strings.y}</MenuItem>
-                                        <MenuItem eventKey="n">{strings.n}</MenuItem>
-                                      </DropdownButton>
-                                    </Col>
-                                  </FormGroup>
-                                </Row>
-                                <Row className="show-grid">
-                                  <FormGroup>
-                                    <Col sm={1}></Col>
-                                    <Col sm={3}>
-                                      Orchids:
-                                    </Col>
-                                    <Col sm={3}>
-                                      <DropdownButton 
-                                        title={strings[this.state.orchids]} 
-                                        className="subscription-select" id="subscriptioin-planTypeSelect-dropdown" 
-                                        onSelect={(eventKey)=>this.handleSettingChange('orchids',eventKey)}
-                                      >
-                                        <MenuItem eventKey="y">{strings.y}</MenuItem>
-                                        <MenuItem eventKey="n">{strings.n}</MenuItem>
-                                      </DropdownButton>
-                                    </Col>
-                                  </FormGroup>
-                                </Row>
-                                <Row className="show-grid">
-                                  <FormGroup>
-                                    <Col sm={1}></Col>
-                                    <Col sm={3}>
-                                      Peonies:
-                                    </Col>
-                                    <Col sm={3}>
-                                      <DropdownButton 
-                                        title={strings[this.state.peonies]} 
-                                        className="subscription-select" id="subscriptioin-planTypeSelect-dropdown" 
-                                        onSelect={(eventKey)=>this.handleSettingChange('peonies',eventKey)}
-                                      >
-                                        <MenuItem eventKey="y">{strings.y}</MenuItem>
-                                        <MenuItem eventKey="n">{strings.n}</MenuItem>
-                                      </DropdownButton>
-                                    </Col>
-                                  </FormGroup>
-                                </Row>
-                                <Row className="show-grid">
-                                  <FormGroup>
-                                    <Col sm={1}></Col>
-                                    <Col sm={3}>
-                                      Roses:
-                                    </Col>
-                                    <Col sm={3}>
-                                      <DropdownButton 
-                                        title={strings[this.state.roses]} 
-                                        className="subscription-select" id="subscriptioin-planTypeSelect-dropdown" 
-                                        onSelect={(eventKey)=>this.handleSettingChange('roses',eventKey)}
-                                      >
-                                        <MenuItem eventKey="y">{strings.y}</MenuItem>
-                                        <MenuItem eventKey="n">{strings.n}</MenuItem>
-                                      </DropdownButton>
-                                    </Col>
-                                  </FormGroup>
-                                </Row>
-                                <Row className="show-grid">
-                                  <FormGroup>
-                                    <Col sm={1}></Col>
-                                    <Col sm={3}>
-                                      Sun Flowers:
-                                    </Col>
-                                    <Col sm={3}>
-                                      <DropdownButton 
-                                        title={strings[this.state.sunflowers]} 
-                                        className="subscription-select" id="subscriptioin-planTypeSelect-dropdown" 
-                                        onSelect={(eventKey)=>this.handleSettingChange('sunflowers',eventKey)}
-                                      >
-                                        <MenuItem eventKey="y">{strings.y}</MenuItem>
-                                        <MenuItem eventKey="n">{strings.n}</MenuItem>
-                                      </DropdownButton>
-                                    </Col>
-                                  </FormGroup>
-                                </Row>
-                                <Row className="show-grid">
-                                  <FormGroup>
-                                    <Col sm={1}></Col>
-                                    <Col sm={3}>
-                                      Tulips:
-                                    </Col>
-                                    <Col sm={3}>
-                                      <DropdownButton 
-                                        title={strings[this.state.tulips]} 
-                                        className="subscription-select" id="subscriptioin-planTypeSelect-dropdown" 
-                                        onSelect={(eventKey)=>this.handleSettingChange('tulips',eventKey)}
-                                      >
-                                        <MenuItem eventKey="y">{strings.y}</MenuItem>
-                                        <MenuItem eventKey="n">{strings.n}</MenuItem>
-                                      </DropdownButton>
-                                    </Col>
-                                  </FormGroup>
-                                </Row>
-                                <Row className="show-grid">
-                                  <FormGroup>
-                                    <Col sm={1}></Col>
-                                    <Col sm={3}>
-                                      Carnations:
-                                    </Col>
-                                    <Col sm={3}>
-                                      <DropdownButton 
-                                        title={strings[this.state.carnations]} 
-                                        className="subscription-select" id="subscriptioin-planTypeSelect-dropdown" 
-                                        onSelect={(eventKey)=>this.handleSettingChange('carnations',eventKey)}
-                                      >
-                                        <MenuItem eventKey="y">{strings.y}</MenuItem>
-                                        <MenuItem eventKey="n">{strings.n}</MenuItem>
-                                      </DropdownButton>
-                                    </Col>
-                                  </FormGroup>
-                                </Row>
-                              </div>
-                            </Grid>
-                        </Modal.Body>
-                    </div>
-                    <Modal.Footer>
-                    <Button bsStyle="" className="button button-back" onClick={this.close}>{strings.backButton}</Button>
-                    <Button bsStyle="" className="button button-back" onClick={this.handleFlowerUpdate}>{strings.updateButton}</Button>
-                    </Modal.Footer>
-                </Modal>
-            </div>
-        )
-    }
   }
+
+  render() {
+      return (
+          <div>
+              <Button bsStyle="" className="sub-details-unsub"onClick={this.open}>Settings</Button>
+              <Modal show={this.state.showModal} onHide={this.close}>
+
+                  <div>
+                      <Modal.Header closeButton>
+                      <Modal.Title><strong>{strings.colorSettingsTitle}</strong></Modal.Title>
+                      </Modal.Header>
+                      <Modal.Body>
+                          <h4>{strings.flowerSettingsText1}</h4>
+                          <p>{strings.flowerSettingsText2}</p>
+                          <Grid>
+                            <div className="sub-list-item">
+                              <Row className="show-grid">
+                                <FormGroup>
+                                  <Col sm={1}></Col>
+                                  <Col sm={3}>
+                                    Dahlias:
+                                  </Col>
+                                  <Col sm={3}>
+                                    <DropdownButton 
+                                      title={strings[this.state.dahlias]} 
+                                      className="subscription-select" id="subscriptioin-planTypeSelect-dropdown" 
+                                      onSelect={(eventKey)=>this.handleSettingChange('dahlias',eventKey)}
+                                    >
+                                      <MenuItem eventKey="y">{strings.y}</MenuItem>
+                                      <MenuItem eventKey="n">{strings.n}</MenuItem>
+                                    </DropdownButton>
+                                  </Col>
+                                </FormGroup>
+                              </Row>
+                              <Row className="show-grid">
+                                <FormGroup>
+                                  <Col sm={1}></Col>
+                                  <Col sm={3}>
+                                    Delphinium:
+                                  </Col>
+                                  <Col sm={3}>
+                                    <DropdownButton 
+                                      title={strings[this.state.delphinium]} 
+                                      className="subscription-select" id="subscriptioin-planTypeSelect-dropdown" 
+                                      onSelect={(eventKey)=>this.handleSettingChange('delphinium',eventKey)}
+                                    >
+                                      <MenuItem eventKey="y">{strings.y}</MenuItem>
+                                      <MenuItem eventKey="n">{strings.n}</MenuItem>
+                                    </DropdownButton>
+                                  </Col>
+                                </FormGroup>
+                              </Row>
+                              <Row className="show-grid">
+                                <FormGroup>
+                                  <Col sm={1}></Col>
+                                  <Col sm={3}>
+                                    Daisies:
+                                  </Col>
+                                  <Col sm={3}>
+                                    <DropdownButton 
+                                      title={strings[this.state.daisies]} 
+                                      className="subscription-select" id="subscriptioin-planTypeSelect-dropdown" 
+                                      onSelect={(eventKey)=>this.handleSettingChange('daisies',eventKey)}
+                                    >
+                                      <MenuItem eventKey="y">{strings.y}</MenuItem>
+                                      <MenuItem eventKey="n">{strings.n}</MenuItem>
+                                    </DropdownButton>
+                                  </Col>
+                                </FormGroup>
+                              </Row>
+                              <Row className="show-grid">
+                                <FormGroup>
+                                  <Col sm={1}></Col>
+                                  <Col sm={3}>
+                                    Hydrangeas:
+                                  </Col>
+                                  <Col sm={3}>
+                                    <DropdownButton 
+                                      title={strings[this.state.hydrangeas]} 
+                                      className="subscription-select" id="subscriptioin-planTypeSelect-dropdown" 
+                                      onSelect={(eventKey)=>this.handleSettingChange('hydrangeas',eventKey)}
+                                    >
+                                      <MenuItem eventKey="y">{strings.y}</MenuItem>
+                                      <MenuItem eventKey="n">{strings.n}</MenuItem>
+                                    </DropdownButton>
+                                  </Col>
+                                </FormGroup>
+                              </Row>
+                              <Row className="show-grid">
+                                <FormGroup>
+                                  <Col sm={1}></Col>
+                                  <Col sm={3}>
+                                    Iris:
+                                  </Col>
+                                  <Col sm={3}>
+                                    <DropdownButton 
+                                      title={strings[this.state.iris]} 
+                                      className="subscription-select" id="subscriptioin-planTypeSelect-dropdown" 
+                                      onSelect={(eventKey)=>this.handleSettingChange('iris',eventKey)}
+                                    >
+                                      <MenuItem eventKey="y">{strings.y}</MenuItem>
+                                      <MenuItem eventKey="n">{strings.n}</MenuItem>
+                                    </DropdownButton>
+                                  </Col>
+                                </FormGroup>
+                              </Row>
+                              <Row className="show-grid">
+                                <FormGroup>
+                                  <Col sm={1}></Col>
+                                  <Col sm={3}>
+                                    Orchids:
+                                  </Col>
+                                  <Col sm={3}>
+                                    <DropdownButton 
+                                      title={strings[this.state.orchids]} 
+                                      className="subscription-select" id="subscriptioin-planTypeSelect-dropdown" 
+                                      onSelect={(eventKey)=>this.handleSettingChange('orchids',eventKey)}
+                                    >
+                                      <MenuItem eventKey="y">{strings.y}</MenuItem>
+                                      <MenuItem eventKey="n">{strings.n}</MenuItem>
+                                    </DropdownButton>
+                                  </Col>
+                                </FormGroup>
+                              </Row>
+                              <Row className="show-grid">
+                                <FormGroup>
+                                  <Col sm={1}></Col>
+                                  <Col sm={3}>
+                                    Peonies:
+                                  </Col>
+                                  <Col sm={3}>
+                                    <DropdownButton 
+                                      title={strings[this.state.peonies]} 
+                                      className="subscription-select" id="subscriptioin-planTypeSelect-dropdown" 
+                                      onSelect={(eventKey)=>this.handleSettingChange('peonies',eventKey)}
+                                    >
+                                      <MenuItem eventKey="y">{strings.y}</MenuItem>
+                                      <MenuItem eventKey="n">{strings.n}</MenuItem>
+                                    </DropdownButton>
+                                  </Col>
+                                </FormGroup>
+                              </Row>
+                              <Row className="show-grid">
+                                <FormGroup>
+                                  <Col sm={1}></Col>
+                                  <Col sm={3}>
+                                    Roses:
+                                  </Col>
+                                  <Col sm={3}>
+                                    <DropdownButton 
+                                      title={strings[this.state.roses]} 
+                                      className="subscription-select" id="subscriptioin-planTypeSelect-dropdown" 
+                                      onSelect={(eventKey)=>this.handleSettingChange('roses',eventKey)}
+                                    >
+                                      <MenuItem eventKey="y">{strings.y}</MenuItem>
+                                      <MenuItem eventKey="n">{strings.n}</MenuItem>
+                                    </DropdownButton>
+                                  </Col>
+                                </FormGroup>
+                              </Row>
+                              <Row className="show-grid">
+                                <FormGroup>
+                                  <Col sm={1}></Col>
+                                  <Col sm={3}>
+                                    Sun Flowers:
+                                  </Col>
+                                  <Col sm={3}>
+                                    <DropdownButton 
+                                      title={strings[this.state.sunflowers]} 
+                                      className="subscription-select" id="subscriptioin-planTypeSelect-dropdown" 
+                                      onSelect={(eventKey)=>this.handleSettingChange('sunflowers',eventKey)}
+                                    >
+                                      <MenuItem eventKey="y">{strings.y}</MenuItem>
+                                      <MenuItem eventKey="n">{strings.n}</MenuItem>
+                                    </DropdownButton>
+                                  </Col>
+                                </FormGroup>
+                              </Row>
+                              <Row className="show-grid">
+                                <FormGroup>
+                                  <Col sm={1}></Col>
+                                  <Col sm={3}>
+                                    Tulips:
+                                  </Col>
+                                  <Col sm={3}>
+                                    <DropdownButton 
+                                      title={strings[this.state.tulips]} 
+                                      className="subscription-select" id="subscriptioin-planTypeSelect-dropdown" 
+                                      onSelect={(eventKey)=>this.handleSettingChange('tulips',eventKey)}
+                                    >
+                                      <MenuItem eventKey="y">{strings.y}</MenuItem>
+                                      <MenuItem eventKey="n">{strings.n}</MenuItem>
+                                    </DropdownButton>
+                                  </Col>
+                                </FormGroup>
+                              </Row>
+                              <Row className="show-grid">
+                                <FormGroup>
+                                  <Col sm={1}></Col>
+                                  <Col sm={3}>
+                                    Carnations:
+                                  </Col>
+                                  <Col sm={3}>
+                                    <DropdownButton 
+                                      title={strings[this.state.carnations]} 
+                                      className="subscription-select" id="subscriptioin-planTypeSelect-dropdown" 
+                                      onSelect={(eventKey)=>this.handleSettingChange('carnations',eventKey)}
+                                    >
+                                      <MenuItem eventKey="y">{strings.y}</MenuItem>
+                                      <MenuItem eventKey="n">{strings.n}</MenuItem>
+                                    </DropdownButton>
+                                  </Col>
+                                </FormGroup>
+                              </Row>
+                            </div>
+                          </Grid>
+                      </Modal.Body>
+                  </div>
+                  <Modal.Footer>
+                  <Button bsStyle="" className="button button-back" onClick={this.close}>{strings.backButton}</Button>
+                  <Button bsStyle="" className="button button-back" onClick={this.handleFlowerUpdate}>{strings.updateButton}</Button>
+                  </Modal.Footer>
+              </Modal>
+          </div>
+      )
+  }
+}
 
 class FileUpload extends React.Component {
     handleFile = (e) => {
@@ -805,85 +849,79 @@ class FileUpload extends React.Component {
 }
 
 class DesignDetails extends React.Component {
+  constructor() {
+      super();
+      this.state = {
+          loading: true,
+          designDetails: {},
+          cropperOpen: false,
+          img: null,
+          newImageFlag: false
+      }
+  }
 
-    constructor() {
-        super();
-        this.state = {
-            loading: true,
-            designDetails: {},
-            cropperOpen: false,
-            img: null,
-            newImageFlag: false
-        }
-    }
+  componentWillMount () {
+      this.fireBaseListenerForDesignDetails = firebaseAuth().onAuthStateChanged((user) => {
+          base.fetch(`arrangementsList/${this.props.selectedDesign}`, {
+              context: this,
+              then(data) {
+                  this.setState({
+                      designDetails: data, 
+                      loading: false, 
+                      name: data.name, 
+                      price: data.price, 
+                      description: data.description, 
+                      color: data.color, 
+                      flower: data.flower,
+                      croppedImg: data.image
+                  });
+              }
+          });
+      });
+  }
 
-    componentWillMount () {
-        this.fireBaseListenerForDesignDetails = firebaseAuth().onAuthStateChanged((user) => {
-            base.fetch(`arrangementsList/${this.props.selectedDesign}`, {
-                context: this,
-                then(data) {
-                    this.setState({
-                        designDetails: data, 
-                        loading: false, 
-                        name: data.name, 
-                        price: data.price, 
-                        description: data.description, 
-                        color: data.color, 
-                        flower: data.flower,
-                        croppedImg: data.image
-                    });
-                }
-            });
+  componentWillUnmount () {
+      //returns the unsubscribe function
+      this.fireBaseListenerForDesignDetails && this.fireBaseListenerForDesignDetails();
+  }
+
+  handleBack = () => {
+      this.props.onHandleBack();
+  }
+
+  handleDesignUpdate = (name, price, description, color, flower, croppedImg, newImageFlag) => {
+      this.props.onHandleDesignUpdate(this.props.selectedDesign, name, price, description, color, flower, croppedImg, newImageFlag);
+  }
+
+  handleNameChange = (e) => {
+      this.setState({ name: e.target.value });
+  }
+  handlePriceChange = (e) => {
+      this.setState({ price: e.target.value });
+  }
+  handleDescriptionChange = (e) => {
+      this.setState({ description: e.target.value });
+  }
+  handleFileChange = (dataURL) => {
+      this.setState({
+          img: dataURL,
+          croppedImg: this.state.croppedImg,
+          cropperOpen: true
         });
-    }
-
-    componentWillUnmount () {
-        //returns the unsubscribe function
-        this.fireBaseListenerForDesignDetails && this.fireBaseListenerForDesignDetails();
-    }
-
-    handleBack = () => {
-        this.props.onHandleBack();
-    }
-
-    handleDesignUpdate = (name, price, description, color, flower, croppedImg, newImageFlag) => {
-        this.props.onHandleDesignUpdate(this.props.selectedDesign, name, price, description, color, flower, croppedImg, newImageFlag);
-    }
-
-    handleNameChange = (e) => {
-        this.setState({ name: e.target.value });
-    }
-    handlePriceChange = (e) => {
-        this.setState({ price: e.target.value });
-    }
-    handleDescriptionChange = (e) => {
-        this.setState({ description: e.target.value });
-    }
-    handleFileChange = (dataURL) => {
-        this.setState({
-            img: dataURL,
-            croppedImg: this.state.croppedImg,
-            cropperOpen: true
-          });
-    }
-    handleCrop = (dataURL) => {
-        this.setState({
-            cropperOpen: false,
-            img: null,
-            croppedImg: dataURL,
-            newImageFlag: true
-          });
-    }
-    handleRequestHide = () => {
-        this.setState({
-            cropperOpen: false
-          });
-    }
-    onDrop = (picture) => {
-        this.setState({
-            pictures: picture,
+  }
+  handleCrop = (dataURL) => {
+      this.setState({
+          cropperOpen: false,
+          img: null,
+          croppedImg: dataURL,
+          newImageFlag: true
         });
-    }
+  }
+  handleRequestHide = () => {
+      this.setState({
+          cropperOpen: false
+        });
+  }
 
   render() {
     var designDetails = this.state.designDetails;
@@ -1039,6 +1077,216 @@ class DesignDetails extends React.Component {
   }
 }
 
+class NewDesign extends React.Component {
+  constructor() {
+      super();
+      this.state = {
+          loading: true,
+          designDetails: {},
+          cropperOpen: false,
+          img: null,
+          name: '',
+          price: '',
+          description: '',
+          croppedImg: null,
+          colorsArray: [],
+          flowersArray: []
+      }
+  }
+
+  componentWillMount () {
+    this.setState({
+        loading: false
+    });
+  }
+
+  componentWillUnmount () {
+    console.log('unmounting tasks');
+  }
+
+  handleBack = () => {
+      this.props.onHandleBack();
+  }
+
+  handleNewDesign = (name, price, description, colorsArray, flowersArray, croppedImg) => {
+      this.props.onHandleNewDesign(name, price, description, colorsArray, flowersArray, croppedImg);
+  }
+
+  handleNameChange = (e) => {
+      this.setState({ name: e.target.value });
+  }
+  handlePriceChange = (e) => {
+      this.setState({ price: e.target.value });
+  }
+  handleDescriptionChange = (e) => {
+      this.setState({ description: e.target.value });
+  }
+  handleFileChange = (dataURL) => {
+      this.setState({
+          img: dataURL,
+          croppedImg: this.state.croppedImg,
+          cropperOpen: true
+        });
+  }
+  handleCrop = (dataURL) => {
+      this.setState({
+          cropperOpen: false,
+          img: null,
+          croppedImg: dataURL
+        });
+  }
+  handleRequestHide = () => {
+      this.setState({
+          cropperOpen: false
+        });
+  }
+  handleCreateDesignColorUpdate = (colorsArray) => {
+    this.setState({colorsArray: colorsArray});
+  }
+
+  handleCreateDesignFlowerUpdate = (flowersArray) => {
+    this.setState({flowersArray: flowersArray});
+  }
+
+  render() {
+    var loadingState = this.state.loading;
+    var name = this.state.name;
+    var price = this.state.price;
+    var description = this.state.description;
+    var croppedImg = this.state.croppedImg;
+    var colorsArray = this.state.colorsArray;
+    var flowersArray = this.state.flowersArray;
+    let content = null;
+
+    if (loadingState) {
+      content = <div className="loader"></div>
+    } else {
+      content = (
+        <div>
+          <Grid>
+            { this.props.infoMessage &&
+              <div className="alert alert-success update-message" role="alert">
+                <Glyphicon glyph="exclamation-sign" className="icons"/>&nbsp;{this.props.infoMessage} 
+              </div>
+            }
+            <div className="sub-list-item">
+                <Row className="show-grid">
+                    <FormGroup>
+                    <Col sm={1}></Col>
+                    <Col sm={3}>
+                        <div><strong>Design Image:</strong></div>
+                    </Col>
+                    <Col sm={8}>
+                    <div>
+                        <div className="avatar-photo">
+                            <FileUpload handleFileChange={this.handleFileChange} />
+                            <div className="avatar-edit">
+                                <i className="fa fa-camera"></i>
+                            </div>
+                            <img className="design-detail-arrangement-pic" src={this.state.croppedImg} />
+                        </div>
+                        {this.state.cropperOpen &&
+                        <AvatarCropper
+                            onRequestHide={this.handleRequestHide}
+                            cropperOpen={this.state.cropperOpen}
+                            onCrop={this.handleCrop}
+                            image={this.state.img}
+                            width={400}
+                            height={400}
+                        />
+                        }
+                    </div>
+                    </Col>
+                  </FormGroup>
+                </Row>
+                <Row className="show-grid">
+                    <FormGroup>
+                    <Col sm={1}></Col>
+                    <Col sm={3}>
+                        <div><strong>Design name:</strong></div>
+                    </Col>
+                    <Col sm={5}>
+                        <FormControl className="data-field-update" type="text" value={name} onChange={this.handleNameChange}/>
+                    </Col>
+                    <Col sm={3}>
+                    </Col>
+                    </FormGroup>
+                </Row>
+              <Row className="show-grid">
+                <FormGroup>
+                  <Col sm={1}></Col>
+                  <Col sm={3}>
+                      <div><strong>Description:</strong></div>
+                  </Col>
+                  <Col sm={8}>
+                    <FormControl className="card-text-area data-field-update" componentClass="textarea" value={description} onChange={this.handleDescriptionChange}/>
+                  </Col>
+                </FormGroup>
+              </Row>
+              <Row className="show-grid">
+                <FormGroup>
+                  <Col sm={1}></Col>
+                  <Col sm={3}>
+                      <div><strong>Price:</strong></div>
+                  </Col>
+                  <Col sm={8}>
+                    <FormControl className="data-field-update" componentClass="textarea" value={price} onChange={this.handlePriceChange}/>
+                  </Col>
+                </FormGroup>
+              </Row>
+              <Row className="show-grid">
+                <FormGroup>
+                  <Col sm={1}></Col>
+                  <Col sm={3}>
+                      <div><strong>Color:</strong></div>
+                  </Col>
+                  <Col sm={8}>
+                    <ColorType
+                        onCreateDesignColorUpdate = {this.handleCreateDesignColorUpdate}
+                        selectedDesign={null}
+                        designerCode={this.props.designerCode}
+                    />
+                  </Col>
+                </FormGroup>
+              </Row>
+              <Row className="show-grid">
+                <FormGroup>
+                  <Col sm={1}></Col>
+                  <Col sm={3}>
+                      <div><strong>Flower:</strong></div>
+                  </Col>
+                  <Col sm={8}>
+                    <FlowerType
+                        onCreateDesignFlowerUpdate = {this.handleCreateDesignFlowerUpdate}
+                        selectedDesign={null}
+                        designerCode={this.props.designerCode}
+                    />
+                  </Col>
+                </FormGroup>
+              </Row>
+              <Row className="show-grid">
+                <FormGroup>
+                  <Col sm={5}>
+                  </Col>
+                  <Col sm={4}>
+                    <Button bsStyle="" className="button sub-details-back" onClick={() => this.handleBack()}>{strings.backButton}</Button>
+                    <Button bsStyle="" className="button sub-details-update" onClick={() => this.handleNewDesign(name, price, description, colorsArray, flowersArray, croppedImg)}>{strings.createButton}</Button>
+                  </Col>
+                </FormGroup>
+              </Row>
+            </div>
+          </Grid>
+        </div>
+      )
+    }
+    return (
+      <div>
+        {content}
+      </div>
+    )
+  }
+}
+
 export default class Designs extends Component {
   constructor() {
     super();
@@ -1102,15 +1350,73 @@ export default class Designs extends Component {
     });
   }
 
+  handleNewDesign = (name, price, description, colorsArray, flowersArray, croppedImg) => {
+    var designerCode = this.props.designerCode;
+    var storageRef = firebase.storage().ref();
+
+    base.fetch(`florists/${designerCode}/`, {
+      context: this,
+      then(data) {
+        if (data.uid === this.state.userID) {
+
+          var immediatelyAvailableReference = base.push(`arrangementsList`, {
+            data: {
+                approval: 'approved',
+                color: colorsArray,
+                currency: data.currency,
+                deliveryAreas: data.deliveryAreas,
+                description: description,
+                florist: designerCode,
+                floristName: data.name,
+                floristUserID: data.uid,
+                flower: flowersArray,
+                name: name,
+                price: price,
+                season: 'all'
+            }
+          }).then((newLocation) => {
+              console.log('key is:', newLocation.key.key);
+              var newLocationKey = newLocation.key;
+              var newRef = storageRef.child(`${newLocationKey}`+'.jpg');
+              var downloadURL;
+
+              console.log('croppedImg is:', croppedImg);
+
+              //first upload the image
+              newRef.putString(croppedImg, 'data_url').then((snapshot) => {
+
+                downloadURL = snapshot.downloadURL;
+                //then update the design record with the new url
+                base.update(`arrangementsList/${newLocationKey}`, {
+                  data: {
+                      image: downloadURL,
+                      id: newLocationKey,
+                  }              
+                });
+                this.setState({ infoMessage: 'new design has been created'});
+
+            }).catch(err => {
+              console.log('An error occured when creating design.');
+              this.setState({ infoMessage: 'An error occured when creating design'});
+            });
+
+          })
+         } else {
+          console.log('user id does not match shop record');
+        }
+      }
+    })
+  }
+
   handleDesignUpdate = (selectedDesign, name, price, description, color, flower, croppedImg, newImageFlag) => {
 
     if (newImageFlag) {
       var storageRef = firebase.storage().ref();
-      var testRef = storageRef.child(`${selectedDesign}`+'.jpg');
+      var newRef = storageRef.child(`${selectedDesign}`+'.jpg');
       var downloadURL;
 
       //first upload the image and ge tthe url path
-      testRef.putString(croppedImg, 'data_url').then((snapshot) => {
+      newRef.putString(croppedImg, 'data_url').then((snapshot) => {
         downloadURL = snapshot.downloadURL;
 
         //then update the design record with the new url
@@ -1209,14 +1515,11 @@ export default class Designs extends Component {
           <Grid>
             <Row className="show-grid loggedin-flow">
               <div className="horizontal-line"></div>
-              <Col xs={12}>
-                  <div className="flow-selected">{strings.allDesigns}</div>
-                    <i className="fa fa-chevron-right"></i>
-                  <div>{strings.designsUpdate}</div>
-              </Col>
-              <div className="horizontal-line"></div>
             </Row>
           </Grid>
+
+          <Button bsStyle="" onClick={() => this.setState({designsDetailsStatus: 2}, () => {window.scrollTo(0, 0);})}>{strings.createButton}</Button>
+
           {designs}
         </div>
       )
@@ -1243,7 +1546,30 @@ export default class Designs extends Component {
           />
         </div>
       )
+    } else if (designsDetailsStatus===2) {
+      content = (
+        <div>
+          <Grid>
+            <Row className="show-grid loggedin-flow">
+              <div className="horizontal-line"></div>
+              <Col xs={12}>
+                  <div onClick={() => this.setState({designsDetailsStatus: 0}, () => {window.scrollTo(0, 0);})}>{strings.allDesigns}</div>
+                    <i className="fa fa-chevron-right"></i>
+                  <div className="flow-selected">{strings.newDesign}</div>
+              </Col>
+              <div className="horizontal-line"></div>
+            </Row>
+          </Grid>
+          <NewDesign
+            infoMessage={this.state.infoMessage}
+            onHandleBack={this.handleBack}
+            designerCode={this.props.designerCode}
+            onHandleNewDesign={this.handleNewDesign}
+          />
+        </div>
+      )
     }
+    
 
     return (
       <div className="loggedin-background">
