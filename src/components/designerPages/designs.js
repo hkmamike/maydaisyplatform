@@ -812,7 +812,8 @@ class DesignDetails extends React.Component {
             loading: true,
             designDetails: {},
             cropperOpen: false,
-            img: null
+            img: null,
+            newImageFlag: false
         }
     }
 
@@ -845,8 +846,8 @@ class DesignDetails extends React.Component {
         this.props.onHandleBack();
     }
 
-    handleDesignUpdate = (name, price, description, color, flower, croppedImg) => {
-        this.props.onHandleDesignUpdate(this.props.selectedDesign, name, price, description, color, flower, croppedImg);
+    handleDesignUpdate = (name, price, description, color, flower, croppedImg, newImageFlag) => {
+        this.props.onHandleDesignUpdate(this.props.selectedDesign, name, price, description, color, flower, croppedImg, newImageFlag);
     }
 
     handleNameChange = (e) => {
@@ -869,7 +870,8 @@ class DesignDetails extends React.Component {
         this.setState({
             cropperOpen: false,
             img: null,
-            croppedImg: dataURL
+            croppedImg: dataURL,
+            newImageFlag: true
           });
     }
     handleRequestHide = () => {
@@ -892,6 +894,7 @@ class DesignDetails extends React.Component {
     var flower = this.state.flower;
     var description = this.state.description;
     var croppedImg = this.state.croppedImg;
+    var newImageFlag = this.state.newImageFlag;
     let content = null;
 
     if (loadingState) {
@@ -1019,7 +1022,7 @@ class DesignDetails extends React.Component {
                   </Col>
                   <Col sm={4}>
                     <Button bsStyle="" className="button sub-details-back" onClick={() => this.handleBack()}>{strings.backButton}</Button>
-                    <Button bsStyle="" className="button sub-details-update" onClick={() => this.handleDesignUpdate(name, price, description, color, flower, croppedImg)}>{strings.updateButton}</Button>
+                    <Button bsStyle="" className="button sub-details-update" onClick={() => this.handleDesignUpdate(name, price, description, color, flower, croppedImg, newImageFlag)}>{strings.updateButton}</Button>
                   </Col>
                 </FormGroup>
               </Row>
@@ -1046,7 +1049,8 @@ export default class Designs extends Component {
       loading: true,
       designsDetailsStatus: 0,
       selectedDesign: '',
-      infoMessage: null
+      infoMessage: null,
+      newImage: false
     }
   }
   componentWillReceiveProps (nextProps) {
@@ -1098,16 +1102,36 @@ export default class Designs extends Component {
     });
   }
 
-  handleDesignUpdate = (selectedDesign, name, price, description, color, flower, croppedImg) => {
+  handleDesignUpdate = (selectedDesign, name, price, description, color, flower, croppedImg, newImageFlag) => {
 
-    var storageRef = firebase.storage().ref();
-    var testRef = storageRef.child('test.jpg');
+    if (newImageFlag) {
+      var storageRef = firebase.storage().ref();
+      var testRef = storageRef.child(`${selectedDesign}`+'.jpg');
+      var downloadURL;
 
-    testRef.putString(croppedImg, 'data_url').then(function(snapshot) {
-      console.log('Uploaded a data_url string!', testRef.fullPath);
-    });
+      //first upload the image and ge tthe url path
+      testRef.putString(croppedImg, 'data_url').then((snapshot) => {
+        downloadURL = snapshot.downloadURL;
 
-    base.update(`arrangementsList/${selectedDesign}`, {
+        //then update the design record with the new url
+        base.update(`arrangementsList/${selectedDesign}`, {
+          data: {
+              name: name,
+              price: price,
+              description: description,
+              color: color,
+              flower: flower,
+              image: downloadURL
+          }
+        }).then(() => 
+              this.setState({ infoMessage: 'design has been updated'})
+          ).catch(err => {
+              console.log('An error occured when updating design.');
+              this.setState({ infoMessage: 'An error occured when updating design'});
+          });
+      })
+    } else {
+      base.update(`arrangementsList/${selectedDesign}`, {
         data: {
             name: name,
             price: price,
@@ -1115,14 +1139,13 @@ export default class Designs extends Component {
             color: color,
             flower: flower,
         }
-    }).then(() => 
+      }).then(() => 
             this.setState({ infoMessage: 'design has been updated'})
         ).catch(err => {
             console.log('An error occured when updating design.');
             this.setState({ infoMessage: 'An error occured when updating design'});
         });
-
-    
+    }
   }
 
   render () {
