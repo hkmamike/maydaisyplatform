@@ -70,8 +70,8 @@ let strings = new LocalizedStrings({
   ch: {}
 });
 
-const ButtonToMarket = ({ title, history }) => (
-  <Button bsStyle="" className="no-sub-button" onClick={() => history.push('/arrangements')}>{strings.browseMarket}</Button>
+const ButtonToPersonalAccount = ({ title, history }) => (
+  <Button bsStyle="" className="no-sub-button" onClick={() => history.push('/orderhistory')}>Go to Personal Account</Button>
 );
 
 class UpdateProgress extends React.Component {
@@ -173,14 +173,12 @@ class OrderDetails extends React.Component {
     }
 
     componentWillMount () {
-        this.fireBaseListenerForSubDetails = firebaseAuth().onAuthStateChanged((user) => {
-            base.fetch(`allTransactions/${this.props.designerCode}/${this.props.selectedOrder}`, {
-                context: this,
-                then(data) {
-                    this.setState({orderDetails: data, loading: false, uid: user.uid});
-                }
-            });
-        });
+      base.fetch(`allTransactions/${this.props.designerCode}/${this.props.selectedOrder}`, {
+        context: this,
+        then(data) {
+            this.setState({orderDetails: data, loading: false});
+        }
+      });
     }
 
     componentWillUnmount () {
@@ -473,24 +471,49 @@ export default class OrdersDashboard extends Component {
   }
   componentWillMount() {
     strings.setLanguage(this.props.languageChanged);
-    this.fireBaseListenerForOrder = firebaseAuth().onAuthStateChanged((user) => {
-        base.fetch(`allTransactions/${this.props.designerCode}`, {
-            context: this,
-            queries: {
-                orderByChild: 'referenceCode'
-            },
-            then(data) {
-                this.setState({orderData: data, loading: false, userID: user.uid});
-            }
-        });
-      });
+    base.fetch(`allTransactions/${this.props.designerCode}`, {
+        context: this,
+        queries: {
+            orderByChild: 'referenceCode'
+        },
+        then(data) {
+            this.setState({orderData: data, loading: false});
+        }
+    });
+    base.fetch(`allTransactions/${this.props.designerCode}`, {
+      context: this,
+      queries: {
+          orderByChild: 'referenceCode'
+      },
+      then(data) {
+          this.setState({orderData: data, loading: false});
+      }
+    });
   }
   componentDidMount () {
     window.scrollTo(0, 0);
+    this.removeListener = firebaseAuth().onAuthStateChanged((user) => {
+
+      this.setUpStepListener = base.bindToState(`users/${user.uid}/info/shopSetupStep`, {
+        context: this,
+        state: 'shopSetupStep'
+      });
+
+      this.setUpStepListener = base.bindToState(`users/${user.uid}/info/isDesigner`, {
+        context: this,
+        state: 'isDesigner'
+      });
+
+    });
   }
   componentWillUnmount () {
     //returns the unsubscribe function
-    this.fireBaseListenerForOrder && this.fireBaseListenerForOrder();
+
+    // this.fireBaseListenerForOrder && this.fireBaseListenerForOrder();
+    // this.authListenerForShopSetup && this.authListenerForShopSetup();
+
+    this.removeListener && this.removeListener();
+    base.removeBinding(this.setUpStepListener);
   }
   handleChooseOrder(chosenKey) {
     this.setState({orderDetailsStatus: 1, selectedOrder: chosenKey});
@@ -513,6 +536,8 @@ export default class OrdersDashboard extends Component {
     var loadingState = this.state.loading;
     var orderDetailsStatus = this.state.orderDetailsStatus;
     var orders;
+    let headerNav = null;
+    let content = null;
 
     // console.log('data check: ', Object.keys(data).length);
     if (Object.keys(data).length===0) {
@@ -575,8 +600,39 @@ export default class OrdersDashboard extends Component {
         )
       }, this)
     }
-  
-    let content = null;
+
+    if (this.state.isDesigner==="y" && (loadingState || orderDetailsStatus===0 || orderDetailsStatus===1)) {
+      headerNav = (
+        <div>
+          <Row className="show-grid loggedin-nav">
+            <Col xs={4} className="loggedin-nav-button">
+              <Link to="/ordersdashboard" className="nav-selected">
+                <i className="fa fa-book fa-lg nav-icon"></i>
+                <div className="nav-icon-title">{strings.ordersDashboard1}<br/>{strings.ordersDashboard2}</div>
+              </Link>
+            </Col>
+            <Col xs={4} className="loggedin-nav-button">
+              <Link to="/designs">
+                <i className="fa fa-star fa-lg nav-icon"></i>
+                <div className="nav-icon-title">{strings.designs1}<br/>{strings.designs2}</div>
+              </Link>
+            </Col>
+            <Col xs={4} className="loggedin-nav-button">
+              <Link to="/shopinfo">
+                <i className="fa fa-home fa-lg nav-icon"></i>
+                <div className="nav-icon-title">{strings.shopInformation1}<br/>{strings.shopInformation2}</div>
+              </Link>
+            </Col>
+          </Row>
+        </div>
+      )
+    } else {
+      headerNav = (
+        <div>
+        </div>
+      )
+    }
+
     if (loadingState) {
       content = (
         <div>
@@ -584,7 +640,7 @@ export default class OrdersDashboard extends Component {
           <div className="loader"></div>
         </div>
       )
-    } else if (orderDetailsStatus===0){
+    } else if (this.state.isDesigner==="y"  && orderDetailsStatus===0){
       content = (
         <div>
           <Grid>
@@ -601,7 +657,7 @@ export default class OrdersDashboard extends Component {
           {orders}
         </div>
       )
-    } else if (orderDetailsStatus===1) {
+    } else if (this.state.isDesigner==="y" && orderDetailsStatus===1) {
       content = (
         <div>
           <Grid>
@@ -623,31 +679,31 @@ export default class OrdersDashboard extends Component {
           />
         </div>
       )
+    } else if (this.state.shopSetupStep ===0) {
+      content = (
+        <div>
+          
+          <div>shopSetupStep: {this.state.shopSetupStep}, signup form </div>
+          <div>We are currently accepting new florists in the following regions</div>
+          <div>If you are interested, please fill out this form: first name, last name, phone, email, flower shop name, website url, how did you hear about us</div>
+
+        </div>
+      )
+    } else if (this.state.shopSetupStep ===1) {
+      content = (
+        <div>you are all set, our </div>
+      )
     }
 
     return (
       <div className="loggedin-background">
         <Grid>
-          <Row className="show-grid loggedin-nav">
-            <Col xs={4} className="loggedin-nav-button">
-              <Link to="/ordersdashboard" className="nav-selected">
-                <i className="fa fa-book fa-lg nav-icon"></i>
-                <div className="nav-icon-title">{strings.ordersDashboard1}<br/>{strings.ordersDashboard2}</div>
-              </Link>
-            </Col>
-            <Col xs={4} className="loggedin-nav-button">
-              <Link to="/designs">
-                <i className="fa fa-star fa-lg nav-icon"></i>
-                <div className="nav-icon-title">{strings.designs1}<br/>{strings.designs2}</div>
-              </Link>
-            </Col>
-            <Col xs={4} className="loggedin-nav-button">
-              <Link to="/shopinfo">
-                <i className="fa fa-home fa-lg nav-icon"></i>
-                <div className="nav-icon-title">{strings.shopInformation1}<br/>{strings.shopInformation2}</div>
-              </Link>
-            </Col>
+          <Row>
+            <div className="no-sub-section">            
+              <Route path="/" render={(props) => <ButtonToPersonalAccount  {...props}/>} />
+            </div>
           </Row>
+          {headerNav}
           <Row className="show-grid loggedin-margin-box">
             <Col className="loggedin-content">
               {content}

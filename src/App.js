@@ -107,6 +107,43 @@ export default class App extends Component {
     }
   }
 
+  handleCreateShop = () => {
+    this.removeListener();
+    this.removeListener = firebaseAuth().onAuthStateChanged((user) => {
+      if (user) {
+        base.fetch(`users/${user.uid}/info/`, {
+          context: this,
+          then(data) {
+            if (data.shop) {
+              this.setState({
+                authed: true, 
+                loading: false, 
+                uid: user.uid,
+                //login redirects to dashboard if user has a shop
+                isDesigner: true, 
+                designerCode: data.shop
+              });
+            } else {
+              this.setState({
+                authed: true, 
+                loading: false, 
+                uid: user.uid,
+                //login redirects to order history if user does not have a shop
+                isDesigner: false, 
+              });
+            }
+          }
+        });
+      } else {
+        this.setState({
+          authed: false,
+          loading: false,
+          uid: null
+        })
+      }
+    })
+  }
+
   componentDidMount () {
     this.removeListener = firebaseAuth().onAuthStateChanged((user) => {
       if (user) {
@@ -117,7 +154,7 @@ export default class App extends Component {
               this.setState({
                 authed: true, 
                 loading: false, 
-                UserID: firebase.auth().currentUser, 
+                uid: user.uid,
                 //login redirects to dashboard if user has a shop
                 isDesigner: true, 
                 designerCode: data.shop
@@ -126,7 +163,8 @@ export default class App extends Component {
               this.setState({
                 authed: true, 
                 loading: false, 
-                UserID: firebase.auth().currentUser,
+                uid: user.uid,
+                //login redirects to order history if user does not have a shop
                 isDesigner: false, 
               });
             }
@@ -136,7 +174,7 @@ export default class App extends Component {
         this.setState({
           authed: false,
           loading: false,
-          UserID: null
+          uid: null
         })
       }
     })
@@ -200,7 +238,7 @@ export default class App extends Component {
             <PrivateRoute authed={this.state.authed} path='/accountinfo' component={AccountInfo} languageChanged={this.state.languageChanged}/>
  
  
-            <PrivateRoute authed={this.state.authed} path='/ordersdashboard' component={OrdersDashboard} designerCode={this.state.designerCode} languageChanged={this.state.languageChanged}/>
+            <PrivateRoute authed={this.state.authed} path='/ordersdashboard' component={OrdersDashboard} designerCode={this.state.designerCode} onCreateShop={this.handleCreateShop} languageChanged={this.state.languageChanged}/>
             <PrivateRoute authed={this.state.authed} path='/designs' component={Designs} designerCode={this.state.designerCode} languageChanged={this.state.languageChanged}/>
             <PrivateRoute authed={this.state.authed} path='/shopinfo' component={ShopInfo} designerCode={this.state.designerCode} languageChanged={this.state.languageChanged}/>
 

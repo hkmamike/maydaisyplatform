@@ -1,6 +1,6 @@
 import React, { Component } from 'react'
 import { firebaseAuth } from '../config/constants';
-import { Link } from 'react-router-dom';
+import { Link, Route } from 'react-router-dom';
 import { FormGroup, FormControl, Grid, Row, Col, Button, Glyphicon, Modal } from 'react-bootstrap';
 import { base } from '../config/constants';
 import LocalizedStrings from 'react-localization';
@@ -33,6 +33,10 @@ let strings = new LocalizedStrings({
   },
   ch: {}
 });
+
+const ButtonToShop = ({ title, history }) => (
+  <Button bsStyle="" className="no-sub-button" onClick={() => history.push('/ordersdashboard')}>Go to My Shop</Button>
+);
 
 class DeleteAddressModal extends React.Component {
     constructor() {
@@ -438,6 +442,11 @@ export default class AddressBook extends Component {
     return (
       <div className="loggedin-background">
         <Grid>
+          <Row>
+            <div className="no-sub-section">            
+              <Route path="/" render={(props) => <ButtonToShop {...props}/>} />
+            </div>
+          </Row>
           <Row className="show-grid loggedin-nav">
             <Col xs={4} className="loggedin-nav-button">
               <Link to="/orderhistory">

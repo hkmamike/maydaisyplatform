@@ -60,6 +60,10 @@ let strings = new LocalizedStrings({
   ch: {}
 });
 
+const ButtonToPersonalAccount = ({ title, history }) => (
+  <Button bsStyle="" className="no-sub-button" onClick={() => history.push('/orderhistory')}>Go to Personal Account</Button>
+);
+
 class ColorType extends React.Component {
   constructor() {
     super();
@@ -1313,18 +1317,22 @@ export default class Designs extends Component {
     console.log('designer is', designer);
     var thisRef = this;
     strings.setLanguage(this.props.languageChanged);
-    this.fireBaseListenerForDesigns = firebaseAuth().onAuthStateChanged((user) => {
-        firebase.database().ref(`arrangementsList`).orderByChild('florist').equalTo(designer).once('value', function(snapshot) {
-            var snapshotVal = snapshot.val();
-            if (snapshotVal) {
-                thisRef.setState({
-                    designsData: snapshotVal, 
-                    loading: false, 
-                    userID: user.uid
-                });
-            }
+    if (designer) {
+      this.fireBaseListenerForDesigns = firebaseAuth().onAuthStateChanged((user) => {
+          firebase.database().ref(`arrangementsList`).orderByChild('florist').equalTo(designer).once('value', function(snapshot) {
+              var snapshotVal = snapshot.val();
+              if (snapshotVal) {
+                  thisRef.setState({
+                      designsData: snapshotVal, 
+                      loading: false, 
+                      userID: user.uid
+                  });
+              }
+          });
         });
-      });
+    } else {
+      console.log('user does not have a shop');
+    }
   }
   componentDidMount () {
     window.scrollTo(0, 0);
@@ -1372,15 +1380,13 @@ export default class Designs extends Component {
                 flower: flowersArray,
                 name: name,
                 price: price,
-                season: 'all'
+                seasonality: 'all',
+                city: data.city
             }
           }).then((newLocation) => {
-              console.log('key is:', newLocation.key.key);
               var newLocationKey = newLocation.key;
               var newRef = storageRef.child(`${newLocationKey}`+'.jpg');
               var downloadURL;
-
-              console.log('croppedImg is:', croppedImg);
 
               //first upload the image
               newRef.putString(croppedImg, 'data_url').then((snapshot) => {
@@ -1573,7 +1579,12 @@ export default class Designs extends Component {
 
     return (
       <div className="loggedin-background">
-        <Grid>
+        <Grid> 
+          <Row>
+            <div className="no-sub-section">            
+              <Route path="/" render={(props) => <ButtonToPersonalAccount {...props}/>} />
+            </div>
+          </Row>
           <Row className="show-grid loggedin-nav">
             <Col xs={4} className="loggedin-nav-button">
               <Link to="/ordersdashboard">

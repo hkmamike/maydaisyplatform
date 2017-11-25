@@ -7,8 +7,6 @@ import {InstantSearch, Hits, SearchBox, RefinementList, Pagination, CurrentRefin
 
 import {connectMenu} from 'react-instantsearch/connectors';
 
-import 'rc-slider/assets/index.css';
-
 const VirtualMenu = connectMenu(() => null);
 
 let strings = new LocalizedStrings({
@@ -16,7 +14,8 @@ let strings = new LocalizedStrings({
     ch: {}
 });
 
-function Search() {
+
+function CustomResult() {
     return (
         <div className="no-padding list-container">
             <Hits hitComponent={Product}/>
@@ -41,6 +40,50 @@ function Product({hit}) {
             </Link>
         </Col>
     );
+}
+
+const Facets = () => {
+    <aside>
+        <ClearAll/>
+
+        <section className="facet-wrapper">
+        <div className="facet-category-title facet">Show results for</div>
+        <HierarchicalMenu
+            key="categories"
+            attributes={['category', 'sub_category', 'sub_sub_category']}
+        />
+        </section>
+
+        <section className="facet-wrapper">
+        <div className="facet-category-title facet">Refine By</div>
+        <Panel title="Type">
+            <RefinementList
+            attributeName="type"
+            operator="or"
+            limitMin={5}
+            withSearchBox
+            />
+        </Panel>
+        <Panel title="Materials">
+            <RefinementList
+            attributeName="materials"
+            operator="or"
+            limitMin={5}
+            withSearchBox
+            />
+        </Panel>
+        <ConnectedColorRefinementList attributeName="colors" operator="or" />
+        <Panel title="Rating">
+            <StarRating attributeName="rating" max={5} />
+        </Panel>
+        <Panel title="Price">
+            <RangeInput key="price_input" attributeName="price" />
+        </Panel>
+        </section>
+        <div className="thank-you">
+        Data courtesy of <a href="http://www.ikea.com/">ikea.com</a>
+        </div>
+    </aside>
 }
 
 export default class ArrangementsList extends Component {
@@ -78,14 +121,15 @@ export default class ArrangementsList extends Component {
                     apiKey="24a14549af086c57dc295ac4bc6f5cc5"
                     indexName="arrangementsList"
                 >
-                    <CurrentRefinements/>
-                    <ClearAll/>
                     <SearchBox/>
                     <VirtualMenu attributeName="deliveryAreas" defaultRefinement={marketRegion} />
                     <RefinementList attributeName="flower" container= '#flowers'/>
                     <RefinementList attributeName="color" container= '#colors'/>
-                    <Search/>
-                    <Pagination/>
+
+                    <div>
+                        <Facets/>
+                        <CustomResult/>
+                    </div>
                 </InstantSearch>
             </div>
         )

@@ -1,6 +1,6 @@
 import React, { Component } from 'react'
 import { firebaseAuth } from '../config/constants';
-import { Link } from 'react-router-dom';
+import { Link, Route } from 'react-router-dom';
 import { base } from '../config/constants';
 import { Grid, Row, Col, FormGroup, FormControl, Button, Glyphicon } from 'react-bootstrap';
 import { resetPassword } from '../helpers/auth'
@@ -42,6 +42,10 @@ let strings = new LocalizedStrings({
     resetPWSent: '密碼重設方法已寄出: '
   }
 });
+
+const ButtonToShop = ({ title, history }) => (
+  <Button bsStyle="" className="no-sub-button" onClick={() => history.push('/ordersdashboard')}>Go to My Shop</Button>
+);
 
 export default class MarketAccountInfo extends Component {
 
@@ -203,6 +207,11 @@ export default class MarketAccountInfo extends Component {
     return (
         <div className="loggedin-background">
           <Grid>
+            <Row>
+              <div className="no-sub-section">            
+                <Route path="/" render={(props) => <ButtonToShop {...props}/>} />
+              </div>
+            </Row>
             <Row className="show-grid loggedin-nav">
               <Col xs={4} className="loggedin-nav-button">
                 <Link to="/orderhistory">

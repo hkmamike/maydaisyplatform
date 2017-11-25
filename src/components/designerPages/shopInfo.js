@@ -1,6 +1,6 @@
 import React, { Component } from 'react'
 import { firebaseAuth } from '../config/constants';
-import { Link } from 'react-router-dom';
+import { Link, Route } from 'react-router-dom';
 import { base } from '../config/constants';
 import { Grid, Row, Col, FormGroup, FormControl, Button, Glyphicon, Modal, DropdownButton, MenuItem } from 'react-bootstrap';
 import { resetPassword } from '../helpers/auth'
@@ -44,6 +44,10 @@ let strings = new LocalizedStrings({
   },
   ch: {}
 });
+
+const ButtonToPersonalAccount = ({ title, history }) => (
+  <Button bsStyle="" className="no-sub-button" onClick={() => history.push('/orderhistory')}>Go to Personal Account</Button>
+);
 
 class OpenDays extends React.Component {
   constructor() {
@@ -660,32 +664,37 @@ export default class ShopInfo extends Component {
     return (
         <div className="loggedin-background">
            <Grid>
-          <Row className="show-grid loggedin-nav">
-            <Col xs={4} className="loggedin-nav-button">
-              <Link to="/ordersdashboard">
-                <i className="fa fa-book fa-lg nav-icon"></i>
-                <div className="nav-icon-title">{strings.ordersDashboard1}<br/>{strings.ordersDashboard2}</div>
-              </Link>
-            </Col>
-            <Col xs={4} className="loggedin-nav-button">
-              <Link to="/designs">
-                <i className="fa fa-star fa-lg nav-icon"></i>
-                <div className="nav-icon-title">{strings.designs1}<br/>{strings.designs2}</div>
-              </Link>
-            </Col>
-            <Col xs={4} className="loggedin-nav-button">
-              <Link to="/shopinfo" className="nav-selected">
-                <i className="fa fa-home fa-lg nav-icon"></i>
-                <div className="nav-icon-title">{strings.shopInformation1}<br/>{strings.shopInformation2}</div>
-              </Link>
-            </Col>
-          </Row>
-          <Row className="show-grid loggedin-margin-box">
-            <Col className="loggedin-content">
-              {content}
-            </Col>
-          </Row>
-        </Grid>
+            <Row>
+              <div className="no-sub-section">            
+                <Route path="/" render={(props) => <ButtonToPersonalAccount {...props}/>} />
+              </div>
+            </Row>
+            <Row className="show-grid loggedin-nav">
+              <Col xs={4} className="loggedin-nav-button">
+                <Link to="/ordersdashboard">
+                  <i className="fa fa-book fa-lg nav-icon"></i>
+                  <div className="nav-icon-title">{strings.ordersDashboard1}<br/>{strings.ordersDashboard2}</div>
+                </Link>
+              </Col>
+              <Col xs={4} className="loggedin-nav-button">
+                <Link to="/designs">
+                  <i className="fa fa-star fa-lg nav-icon"></i>
+                  <div className="nav-icon-title">{strings.designs1}<br/>{strings.designs2}</div>
+                </Link>
+              </Col>
+              <Col xs={4} className="loggedin-nav-button">
+                <Link to="/shopinfo" className="nav-selected">
+                  <i className="fa fa-home fa-lg nav-icon"></i>
+                  <div className="nav-icon-title">{strings.shopInformation1}<br/>{strings.shopInformation2}</div>
+                </Link>
+              </Col>
+            </Row>
+            <Row className="show-grid loggedin-margin-box">
+              <Col className="loggedin-content">
+                {content}
+              </Col>
+            </Row>
+          </Grid>
         </div>
       )
   }

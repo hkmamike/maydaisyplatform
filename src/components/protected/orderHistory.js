@@ -54,6 +54,10 @@ let strings = new LocalizedStrings({
   ch: {}
 });
 
+const ButtonToShop = ({ title, history }) => (
+  <Button bsStyle="" className="no-sub-button" onClick={() => history.push('/ordersdashboard')}>Go to My Shop</Button>
+);
+
 const ButtonToMarket = ({ title, history }) => (
   <Button bsStyle="" className="no-sub-button" onClick={() => history.push('/arrangements')}>{strings.browseMarket}</Button>
 );
@@ -538,6 +542,11 @@ export default class OrderHistory extends Component {
     return (
       <div className="loggedin-background">
         <Grid>
+          <Row>
+            <div className="no-sub-section">            
+              <Route path="/" render={(props) => <ButtonToShop {...props}/>} />
+            </div>
+          </Row>
           <Row className="show-grid loggedin-nav">
             <Col xs={4} className="loggedin-nav-button">
               <Link to="/orderhistory" className="nav-selected">
