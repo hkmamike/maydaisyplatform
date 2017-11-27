@@ -3,17 +3,81 @@ import { Col } from 'react-bootstrap';
 import { Link } from 'react-router-dom';
 import LocalizedStrings from 'react-localization';
 
-import {InstantSearch, Hits, SearchBox, RefinementList, Pagination, CurrentRefinements, ClearAll } from 'react-instantsearch/dom';
+import Slider, { Range } from 'rc-slider';
+import Tooltip from 'rc-tooltip';
+import 'rc-slider/assets/index.css';
 
-import {connectMenu} from 'react-instantsearch/connectors';
-
-const VirtualMenu = connectMenu(() => null);
+import {
+    InstantSearch, 
+    Hits, 
+    SearchBox, 
+    RefinementList, 
+    Pagination, ClearAll, 
+    Panel, 
+    HierarchicalMenu, 
+    RangeSlider,
+    Configure,
+} from 'react-instantsearch/dom';
+import {connectRefinementList, connectHits, connectMenu, connectRange} from 'react-instantsearch/connectors';
 
 let strings = new LocalizedStrings({
     en:{},
     ch: {}
 });
 
+const createSliderWithTooltip = Slider.createSliderWithTooltip;
+const RangeWithToolTip = createSliderWithTooltip(Range);
+const Handle = Slider.Handle;
+
+const handle = (props) => {
+    const { value, dragging, index, ...restProps } = props;
+    return (
+      <Tooltip
+        prefixCls="rc-slider-tooltip"
+        overlay={value}
+        visible={dragging}
+        placement="top"
+        key={index}
+      >
+        <Handle value={value} {...restProps} />
+      </Tooltip>
+    );
+  };
+
+class PriceRange extends Component {
+    constructor() {
+        super();
+        this.state = {
+        };
+    }
+
+    handleChange = (value) => {
+        console.log('min is ', value[0]);
+        console.log('max is ', value[1]);
+        console.log(this.props.currentRefinement);
+        this.props.refine({min: value[0], max: value[1]});
+    }
+
+    componentWillMount () {
+        var initialMin = this.props.currentRefinement.min;
+        var initialMax = this.props.currentRefinement.max;
+        this.setState({initialMin: initialMin, initialMax: initialMax})
+    }
+
+    render() {
+        return (
+            <RangeWithToolTip
+                min={this.state.initialMin}
+                max={this.state.initialMax}
+                defaultValue={[this.state.initialMin, this.state.initialMax]}
+                allowCross={false}
+                pushable={50}
+                onChange={this.handleChange}
+                tipFormatter={value => `${value}`}
+            />
+        )
+    }
+}
 
 function CustomResult() {
     return (
@@ -26,65 +90,57 @@ function CustomResult() {
 function Product({hit}) {
     return (
 
-        <Col xs={6} sm={4}>
-            <Link to={`/florist/${hit.florist}/${hit.id}`}  className="list-box">
+        <Col xs={6} sm={4} className="list-item">
+            <Link to={`/florist/${hit.florist}/${hit.id}`}>
                 <div className="list-pic" style={{ backgroundImage: 'url(' + hit.image + ')'}}></div>
                 <div className="text-box">
                     <div className="text-line">
                         <div className="list-name">{hit.name}</div>
-                        <div className="list-price">{hit.price}</div>
+                        <div className="list-price">${hit.price}</div>
                     </div>
-                    <div className="horizontal-line"></div>
-                    <div className="list-florist">by: {hit.floristName}</div>
+                    <div className="list-florist">by {hit.floristName}</div>
                 </div>
             </Link>
         </Col>
     );
 }
 
-const Facets = () => {
+const Facets = () => (
     <aside>
         <ClearAll/>
-
         <section className="facet-wrapper">
-        <div className="facet-category-title facet">Show results for</div>
-        <HierarchicalMenu
-            key="categories"
-            attributes={['category', 'sub_category', 'sub_sub_category']}
-        />
+            <HierarchicalMenu
+                key="category"
+                attributes={['category']}
+            />
         </section>
 
         <section className="facet-wrapper">
-        <div className="facet-category-title facet">Refine By</div>
-        <Panel title="Type">
-            <RefinementList
-            attributeName="type"
-            operator="or"
-            limitMin={5}
-            withSearchBox
-            />
-        </Panel>
-        <Panel title="Materials">
-            <RefinementList
-            attributeName="materials"
-            operator="or"
-            limitMin={5}
-            withSearchBox
-            />
-        </Panel>
-        <ConnectedColorRefinementList attributeName="colors" operator="or" />
-        <Panel title="Rating">
-            <StarRating attributeName="rating" max={5} />
-        </Panel>
-        <Panel title="Price">
-            <RangeInput key="price_input" attributeName="price" />
-        </Panel>
+            <Panel title="Flower">
+                <RefinementList
+                    attributeName="flower"
+                    operator="or"
+                    limitMin={5}
+                />
+            </Panel>
+            <Panel title="Color">
+                <RefinementList
+                    attributeName="color"
+                    operator="or"
+                    limitMin={5}
+                />
+            </Panel>
+            <Panel title="Price">
+                <ConnectedRange
+                    attributeName="price"
+                    min={0}
+                    max={1500}
+                />
+            </Panel>
+
         </section>
-        <div className="thank-you">
-        Data courtesy of <a href="http://www.ikea.com/">ikea.com</a>
-        </div>
     </aside>
-}
+)
 
 export default class ArrangementsList extends Component {
 
@@ -121,12 +177,9 @@ export default class ArrangementsList extends Component {
                     apiKey="24a14549af086c57dc295ac4bc6f5cc5"
                     indexName="arrangementsList"
                 >
-                    <SearchBox/>
-                    <VirtualMenu attributeName="deliveryAreas" defaultRefinement={marketRegion} />
-                    <RefinementList attributeName="flower" container= '#flowers'/>
-                    <RefinementList attributeName="color" container= '#colors'/>
+                    <Configure hitsPerPage = {12}/>
 
-                    <div>
+                    <div className="content-wrapper">
                         <Facets/>
                         <CustomResult/>
                     </div>
@@ -135,3 +188,7 @@ export default class ArrangementsList extends Component {
         )
     }
 }
+
+//Algolia connectors
+const VirtualMenu = connectMenu(() => null);
+const ConnectedRange = connectRange(PriceRange);

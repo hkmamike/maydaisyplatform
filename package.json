@@ -8,7 +8,7 @@
     "firebase": "^4.3.0",
     "moment": "^2.19.1",
     "nodemailer": "^4.4.0",
-    "rc-slider": "^8.3.5",
+    "rc-slider": "^8.4.0",
     "re-base": "^3.0.5",
     "react": "^15.6.1",
     "react-addons-shallow-compare": "^15.6.2",

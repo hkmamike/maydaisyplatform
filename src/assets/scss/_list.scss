@@ -1,4 +1,8 @@
-
+aside {
+    float: left;
+    margin-left: 1%;
+    display: block;
+}
 
 .fa-check {
     opacity: 0;
@@ -15,22 +19,9 @@
     }
 }
 
-.list-pic {
-    padding: 0;
-    min-height: 250px;
-    max-height: 300px;
-    max-width: 300px;
-    background-position: center center;
-    background-repeat: no-repeat;
-    background-size: cover;
-    border-width: 0;
-    border-color: $white;
-    border-style: solid;
-}
-
 .list-container {
-    margin-top: 20px;
-    margin-bottom: 20px;
+    margin: 1%;
+    max-width: 850px;
     background-color: $white;
     color: $darkGrey;
     padding: 5px auto;
@@ -41,11 +32,6 @@
         @media (max-width: 600px) {
             display: none;
         }
-    }
-
-    a {
-        text-decoration: none;
-        color: black;
     }
 
     .list-pic {
@@ -61,15 +47,16 @@
         border-style: solid;
     }
 
-    .list-box {
-        box-shadow: 1px 1px 1px #E1E1E1;
-        margin-bottom: 30px;
-
+    .list-item {
+        margin-bottom: 20px;
         min-width: 140px;
         max-width: 300px;
         font-size: 90%;
-        &:hover {
-            box-shadow: 2px 2px 2px #AEAEAE;
+        a {
+            color: black !important;
+            &:hover {
+                color: $darkpink !important;
+            }
         }
     }
 
@@ -77,10 +64,13 @@
         display: flex;
         justify-content: space-between;
         .list-name {
+            margin-top: 5px;
             margin-left: 10px;
+            font-weight: bold;
         }
         .list-price {
-            color: $teal;
+            margin-top: 5px;
+            font-weight: bold;
             margin-right: 10px;
         }
     }
@@ -88,12 +78,8 @@
     .list-florist {
         text-align: left;
         margin-left: 10px;
+        font-weight: lighter;
+        font-size: 80%;
     }
 
-    .horizontal-line {
-        width: 90%;
-        margin: 3px auto;
-        background: #CCC;
-        height: 1px;
-    }
 }
