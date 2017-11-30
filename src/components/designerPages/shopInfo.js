@@ -3,7 +3,6 @@ import { firebaseAuth } from '../config/constants';
 import { Link, Route } from 'react-router-dom';
 import { base } from '../config/constants';
 import { Grid, Row, Col, FormGroup, FormControl, Button, Glyphicon, Modal, DropdownButton, MenuItem } from 'react-bootstrap';
-import { resetPassword } from '../helpers/auth'
 import LocalizedStrings from 'react-localization';
 
 let strings = new LocalizedStrings({
@@ -540,8 +539,6 @@ export default class ShopInfo extends Component {
   render () {
 
     var loadingState = this.state.loading;
-    var designerData = this.state.designerData;
-    var name= this.state.name;
     var address = this.state.address;
     var description = this.state.description;
     var leadTime = this.state.leadTime;

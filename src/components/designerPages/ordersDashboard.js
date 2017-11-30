@@ -1,11 +1,9 @@
 import React, { Component } from 'react'
 import { firebaseAuth } from '../config/constants';
 import { Link, Route } from 'react-router-dom';
-import { FormGroup, FormControl, Grid, Row, Col, Button, Glyphicon, Modal, DropdownButton, MenuItem } from 'react-bootstrap';
+import { FormGroup, Grid, Row, Col, Button, Glyphicon, Modal } from 'react-bootstrap';
 import { base } from '../config/constants';
 import LocalizedStrings from 'react-localization';
-import StarRatingComponent from 'react-star-rating-component';
-import moment from 'moment';
 
 let strings = new LocalizedStrings({
   en:{
@@ -243,7 +241,6 @@ class OrderDetails extends React.Component {
   render() {
     var orderDetails = this.state.orderDetails;
     var loadingState = this.state.loading;
-    var cardMessage = this.state.cardMessage;
     let content = null;
 
     if (loadingState) {

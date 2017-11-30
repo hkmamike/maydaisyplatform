@@ -71,6 +71,12 @@ export default class MarketAccountInfo extends Component {
           this.setState({orderData: data, loading: false, userID: user.uid});
         }
       });
+      base.fetch(`users/${user.uid}/info/`, {
+        context: this,
+        then(data) {
+          this.setState({userData: data, loading: false, accountEmail: data.email, accountName: data.name, accountPhone: data.phone, uid: data.uid});
+        }
+      });
     });
   }
 
@@ -84,17 +90,6 @@ export default class MarketAccountInfo extends Component {
       } else if (nextProps.languageChanged==='en') {
           strings.setLanguage('en');
       }
-  }
-
-  componentDidMount () {
-    firebaseAuth().onAuthStateChanged((user) => {
-      base.fetch(`users/${user.uid}/info/`, {
-        context: this,
-        then(data) {
-          this.setState({userData: data, loading: false, accountEmail: data.email, accountName: data.name, accountPhone: data.phone, uid: data.uid});
-        }
-      });
-    });
   }
 
   handleAccountNameChange(e) {

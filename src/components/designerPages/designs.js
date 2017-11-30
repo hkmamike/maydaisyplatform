@@ -6,8 +6,6 @@ import { FormGroup, FormControl, Grid, Row, Col, Button, Glyphicon, Modal, Dropd
 import { base } from '../config/constants';
 import * as firebase from 'firebase';
 import LocalizedStrings from 'react-localization';
-import StarRatingComponent from 'react-star-rating-component';
-import moment from 'moment';
 import AvatarCropper from 'react-avatar-cropper';
 
 let strings = new LocalizedStrings({
@@ -964,7 +962,7 @@ class DesignDetails extends React.Component {
                             <div className="avatar-edit">
                                 <i className="fa fa-camera"></i>
                             </div>
-                            <img className="design-detail-arrangement-pic" src={this.state.croppedImg} />
+                            <img className="design-detail-arrangement-pic" alt="" src={this.state.croppedImg} />
                         </div>
                         {this.state.cropperOpen &&
                         <AvatarCropper
@@ -1187,7 +1185,7 @@ class NewDesign extends React.Component {
                             <div className="avatar-edit">
                                 <i className="fa fa-camera"></i>
                             </div>
-                            <img className="design-detail-arrangement-pic" src={this.state.croppedImg} />
+                            <img className="design-detail-arrangement-pic" alt="" src={this.state.croppedImg} />
                         </div>
                         {this.state.cropperOpen &&
                         <AvatarCropper
@@ -1385,7 +1383,7 @@ export default class Designs extends Component {
             }
           }).then((newLocation) => {
               var newLocationKey = newLocation.key;
-              var newRef = storageRef.child(`${newLocationKey}`+'.jpg');
+              var newRef = storageRef.child(`${newLocationKey}.jpg`);
               var downloadURL;
 
               //first upload the image
@@ -1418,7 +1416,7 @@ export default class Designs extends Component {
 
     if (newImageFlag) {
       var storageRef = firebase.storage().ref();
-      var newRef = storageRef.child(`${selectedDesign}`+'.jpg');
+      var newRef = storageRef.child(`${selectedDesign}.jpg`);
       var downloadURL;
 
       //first upload the image and ge tthe url path

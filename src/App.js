@@ -38,7 +38,6 @@ import MarketAccountInfo from './components/protected/marketAccountInfo';
 
 //marketplace - florist account
 import OrdersDashboard from './components/designerPages/ordersDashboard';
-import DesignerLogin from './components/pages/designerLogin';
 import Designs from './components/designerPages/designs';
 import ShopInfo from './components/designerPages/shopInfo';
 
@@ -48,8 +47,6 @@ import './assets/css/default.min.css';
 import 'react-dates/lib/css/_datepicker.css';
 import 'react-dates/initialize';
 
-//firebase
-import * as firebase from 'firebase';
 
 function PrivateRoute ({component: Component, authed, selectRegion, onRegionSelection, languageChanged, designerCode, ...rest}) {
   return (

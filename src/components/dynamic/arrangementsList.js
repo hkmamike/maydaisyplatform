@@ -1,7 +1,9 @@
 import React, { Component } from 'react';
+import ReactDOM from 'react-dom'
 import { Col } from 'react-bootstrap';
 import { Link } from 'react-router-dom';
 import LocalizedStrings from 'react-localization';
+import { Popover, Button, OverlayTrigger, Overlay, ButtonToolbar } from 'react-bootstrap';
 
 import Slider, { Range } from 'rc-slider';
 import Tooltip from 'rc-tooltip';
@@ -12,19 +14,77 @@ import {
     Hits, 
     SearchBox, 
     RefinementList, 
-    Pagination, ClearAll, 
+    Pagination,
+    ClearAll, 
     Panel, 
     HierarchicalMenu, 
     RangeSlider,
     Configure,
 } from 'react-instantsearch/dom';
-import {connectRefinementList, connectHits, connectMenu, connectRange} from 'react-instantsearch/connectors';
+import {
+    connectRefinementList,
+    connectHits,
+    connectMenu,
+    connectRange,
+    connectSearchBox
+} from 'react-instantsearch/connectors';
 
 let strings = new LocalizedStrings({
-    en:{},
+    en: {},
     ch: {}
 });
 
+class PopoverFlower extends Component {
+    render() {
+        return (
+            <div
+                className="filter-popup" 
+                style={{...this.props.style}}
+            >
+              <InstantSearch
+                    appId="IWC5275GW4"
+                    apiKey="24a14549af086c57dc295ac4bc6f5cc5"
+                    indexName="arrangementsList"
+                    onSearchStateChange={this.props.onSearchStateChange}
+                    searchState={this.props.searchState}
+                >
+                    <RefinementList
+                        attributeName="flower"
+                        operator="or"
+                        limitMin={10}
+                    />
+                </InstantSearch>
+            </div>
+        )
+    }
+}
+
+class PopoverColor extends Component {
+    render() {
+        return (
+            <div 
+                className="filter-popup" 
+                style={{...this.props.style}}
+            >
+              <InstantSearch
+                    appId="IWC5275GW4"
+                    apiKey="24a14549af086c57dc295ac4bc6f5cc5"
+                    indexName="arrangementsList"
+                    onSearchStateChange={this.props.onSearchStateChange}
+                    searchState={this.props.searchState}
+                >
+                    <RefinementList
+                        attributeName="color"
+                        operator="or"
+                        limitMin={10}
+                    />
+                </InstantSearch>
+            </div>
+        )
+    }
+}
+
+/////Range Slider/////
 const createSliderWithTooltip = Slider.createSliderWithTooltip;
 const RangeWithToolTip = createSliderWithTooltip(Range);
 const Handle = Slider.Handle;
@@ -52,8 +112,6 @@ class PriceRange extends Component {
     }
 
     handleChange = (value) => {
-        console.log('min is ', value[0]);
-        console.log('max is ', value[1]);
         console.log(this.props.currentRefinement);
         this.props.refine({min: value[0], max: value[1]});
     }
@@ -78,7 +136,9 @@ class PriceRange extends Component {
         )
     }
 }
+///////////
 
+///////////
 function CustomResult() {
     return (
         <div className="no-padding list-container">
@@ -86,7 +146,24 @@ function CustomResult() {
         </div>
     );
 }
+///////////
 
+///////////
+const CustomSearchBox = ({currentRefinement, refine}) => (
+    <div className="search-box">
+        <input 
+            className="search-field"
+            placeholder="design, designer"
+            type="text"
+            value={currentRefinement}
+            onChange={e => refine(e.target.value)}
+        />
+        <i className="fa fa-search" aria-hidden="true"></i>
+    </div>
+)
+///////////
+
+//////////
 function Product({hit}) {
     return (
 
@@ -104,49 +181,114 @@ function Product({hit}) {
         </Col>
     );
 }
+///////////
 
-const Facets = () => (
-    <aside>
-        <ClearAll/>
-        <section className="facet-wrapper">
-            <HierarchicalMenu
-                key="category"
-                attributes={['category']}
-            />
-        </section>
+class Facets extends Component {
 
-        <section className="facet-wrapper">
-            <Panel title="Flower">
-                <RefinementList
-                    attributeName="flower"
-                    operator="or"
-                    limitMin={5}
-                />
-            </Panel>
-            <Panel title="Color">
-                <RefinementList
-                    attributeName="color"
-                    operator="or"
-                    limitMin={5}
-                />
-            </Panel>
-            <Panel title="Price">
-                <ConnectedRange
-                    attributeName="price"
-                    min={0}
-                    max={1500}
-                />
-            </Panel>
+    constructor() {
+        super();
+        this.state = {
+            flowerFilterShow: false,
+            colorFilterShow: false,
+        };
+    }
 
-        </section>
-    </aside>
-)
+    toggleFlowerFilter = () => {
+        this.setState({flowerFilterShow: !this.state.flowerFilterShow});
+    }
+
+    toggleColorFilter = () => {
+        this.setState({colorFilterShow: !this.state.colorFilterShow});
+    }
+
+    render() {
+        var props = this.props;
+        return (
+            <div>
+                <section className="facet-wrapper">
+                    {/* <Panel title="Price">
+                        <ConnectedRange
+                            attributeName="price"
+                            min={0}
+                            max={1500}
+                        />
+                    </Panel> */}
+
+                    <HierarchicalMenu
+                        key="category"
+                        attributes={['category']}
+                    />
+
+                    <ButtonToolbar className="filter-toolbar">
+                        <ClearAll/>
+                        <Button ref="flowerFilter" className="button-filter" onClick={this.toggleFlowerFilter}>
+                            {typeof props.searchState.refinementList === "undefined" 
+                                && 'Flower'}
+                            {typeof props.searchState.refinementList !== "undefined" 
+                                && typeof props.searchState.refinementList.flower === "undefined"
+                                && 'Flower'}
+                            {(typeof props.searchState.refinementList !== "undefined" 
+                                && typeof props.searchState.refinementList.flower !== "undefined"
+                                && props.searchState.refinementList.flower.length === 1) && props.searchState.refinementList.flower[0]}
+                            {(typeof props.searchState.refinementList !== "undefined"
+                                && typeof props.searchState.refinementList.flower !== "undefined"
+                                && props.searchState.refinementList.flower.length !== 1) && 'Flowers: ' + props.searchState.refinementList.flower.length}
+                        </Button>
+                        <Overlay
+                            show={this.state.flowerFilterShow}
+                            onHide={() => this.setState({flowerFilterShow: false})}
+                            placement='bottom'
+                            container={this}
+                            target={() => ReactDOM.findDOMNode(this.refs.flowerFilter)}
+                            rootClose={true}
+                        >
+                            <PopoverFlower 
+                                onSearchStateChange={this.props.onSearchStateChange}
+                                searchState={this.props.searchState}
+                            />
+                        </Overlay>
+                        <Button ref="colorFilter" className="button-filter" onClick={this.toggleColorFilter}>
+                            {typeof props.searchState.refinementList === "undefined" 
+                                && 'Color'}
+                            {typeof props.searchState.refinementList !== "undefined" 
+                                && typeof props.searchState.refinementList.color === "undefined"
+                                && 'Color'}
+                            {(typeof props.searchState.refinementList !== "undefined"
+                                && typeof props.searchState.refinementList.color !== "undefined"
+                                && props.searchState.refinementList.color.length === 1) && props.searchState.refinementList.color[0]}
+                            {(typeof props.searchState.refinementList !== "undefined"
+                                && typeof props.searchState.refinementList.color !== "undefined"
+                                && props.searchState.refinementList.color.length !== 1) && 'Colors: ' + props.searchState.refinementList.color.length}
+                        </Button>
+                        <Overlay
+                            show={this.state.colorFilterShow}
+                            onHide={() => this.setState({colorFilterShow: false})}
+                            placement='bottom'
+                            container={this}
+                            target={() => ReactDOM.findDOMNode(this.refs.colorFilter)}
+                            rootClose={true}
+                        >
+                            <PopoverColor
+                                onSearchStateChange={this.props.onSearchStateChange}
+                                searchState={this.props.searchState}
+                            />
+                        </Overlay>
+                        <ConnectedSearchBox/>
+                    </ButtonToolbar>
+
+                </section>
+            </div>
+        )
+    }
+}
+////////
 
 export default class ArrangementsList extends Component {
 
     constructor() {
         super();
-        this.state = { 
+        this.state = {
+            searchState: {},
         };
     }
 
@@ -166,6 +308,11 @@ export default class ArrangementsList extends Component {
         strings.setLanguage(this.props.languageChanged);
     }
 
+    onSearchStateChange = (searchState) => {
+        this.setState({searchState: searchState});
+        console.log(searchState)
+    }
+
     render() {
 
         var marketRegion = this.props.match.params.marketRegion;
@@ -176,11 +323,23 @@ export default class ArrangementsList extends Component {
                     appId="IWC5275GW4"
                     apiKey="24a14549af086c57dc295ac4bc6f5cc5"
                     indexName="arrangementsList"
+                    onSearchStateChange={this.onSearchStateChange}
+                    searchState={this.state.searchState}
                 >
                     <Configure hitsPerPage = {12}/>
+                    <VirtualRefinementList 
+                        attributeName="flower"
+                        operator="or"
+                        limitMin={10}
+                    />
+                    <VirtualRefinementList 
+                        attributeName="color" 
+                        operator="or"
+                        limitMin={10}
+                    />
 
                     <div className="content-wrapper">
-                        <Facets/>
+                        <Facets searchState={this.state.searchState} onSearchStateChange={this.onSearchStateChange}/>
                         <CustomResult/>
                     </div>
                 </InstantSearch>
@@ -191,4 +350,6 @@ export default class ArrangementsList extends Component {
 
 //Algolia connectors
 const VirtualMenu = connectMenu(() => null);
+const VirtualRefinementList = connectRefinementList(() => null);
 const ConnectedRange = connectRange(PriceRange);
+const ConnectedSearchBox = connectSearchBox(CustomSearchBox);
