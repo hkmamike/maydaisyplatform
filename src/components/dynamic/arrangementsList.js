@@ -198,11 +198,6 @@ class Facets extends Component {
                         />
                     </Panel> */}
 
-                    {/* <HierarchicalMenu
-                        key="category"
-                        attributes={['category']}
-                    /> */}
-
                     <ButtonToolbar className="filter-toolbar">
                         <ClearAll/>
                         <Button 
@@ -354,6 +349,7 @@ export default class ArrangementsList extends Component {
 
     navToNewRegion = () => {
         this.props.history.push(`/arrangements/${this.state.tempMarketRegion}`);
+        this.setState({showRegionSelect: false});
     }
 
     render() {
