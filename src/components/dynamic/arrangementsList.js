@@ -102,7 +102,14 @@ class FlowerFilterModal extends React.Component {
     render() {
       return (
         <div>
-            <Button className="large-screen-hide" onClick={this.open}>Flower</Button>
+            <Button 
+                className={"large-screen-hide " + (
+                    this.props.flowerFilterShow
+                    || (typeof this.props.searchState.refinementList !== "undefined"
+                            && (typeof this.props.searchState.refinementList.flower !== "undefined" && this.props.searchState.refinementList.flower !== "")
+                        )
+                    ? 'button-filter-active' : 'button-filter' )}
+                onClick={this.open}>Flower</Button>
             <Modal show={this.state.showModal} onHide={this.close}>
                 <Modal.Header closeButton>
                     <Modal.Title><strong>Flower Filter</strong></Modal.Title>
@@ -149,7 +156,14 @@ class ColorFilterModal extends React.Component {
     render() {
       return (
         <div>
-            <Button bsStyle="" className="large-screen-hide" onClick={this.open}>Color</Button>
+            <Button 
+                className={"large-screen-hide " + (
+                    this.props.colorFilterShow
+                    || (typeof this.props.searchState.refinementList !== "undefined"
+                            && (typeof this.props.searchState.refinementList.color !== "undefined" && this.props.searchState.refinementList.color !== "")
+                        )
+                    ? 'button-filter-active' : 'button-filter' )}
+                onClick={this.open}>Color</Button>
             <Modal show={this.state.showModal} onHide={this.close}>
                 <Modal.Header closeButton>
                     <Modal.Title><strong>Color Filter</strong></Modal.Title>
@@ -377,11 +391,13 @@ class Facets extends Component {
                             onFlowerFilter={this.openFlowerFilter}
                             onSearchStateChange={props.onSearchStateChange}
                             searchState={props.searchState}
+                            flowerFilterShow={props.flowerFilterShow}
                         />
                         <ColorFilterModal
                             onColorFilter={this.openColorFilter}
                             onSearchStateChange={props.onSearchStateChange}
                             searchState={props.searchState}
+                            colorFilterShow={props.colorFilterShow}
                         />
 
                     </ButtonToolbar>
