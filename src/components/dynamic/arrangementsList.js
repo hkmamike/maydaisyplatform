@@ -3,7 +3,7 @@ import ReactDOM from 'react-dom'
 import { Col } from 'react-bootstrap';
 import { Link, Route } from 'react-router-dom';
 import LocalizedStrings from 'react-localization';
-import { Popover, Button, OverlayTrigger, Overlay, ButtonToolbar, DropdownButton, MenuItem } from 'react-bootstrap';
+import { Popover, Button, OverlayTrigger, Overlay, ButtonToolbar, DropdownButton, MenuItem, Modal } from 'react-bootstrap';
 
 import Slider, { Range } from 'rc-slider';
 import Tooltip from 'rc-tooltip';
@@ -84,6 +84,100 @@ class PopoverColor extends Component {
     }
 }
 
+class FlowerFilterModal extends React.Component {
+    constructor() {
+      super();
+      this.open = this.open.bind(this);
+      this.close = this.close.bind(this);
+      this.state = {
+        showModal: false
+      }
+    }
+    close() {
+      this.setState({showModal: false});
+    }
+    open() {
+      this.setState({showModal: true});
+    }
+    render() {
+      return (
+        <div>
+            <Button className="large-screen-hide" onClick={this.open}>Flower</Button>
+            <Modal show={this.state.showModal} onHide={this.close}>
+                <Modal.Header closeButton>
+                    <Modal.Title><strong>Flower Filter</strong></Modal.Title>
+                </Modal.Header>
+                <Modal.Body>
+                    <InstantSearch
+                        appId="IWC5275GW4"
+                        apiKey="24a14549af086c57dc295ac4bc6f5cc5"
+                        indexName="arrangementsList"
+                        onSearchStateChange={this.props.onSearchStateChange}
+                        searchState={this.props.searchState}
+                    >
+                        <RefinementList
+                            attributeName="color"
+                            operator="or"
+                            limitMin={10}
+                        />
+                    </InstantSearch>
+                </Modal.Body>
+                <Modal.Footer>
+                    <Button className="button" onClick={this.close}>See Designs</Button>
+                </Modal.Footer>
+            </Modal>
+        </div>
+      )
+    }
+}
+
+class ColorFilterModal extends React.Component {
+    constructor() {
+      super();
+      this.open = this.open.bind(this);
+      this.close = this.close.bind(this);
+      this.state = {
+        showModal: false
+      }
+    }
+    close() {
+      this.setState({showModal: false});
+    }
+    open() {
+      this.setState({showModal: true});
+    }
+    render() {
+      return (
+        <div>
+            <Button bsStyle="" className="large-screen-hide" onClick={this.open}>Color</Button>
+            <Modal show={this.state.showModal} onHide={this.close}>
+                <Modal.Header closeButton>
+                    <Modal.Title><strong>Color Filter</strong></Modal.Title>
+                </Modal.Header>
+                <Modal.Body>
+                    <InstantSearch
+                        appId="IWC5275GW4"
+                        apiKey="24a14549af086c57dc295ac4bc6f5cc5"
+                        indexName="arrangementsList"
+                        onSearchStateChange={this.props.onSearchStateChange}
+                        searchState={this.props.searchState}
+                    >
+                        <RefinementList
+                            attributeName="color"
+                            operator="or"
+                            limitMin={10}
+                        />
+                    </InstantSearch>
+                </Modal.Body>
+                <Modal.Footer>
+                    <Button bsStyle="" className="button" onClick={this.close}>See Designs</Button>
+                </Modal.Footer>
+            </Modal>
+        </div>
+      )
+    }
+}
+
 /////Range Slider/////
 const createSliderWithTooltip = Slider.createSliderWithTooltip;
 const RangeWithToolTip = createSliderWithTooltip(Range);
@@ -150,7 +244,7 @@ const CustomResult = (props) => {
 
 ///////////
 const CustomSearchBox = ({currentRefinement, refine}) => (
-    <div className="search-box">
+    <div className="search-box small-screen-hide">
         <input 
             className="search-field"
             placeholder="design, designer"
@@ -200,14 +294,15 @@ class Facets extends Component {
 
                     <ButtonToolbar className="filter-toolbar">
                         <ClearAll/>
+
                         <Button 
                             ref="flowerFilter" 
-                            className={
+                            className={ 'small-screen-hide ' + (
                                 props.flowerFilterShow
                                 || (typeof props.searchState.refinementList !== "undefined"  
                                         && (typeof props.searchState.refinementList.flower !== "undefined" && props.searchState.refinementList.flower !== "")
                                     )
-                                ? 'button-filter-active' : 'button-filter' } 
+                                ? 'button-filter-active' : 'button-filter' )} 
                                 onClick={props.onFlowerFilterToggle}
                         >
                             {typeof props.searchState.refinementList === "undefined" 
@@ -237,14 +332,15 @@ class Facets extends Component {
                                 searchState={props.searchState}
                             />
                         </Overlay>
+
                         <Button 
                             ref="colorFilter" 
-                            className={
+                            className={ 'small-screen-hide ' + (
                                 props.colorFilterShow
                                 || (typeof props.searchState.refinementList !== "undefined"
                                         && (typeof props.searchState.refinementList.color !== "undefined" && props.searchState.refinementList.color !== "")
                                     )
-                                ? 'button-filter-active' : 'button-filter' }
+                                ? 'button-filter-active' : 'button-filter' )}
                                 onClick={props.onColorFilterToggle}
                         >
                             {typeof props.searchState.refinementList === "undefined"
@@ -274,7 +370,20 @@ class Facets extends Component {
                                 searchState={props.searchState}
                             />
                         </Overlay>
+
                         <ConnectedSearchBox/>
+
+                        <FlowerFilterModal
+                            onFlowerFilter={this.openFlowerFilter}
+                            onSearchStateChange={props.onSearchStateChange}
+                            searchState={props.searchState}
+                        />
+                        <ColorFilterModal
+                            onColorFilter={this.openColorFilter}
+                            onSearchStateChange={props.onSearchStateChange}
+                            searchState={props.searchState}
+                        />
+
                     </ButtonToolbar>
 
                 </section>
@@ -398,6 +507,11 @@ export default class ArrangementsList extends Component {
                     searchState={this.state.searchState}
                 >
                     <Configure hitsPerPage = {12}/>
+
+                    <VirtualMenu 
+                        attributeName="deliveryAreas" 
+                        defaultRefinement={marketRegion}
+                    />
                     <VirtualRefinementList 
                         attributeName="flower"
                         operator="or"
@@ -408,8 +522,6 @@ export default class ArrangementsList extends Component {
                         operator="or"
                         limitMin={10}
                     />
-
-                    <VirtualMenu attributeName="deliveryAreas" defaultRefinement={marketRegion} />
 
                     <div className="content-wrapper">
                         <Facets 
