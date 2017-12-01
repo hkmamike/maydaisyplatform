@@ -1,9 +1,9 @@
 import React, { Component } from 'react';
 import ReactDOM from 'react-dom'
 import { Col } from 'react-bootstrap';
-import { Link } from 'react-router-dom';
+import { Link, Route } from 'react-router-dom';
 import LocalizedStrings from 'react-localization';
-import { Popover, Button, OverlayTrigger, Overlay, ButtonToolbar } from 'react-bootstrap';
+import { Popover, Button, OverlayTrigger, Overlay, ButtonToolbar, DropdownButton, MenuItem } from 'react-bootstrap';
 
 import Slider, { Range } from 'rc-slider';
 import Tooltip from 'rc-tooltip';
@@ -15,11 +15,11 @@ import {
     SearchBox, 
     RefinementList, 
     Pagination,
-    ClearAll, 
     Panel, 
     HierarchicalMenu, 
     RangeSlider,
     Configure,
+    ClearAll
 } from 'react-instantsearch/dom';
 import {
     connectRefinementList,
@@ -139,9 +139,9 @@ class PriceRange extends Component {
 ///////////
 
 ///////////
-function CustomResult() {
+const CustomResult = (props) => {
     return (
-        <div className="no-padding list-container">
+        <div className={"no-padding list-container " + ((props.flowerFilterShow || props.colorFilterShow) ? 'de-focus' : '')}>
             <Hits hitComponent={Product}/>
         </div>
     );
@@ -185,22 +185,6 @@ function Product({hit}) {
 
 class Facets extends Component {
 
-    constructor() {
-        super();
-        this.state = {
-            flowerFilterShow: false,
-            colorFilterShow: false,
-        };
-    }
-
-    toggleFlowerFilter = () => {
-        this.setState({flowerFilterShow: !this.state.flowerFilterShow});
-    }
-
-    toggleColorFilter = () => {
-        this.setState({colorFilterShow: !this.state.colorFilterShow});
-    }
-
     render() {
         var props = this.props;
         return (
@@ -214,15 +198,26 @@ class Facets extends Component {
                         />
                     </Panel> */}
 
-                    <HierarchicalMenu
+                    {/* <HierarchicalMenu
                         key="category"
                         attributes={['category']}
-                    />
+                    /> */}
 
                     <ButtonToolbar className="filter-toolbar">
                         <ClearAll/>
-                        <Button ref="flowerFilter" className="button-filter" onClick={this.toggleFlowerFilter}>
+                        <Button 
+                            ref="flowerFilter" 
+                            className={
+                                props.flowerFilterShow
+                                || (typeof props.searchState.refinementList !== "undefined"  
+                                        && (typeof props.searchState.refinementList.flower !== "undefined" && props.searchState.refinementList.flower !== "")
+                                    )
+                                ? 'button-filter-active' : 'button-filter' } 
+                                onClick={props.onFlowerFilterToggle}
+                        >
                             {typeof props.searchState.refinementList === "undefined" 
+                                && 'Flower'}
+                            {(typeof props.searchState.refinementList !== "undefined" && props.searchState.refinementList.flower === "")
                                 && 'Flower'}
                             {typeof props.searchState.refinementList !== "undefined" 
                                 && typeof props.searchState.refinementList.flower === "undefined"
@@ -231,24 +226,35 @@ class Facets extends Component {
                                 && typeof props.searchState.refinementList.flower !== "undefined"
                                 && props.searchState.refinementList.flower.length === 1) && props.searchState.refinementList.flower[0]}
                             {(typeof props.searchState.refinementList !== "undefined"
-                                && typeof props.searchState.refinementList.flower !== "undefined"
+                                && (typeof props.searchState.refinementList.flower !== "undefined" && props.searchState.refinementList.flower !== "")
                                 && props.searchState.refinementList.flower.length !== 1) && 'Flowers: ' + props.searchState.refinementList.flower.length}
                         </Button>
                         <Overlay
-                            show={this.state.flowerFilterShow}
-                            onHide={() => this.setState({flowerFilterShow: false})}
+                            show={props.flowerFilterShow}
+                            onHide={props.onFlowerFilterClose}
                             placement='bottom'
                             container={this}
                             target={() => ReactDOM.findDOMNode(this.refs.flowerFilter)}
                             rootClose={true}
                         >
                             <PopoverFlower 
-                                onSearchStateChange={this.props.onSearchStateChange}
-                                searchState={this.props.searchState}
+                                onSearchStateChange={props.onSearchStateChange}
+                                searchState={props.searchState}
                             />
                         </Overlay>
-                        <Button ref="colorFilter" className="button-filter" onClick={this.toggleColorFilter}>
-                            {typeof props.searchState.refinementList === "undefined" 
+                        <Button 
+                            ref="colorFilter" 
+                            className={
+                                props.colorFilterShow
+                                || (typeof props.searchState.refinementList !== "undefined"
+                                        && (typeof props.searchState.refinementList.color !== "undefined" && props.searchState.refinementList.color !== "")
+                                    )
+                                ? 'button-filter-active' : 'button-filter' }
+                                onClick={props.onColorFilterToggle}
+                        >
+                            {typeof props.searchState.refinementList === "undefined"
+                                && 'Color'}
+                            {(typeof props.searchState.refinementList !== "undefined" && props.searchState.refinementList.color === "")
                                 && 'Color'}
                             {typeof props.searchState.refinementList !== "undefined" 
                                 && typeof props.searchState.refinementList.color === "undefined"
@@ -257,20 +263,20 @@ class Facets extends Component {
                                 && typeof props.searchState.refinementList.color !== "undefined"
                                 && props.searchState.refinementList.color.length === 1) && props.searchState.refinementList.color[0]}
                             {(typeof props.searchState.refinementList !== "undefined"
-                                && typeof props.searchState.refinementList.color !== "undefined"
+                                && (typeof props.searchState.refinementList.color !== "undefined" && props.searchState.refinementList.color !== "")
                                 && props.searchState.refinementList.color.length !== 1) && 'Colors: ' + props.searchState.refinementList.color.length}
                         </Button>
                         <Overlay
-                            show={this.state.colorFilterShow}
-                            onHide={() => this.setState({colorFilterShow: false})}
+                            show={props.colorFilterShow}
+                            onHide={props.onColorFilterClose}
                             placement='bottom'
                             container={this}
                             target={() => ReactDOM.findDOMNode(this.refs.colorFilter)}
                             rootClose={true}
                         >
                             <PopoverColor
-                                onSearchStateChange={this.props.onSearchStateChange}
-                                searchState={this.props.searchState}
+                                onSearchStateChange={props.onSearchStateChange}
+                                searchState={props.searchState}
                             />
                         </Overlay>
                         <ConnectedSearchBox/>
@@ -289,6 +295,11 @@ export default class ArrangementsList extends Component {
         super();
         this.state = {
             searchState: {},
+            flowerFilterShow: false,
+            colorFilterShow: false,
+            deFocusContent: false,
+            showRegionSelect: false,
+            tempMarketRegion: 'Select Region'
         };
     }
 
@@ -313,12 +324,76 @@ export default class ArrangementsList extends Component {
         console.log(searchState)
     }
 
-    render() {
+    toggleFlowerFilter = () => {
+        this.setState({
+            flowerFilterShow: !this.state.flowerFilterShow,
+        });
+    }
 
+    toggleColorFilter = () => {
+        this.setState({
+            colorFilterShow: !this.state.colorFilterShow,
+        });
+    }
+
+    flowerFilterClose = () => {
+        this.setState({
+            flowerFilterShow: false,
+        });
+    }
+
+    colorFilterClose = () => {
+        this.setState({
+            colorFilterShow: false
+        });
+    }
+
+    handleSelectRegion = (eventKey) => {
+        this.setState({tempMarketRegion: eventKey})
+    }
+
+    navToNewRegion = () => {
+        this.props.history.push(`/arrangements/${this.state.tempMarketRegion}`);
+    }
+
+    render() {
         var marketRegion = this.props.match.params.marketRegion;
 
         return (
-            <div>
+            <div className="no-padding">
+                <div className="list-banner">
+                    {(!this.state.showRegionSelect && typeof marketRegion !== 'undefined') &&
+                        <span>
+                            <div className="white-text">Delivering To:</div>
+                            <div className="market-region" onClick={() => this.setState({showRegionSelect: true})}>{marketRegion}</div>
+                        </span>
+                    }
+                    { (this.state.showRegionSelect || typeof marketRegion === 'undefined') &&
+                        <span>
+                            <DropdownButton title={this.state.tempMarketRegion} id="list-region-select" onSelect={this.handleSelectRegion}>
+                                <MenuItem eventKey="HK_CentralWestern">HK Island - Central/Western District</MenuItem>
+                                <MenuItem eventKey="HK_Eastern">HK Island - Eastern District</MenuItem>
+                                <MenuItem eventKey="HK_Southern">HK Island - Southern District</MenuItem>
+                                <MenuItem eventKey="HK_WanChai">HK Island - Wan Chai District</MenuItem>
+                                <MenuItem eventKey="KL_ShamShuiPo">KL - Sam Shui Po District</MenuItem>
+                                <MenuItem eventKey="KL_KowloonCity">KL - Kowloon City District</MenuItem>
+                                <MenuItem eventKey="KL_KwunTong">KL - Kwun Tong District</MenuItem>
+                                <MenuItem eventKey="KL_WongTaiSin">KL - Wong Tai Sin District</MenuItem>
+                                <MenuItem eventKey="KL_YauTsimMong">KL - Yau Tsim Mong District</MenuItem>
+                                <MenuItem eventKey="NT_Islands">NT - Outlying Islands</MenuItem>
+                                <MenuItem eventKey="NT_KwaiTsing">NT - Kwai Tsing District</MenuItem>
+                                <MenuItem eventKey="NT_North">NT - Northern District</MenuItem>
+                                <MenuItem eventKey="NT_SaiKung">NT - Sai Kung District</MenuItem>
+                                <MenuItem eventKey="NT_ShaTin">NT - Sha Tin District</MenuItem>
+                                <MenuItem eventKey="NT_TaiPo">NT - Tai Po District</MenuItem>
+                                <MenuItem eventKey="NT_TsuenWan">NT - Tsuen Wan District</MenuItem>
+                                <MenuItem eventKey="NT_TuenMun">NT - Tuen Mun District</MenuItem>
+                                <MenuItem eventKey="NT_YuenLong">NT - Yuen Long District</MenuItem>
+                            </DropdownButton>
+                            <Route path="/" render={() => <Button bsStyle="" className="region-select-button" onClick={() => this.navToNewRegion()} disabled={this.state.tempMarketRegion === 'Select Region'}>Find Designs</Button>}/>
+                        </span>
+                    }
+                </div>
                 <InstantSearch
                     appId="IWC5275GW4"
                     apiKey="24a14549af086c57dc295ac4bc6f5cc5"
@@ -338,9 +413,28 @@ export default class ArrangementsList extends Component {
                         limitMin={10}
                     />
 
+                    <VirtualMenu attributeName="deliveryAreas" defaultRefinement={marketRegion} />
+
                     <div className="content-wrapper">
-                        <Facets searchState={this.state.searchState} onSearchStateChange={this.onSearchStateChange}/>
-                        <CustomResult/>
+                        <Facets 
+                            searchState={this.state.searchState} 
+                            onSearchStateChange={this.onSearchStateChange}
+                            flowerFilterShow={this.state.flowerFilterShow}
+                            onFlowerFilterToggle={this.toggleFlowerFilter}
+                            colorFilterShow={this.state.colorFilterShow}
+                            onColorFilterToggle={this.toggleColorFilter}
+                            onFlowerFilterClose={this.flowerFilterClose}
+                            onColorFilterClose={this.colorFilterClose}
+                        />
+                        <CustomResult
+                            flowerFilterShow={this.state.flowerFilterShow}
+                            colorFilterShow={this.state.colorFilterShow}
+                        />
+                        <div className="pagination-box">
+                            <div className="pagination">
+                                <Pagination/>
+                            </div>
+                        </div>
                     </div>
                 </InstantSearch>
             </div>

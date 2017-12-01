@@ -84,7 +84,7 @@ export default class App extends Component {
   }
 
   handleRegionSelection(region) {
-    this.setState({marketRegion : region});
+    this.setState({selectRegion : region});
   }
 
   handleMarketRegionSelect(region) {
@@ -198,18 +198,25 @@ export default class App extends Component {
             <PublicRoute authed={this.state.authed} isDesigner={this.state.isDesigner} path='/login' component={Login} languageChanged={this.state.languageChanged}/>
             <PublicRoute authed={this.state.authed} isDesigner={this.state.isDesigner} path='/register' component={Register} languageChanged={this.state.languageChanged}/>
 
-            <Route path='/arrangements/:marketRegion?' exact render={(props) => (<ArrangementsList {...props} languageChanged={this.state.languageChanged}/>)}/>
+            <Route path='/arrangements/:marketRegion?' exact render={(props) => (<ArrangementsList {...props} 
+              languageChanged={this.state.languageChanged}
+              onMarketRegionSelect={this.handleMarketRegionSelect}
+              marketRegionProp={this.state.marketRegion}/>)}
+            />
+
             <Route path='/florist/:floristID' exact render={(props) => (<Florist {...props} languageChanged={this.state.languageChanged}/>)}/>
             <Route path='/florist/:floristID/:arrangement' exact render={(props) => (<Arrangement {...props} 
               languageChanged={this.state.languageChanged}
               onDeliveryDateSelect={this.handleDeliveryDateSelect}
               deliveryDate={this.state.deliveryDate}
               marketRegion={this.state.marketRegion} 
-              onMarketRegionSelect={this.handleMarketRegionSelect}/>)}/>
+              onMarketRegionSelect={this.handleMarketRegionSelect}/>)}
+            />
             <Route path='/order/:floristID/:arrangement' exact render={(props) => (<Order {...props} 
               languageChanged={this.state.languageChanged}
               deliveryDate={this.state.deliveryDate}
-              marketRegion={this.state.marketRegion}/>)}/>
+              marketRegion={this.state.marketRegion}/>)}
+            />
 
             <Route path='/gallery-classic' exact render={(props) => (<GalleryClassic {...props} languageChanged={this.state.languageChanged}/>)}/>
             <Route path='/gallery-elegant' exact render={(props) => (<GalleryElegant {...props} languageChanged={this.state.languageChanged}/>)}/>

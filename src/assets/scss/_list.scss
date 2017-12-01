@@ -8,6 +8,10 @@ aside {
     opacity: 0;
 }
 
+.de-focus {
+    opacity: 0.2;
+}
+
 .active {
     .fa-check.fa-white {
         color: white;
@@ -16,6 +20,69 @@ aside {
     .fa-check.fa-black {
         color: black;
         opacity: 1;
+    }
+}
+
+.list-banner {
+    height: 150px;
+    width: 100%;
+    background-image: url('https://firebasestorage.googleapis.com/v0/b/maydaisy-platform.appspot.com/o/top-banner-grassfield.jpg?alt=media&token=2bdde886-dddf-4ca1-ae65-95d22ec5914c');
+    background-position: center center;
+    background-repeat: no-repeat;
+    background-size: cover;
+    background-color: $lightGrey;
+    text-align: center;
+
+    div.dropdown {
+        top: 57px;
+        display: inline-block;
+        line-height: 35px;
+        background-color: white;
+        border-radius: 4px;
+        .list-region-select {
+            background-image: none;
+            background-color: white !important;
+        }
+        .button {
+            border-radius: 0;
+            background-color: white;
+        }
+    }
+
+    .region-select-button {
+        position: relative;
+        top: 50%;
+        @include translateY(-50%);
+        display: inline-block;
+        margin-right: 10px;
+        background-color: $shadowteal;
+        color: white;
+        border: none;
+        line-height: 35px;
+        border-radius: 4px;
+        padding: 0 10px !important;
+    }
+
+    .white-text {
+        position: relative;
+        top: 50%;
+        @include translateY(-50%);
+        color: white;
+        display: inline-block;
+        margin-right: 10px;
+        line-height: 35px;
+    }
+    .market-region {
+        font-weight: bold;
+        position: relative;
+        top: 50%;
+        @include translateY(-50%);
+        color: white;
+        background: $darkGreen;
+        border-radius: 4px;
+        padding: 5px 10px;
+        display: inline-block;
+        cursor: pointer;
     }
 }
 
@@ -32,6 +99,35 @@ aside {
         margin-top: 15px;
         z-index: 10;
         display: inline-block;
+
+        .ais-RefinementList__itemLabel {
+            color: $darkGrey;
+        }
+
+        .ais-RefinementList__itemCount {
+            color: $darkGrey;
+        }
+
+        .ais-RefinementList__item input[type=checkbox]:checked~.ais-RefinementList__itemBox {
+            background-color: $shadowteal;
+        }
+    }
+
+    .pagination-box {
+        text-align: center;
+        .pagination {
+            margin: auto;
+            .ais-Pagination__root {
+                border: none;
+                box-shadow: none;
+                .ais-Pagination__itemSelected {
+                    background-color: $shadowteal;
+                    a {
+                        color: white !important;
+                    }
+                }
+            }
+        }
     }
 }
 
@@ -45,27 +141,35 @@ aside {
     }
 
     .filter-toolbar {
+        margin-left: 10px;
+
+        .ais-ClearAll__root {
+            background-color: $shadowteal;
+        }
 
         .button-filter {
             background: white;
             color: $darkGrey;
-            &:focus {
-                background: $shadowteal;
-                outline: none;
-                color: white;
-                border: none;
-                text-shadow: none;
-            }
+            outline: none;
+        }
+
+        .button-filter-active {
+            background: $shadowteal;
+            outline: none;
+            color: white;
+            border: none;
+            text-shadow: none;
         }
 
         .search-box {
             margin: 0 3px 0 5px;
             border-radius: 3px;
             display: inline-block;
-            border:1px solid $darkGrey;
+            border:1px solid #CCC;
             height: 35px;
             .fa {
                 margin-left: 5px;
+                color: #CCC;
                 float: left;
                 @include translateY(50%);
             }
