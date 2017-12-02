@@ -473,8 +473,10 @@ export default class ArrangementsList extends Component {
     }
 
     navToNewRegion = () => {
-        this.props.history.push(`/arrangements/${this.state.tempMarketRegion}`);
+        var marketRegion = this.state.tempMarketRegion;
+        this.props.history.push(`/arrangements/${marketRegion}`);
         this.setState({showRegionSelect: false});
+        this.props.onMarketRegionSelect(marketRegion)
     }
 
     render() {

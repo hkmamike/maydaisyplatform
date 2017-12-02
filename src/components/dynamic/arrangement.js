@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { Grid, Row, Col, Button, DropdownButton, MenuItem } from 'react-bootstrap';
+import { Grid, Row, Col, Button, DropdownButton, MenuItem, Tooltip, OverlayTrigger } from 'react-bootstrap';
 import { Link, Route } from 'react-router-dom';
 import LocalizedStrings from 'react-localization';
 import * as firebase from 'firebase';
@@ -14,6 +14,14 @@ let strings = new LocalizedStrings({
 const ButtonToMarket = ({ history }) => (
     <Button bsStyle="" className="button-to-market" onClick={() => history.push('/arrangements')}>Back to Market</Button>
 );
+
+const ButtonToSearch = ({ history }) => (
+    <Button bsStyle="" className="button-to-search" onClick={() => history.push('/arrangements')}>Back to Market</Button>
+);
+
+const deliveryTooltip = (
+    <Tooltip id="deliveryTooltip">Florists specified delivery fee for this region.</Tooltip>
+  );
 
 export default class Arrangement extends Component {
 
@@ -168,6 +176,12 @@ export default class Arrangement extends Component {
                     arrangementDeliveryLeadTime: snapshotVal
                 });
             });
+            firebase.database().ref(`florists/${floristID}/deliveryInfo`).once('value', function(snapshot) {
+                var snapshotVal = snapshot.val()
+                thisRef.setState({
+                    arrangementDeliveryInfo: snapshotVal
+                });
+            });
         });
     }
     
@@ -223,80 +237,120 @@ export default class Arrangement extends Component {
       )
     } else {
       content = (
-
         <Grid className="arrangement-container">
-            <Row>
+            <Row className="main-row">
                 <Col xs={12} sm={6}>
-                    <div className="arrangement-pic" style={{ backgroundImage: 'url(' + this.state.arrangementImage + ')'}}></div>
+                    <div className="arrangement-img-box">
+                        <div className="arrangement-pic" style={{ backgroundImage: 'url(' + this.state.arrangementImage + ')'}}></div>
+                    </div>
                 </Col>
                 <Col xs={12} sm={6}>
-                    <Route path="/" render={(props) => <ButtonToMarket {...props}/>} />
-                    <div className="arrangement-name">{this.state.arrangementName}</div>
+                    <div className="arrangement-inline">
+                        <div className="arrangement-name">{this.state.arrangementName}</div>
+                        <Route path="/" render={(props) => <ButtonToMarket {...props}/>} />
+                    </div>
                     <div className="arrangement-florist-name">by <Link to={`/florist/${this.state.arrangementFlorist}`} >{this.state.arrangementFloristName}</Link></div>
                     <ul className="arrangement-details-toggle">
                         <li className={this.state.descriptionActive ? 'toggle-active': null} onClick={() => this.toggleContent(0)} >DESCRIPTION</li>
                         <li className={this.state.deliveryActive ? 'toggle-active': null} onClick={() => this.toggleContent(1)} >DELIVERY INFO</li>
                     </ul>
                     { this.state.descriptionActive &&
-                        <div className="arrangement-description">{this.state.arrangementDescription}</div>
+                        <div className="arrangement-info">{this.state.arrangementDescription}</div>
                     }
                     { this.state.deliveryActive &&
-                        <div className="arrangement-delivery">{this.state.arrangementDeliveryInfo}</div>
+                        <div className="arrangement-info">{this.state.arrangementDeliveryInfo}</div>
                     }
-                    <div className="arrangement-price">HK${this.state.arrangementPrice}</div>
-                    { this.state.deliveryActive &&
-                        <div className="arrangement-delivery">{this.state.arrangementDeliveryInfo}</div>
-                    }
-                    { this.state.deliveryActive &&
-                        <div className="arrangement-delivery">{this.state.arrangementDeliveryInfo}</div>
-                    }
-                    <DropdownButton title={marketRegion} placeholder='Select Region' className="region-signup-select" id="bg-nested-dropdown" onSelect={this.handleSelectRegion}>
-                        <MenuItem eventKey="HK_CentralWestern">HK Island - Central/Western District</MenuItem>
-                        <MenuItem eventKey="HK_Eastern">HK Island - Eastern District</MenuItem>
-                        <MenuItem eventKey="HK_Southern">HK Island - Southern District</MenuItem>
-                        <MenuItem eventKey="HK_WanChai">HK Island - Wan Chai District</MenuItem>
-                        <MenuItem eventKey="KL_ShamShuiPo">KL - Sam Shui Po District</MenuItem>
-                        <MenuItem eventKey="KL_KowloonCity">KL - Kowloon City District</MenuItem>
-                        <MenuItem eventKey="KL_KwunTong">KL - Kwun Tong District</MenuItem>
-                        <MenuItem eventKey="KL_WongTaiSin">KL - Wong Tai Sin District</MenuItem>
-                        <MenuItem eventKey="KL_YauTsimMong">KL - Yau Tsim Mong District</MenuItem>
-                        <MenuItem eventKey="NT_Islands">NT - Outlying Islands</MenuItem>
-                        <MenuItem eventKey="NT_KwaiTsing">NT - Kwai Tsing District</MenuItem>
-                        <MenuItem eventKey="NT_North">NT - Northern District</MenuItem>
-                        <MenuItem eventKey="NT_SaiKung">NT - Sai Kung District</MenuItem>
-                        <MenuItem eventKey="NT_ShaTin">NT - Sha Tin District</MenuItem>
-                        <MenuItem eventKey="NT_TaiPo">NT - Tai Po District</MenuItem>
-                        <MenuItem eventKey="NT_TsuenWan">NT - Tsuen Wan District</MenuItem>
-                        <MenuItem eventKey="NT_TuenMun">NT - Tuen Mun District</MenuItem>
-                        <MenuItem eventKey="NT_YuenLong">NT - Yuen Long District</MenuItem>
-                    </DropdownButton>
-                    <SingleDatePicker
-                        date={this.state.date} // momentPropTypes.momentObj or null
-                        onDateChange={date => {
-                            this.setState({date});
-                            this.handleDeliveryDateSelect(date);
-                        }} // PropTypes.func.isRequired
-                        focused={this.state.focused} // PropTypes.bool
-                        onFocusChange={({ focused }) => this.setState({ focused })} // PropTypes.func.isRequired
-                        isDayBlocked={this.checkFloristCalendar}
-                    />
-                    { (!this.props.deliveryDate && this.state.orderButtonPressed) &&
+
+                    <div className="delivery-inline">
+                        <div className="select-delivery-block">
+                            <div className="region-select-tip">Deliver to:</div> 
+                            <DropdownButton 
+                                title={marketRegion}
+                                className="region-select" 
+                                id="bg-nested-dropdown" 
+                                onSelect={this.handleSelectRegion}
+                            >
+                                <MenuItem eventKey="HK_CentralWestern">HK Island - Central/Western District</MenuItem>
+                                <MenuItem eventKey="HK_Eastern">HK Island - Eastern District</MenuItem>
+                                <MenuItem eventKey="HK_Southern">HK Island - Southern District</MenuItem>
+                                <MenuItem eventKey="HK_WanChai">HK Island - Wan Chai District</MenuItem>
+                                <MenuItem eventKey="KL_ShamShuiPo">KL - Sam Shui Po District</MenuItem>
+                                <MenuItem eventKey="KL_KowloonCity">KL - Kowloon City District</MenuItem>
+                                <MenuItem eventKey="KL_KwunTong">KL - Kwun Tong District</MenuItem>
+                                <MenuItem eventKey="KL_WongTaiSin">KL - Wong Tai Sin District</MenuItem>
+                                <MenuItem eventKey="KL_YauTsimMong">KL - Yau Tsim Mong District</MenuItem>
+                                <MenuItem eventKey="NT_Islands">NT - Outlying Islands</MenuItem>
+                                <MenuItem eventKey="NT_KwaiTsing">NT - Kwai Tsing District</MenuItem>
+                                <MenuItem eventKey="NT_North">NT - Northern District</MenuItem>
+                                <MenuItem eventKey="NT_SaiKung">NT - Sai Kung District</MenuItem>
+                                <MenuItem eventKey="NT_ShaTin">NT - Sha Tin District</MenuItem>
+                                <MenuItem eventKey="NT_TaiPo">NT - Tai Po District</MenuItem>
+                                <MenuItem eventKey="NT_TsuenWan">NT - Tsuen Wan District</MenuItem>
+                                <MenuItem eventKey="NT_TuenMun">NT - Tuen Mun District</MenuItem>
+                                <MenuItem eventKey="NT_YuenLong">NT - Yuen Long District</MenuItem>
+                            </DropdownButton>
+                        </div>
+
+                        <div className="select-date-block">
+                            <div className="date-select-tip">Select date:</div> 
+                            <SingleDatePicker
+                                className="date-select"
+                                numberOfMonths={1}
+                                date={this.state.date} // momentPropTypes.momentObj or null
+                                onDateChange={date => {
+                                    this.setState({date});
+                                    this.handleDeliveryDateSelect(date);
+                                }} // PropTypes.func.isRequired
+                                focused={this.state.focused} // PropTypes.bool
+                                onFocusChange={({ focused }) => this.setState({ focused })} // PropTypes.func.isRequired
+                                isDayBlocked={this.checkFloristCalendar}
+                            />
+                        </div>
+                    </div>
+
+                    { this.state.arrangementDeliveryFee=== -1 &&
                         <div>
-                            <div>Please select a delivery date.</div>
+                            <div className="error-message">Oh no! This florist does not deliver to {marketRegion}. Let's go back to the market to find one that does.</div>
                         </div>
                     }
-                    { this.state.arrangementDeliveryFee!== -1 &&
+
+                    <div className="price-inline">
+                        <div className="price-block">
+                            <div className="arrangement-price">${this.state.arrangementPrice}</div>
+                            <div className="arrangement-price-tip">Excluding delivery</div>
+                        </div>
+
+                        { this.state.arrangementDeliveryFee!== -1 &&
+                            <div className="delivery-fee-block">
+                                <div className="arrangement-delivery-fee">${this.state.arrangementDeliveryFee}</div>
+                                <div className="arrangement-delivery-fee-tip">
+                                    <OverlayTrigger placement="right" overlay={deliveryTooltip}>
+                                        <i className="fa fa-question-circle" aria-hidden="true"></i>
+                                    </OverlayTrigger>
+                                    <span> Delivery fee ({marketRegion})</span>
+                                </div>
+                            </div>
+                        }
+                    </div>
+
+                    { (!this.props.deliveryDate && this.state.orderButtonPressed) &&
                         <div>
-                            <div className="arrangement-delivery-fee">Delivery Fee: {this.state.arrangementDeliveryCurrency}{this.state.arrangementDeliveryFee}</div>
+                            <div className="error-message">*Please select a delivery date.</div>
+                        </div>
+                    }
+
+                    { this.state.arrangementDeliveryFee=== -1 &&
+                        <div>
+                            <Route path="/" render={(props) => <ButtonToSearch {...props}/>} />
+                        </div>
+                    }
+
+                    { this.state.arrangementDeliveryFee!== -1 &&
+                        <div className="button-box">
                             <Route path="/" render={() => <Button bsStyle="" className="button-to-order" onClick={() => this.handleOrder(this.state.floristID, this.state.arrangement)}>Order Now</Button>}/>
                         </div>
                     }
-                    { this.state.arrangementDeliveryFee=== -1 &&
-                        <div>
-                            <div className="arrangement-delivery-fee">Oh no! This florist does not deliver to {marketRegion}. Let's go back to the market to find one that does.</div>
-                            <Route path="/" render={(props) => <ButtonToMarket {...props}/>} />
-                        </div>
-                    }
+
                 </Col>
             </Row>
             <Row>
