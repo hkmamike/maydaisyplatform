@@ -214,16 +214,14 @@ export default class Arrangement extends Component {
     let content = null;
 
     var listOfArrangements = this.state.arrangementsList.map(arrangement => 
-        <Col xs={6} sm={4} md={3} lg={2} key={arrangement.id}>
-            <Link to={`/florist/${this.state.floristID}/${arrangement.id}`} className="list-box" onClick={() => this.toOtherArrangement(arrangement.id)}>
+        <Col xs={6} sm={4} key={arrangement.id} className="list-item">
+            <Link to={`/florist/${this.state.floristID}/${arrangement.id}`} onClick={() => this.toOtherArrangement(arrangement.id)}>
                 <div className="list-pic" style={{ backgroundImage: 'url(' + arrangement.image + ')'}}></div>
                 <div className="text-box">
                     <div className="text-line">
                         <div className="list-name">{arrangement.name}</div>
                         <div className="list-price">${arrangement.price}</div>
                     </div>
-                    <div className="horizontal-line"></div>
-                    <div className="list-florist">by: {arrangement.florist}</div>
                 </div>
             </Link>
         </Col>
