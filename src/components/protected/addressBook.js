@@ -447,7 +447,7 @@ export default class AddressBook extends Component {
             <Row className="show-grid loggedin-flow">
               <div className="horizontal-line"></div>
               <Col xs={12}>
-                  <div>{strings.allAddresses}</div>
+                  <div className='flow-nav' onClick={() => this.setState({addressDetailsStatus: 0}, () => window.scrollTo(0, 0))}>{strings.allAddresses}</div>
                     <i className="fa fa-chevron-right"></i>
                   <div className="flow-selected">{strings.detailsUpdate}</div>
               </Col>

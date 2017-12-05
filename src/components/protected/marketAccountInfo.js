@@ -8,27 +8,30 @@ import LocalizedStrings from 'react-localization';
 
 let strings = new LocalizedStrings({
   en:{
-    mySubscriptions1: 'My',
-    mySubscriptions2: 'Subscriptions',
-    newSubscription1: 'New',
-    newSubscription2: 'Subscription',
+
+    orderHistory1: 'Order',
+    orderHistory2: 'History',
+    addressBook1: 'Address',
+    addressBook2: 'Book',
     accountInformation1: 'Account',
     accountInformation2: 'Information',
     email: 'Email:',
     name: 'Name:',
     phoneNum: 'Phone number:',
-    phoneNumTip: '*We may use this number to contact you regarding your account and subscription only.',
+    phoneNumTip: '*We may use this number to contact you regarding your account and orders only.',
     updateAccountButton: 'Update Account',
     resetPWButton: 'Reset Password',
     errorOccured: 'An error occured, please try again later.',
     accountUpdated: 'Account Information has been saved.',
-    resetPWSent: 'Password reset email has been sent to '
+    resetPWSent: 'Password reset email has been sent to ',
+    buttonToShop: 'My Shop',
+    buttonToAccount: 'My Account',
   },
   ch: {
-    mySubscriptions1: ' ',
-    mySubscriptions2: '我的訂購',
-    newSubscription1: ' ',
-    newSubscription2: '新訂購',
+    orderHistory1: ' ',
+    orderHistory2: '購買記錄',
+    addressBook1: ' ',
+    addressBook2: '地址記錄',
     accountInformation1: ' ',
     accountInformation2: '帳戶資料',
     email: '電郵:',
@@ -39,13 +42,21 @@ let strings = new LocalizedStrings({
     resetPWButton: '重設密碼',
     errorOccured: '系統錯誤，請稍後再試。',
     accountUpdated: '帳戶資料已更新。',
-    resetPWSent: '密碼重設方法已寄出: '
+    resetPWSent: '密碼重設方法已寄出: ',
+    buttonToShop: '我的花店',
+    buttonToAccount: '我的帳戶',
   }
 });
 
+
 const ButtonToShop = ({ title, history }) => (
-  <Button bsStyle="" className="no-sub-button" onClick={() => history.push('/ordersdashboard')}>Go to My Shop</Button>
+  <Button bsStyle="" className="head-button-white" onClick={() => history.push('/ordersdashboard')}>{strings.buttonToShop}</Button>
 );
+
+const ButtonToAccount = ({ title, history }) => (
+  <Button bsStyle="" className="head-button-pink" onClick={() => history.push('/orderhistory')}>{strings.buttonToAccount}</Button>
+);
+
 
 export default class MarketAccountInfo extends Component {
 
@@ -148,7 +159,7 @@ export default class MarketAccountInfo extends Component {
                 </div>
               }
             </Row>
-            <div className="sub-list-item">
+            <div className="account-details">
               <Row className="show-grid">
                 <FormGroup>
                   <Col sm={1}></Col>
@@ -187,7 +198,7 @@ export default class MarketAccountInfo extends Component {
 
               <Row className="show-grid">
                 <FormGroup>
-                  <Col xs={10} xsPush={2} smPush={5} mdPush={6}>
+                  <Col xs={12} xsPush={2} smPush={5} mdPush={6}>
                     <Button bsStyle="" className="button" onClick={() => this.handleAccountUpdate(accountName, accountPhone)}>{strings.updateAccountButton}</Button>
                     <Button bsStyle="" className="button" onClick={() => this.resetPassword()}>{strings.resetPWButton}</Button>
                   </Col>
@@ -202,22 +213,25 @@ export default class MarketAccountInfo extends Component {
     return (
         <div className="loggedin-background">
           <Grid>
-            <Row>
-              <div className="no-sub-section">            
+            <Row className="head-button-inline">
+              <div className="head-button-section">            
                 <Route path="/" render={(props) => <ButtonToShop {...props}/>} />
+              </div>
+              <div className="head-button-section">            
+                <Route path="/" render={(props) => <ButtonToAccount {...props}/>} />
               </div>
             </Row>
             <Row className="show-grid loggedin-nav">
               <Col xs={4} className="loggedin-nav-button">
                 <Link to="/orderhistory">
                   <i className="fa fa-tags fa-lg nav-icon"></i>
-                  <div className="nav-icon-title">{strings.mySubscriptions1}<br/>{strings.mySubscriptions2}</div>
+                  <div className="nav-icon-title">{strings.orderHistory1}<br/>{strings.orderHistory2}</div>
                 </Link>
               </Col>
               <Col xs={4} className="loggedin-nav-button">
                 <Link to="/addressbook">
                   <i className="fa fa-plus fa-lg nav-icon"></i>
-                  <div className="nav-icon-title">{strings.newSubscription1}<br/>{strings.newSubscription2}</div>
+                  <div className="nav-icon-title">{strings.addressBook1}<br/>{strings.addressBook2}</div>
                 </Link>
               </Col>
               <Col xs={4} className="loggedin-nav-button">
