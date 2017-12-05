@@ -235,7 +235,7 @@
                 height: 2px;
             }
 
-            .order-list-titles, .address-list-titles {
+            .order-list-titles, .address-list-titles, .ordersdashboard-list-titles {
                 background-color: $pink;
                 color: white;
                 padding: 10px;
@@ -245,7 +245,7 @@
                 }
             }
 
-            .order-list-item, .address-list-item {
+            .order-list-item, .address-list-item, .ordersdashboard-list-item {
                 border-bottom: 1px solid;
                 border-color: $darkGrey;
                 padding: 10px 10px 10px 10px;
@@ -341,7 +341,7 @@
         }
     }
 
-    .order-details, .address-details, .account-details {
+    .order-details, .address-details, .account-details, .ordersdashboard-details {
 
         .row {
             margin: 5px auto !important;
@@ -355,9 +355,13 @@
             }
         }
 
-        .address-delete-button {
+        .address-delete-button, .ordersdashboard-update-button {
             color: white;
-            background: red;
+            background: $red;
+            font-weight: bold;
+            &:hover {
+                background: $redhover;
+            }
         }
 
         .order-details-inline {

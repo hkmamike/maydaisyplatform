@@ -48,7 +48,6 @@ let strings = new LocalizedStrings({
   }
 });
 
-
 const ButtonToShop = ({ title, history }) => (
   <Button bsStyle="" className="head-button-white" onClick={() => history.push('/ordersdashboard')}>{strings.buttonToShop}</Button>
 );
@@ -56,7 +55,6 @@ const ButtonToShop = ({ title, history }) => (
 const ButtonToAccount = ({ title, history }) => (
   <Button bsStyle="" className="head-button-pink" onClick={() => history.push('/orderhistory')}>{strings.buttonToAccount}</Button>
 );
-
 
 export default class MarketAccountInfo extends Component {
 

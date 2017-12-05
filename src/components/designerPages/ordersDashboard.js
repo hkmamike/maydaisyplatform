@@ -16,60 +16,137 @@ let strings = new LocalizedStrings({
 
     allOrders: 'All Orders',
     detailsUpdate: 'Details & Update',
+
     referenceCode: 'Reference Code:',
-    subID: 'Stripe Sub ID:',
-    to: 'To:',
     deliveryDay: 'Delivery Day:',
-    detailsButton: 'Details',
-    flowerType: 'Flower Type:',
-    plan: 'Plan :',
-    recipient: 'Recipient:',
+    orderStatus: 'Status:',
+
+    order_submitted: 'Submitted',
+    order_received: 'Acknowledged',
+    order_fulfilled: 'Fulfilled',
+
+    arrangement: 'Arrangement:',
+    deliveryType: 'Delivery Type:',
+    delivery_gift: 'Gift',
+    delivery_self: 'Reward Self',
+    locationType: 'Location Type',
+
+    location_office: 'Office',
+    location_home: 'Home',
+    location_cemetery: 'Cemetery',
+
+    location: 'Location',
     address: 'Address:',
-    recipientNum: "Recipient's # :",
+
+    recipient: 'Recipient:',
+    recipientNum: "Recipient's #:",
     card: 'Card :',
-    unSubscribeButton: 'Unsubscribe',
+    deliveryInstruction: 'Instruction:',
+    sender: 'Sender:',
+    senderNum: "Sender's #: ",
+    senderEmail: "Sender's email",
+
     backButton: 'Back',
     updateButton: 'Update',
-    tip1_1: '*The cut off time to change card message is ',
-    tip1_2: '11:59 p.m. on Wednesday',
-    tip1_3: " prior to the next week's delivery.",
-    tip2: '**To change delivery address, flower type, or plan, please create a new subscription and unsubscribe from this one. Sorry for any inconvience caused.',
-    
-    
+    cancelButton: 'Close',
+
     progressUpdateTitle: 'Progress Update - Order Received',
     progressUpdateText1: 'Update customers on delivery progress keeps them happy.',
     progressUpdateText2: 'Florist who give timely update receive 50% more 5 stars reviews and are twice as likely to get customer referrals.',
     progressUpdateText3: 'When you click the red button below, we will send an email to the customer on your behalf to acknowledge that you have received this order.',
-
+    
     orderUpdate: 'Your update has been sent.',
-
 
     progressUpdate2Title: 'Progress Update - Order Fulfilled',
     progressUpdate2Text1: 'Timely update keeps customers happy.',
     progressUpdate2Text2: 'According to our study, florists who give timely update receive 50% more 5 stars reviews and are twice as likely to get customer referrals.',
     progressUpdate2Text3: 'When you click the red button below, we will send an email to the customer on your behalf to let him/her know that this order has been fulfilled.',
-
-
-    cancelButton: 'Close',
-
-
-
+    
     noOrder: 'You do not have any order history.',
     errorOccured: 'An error occured, please try again later.',
     reviewSubmitted: 'Your review has been submited.',
-    browseMarket: 'Browse Market',
 
-    order_submitted: 'Order Submitted',
-    order_delivered: 'Order Delivered',
-    order_received: 'Order Received'
-
+    buttonToShop: 'My Shop',
+    buttonToAccount: 'My Account',
+    
+    tipForDeliverySelf: 'This is a delivery for the customer him(her)self, feel free to write a message yourself!',
+    orderReceived: 'Order Received',
+    orderFulfilled: 'Order Fulfilled',
 
   },
-  ch: {}
+  ch: {
+    ordersDashboard1: ' ',
+    ordersDashboard2: '定單列表',
+    designs1: " ",
+    designs2: '貨品列表',
+    shopInformation1: ' ',
+    shopInformation2: '店舖資料',
+
+    allOrders: '所有定單',
+    detailsUpdate: '詳情+更新',
+    
+    referenceCode: '參考號碼:',
+    deliveryDay: '送花日:',
+    orderStatus: '狀況:',
+
+    order_submitted: '定單已發出',
+    order_received: '花店已收到',
+    order_fulfilled: '花店已送花',
+
+    location_office: '辦公室',
+    location_home: '住家',
+    location_cemetery: '墓園',
+
+    arrangement: '貨品:',
+    deliveryType: '用途:',
+    delivery_gift: '禮物',
+    delivery_self: '自用',
+    locationType: '地點類型:',
+    location: '地點:',
+    address: '地址:',
+    recipient: '收花人:',
+    recipientNum: "收花人電話:",
+    card: '心意卡:',
+    deliveryInstruction: '客人指示:',
+    sender: '送花人:',
+    senderNum: "送花人電話:",
+    senderEmail: "送花人電郵:",
+    backButton: '返回',
+    updateButton: '更新',
+    cancelButton: '取消',
+
+    progressUpdateTitle: '進度更新 - 已收到定單',
+    progressUpdateText1: '提供進度更新有效提高客人們的滿意度。',
+    progressUpdateText2: '提供及時進度更新的花匠們一般會多得到百分之五十的的5星評分和兩倍的顧客推薦機會。',
+    progressUpdateText3: '當您按下更新鍵，我們會用電郵通知客人您已收到定單。',
+    
+    orderUpdate: '進度更新已發出。',
+
+    progressUpdate2Title: '進度更新 - 已送貨',
+    progressUpdate2Text1: '提供進度更新有效提高客人們的滿意度。',
+    progressUpdate2Text2: '提供及時進度更新的花匠們一般會多得到百分之五十的的5星評分和兩倍的顧客推薦機會。',
+    progressUpdate2Text3: '當您按下更新鍵，我們會用電郵通知客人您已完成定單的送貨。',
+    
+
+    noOrder: '您目前並沒有定單記錄。',
+    errorOccured: '系統錯誤，請稍後再試。',
+
+    buttonToShop: '我的花店',
+    buttonToAccount: '我的帳戶',
+
+    tipForDeliverySelf: '客人的定單用途為自用，您可以為他(她)寫下祝福語。',
+    orderReceived: '已收到',
+    orderFulfilled: '已送花',
+  }
 });
 
-const ButtonToPersonalAccount = ({ title, history }) => (
-  <Button bsStyle="" className="no-sub-button" onClick={() => history.push('/orderhistory')}>Go to Personal Account</Button>
+
+const ButtonToShop = ({ title, history }) => (
+  <Button bsStyle="" className="head-button-pink" onClick={() => history.push('/ordersdashboard')}>{strings.buttonToShop}</Button>
+);
+
+const ButtonToAccount = ({ title, history }) => (
+  <Button bsStyle="" className="head-button-white" onClick={() => history.push('/orderhistory')}>{strings.buttonToAccount}</Button>
 );
 
 class UpdateProgress extends React.Component {
@@ -110,7 +187,7 @@ class UpdateProgress extends React.Component {
     render() {
         return (
             <div>
-                <Button bsStyle="" className="sub-details-unsub"onClick={this.open}>Update</Button>
+                <Button bsStyle="" className="ordersdashboard-update-button" onClick={this.open}>{strings.updateButton}</Button>
                 <Modal show={this.state.showModal} onHide={this.close}>
                     
                     { this.props.status === 'order_submitted' &&
@@ -143,11 +220,11 @@ class UpdateProgress extends React.Component {
                     <Button bsStyle="" className="button button-back" onClick={this.close}>{strings.cancelButton}</Button>
                     
                     { this.props.status === 'order_submitted' &&
-                    <Button bsStyle="" className="button" onClick={this.orderReceivedUpdate}>Order Received</Button>
+                    <Button bsStyle="" className="button" onClick={this.orderReceivedUpdate}>{strings.orderReceived}</Button>
                     }
 
                     { this.props.status === 'order_received' &&
-                    <Button bsStyle="" className="button" onClick={this.orderFulfilledUpdate}>Order Fulfilled</Button>
+                    <Button bsStyle="" className="button" onClick={this.orderFulfilledUpdate}>{strings.orderFulfilled}</Button>
                     }
                     
                     </Modal.Footer>
@@ -254,15 +331,15 @@ class OrderDetails extends React.Component {
                 <Glyphicon glyph="exclamation-sign" className="icons"/>&nbsp;{this.state.InfoMessage} 
               </div>
             }
-            <div className="sub-list-item">
+            <div className="ordersdashboard-details">
                 <Row className="show-grid">
                     <FormGroup>
                     <Col sm={1}></Col>
                     <Col sm={3}>
-                        <div><strong>Status:</strong></div>
+                        <div><strong>{strings.orderStatus}</strong></div>
                     </Col>
                     <Col sm={5}>
-                        <div>{orderDetails.status}</div>
+                        <div>{strings[orderDetails.status]}</div>
                     </Col>
                     <Col sm={3}>
                         {(orderDetails.status ==='order_received' || orderDetails.status ==='order_submitted') && <UpdateProgress
@@ -304,7 +381,7 @@ class OrderDetails extends React.Component {
                 <FormGroup>
                   <Col sm={1}></Col>
                   <Col sm={3}>
-                      <div><strong>Arrangement:</strong></div>
+                      <div><strong>{strings.arrangement}</strong></div>
                   </Col>
                   <Col sm={8}>
                   <div className="order-history-arrangement-name"><Link to={`/florist/${orderDetails.florist}/${orderDetails.arrangementCode}`}>{orderDetails.arrangementName}</Link></div>
@@ -315,10 +392,10 @@ class OrderDetails extends React.Component {
                 <FormGroup>
                   <Col sm={1}></Col>
                   <Col sm={3}>
-                      <div><strong>Delivery Type:</strong></div>
+                      <div><strong>{strings.deliveryType}</strong></div>
                   </Col>
                   <Col sm={8}>
-                    <div>{orderDetails.selectDeliveryType}</div>
+                    <div>{strings[orderDetails.selectDeliveryType]}</div>
                   </Col>
                 </FormGroup>
               </Row>
@@ -348,10 +425,10 @@ class OrderDetails extends React.Component {
                 <FormGroup>
                   <Col sm={1}></Col>
                   <Col sm={3}>
-                      <div><strong>Location Type:</strong></div>
+                      <div><strong>{strings.locationType}</strong></div>
                   </Col>
                   <Col sm={8}>
-                    <div>{orderDetails.selectLocationType}</div>
+                    <div>{strings[orderDetails.selectLocationType]}</div>
                   </Col>
                 </FormGroup>
               </Row>
@@ -374,10 +451,10 @@ class OrderDetails extends React.Component {
                   </Col>
                   <Col sm={7}>
                     { orderDetails.selectDeliveryType === 'delivery_gift'&& 
-                        <div className="history-text-area data-field-update">{orderDetails.cardMessage}</div>
+                        <div>{orderDetails.cardMessage}</div>
                     }
                     { orderDetails.selectDeliveryType === 'delivery_self'&& 
-                        <div className="history-text-area data-field-update">This is a delivery for the customer him(her)self, feel free to write a message yourself!</div>
+                        <div>{strings.tipForDeliverySelf}</div>
                     }
                   </Col>
                 </FormGroup>
@@ -386,10 +463,10 @@ class OrderDetails extends React.Component {
                 <FormGroup>
                   <Col sm={1}></Col>
                   <Col sm={3}>
-                      <div><strong>Instruction:</strong></div>
+                      <div><strong>{strings.deliveryInstruction}</strong></div>
                   </Col>
                   <Col sm={7}>
-                    <div className="history-text-area data-field-update">{orderDetails.deliveryInstruction}</div>
+                    <div>{orderDetails.deliveryInstruction}</div>
                   </Col>
                 </FormGroup>
               </Row>
@@ -397,7 +474,7 @@ class OrderDetails extends React.Component {
                 <FormGroup>
                   <Col sm={1}></Col>
                   <Col sm={3}>
-                      <div><strong>Sender:</strong></div>
+                      <div><strong>{strings.sender}</strong></div>
                   </Col>
                   <Col sm={7}>
                     <div>{orderDetails.senderName}</div>
@@ -408,7 +485,7 @@ class OrderDetails extends React.Component {
                 <FormGroup>
                   <Col sm={1}></Col>
                   <Col sm={3}>
-                      <div><strong>Sender's #:</strong></div>
+                      <div><strong>{strings.senderNum}</strong></div>
                   </Col>
                   <Col sm={7}>
                     <div>{orderDetails.senderNum}</div>
@@ -419,7 +496,7 @@ class OrderDetails extends React.Component {
                 <FormGroup>
                   <Col sm={1}></Col>
                   <Col sm={3}>
-                      <div><strong>Sender's email:</strong></div>
+                      <div><strong>{strings.senderEmail}</strong></div>
                   </Col>
                   <Col sm={7}>
                     <div>{orderDetails.senderEmail}</div>
@@ -533,63 +610,44 @@ export default class OrdersDashboard extends Component {
     var loadingState = this.state.loading;
     var orderDetailsStatus = this.state.orderDetailsStatus;
     var orders;
+    var ordersHeader;
     let headerNav = null;
     let content = null;
 
     // console.log('data check: ', Object.keys(data).length);
     if (Object.keys(data).length===0) {
+      ordersHeader = null;
       orders = (
         <div className="no-sub-section">            
           <div className="center-text">{strings.noOrder}</div>
         </div>
       )
     } else {
+      ordersHeader = (
+        <Grid>
+          <Row className="ordersdashboard-list-titles">
+            <Col xs={4}>{strings.referenceCode}</Col>
+            <Col xs={4}>{strings.deliveryDay}</Col>
+            <Col xs={4}>{strings.orderStatus}</Col>
+          </Row>
+        </Grid>
+      )
       orders = Object.keys(data).map(function(key) {
         var chosenKey = data[key].referenceCode;
         return (
-          <div key={key}>
+          <div key={key} onClick={() => this.handleChooseOrder(chosenKey)}>
             <Grid>
-              <div className="sub-list-item">
+              <div className="ordersdashboard-list-item">
                 <Row className="show-grid">
-                  <FormGroup>
-                    <Col sm={1}></Col>
-                    <Col sm={3}>
-                        <div><strong>Reference Code:</strong></div>
-                    </Col>
-                    <Col sm={3}>
+                    <Col xs={4}>
                       <div>{data[key].referenceCode}</div>
                     </Col>
-                  </FormGroup>
-                </Row>
-                <Row className="show-grid">
-                  <FormGroup>
-                    <Col sm={1}></Col>
-                    <Col sm={3}>
-                        <div><strong>{strings.deliveryDay}</strong></div>
-                    </Col>
-                    <Col sm={3}>
+                    <Col xs={4}>
                       <div>{data[key].deliveryDate}</div>
                     </Col>
-                  </FormGroup>
-                </Row>
-                <Row className="show-grid">
-                  <FormGroup>
-                    <Col sm={1}></Col>
-                    <Col sm={3}>
-                        <div><strong>Order Status: </strong></div>
+                    <Col xs={4}>
+                      <div>{strings[data[key].status]}</div>
                     </Col>
-                    <Col sm={3}>
-                      <div>{data[key].status}</div>
-                    </Col>
-                  </FormGroup>
-                </Row>
-                <Row className="show-grid">
-                  <FormGroup>
-                    {/* <Col xs={} sm={5}></Col> */}
-                    <Col xs={1} xsOffset={6} smOffset={9} mdOffset={10}>
-                      <Button bsStyle="" className="button sub-details-button" onClick={() => this.handleChooseOrder(chosenKey)}>{strings.detailsButton}</Button>
-                    </Col>
-                  </FormGroup>
                 </Row>
               </div>
             </Grid>
@@ -651,6 +709,7 @@ export default class OrdersDashboard extends Component {
               <div className="horizontal-line"></div>
             </Row>
           </Grid>
+          {ordersHeader}
           {orders}
         </div>
       )
@@ -661,7 +720,7 @@ export default class OrdersDashboard extends Component {
             <Row className="show-grid loggedin-flow">
               <div className="horizontal-line"></div>
               <Col xs={12}>
-                  <div>{strings.allOrders}</div>
+                  <div className='flow-nav' onClick={() => this.setState({orderDetailsStatus: 0}, () => window.scrollTo(0, 0))}>{strings.allOrders}</div>
                     <i className="fa fa-chevron-right"></i>
                   <div className="flow-selected">{strings.detailsUpdate}</div>
               </Col>
@@ -695,9 +754,12 @@ export default class OrdersDashboard extends Component {
     return (
       <div className="loggedin-background">
         <Grid>
-          <Row>
-            <div className="no-sub-section">            
-              <Route path="/" render={(props) => <ButtonToPersonalAccount  {...props}/>} />
+          <Row className="head-button-inline">
+            <div className="head-button-section">            
+              <Route path="/" render={(props) => <ButtonToShop {...props}/>} />
+            </div>
+            <div className="head-button-section">            
+              <Route path="/" render={(props) => <ButtonToAccount {...props}/>} />
             </div>
           </Row>
           {headerNav}
