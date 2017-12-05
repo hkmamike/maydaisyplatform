@@ -46,6 +46,14 @@
     // background-color: $lightGrey;
     background-color: $white;
     overflow: auto;
+
+    .container {
+        @media (max-width: 768px) {
+            padding-right: 5px;
+            padding-left: 5px;
+        }
+    }
+
     .loggedin-nav {
         margin-left: 10px;
         margin-right: 10px;
@@ -155,9 +163,6 @@
             .center-text {
                 text-align: center;
             }
-            .container {
-                width: 100% !important;
-            }
             .row {
                 margin: 0 auto;
             }
@@ -230,7 +235,7 @@
                 height: 2px;
             }
 
-            .order-list-titles {
+            .order-list-titles, .address-list-titles {
                 background-color: $pink;
                 color: white;
                 padding: 10px;
@@ -240,14 +245,16 @@
                 }
             }
 
-            .order-list-item {
-                border: none;
+            .order-list-item, .address-list-item {
+                border-bottom: 1px solid;
+                border-color: $darkGrey;
                 padding: 10px 10px 10px 10px;
                 margin: 1px auto;
                 color: black;
-                background: $plainGrey;
+                background: white;
                 &:hover {
                     background: $lightGreyhover;
+                    cursor: pointer;
                 }
                 div[class^="col-"] {
                     white-space: nowrap;
@@ -334,12 +341,23 @@
         }
     }
 
-    .order-details {
+    .order-details, .address-details {
+
         .row {
             margin: 5px auto !important;
             @media (max-width: 768px) {
                 font-size: 80%;
             }
+            &:first-child {
+                @media (max-width: 768px) {
+                    margin-bottom: 15px !important;
+                }
+            }
+        }
+
+        .address-delete-button {
+            color: white;
+            background: red;
         }
 
         .order-details-inline {
@@ -359,11 +377,8 @@
                 .order-details-review-button {
                     background-color: $pink;
                     color: white;
-                    padding: 10px;
+                    padding: 5px;
                     font-size: 80%;
-                    @media (max-width: 768px) {
-                        padding: 5px;
-                    }
                     &:hover {
                         background-color: $pinkhover;
                     }

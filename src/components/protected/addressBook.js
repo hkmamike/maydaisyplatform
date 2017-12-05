@@ -29,13 +29,46 @@ let strings = new LocalizedStrings({
     errorOccured: 'An error occured, please try again later.',
     addressUpdated: 'address has been updated.',
     deleteText1: 'The Addres Book helps you speed up the checkout process',
-    deleteText2: "Proceed to delete this record by clicking the 'delete' button below"
+    deleteText2: "Proceed to delete this record by clicking the 'delete' button below",
+    buttonToShop: 'My Shop',
+    buttonToAccount: 'My Account',
+    deleteAddress: 'Delete Address'
   },
-  ch: {}
+  ch: {
+    orderHistory1: ' ',
+    orderHistory2: '購買記錄',
+    addressBook1: ' ',
+    addressBook2: '地址記錄',
+    accountInformation1: ' ',
+    accountInformation2: '帳戶資料',
+    allAddresses: '所有地址',
+    detailsUpdate: '詳情+更新',
+    company: '地點:',
+    deliveryInstruction: '送花指示:',
+    recipient: '收花人:',
+    address: '地址:',
+    recipientNum: "收花人電話:",
+    backButton: '返回',
+    updateButton: '更新',
+    cancelButton: '取消',
+    deleteButton: '刪除',
+    noAddress: '您目前並沒有地址記錄。',
+    errorOccured: '系統錯誤，請稍後再試。',
+    addressUpdated: '地址已更新。',
+    deleteText1: '地址記錄令您的下單更快捷。',
+    deleteText2: "如要刪取這個地址，請按下'刪除'鈕扣。",
+    buttonToShop: '我的花店',
+    buttonToAccount: '我的帳戶',
+    deleteAddress: '刪除地址'
+  }
 });
 
 const ButtonToShop = ({ title, history }) => (
-  <Button bsStyle="" className="no-sub-button" onClick={() => history.push('/ordersdashboard')}>Go to My Shop</Button>
+  <Button bsStyle="" className="head-button-white" onClick={() => history.push('/ordersdashboard')}>{strings.buttonToShop}</Button>
+);
+
+const ButtonToAccount = ({ title, history }) => (
+  <Button bsStyle="" className="head-button-pink" onClick={() => history.push('/orderhistory')}>{strings.buttonToAccount}</Button>
 );
 
 class DeleteAddressModal extends React.Component {
@@ -62,10 +95,10 @@ class DeleteAddressModal extends React.Component {
     render() {
       return (
         <div>
-          <Button bsStyle="" className="sub-details-unsub" onClick={this.open}>{strings.deleteButton}</Button>
+          <Button bsStyle="" className="address-delete-button" onClick={this.open}>{strings.deleteButton}</Button>
           <Modal show={this.state.showModal} onHide={this.close}>
             <Modal.Header closeButton>
-              <Modal.Title><strong>Delete Address</strong></Modal.Title>
+              <Modal.Title><strong>{strings.deleteAddress}</strong></Modal.Title>
             </Modal.Header>
             <Modal.Body>
               <h4>{strings.deleteText1}</h4>
@@ -170,17 +203,17 @@ class AddressDetails extends React.Component {
                 <Glyphicon glyph="exclamation-sign" className="icons"/>&nbsp;{this.props.addressInfoMessage} 
               </div>
             }
-            <div className="sub-list-item">
+            <div className="address-details">
               <Row className="show-grid">
                 <FormGroup>
-                  <Col sm={1}></Col>
-                  <Col sm={3}>
+                  <Col sm={1} md={2}></Col>
+                  <Col xs={12} sm={3}>
                       <div><strong>{strings.recipient}</strong></div>
                   </Col>
-                  <Col sm={5}>
+                  <Col xs={9} sm={6} md={4}>
                     <FormControl className="data-field-update" type="text" value={this.state.recipient} onChange={this.handleRecipientChange}/>
                   </Col>
-                  <Col sm={3}>
+                  <Col xs={2} sm={2} md={3}>
                     <DeleteAddressModal
                         onDeleteAddress={this.handleDelete}
                         uid={this.state.uid}
@@ -190,53 +223,57 @@ class AddressDetails extends React.Component {
               </Row>
               <Row className="show-grid">
                 <FormGroup>
-                  <Col sm={1}></Col>
+                  <Col sm={1} md={2}></Col>
                   <Col sm={3}>
                       <div><strong>{strings.recipientNum}</strong></div>
                   </Col>
-                  <Col sm={8}>
+                  <Col sm={6} md={4}>
                     <FormControl className="data-field-update" type="text" value={this.state.recipientNum} onChange={this.handleRecipientNumChange}/>
                   </Col>
+                  <Col sm={2} md={3}></Col>
                 </FormGroup>
               </Row>
               <Row className="show-grid">
                 <FormGroup>
-                  <Col sm={1}></Col>
+                  <Col sm={1} md={2}></Col>
                   <Col sm={3}>
                       <div><strong>{strings.company}</strong></div>
                   </Col>
-                  <Col sm={8}>
+                  <Col sm={6} md={4}>
                   <FormControl className="data-field-update" type="text" value={this.state.company} onChange={this.handleCompanyChange}/>
                   </Col>
+                  <Col sm={2} md={3}></Col>
                 </FormGroup>
               </Row>
               <Row className="show-grid">
                 <FormGroup>
-                  <Col sm={1}></Col>
+                  <Col sm={1} md={2}></Col>
                   <Col sm={3}>
                       <div><strong>{strings.address}</strong></div>
                   </Col>
-                  <Col sm={8}>
+                  <Col sm={6} md={4}>
                     <FormControl className="data-field-update" type="text" value={this.state.address} onChange={this.handleAddressChange}/>
                   </Col>
+                  <Col sm={2} md={3}></Col>
                 </FormGroup>
               </Row>
               <Row className="show-grid">
                 <FormGroup>
-                  <Col sm={1}></Col>
+                  <Col sm={1} md={2}></Col>
                   <Col sm={3}>
                       <div><strong>{strings.deliveryInstruction}</strong></div>
                   </Col>
-                  <Col sm={8}>
+                  <Col sm={6} md={4}>
                     <FormControl className="data-field-update" type="text" value={this.state.deliveryInstruction} onChange={this.handleDeliveryInstructionChange}/>
                   </Col>
+                  <Col sm={2} md={3}></Col>
                 </FormGroup>
               </Row>
               <Row className="show-grid">
                 <FormGroup>
-                  <Col sm={5}>
+                  <Col xs={2} sm={5}>
                   </Col>
-                  <Col sm={4}>
+                  <Col xs={8} sm={4}>
                     <Button bsStyle="" className="button sub-details-back" onClick={() => this.handleBack()}>{strings.backButton}</Button>
                     <Button bsStyle="" className="button sub-details-back" onClick={() => this.handleUpdate()}>{strings.updateButton}</Button>
                   </Col>
@@ -337,50 +374,38 @@ export default class AddressBook extends Component {
     var loadingState = this.state.loading;
     var addressDetailsStatus = this.state.addressDetailsStatus;
     var addresses;
+    var addressHeader;
 
     // console.log('data check: ', Object.keys(data).length);
     if (Object.keys(data).length===0) {
+      addressHeader = null;
       addresses = (
         <div className="no-sub-section">            
           <div className="center-text">{strings.noAddress}</div>
         </div>
       )
     } else {
+      addressHeader = (
+        <Grid>
+          <Row className="address-list-titles">
+            <Col xs={6}>{strings.recipient}</Col>
+            <Col xs={6}>{strings.address}</Col>
+          </Row>
+        </Grid>
+      )
       addresses = Object.keys(data).map(function(key) {
         var chosenKey = data[key].referenceCode;
         return (
           <div key={key}>
             <Grid>
-              <div className="sub-list-item">
+              <div className="address-list-item" onClick={() => this.handleChooseAddress(chosenKey)}>
                 <Row className="show-grid">
-                  <FormGroup>
-                    <Col sm={1}></Col>
-                    <Col sm={3}>
-                        <div><strong>{strings.recipient}</strong></div>
-                    </Col>
-                    <Col sm={3}>
+                    <Col xs={6}>
                       <div>{data[key].recipient}</div>
                     </Col>
-                  </FormGroup>
-                </Row>
-                <Row className="show-grid">
-                  <FormGroup>
-                    <Col sm={1}></Col>
-                    <Col sm={3}>
-                        <div><strong>Address: </strong></div>
-                    </Col>
-                    <Col sm={3}>
+                    <Col xs={6}>
                     <div>{data[key].address}</div>
                     </Col>
-                  </FormGroup>
-                </Row>
-                <Row className="show-grid">
-                  <FormGroup>
-                    {/* <Col xs={} sm={5}></Col> */}
-                    <Col xs={1} xsOffset={6} smOffset={9} mdOffset={10}>
-                      <Button bsStyle="" className="button sub-details-button" onClick={() => this.handleChooseAddress(chosenKey)}>{strings.detailsButton}</Button>
-                    </Col>
-                  </FormGroup>
                 </Row>
               </div>
             </Grid>
@@ -411,6 +436,7 @@ export default class AddressBook extends Component {
               <div className="horizontal-line"></div>
             </Row>
           </Grid>
+          {addressHeader}
           {addresses}
         </div>
       )
@@ -442,9 +468,12 @@ export default class AddressBook extends Component {
     return (
       <div className="loggedin-background">
         <Grid>
-          <Row>
-            <div className="no-sub-section">            
+          <Row className="head-button-inline">
+            <div className="head-button-section">            
               <Route path="/" render={(props) => <ButtonToShop {...props}/>} />
+            </div>
+            <div className="head-button-section">            
+              <Route path="/" render={(props) => <ButtonToAccount {...props}/>} />
             </div>
           </Row>
           <Row className="show-grid loggedin-nav">

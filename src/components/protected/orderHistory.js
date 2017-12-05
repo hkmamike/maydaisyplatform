@@ -27,7 +27,7 @@ let strings = new LocalizedStrings({
     card: 'Card :',
     backButton: 'Back',
     tip2: '**To change delivery address, flower type, or plan, please create a new subscription and unsubscribe from this one. Sorry for any inconvience caused.',
-    submitReviewTitle: 'Submit a review',
+    submitReviewTitle: 'Review',
     submitReviewText1: 'Rate this florist, it helps good florists get more exposure!',
     submitReviewText2: 'Only verified customers with purchases are allowed to submit a review.',
     cancelButton: 'Close',
@@ -258,11 +258,11 @@ class OrderDetails extends React.Component {
             }
             <div className="order-details">
               <Row className="show-grid">
-                  <Col sm={4}></Col>
-                  <Col sm={2}>
+                  <Col md={4}></Col>
+                  <Col md={2}>
                       <div><strong>{strings.orderStatus}</strong></div>
                   </Col>
-                  <Col sm={5} className="order-details-inline">
+                  <Col md={5} className="order-details-inline">
                       <div className="order-details-status">
                         {strings[orderDetails.status]}
                       </div>
@@ -277,79 +277,79 @@ class OrderDetails extends React.Component {
                         />}
                       </div>
                   </Col>
-                  <Col sm={1}>
+                  <Col md={1}>
                   </Col>
               </Row>
               <Row className="show-grid">
-                  <Col sm={4}></Col>
-                  <Col sm={2}>
+                  <Col md={4}></Col>
+                  <Col md={2}>
                       <div><strong>{strings.referenceCode}</strong></div>
                   </Col>
-                  <Col sm={5}>
+                  <Col md={5}>
                     <div>{orderDetails.referenceCode}</div>
                   </Col>
-                  <Col sm={1}>
+                  <Col md={1}>
                   </Col>
               </Row>
               <Row className="show-grid">
-                  <Col sm={4}></Col>
-                  <Col sm={2}>
+                  <Col md={4}></Col>
+                  <Col md={2}>
                       <div><strong>{strings.deliveryDay}</strong></div>
                   </Col>
-                  <Col sm={5}>
+                  <Col md={5}>
                     <div>{orderDetails.deliveryDate}</div>
                   </Col>
-                  <Col sm={1}></Col>
+                  <Col md={1}></Col>
               </Row>
               <Row className="show-grid">
-                  <Col sm={4}></Col>
-                  <Col sm={2}>
+                  <Col md={4}></Col>
+                  <Col md={2}>
                       <div><strong>{strings.arrangement}</strong></div>
                   </Col>
-                  <Col sm={5}>
+                  <Col md={5}>
                     <div className="order-history-arrangement-name"><Link to={`/florist/${orderDetails.florist}/${orderDetails.arrangementCode}`}>{orderDetails.arrangementName}</Link></div>
                   </Col>
-                  <Col sm={1}></Col>
+                  <Col md={1}></Col>
               </Row>
               <Row className="show-grid">
-                  <Col sm={4}></Col>
-                  <Col sm={2}>
+                  <Col md={4}></Col>
+                  <Col md={2}>
                       <div><strong>{strings.florist}</strong></div>
                   </Col>
-                  <Col sm={5}>
+                  <Col md={5}>
                     <div className="order-history-florist-name"><Link to={`/florist/${orderDetails.florist}`}>{orderDetails.floristName}</Link></div>
                   </Col>
-                  <Col sm={1}></Col>
+                  <Col md={1}></Col>
               </Row>
               <Row className="show-grid">
-                  <Col sm={4}></Col>
-                  <Col sm={2}>
+                  <Col md={4}></Col>
+                  <Col md={2}>
                       <div><strong>{strings.recipient}</strong></div>
                   </Col>
-                  <Col sm={5}>
+                  <Col md={5}>
                     <div>{orderDetails.recipient}</div>
                   </Col>
-                  <Col sm={1}></Col>
+                  <Col md={1}></Col>
               </Row>
               <Row className="show-grid">
-                  <Col sm={4}></Col>
-                  <Col sm={2}>
+                  <Col md={4}></Col>
+                  <Col md={2}>
                       <div><strong>{strings.address}</strong></div>
                   </Col>
-                  <Col sm={5}>
+                  <Col md={5}>
                     <div>{orderDetails.address}</div>
                   </Col>
-                  <Col sm={1}></Col>
+                  <Col md={1}></Col>
               </Row>
               <Row className="show-grid">
-                  <Col sm={4}></Col>
-                  <Col sm={2}>
+                  <Col md={4}></Col>
+                  <Col md={2}>
                       <div><strong>{strings.card}</strong></div>
                   </Col>
-                  <Col sm={5}>
+                  <Col md={5}>
                     <div className="history-text-area data-field-update">{cardMessage}</div>
                   </Col>
-                  <Col sm={1}></Col>
+                  <Col md={1}></Col>
               </Row>
               <Row className="show-grid">
                   <Col sm={5}>
@@ -415,7 +415,7 @@ export default class OrderHistory extends Component {
     this.setState({orderDetailsStatus: 1, selectedOrder: chosenKey, stripeTxnID: stripeTxnID});
   }
   handleBack() {
-    this.setState({orderDetailsStatus: 0});
+    this.setState({orderDetailsStatus: 0}, () => window.scrollTo(0, 0));
 
     // reloading data since a review might have been posted
     base.fetch(`users/${this.state.userID}/transactions/`, {
@@ -516,7 +516,7 @@ export default class OrderHistory extends Component {
             <Row className="show-grid loggedin-flow">
               <div className="horizontal-line"></div>
               <Col xs={12}>
-                  <div className="flow-nav" onClick={() => this.setState({orderDetailsStatus: 0})}>{strings.allOrders}</div>
+                  <div className="flow-nav" onClick={() => this.setState({orderDetailsStatus: 0}, () => window.scrollTo(0, 0))}>{strings.allOrders}</div>
                     <i className="fa fa-chevron-right"></i>
                   <div className="flow-selected">{strings.detailsUpdate}</div>
               </Col>
