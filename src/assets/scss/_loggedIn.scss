@@ -54,7 +54,7 @@
         min-width: 260px;
         // max-height: 300px;
         // max-width: 600px;
-        padding-top: 20px;
+        padding-top: 10px;
         margin: auto;
         float: inherit !important;
         @media (max-width: 600px) {
@@ -112,6 +112,9 @@
                 @include transition (.4s ease-in-out);
             }
         }
+        .flow-nav {
+            cursor: pointer;
+        }
         i {
             color: $darkGrey;
             text-decoration: none !important;
@@ -156,8 +159,7 @@
                 width: 100% !important;
             }
             .row {
-                margin-bottom: 10px;
-                margin-top: 10px;
+                margin: 0 auto;
             }
             .dropdown{
                 width: 100%;
@@ -166,20 +168,7 @@
                     width: 100%;
                 }
             }
-            .subscription-tips {
-                font-size: 75%;
-                a {
-                    text-decoration: none !important;
-                    @include transition (.4s ease-in-out);
-                    color: $pink;
-                    cursor: pointer;
-                    &:hover {
-                        color: $pinkhover;
-                        text-decoration: none !important;
-                        @include transition (.4s ease-in-out);
-                    }
-                }
-            }
+
             .cardMessage {
                 width: 100% !important;
                 min-height: 150px;
@@ -202,6 +191,10 @@
                 background-color: $pink ;
                 font-weight: bold !important;
                 color: $white !important;
+                @media (max-width: 768px) {
+                    margin-top: 1px !important;
+                    margin-bottom: 1px !important;                    
+                }
                 &:hover {
                     background-color: $pinkhover ;
                 }
@@ -231,58 +224,54 @@
                 }
             }
             .horizontal-line {
-                width: 90%;
+                width: 100%;
                 margin: 15px auto;
                 background: #CCC;
                 height: 2px;
             }
-            .sub-list-item {
-                border-color: $pink !important;
-                border: solid;
-                border-radius: 10px;
+
+            .order-list-titles {
+                background-color: $pink;
+                color: white;
                 padding: 10px;
-                margin: 15px auto;
-                .sub-details-button {
-                    margin-left: 0 !important;
-                    
+                margin-bottom: 1px;
+                @media (max-width: 768px) {
+                    font-size: 70%;
                 }
-                .sub-details-back {
-                    margin-top: 0 !important;
-                    margin-bottom: 0 !important;
-                    margin-left: 10px !important;
-                    display: inline-block !important;
-                    background-color: $grey !important;
-                    &:hover {
-                        background-color: $greyhover !important;
+            }
+
+            .order-list-item {
+                border: none;
+                padding: 10px 10px 10px 10px;
+                margin: 1px auto;
+                color: black;
+                background: $plainGrey;
+                &:hover {
+                    background: $lightGreyhover;
+                }
+                div[class^="col-"] {
+                    white-space: nowrap;
+                    overflow: hidden;
+                    @media (max-width: 768px) {
+                        font-size: 70%;
                     }
-                }
-                .sub-details-update {
-                    margin-top: 0 !important;
-                    margin-bottom: 0 !important;
-                    margin-left: 10px !important;
-                    display: inline-block !important;
-                }
-                .sub-details-unsub{
-                    margin-top: 0 !important;
-                    margin-bottom: 0 !important;
-                    padding: 5px !important;
-                    display: inline-block !important;
-                    background-color: $red !important;
-                    color: $white !important;
-                    font-weight: bold;
-                    &:hover {
-                        background-color: $redhover !important;
-                    }
-                }
-                .card-text-area {
-                    min-height: 200px;
                 }
             }
         }
     }
-    .no-sub-section {
+
+    .head-button-inline {
         text-align: center;
-        .no-sub-button {
+    }
+
+    .head-button-section {
+        display: inline-block;
+    }
+
+    .no-sub-section, .no-order-section, .head-button-section {
+        text-align: center;
+        margin: 0 10px;
+        .no-sub-button, .no-order-button {
             margin-top: 40px !important;
             padding-left: 20px;
             padding-right: 20px;
@@ -291,12 +280,99 @@
             background-color: $pink ;
             font-weight: bold !important;
             color: $white !important;
+            @media (max-width: 748px) {
+                padding-left: 10px;
+                padding-right: 10px;
+            }
             &:hover {
                 background-color: $pinkhover ;
             }
         }
+        .head-button-white {
+            margin-top: 10px !important;
+            padding-left: 20px;
+            padding-right: 20px;
+            width: 150px !important;
+            height: 40px !important;
+            background-color: $white ;
+            font-weight: bold !important;
+            border-width: 2px;
+            border-color: $darkGrey;
+            color: $darkGrey !important;
+            @media (max-width: 748px) {
+                padding-left: 5px;
+                padding-right: 5px;
+                width: 100px !important;
+                height: 30px !important;
+            }
+            &:hover {
+                background-color: $pinkhover;
+                color: white !important;
+                border-color: $pinkhover;
+            }
+        }
+        .head-button-pink {
+            margin-top: 10px !important;
+            padding-left: 20px;
+            padding-right: 20px;
+            width: 150px !important;
+            height: 40px !important;
+            background-color: $pink ;
+            font-weight: bold !important;
+            color: $white !important;
+            outline: none;
+            @media (max-width: 748px) {
+                padding-left: 5px;
+                padding-right: 5px;
+                width: 100px !important;
+                height: 30px !important;
+            }
+            &:hover {
+                cursor: default !important;
+                outline: none;
+            }
+        }
     }
-    .sub-succeed {
+
+    .order-details {
+        .row {
+            margin: 5px auto !important;
+            @media (max-width: 768px) {
+                font-size: 80%;
+            }
+        }
+
+        .order-details-inline {
+            @include translateY(-20%);
+            .order-details-status {
+                display: inline-block;
+            }
+            .order-details-button-box {
+                display: inline-block;
+                margin-left: 130px;
+                @media (max-width: 768px) {
+                    margin-left: 70px
+                }
+                @media (min-width: 769px) and (max-width: 992px) {
+                    margin-left: 100px
+                }
+                .order-details-review-button {
+                    background-color: $pink;
+                    color: white;
+                    padding: 10px;
+                    font-size: 80%;
+                    @media (max-width: 768px) {
+                        padding: 5px;
+                    }
+                    &:hover {
+                        background-color: $pinkhover;
+                    }
+                }
+            }
+        }
+    }
+
+    .sub-succeed, .order-succeed {
         margin-top: 20px;
         margin-bottom: 20px;
         font-weight: bold;

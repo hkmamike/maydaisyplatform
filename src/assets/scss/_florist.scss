@@ -4,16 +4,12 @@
     background: #333333;
 
     .florist-info {
-        @media (max-width: 600px) {
-            padding: 2vh 2vw 2vh 2vw;
+        @media (max-width: 768px) {
+            padding: 1vh 1vw 1vh 1vw;
             text-align: center;
         }
-        @media (max-width: 800px) and (min-width: 601px) {
+        @media (min-width: 769px) {
             padding: 2vh 2vw 2vh 2vw;
-            text-align: center;
-        }
-        @media (min-width: 801px) {
-            padding: 6vh 6vw 6vh 6vw;
             text-align: left;
         }
         .florist-pic-container {
@@ -27,7 +23,7 @@
             border-radius: 2px;
             background: #fff;
             overflow: hidden;
-            @media (min-width: 801px) {
+            @media (min-width: 769px) {
                 width: 100%;
                 max-width: 10em;
                 max-height: 10em;
@@ -40,14 +36,25 @@
                 width: 100%;
             }
         }
-        .florist-name {
-            font-size: 130%;
-        }
-        .florist-address {
-            color: white;
-        }
-        .florist-website {
-            color: white;
+        .florist-info-container {
+            margin-left: 15px;
+            text-align: left;
+            display: inline-block;
+            @media (max-width: 768px) {
+                text-align: center;
+            }
+            .florist-name {
+                font-size: 120%;
+                color: white;
+            }
+            .florist-address {
+                color: white;
+                font-size: 80%;
+            }
+            .florist-website {
+                color: white;
+                font-size: 80%;
+            }
         }
     }
 }
@@ -63,6 +70,7 @@
             list-style-type: none;
             overflow: hidden;
             margin: 0;
+            padding: 0;
 
             li.selected {
                 background: white;
@@ -74,6 +82,9 @@
                 text-align: center;
                 text-decoration: none;
                 padding: 11px 16px;
+                @media (max-width: 768px) {
+                    padding: 5px 10px;
+                }
                 &:hover {
                     background: white;
                     color: black;
@@ -87,4 +98,29 @@
 .sub-content {
     min-height: 400px;
     overflow: auto;
+    margin-top: 25px;
+
+    .review-inline {
+        text-align: left;
+        .reviewer {
+            font-weight: bold;
+            display: inline-block;
+            margin-right: 3px;
+        }
+        .review-stars {
+            font-size: 100%;
+            display: inline-block;
+            @include translateY(30%);
+        }
+    }
+    .review-date {
+        text-align: left;
+        font-weight: bold;
+        color: $grey;
+        font-size: 70%;
+    }
+    .review-message {
+        text-align: left;
+        font-size: 85%;
+    }
 }

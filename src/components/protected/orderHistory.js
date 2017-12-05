@@ -16,50 +16,87 @@ let strings = new LocalizedStrings({
     accountInformation1: 'Account',
     accountInformation2: 'Information',
     allOrders: 'All Orders',
-    detailsUpdate: 'Details & Update',
+    detailsUpdate: 'Details',
     referenceCode: 'Reference Code:',
-    subID: 'Stripe Sub ID:',
     to: 'To:',
     deliveryDay: 'Delivery Day:',
-    detailsButton: 'Details',
-    flowerType: 'Flower Type:',
-    plan: 'Plan :',
+    orderStatus: 'Order Status:',
     recipient: 'Recipient:',
     address: 'Address:',
     recipientNum: "Recipient's # :",
     card: 'Card :',
-    unSubscribeButton: 'Unsubscribe',
     backButton: 'Back',
-    updateButton: 'Update',
-    tip1_1: '*The cut off time to change card message is ',
-    tip1_2: '11:59 p.m. on Wednesday',
-    tip1_3: " prior to the next week's delivery.",
     tip2: '**To change delivery address, flower type, or plan, please create a new subscription and unsubscribe from this one. Sorry for any inconvience caused.',
     submitReviewTitle: 'Submit a review',
     submitReviewText1: 'Rate this florist, it helps good florists get more exposure!',
     submitReviewText2: 'Only verified customers with purchases are allowed to submit a review.',
     cancelButton: 'Close',
-    everyMonday: 'Every Monday',
-    everyTuesday: 'Every Tuesday',
-    everyWednesday: 'Every Wednesday',
-    flower_all: 'Seasonal Flower (all)',
-    flower_rose: 'Seasonal Flower (rose only)',
-    plan_classic: 'Classic (1-2 blooms, HKD53/week)',
-    plan_elegant: 'Elegant (2-4 blooms, HKD93/week)',
     noOrder: 'You do not have any order history.',
     errorOccured: 'An error occured, please try again later.',
     reviewSubmitted: 'Your review has been submited.',
-    browseMarket: 'Browse Market'
+    browseMarket: 'Browse Market',
+    arrangement: 'Arrangement:',
+    florist: 'Florist:',
+    reviewSubmittedFlag: 'Reviewed? :',
+    howWasYourExp: "how was your experience with this florist?",
+    rating: 'Rating:',
+    submitButton: 'Submit',
+    order_submitted: 'Submitted',
+    order_received: 'Acknowledged',
+    order_fulfilled: 'Fulfilled',
+    buttonToShop: 'My Shop',
+    buttonToAccount: 'My Account'
   },
-  ch: {}
+  ch: {
+    orderHistory1: ' ',
+    orderHistory2: '購買記錄',
+    addressBook1: ' ',
+    addressBook2: '地址記錄',
+    accountInformation1: ' ',
+    accountInformation2: '帳戶資料',
+    allOrders: '所有記錄',
+    detailsUpdate: '記錄詳情',
+    referenceCode: '參考代號:',
+    to: '收花人:',
+    deliveryDay: '送花日:',
+    orderStatus: '定單狀況:',
+    recipient: '收花人:',
+    address: '地址:',
+    recipientNum: "收花人電話:",
+    card: '心意卡:',
+    backButton: '返回',
+    submitReviewTitle: '評分',
+    submitReviewText1: '如果您喜歡這間花店的服務，請為他們寫一個好評。準確的評價可以令好的花店得到更多支持。',
+    submitReviewText2: '(只有花店的顧客可以選寫評論)',
+    cancelButton: '返回',
+    noOrder: '您目前並沒有購買記錄。',
+    errorOccured: '系統錯誤，請稍後再試。',
+    reviewSubmitted: '您的評論已發出。',
+    browseMarket: '返回花市場',
+    arrangement: '設計名稱: ',
+    florist: '花店',
+    reviewSubmittedFlag: '已評分:',
+    howWasYourExp: "花店今次的服務如何?",
+    rating: '評分:',
+    submitButton: '發出',
+    order_submitted: '定單已發出',
+    order_received: '花店已收到',
+    order_fulfilled: '花店已送花',
+    buttonToShop: '我的花店',
+    buttonToAccount: '我的帳戶'
+  }
 });
 
 const ButtonToShop = ({ title, history }) => (
-  <Button bsStyle="" className="no-sub-button" onClick={() => history.push('/ordersdashboard')}>Go to My Shop</Button>
+  <Button bsStyle="" className="head-button-white" onClick={() => history.push('/ordersdashboard')}>{strings.buttonToShop}</Button>
+);
+
+const ButtonToAccount = ({ title, history }) => (
+  <Button bsStyle="" className="head-button-pink" onClick={() => history.push('/orderhistory')}>{strings.buttonToAccount}</Button>
 );
 
 const ButtonToMarket = ({ title, history }) => (
-  <Button bsStyle="" className="no-sub-button" onClick={() => history.push('/arrangements')}>{strings.browseMarket}</Button>
+  <Button bsStyle="" className="no-order-button" onClick={() => history.push('/arrangements')}>{strings.browseMarket}</Button>
 );
 
 class SubmitReview extends React.Component {
@@ -105,7 +142,7 @@ class SubmitReview extends React.Component {
         var reviewMessage = this.state.reviewMessage;
         return (
             <div>
-                <Button bsStyle="" className="sub-details-unsub"onClick={this.open}>Submit a review</Button>
+                <Button bsStyle="" className="order-details-review-button" onClick={this.open}>{strings.submitReviewTitle}</Button>
                 <Modal show={this.state.showModal} onHide={this.close}>
                     <Modal.Header closeButton>
                     <Modal.Title><strong>{strings.submitReviewTitle}</strong></Modal.Title>
@@ -113,7 +150,7 @@ class SubmitReview extends React.Component {
                     <Modal.Body>
                     <h4>{strings.submitReviewText1}</h4>
                     <p>{strings.submitReviewText2}</p>
-                    <h2>Rating: {rating}</h2>
+                    <h2>{strings.rating} {rating}</h2>
                     <StarRatingComponent 
                         name="rate1" 
                         starCount={5}
@@ -121,12 +158,12 @@ class SubmitReview extends React.Component {
                         onStarClick={this.onStarClick}
                     />
                     <FormGroup>
-                        <FormControl className="card-text-area data-field-update" placeholder="how was your experience with this florist?" componentClass="textarea" value={reviewMessage} onChange={this.handleReviewChange}/>
+                        <FormControl className="card-text-area data-field-update" placeholder={strings.howWasYourExp} componentClass="textarea" value={reviewMessage} onChange={this.handleReviewChange}/>
                     </FormGroup>
                     </Modal.Body>
                     <Modal.Footer>
                     <Button bsStyle="" className="button button-back" onClick={this.close}>{strings.cancelButton}</Button>
-                    <Button bsStyle="" className="button" onClick={this.submitReview}>Submit</Button>
+                    <Button bsStyle="" className="button" onClick={this.submitReview}>{strings.submitButton}</Button>
                     </Modal.Footer>
                 </Modal>
             </div>
@@ -219,125 +256,107 @@ class OrderDetails extends React.Component {
                 <Glyphicon glyph="exclamation-sign" className="icons"/>&nbsp;{this.state.InfoMessage} 
               </div>
             }
-            <div className="sub-list-item">
-                <Row className="show-grid">
-                    <FormGroup>
-                    <Col sm={1}></Col>
-                    <Col sm={3}>
-                        <div><strong>Status:</strong></div>
-                    </Col>
-                    <Col sm={5}>
-                        <div>{orderDetails.status}</div>
-                    </Col>
-                    <Col sm={3}>
-                        {!orderDetails.reviewed && !this.state.reviewed && <SubmitReview
-                            uid={this.state.uid}
-                            florist={orderDetails.florist}
-                            floristName={orderDetails.floristName}
-                            referenceCode={orderDetails.referenceCode}
-                            onSubmitReview={this.handleSubmitReview}
-                        />}
-                    </Col>
-                    </FormGroup>
-                </Row>
+            <div className="order-details">
               <Row className="show-grid">
-                <FormGroup>
-                  <Col sm={1}></Col>
-                  <Col sm={3}>
+                  <Col sm={4}></Col>
+                  <Col sm={2}>
+                      <div><strong>{strings.orderStatus}</strong></div>
+                  </Col>
+                  <Col sm={5} className="order-details-inline">
+                      <div className="order-details-status">
+                        {strings[orderDetails.status]}
+                      </div>
+                      <div className='order-details-button-box'>
+                        {!orderDetails.reviewed && !this.state.reviewed &&
+                        <SubmitReview
+                          uid={this.state.uid}
+                          florist={orderDetails.florist}
+                          floristName={orderDetails.floristName}
+                          referenceCode={orderDetails.referenceCode}
+                          onSubmitReview={this.handleSubmitReview}
+                        />}
+                      </div>
+                  </Col>
+                  <Col sm={1}>
+                  </Col>
+              </Row>
+              <Row className="show-grid">
+                  <Col sm={4}></Col>
+                  <Col sm={2}>
                       <div><strong>{strings.referenceCode}</strong></div>
                   </Col>
                   <Col sm={5}>
                     <div>{orderDetails.referenceCode}</div>
                   </Col>
-                  <Col sm={3}>
+                  <Col sm={1}>
                   </Col>
-                </FormGroup>
               </Row>
               <Row className="show-grid">
-                <FormGroup>
-                  <Col sm={1}></Col>
-                  <Col sm={3}>
-                      <div><strong>{strings.subID}</strong></div>
-                  </Col>
-                  <Col sm={8}>
-                    <div>{stripeTxnID}</div>
-                  </Col>
-                </FormGroup>
-              </Row>
-              <Row className="show-grid">
-                <FormGroup>
-                  <Col sm={1}></Col>
-                  <Col sm={3}>
+                  <Col sm={4}></Col>
+                  <Col sm={2}>
                       <div><strong>{strings.deliveryDay}</strong></div>
                   </Col>
-                  <Col sm={8}>
+                  <Col sm={5}>
                     <div>{orderDetails.deliveryDate}</div>
                   </Col>
-                </FormGroup>
+                  <Col sm={1}></Col>
               </Row>
               <Row className="show-grid">
-                <FormGroup>
-                  <Col sm={1}></Col>
-                  <Col sm={3}>
-                      <div><strong>Arrangement:</strong></div>
+                  <Col sm={4}></Col>
+                  <Col sm={2}>
+                      <div><strong>{strings.arrangement}</strong></div>
                   </Col>
-                  <Col sm={8}>
+                  <Col sm={5}>
                     <div className="order-history-arrangement-name"><Link to={`/florist/${orderDetails.florist}/${orderDetails.arrangementCode}`}>{orderDetails.arrangementName}</Link></div>
                   </Col>
-                </FormGroup>
+                  <Col sm={1}></Col>
               </Row>
               <Row className="show-grid">
-                <FormGroup>
-                  <Col sm={1}></Col>
-                  <Col sm={3}>
-                      <div><strong>Florist:</strong></div>
+                  <Col sm={4}></Col>
+                  <Col sm={2}>
+                      <div><strong>{strings.florist}</strong></div>
                   </Col>
-                  <Col sm={8}>
+                  <Col sm={5}>
                     <div className="order-history-florist-name"><Link to={`/florist/${orderDetails.florist}`}>{orderDetails.floristName}</Link></div>
                   </Col>
-                </FormGroup>
+                  <Col sm={1}></Col>
               </Row>
               <Row className="show-grid">
-                <FormGroup>
-                  <Col sm={1}></Col>
-                  <Col sm={3}>
+                  <Col sm={4}></Col>
+                  <Col sm={2}>
                       <div><strong>{strings.recipient}</strong></div>
                   </Col>
-                  <Col sm={8}>
+                  <Col sm={5}>
                     <div>{orderDetails.recipient}</div>
                   </Col>
-                </FormGroup>
+                  <Col sm={1}></Col>
               </Row>
               <Row className="show-grid">
-                <FormGroup>
-                  <Col sm={1}></Col>
-                  <Col sm={3}>
+                  <Col sm={4}></Col>
+                  <Col sm={2}>
                       <div><strong>{strings.address}</strong></div>
                   </Col>
-                  <Col sm={8}>
+                  <Col sm={5}>
                     <div>{orderDetails.address}</div>
                   </Col>
-                </FormGroup>
+                  <Col sm={1}></Col>
               </Row>
               <Row className="show-grid">
-                <FormGroup>
-                  <Col sm={1}></Col>
-                  <Col sm={3}>
+                  <Col sm={4}></Col>
+                  <Col sm={2}>
                       <div><strong>{strings.card}</strong></div>
                   </Col>
-                  <Col sm={7}>
+                  <Col sm={5}>
                     <div className="history-text-area data-field-update">{cardMessage}</div>
                   </Col>
-                </FormGroup>
+                  <Col sm={1}></Col>
               </Row>
               <Row className="show-grid">
-                <FormGroup>
                   <Col sm={5}>
                   </Col>
-                  <Col sm={4}>
+                  <Col sm={7}>
                     <Button bsStyle="" className="button sub-details-back" onClick={() => this.handleBack()}>{strings.backButton}</Button>
                   </Col>
-                </FormGroup>
               </Row>
             </div>
           </Grid>
@@ -413,9 +432,11 @@ export default class OrderHistory extends Component {
     var loadingState = this.state.loading;
     var orderDetailsStatus = this.state.orderDetailsStatus;
     var orders;
+    var ordersHeader;
 
     // console.log('data check: ', Object.keys(data).length);
     if (Object.keys(data).length===0) {
+      ordersHeader = null;
       orders = (
         <div className="no-sub-section">            
           <div className="center-text">{strings.noOrder}</div>
@@ -423,65 +444,37 @@ export default class OrderHistory extends Component {
         </div>
       )
     } else {
+      ordersHeader = (
+      <Grid>
+        <Row className="order-list-titles">
+          <Col xs={4} sm={4}>{strings.to}</Col>
+          <Col xs={4} sm={3}>{strings.deliveryDay}</Col>
+          <Col xs={4} sm={3}>{strings.orderStatus}</Col>
+          <Col sm={2} xsHidden>{strings.reviewSubmittedFlag}</Col>
+        </Row>
+      </Grid>
+      )
       orders = Object.keys(data).map(function(key) {
         var chosenKey = data[key].referenceCode;
         var stripeTxnID = data[key].stripeTxnID;
         return (
           <div key={key}>
             <Grid>
-              <div className="sub-list-item">
+              <div className="order-list-item" onClick={() => this.handleChooseOrder(chosenKey, stripeTxnID)}>
                 <Row className="show-grid">
-                  <FormGroup>
-                    <Col sm={1}></Col>
-                    <Col sm={3}>
-                        <div><strong>{strings.to}</strong></div>
-                    </Col>
-                    <Col sm={3}>
-                      <div>{data[key].recipient}</div>
-                    </Col>
-                  </FormGroup>
-                </Row>
-                <Row className="show-grid">
-                  <FormGroup>
-                    <Col sm={1}></Col>
-                    <Col sm={3}>
-                        <div><strong>{strings.deliveryDay}</strong></div>
-                    </Col>
-                    <Col sm={3}>
-                      <div>{data[key].deliveryDate}</div>
-                    </Col>
-                  </FormGroup>
-                </Row>
-                <Row className="show-grid">
-                  <FormGroup>
-                    <Col sm={1}></Col>
-                    <Col sm={3}>
-                        <div><strong>Order Status: </strong></div>
-                    </Col>
-                    <Col sm={3}>
-                      <div>{data[key].status}</div>
-                    </Col>
-                  </FormGroup>
-                </Row>
-                <Row className="show-grid">
-                  <FormGroup>
-                    <Col sm={1}></Col>
-                    <Col sm={3}>
-                        <div><strong>Review Submitted: </strong></div>
-                    </Col>
-                    <Col sm={3}>
-                      <div>{data[key].reviewed && 'Yes'}</div>
-                      <div>{!data[key].reviewed && 'No'}</div>
-                    </Col>
-                  </FormGroup>
-                </Row>
-                <Row className="show-grid">
-                  <FormGroup>
-                    {/* <Col xs={} sm={5}></Col> */}
-                    <Col xs={1} xsOffset={6} smOffset={9} mdOffset={10}>
-                      <Button bsStyle="" className="button sub-details-button" onClick={() => this.handleChooseOrder(chosenKey, stripeTxnID)}>{strings.detailsButton}</Button>
-                    </Col>
-                  </FormGroup>
+                  <Col xs={4} sm={4}>
+                    <div>{data[key].recipient}</div>
+                  </Col>
+                  <Col xs={4} sm={3}>
+                    <div>{data[key].deliveryDate}</div>
+                  </Col>
+                  <Col xs={4} sm={3}>
+                    <div>{strings[data[key].status]}</div>
+                  </Col>
+                  <Col sm={2} xsHidden>
+                    <div>{data[key].reviewed && 'Yes'}</div>
+                    <div>{!data[key].reviewed && 'No'}</div>
+                  </Col>
                 </Row>
               </div>
             </Grid>
@@ -512,6 +505,7 @@ export default class OrderHistory extends Component {
               <div className="horizontal-line"></div>
             </Row>
           </Grid>
+          {ordersHeader}
           {orders}
         </div>
       )
@@ -522,7 +516,7 @@ export default class OrderHistory extends Component {
             <Row className="show-grid loggedin-flow">
               <div className="horizontal-line"></div>
               <Col xs={12}>
-                  <div>{strings.allOrders}</div>
+                  <div className="flow-nav" onClick={() => this.setState({orderDetailsStatus: 0})}>{strings.allOrders}</div>
                     <i className="fa fa-chevron-right"></i>
                   <div className="flow-selected">{strings.detailsUpdate}</div>
               </Col>
@@ -542,9 +536,12 @@ export default class OrderHistory extends Component {
     return (
       <div className="loggedin-background">
         <Grid>
-          <Row>
-            <div className="no-sub-section">            
+          <Row className="head-button-inline">
+            <div className="head-button-section">            
               <Route path="/" render={(props) => <ButtonToShop {...props}/>} />
+            </div>
+            <div className="head-button-section">            
+              <Route path="/" render={(props) => <ButtonToAccount {...props}/>} />
             </div>
           </Row>
           <Row className="show-grid loggedin-nav">

@@ -59,7 +59,6 @@ export default class Florist extends Component {
                 var childData = childSnapshot.val();
                 reviews.push(childData);
             });
-            console.log('checking value of reviews', reviews);
             thisRef.setState({reviews: reviews});
         });
     }
@@ -84,35 +83,46 @@ export default class Florist extends Component {
     let header = null;
 
     var listOfArrangements = this.state.arrangementsList.map(arrangement => 
-        <Col xs={6} sm={4} md={3} lg={2} key={arrangement.id}>
-            <Link to={`/florist/${this.state.floristID}/${arrangement.id}`} className="list-box">
+        <Col xs={6} sm={4} key={arrangement.id} className="list-item">
+            <Link to={`/florist/${this.state.floristID}/${arrangement.id}`}>
                 <div className="list-pic" style={{ backgroundImage: 'url(' + arrangement.image + ')'}}></div>
                 <div className="text-box">
                     <div className="text-line">
                         <div className="list-name">{arrangement.name}</div>
                         <div className="list-price">${arrangement.price}</div>
                     </div>
-                    <div className="horizontal-line"></div>
-                    <div className="list-florist">by: {arrangement.florist}</div>
                 </div>
             </Link>
         </Col>
     );
 
-    var reviews = this.state.reviews.map(review => 
-        <Col xs={6} sm={4} md={3} lg={2} key={review.referenceCode}>
-            <div>{review.sender}</div>
-            <StarRatingComponent 
-                    name="reviews" 
-                    editing={false}
-                    starColor="#EC6BAA"
-                    starCount={5}
-                    value={review.rating}
-            />
-            <div>{review.reviewDate} verified purchase</div>
-            <div>{review.reviewMessage}</div>
-        </Col>
-    );
+    var reviews = this.state.reviews.map(review => {
+        var spaceIndex = review.sender.indexOf(' ');
+        if (spaceIndex !== -1) {
+            var senderFirstName = review.sender.substring(0,spaceIndex);
+            var senderInitial = review.sender.substring(spaceIndex+1, spaceIndex+2) + '. ';
+        } else {
+            var senderFirstName = review.sender
+        }
+
+        return (
+            <Col xs={12} sm={4} key={review.referenceCode} className='list-item'>
+                <div className='review-inline'>
+                    <div className='reviewer'>{senderFirstName} {senderInitial}</div>
+                    <StarRatingComponent 
+                            name="reviews" 
+                            className='review-stars'
+                            editing={false}
+                            starColor="#EC6BAA"
+                            starCount={5}
+                            value={review.rating}
+                    />
+                </div>
+                <div className='review-date'>{review.reviewDate} verified purchase</div>
+                <div className='review-message'>{review.reviewMessage}</div>
+            </Col>
+        )
+    });
 
     header = (
         <div className="florist-header">
@@ -120,9 +130,11 @@ export default class Florist extends Component {
                 <div className="florist-pic-container">
                     <img src={this.state.floristProfilePic} alt=""/>
                 </div>
-                <div className="florist-address">{this.state.floristName}</div>
-                <div className="florist-address">{this.state.floristAddress}</div>
-                <div className="florist-website"><a href={this.state.floristWebsite}>{this.state.floristWebsite}</a></div>
+                <div className="florist-info-container">
+                    <div className="florist-name">{this.state.floristName}</div>
+                    <div className="florist-address">{this.state.floristAddress}</div>
+                    <div className="florist-website"><a href={this.state.floristWebsite}>{this.state.floristWebsite}</a></div>
+                </div>
             </div>
         </div>
     )
@@ -171,7 +183,13 @@ export default class Florist extends Component {
                     </Row>
                 </Grid>
             </div>
-            <div className="sub-content">{this.state.floristDescription}</div>
+            <Grid>
+                <Row>
+                    <Col xs={12}>
+                        <div className="sub-content">{this.state.floristDescription}</div>
+                    </Col>
+                </Row>
+            </Grid>
         </div>
       )
     } else if (onTab===2) {
@@ -192,7 +210,7 @@ export default class Florist extends Component {
                         </Row>
                     </Grid>
                 </div>
-                <div className="sub-content">{reviews}</div>
+                <div className="sub-content list-container">{reviews}</div>
           </div>
         )
       }
