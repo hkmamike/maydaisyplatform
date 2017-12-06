@@ -92,7 +92,7 @@ const ButtonToShop = ({ title, history }) => (
 );
 
 const ButtonToAccount = ({ title, history }) => (
-  <Button bsStyle="" className="head-button-pink" onClick={() => history.push('/orderhistory')}>{strings.buttonToAccount}</Button>
+  <Button bsStyle="" className="head-button-teal" onClick={() => history.push('/orderhistory')}>{strings.buttonToAccount}</Button>
 );
 
 const ButtonToMarket = ({ title, history }) => (
@@ -148,7 +148,7 @@ class SubmitReview extends React.Component {
                     <Modal.Title><strong>{strings.submitReviewTitle}</strong></Modal.Title>
                     </Modal.Header>
                     <Modal.Body>
-                    <h4>{strings.submitReviewText1}</h4>
+                    <p>{strings.submitReviewText1}</p>
                     <p>{strings.submitReviewText2}</p>
                     <h2>{strings.rating} {rating}</h2>
                     <StarRatingComponent 

@@ -15,11 +15,47 @@ let strings = new LocalizedStrings({
     shopInformation2: 'Information',
 
 
+    shopName: 'ShopName:',
+    shopID: 'shopID:',
     address: 'Address:',
     description: 'Description:',
     leadTime: 'Lead Time (days):',
     deliveryRegions: 'Delivery Regions:',
     openDays: 'Open on:',
+
+    setting: 'Setting',
+    shopPage: 'shop page',
+
+    deliveryRegionSettingsTitle: 'Delivery Setting by Region',
+    deliveryRegionSettingsText1: 'You can choose the regions to cover here and specify delivery fee.',
+
+    HK_CentralWestern: 'Central & Western',
+    HK_Eastern: 'Eastern',
+    HK_Southern: 'Southern',
+    HK_WanChai: 'Wan Chai',
+    KL_KowloonCity: 'Kowloon City',
+    KL_KwunTong: 'Kwun Tong',
+    KL_ShamShuiPo: 'Sham Shui Po',
+    KL_WongTaiSin: 'Wong Tai Sin',
+    KL_YauTsimMong: 'Yau Tsim Mong',
+    NT_Islands: 'Outlying Islands',
+    NT_KwaiTsing: 'Kwai Tsing',
+    NT_North: 'Northern Region',
+    NT_SaiKung: 'Sai Kung',
+    NT_ShaTin: 'Sha Tin',
+    NT_TaiPo: 'Tai Po',
+    NT_TsuenWan: 'Tsuen Wan',
+    NT_TuenMun: 'Tuen Mun',
+    NT_YuenLong: 'Yuen Long',
+
+    n: 'not delivering',
+    free: 'free delivery',
+    fifty: '$50',
+    hundred: '$100',
+    hundredfifty: '$150',
+
+    backButton: 'Back',
+    updateButton: 'Update',
 
     open: 'open',
     close: 'close',
@@ -27,25 +63,101 @@ let strings = new LocalizedStrings({
     openDaysSettingsTitle: 'Opening Days Settings',
     openDaysSettingsText1: 'MayDaisy is a hobbyist and independent artists friendly community. We understand that you have other responsibilities in life and may not want to open shop on everyday.',
     openDaysSettingsText2: 'Here, you can choose which days to allow customers to place orders on. ',
-    
-    backButton: 'Back',
-    updateButton: 'Update',
 
     shopInfoUpdated: 'shop information has been updated',
     errorOccured: 'An error occured when updating shop information',
 
-    n: 'not delivering',
-    free: 'free delivery',
+    buttonToShop: 'My Shop',
+    buttonToAccount: 'My Account',
+
+    monday: 'Monday:',
+    tuesday: 'Tuesday:',
+    wednesday: 'Wednesday:',
+    thursday: 'Thursday:',
+    friday: 'Friday:',
+    saturday: 'Saturday:',
+    sunday: 'Sunday:',
+  },
+  ch: {
+    ordersDashboard1: ' ',
+    ordersDashboard2: '定單列表',
+    designs1: " ",
+    designs2: '貨品列表',
+    shopInformation1: ' ',
+    shopInformation2: '店舖資料',
+
+    shopName: '店舖名稱:',
+    shopID: '店舖ID:',
+    address: '地址:',
+    description: '店舖簡介:',
+    leadTime: '最快交貨(日):',
+    deliveryRegions: '送貨區域:',
+    openDays: '辦公日:',
+
+    setting: '設定',
+    shopPage: '店舖主頁',
+
+    deliveryRegionSettingsTitle: '區域送貨服務設定',
+    deliveryRegionSettingsText1: '您可以在這裡選擇服務區域和設定送貨費用。',
+
+    HK_CentralWestern: '中西區',
+    HK_Eastern: '東區',
+    HK_Southern: '南區',
+    HK_WanChai: '灣仔區',
+    KL_KowloonCity: '九龍城區',
+    KL_KwunTong: '觀塘區',
+    KL_ShamShuiPo: '深水埗區',
+    KL_WongTaiSin: '黃大仙區',
+    KL_YauTsimMong: '油尖旺區',
+    NT_Islands: '離島區',
+    NT_KwaiTsing: '葵青區',
+    NT_North: '北區',
+    NT_SaiKung: '西貢區',
+    NT_ShaTin: '沙田區',
+    NT_TaiPo: '大埔區',
+    NT_TsuenWan: '荃灣區',
+    NT_TuenMun: '屯門區',
+    NT_YuenLong: '元朗區',
+
+    n: '不覆蓋',
+    free: '免費送貨',
     fifty: '$50',
     hundred: '$100',
-    hundredfifty: '$150'
+    hundredfifty: '$150',
 
-  },
-  ch: {}
+    backButton: '返回',
+    updateButton: '更新',
+
+    open: '營業',
+    close: '休息',
+
+    openDaysSettingsTitle: '營業日設定',
+    openDaysSettingsText1: '五月菊是一個為花店和獨立藝術家以設的平台。',
+    openDaysSettingsText2: '如果您不想每天開店，可以在這裡設定營業時間。',
+
+    shopInfoUpdated: '店舖資料已更新。',
+    errorOccured: '系統錯誤，請稍後再試。',
+
+    buttonToShop: '我的花店',
+    buttonToAccount: '我的帳戶',
+
+    monday: '星期一:',
+    tuesday: '星期二:',
+    wednesday: '星期三:',
+    thursday: '星期四:',
+    friday: '星期五:',
+    saturday: '星期六:',
+    sunday: '星期日:',
+
+  }
 });
 
-const ButtonToPersonalAccount = ({ title, history }) => (
-  <Button bsStyle="" className="no-sub-button" onClick={() => history.push('/orderhistory')}>Go to Personal Account</Button>
+const ButtonToShop = ({ title, history }) => (
+  <Button bsStyle="" className="head-button-teal" onClick={() => history.push('/ordersdashboard')}>{strings.buttonToShop}</Button>
+);
+
+const ButtonToAccount = ({ title, history }) => (
+  <Button bsStyle="" className="head-button-white" onClick={() => history.push('/orderhistory')}>{strings.buttonToAccount}</Button>
 );
 
 class OpenDays extends React.Component {
@@ -187,7 +299,7 @@ class OpenDays extends React.Component {
   render() {
       return (
           <div>
-              <Button bsStyle="" className="sub-details-unsub"onClick={this.open}>Settings</Button>
+              <Button bsStyle="" className="shop-settings-button"onClick={this.open}>{strings.setting}</Button>
               <Modal show={this.state.showModal} onHide={this.close}>
 
                   <div>
@@ -195,15 +307,15 @@ class OpenDays extends React.Component {
                       <Modal.Title><strong>{strings.openDaysSettingsTitle}</strong></Modal.Title>
                       </Modal.Header>
                       <Modal.Body>
-                          <h4>{strings.openDaysSettingsText1}</h4>
+                          <p>{strings.openDaysSettingsText1}</p>
                           <p>{strings.openDaysSettingsText2}</p>
                           <Grid>
-                            <div className="sub-list-item">
+                            <div>
                               <Row className="show-grid">
                                 <FormGroup>
                                   <Col sm={1}></Col>
                                   <Col sm={3}>
-                                    Monday:
+                                    {strings.monday}
                                   </Col>
                                   <Col sm={3}>
                                     <DropdownButton title={strings[this.state.mondayFlag]} className="subscription-select" id="subscriptioin-planTypeSelect-dropdown" onSelect={(eventKey)=>this.handleSettingChange(1,eventKey)}>
@@ -217,7 +329,7 @@ class OpenDays extends React.Component {
                                 <FormGroup>
                                   <Col sm={1}></Col>
                                   <Col sm={3}>
-                                    Tuesday:
+                                  {strings.tuesday}
                                   </Col>
                                   <Col sm={3}>
                                     <DropdownButton title={strings[this.state.tuesdayFlag]} className="subscription-select" id="subscriptioin-planTypeSelect-dropdown" onSelect={(eventKey)=>this.handleSettingChange(2,eventKey)}>
@@ -231,7 +343,7 @@ class OpenDays extends React.Component {
                                 <FormGroup>
                                   <Col sm={1}></Col>
                                   <Col sm={3}>
-                                    Wednesday:
+                                  {strings.wednesday}
                                   </Col>
                                   <Col sm={3}>
                                     <DropdownButton title={strings[this.state.wednesdayFlag]} className="subscription-select" id="subscriptioin-planTypeSelect-dropdown" onSelect={(eventKey)=>this.handleSettingChange(3,eventKey)}>
@@ -245,7 +357,7 @@ class OpenDays extends React.Component {
                                 <FormGroup>
                                   <Col sm={1}></Col>
                                   <Col sm={3}>
-                                    Thursday:
+                                  {strings.thursday}
                                   </Col>
                                   <Col sm={3}>
                                     <DropdownButton title={strings[this.state.thursdayFlag]} className="subscription-select" id="subscriptioin-planTypeSelect-dropdown" onSelect={(eventKey)=>this.handleSettingChange(4,eventKey)}>
@@ -259,7 +371,7 @@ class OpenDays extends React.Component {
                                 <FormGroup>
                                   <Col sm={1}></Col>
                                   <Col sm={3}>
-                                    Friday:
+                                  {strings.friday}
                                   </Col>
                                   <Col sm={3}>
                                     <DropdownButton title={strings[this.state.fridayFlag]} className="subscription-select" id="subscriptioin-planTypeSelect-dropdown" onSelect={(eventKey)=>this.handleSettingChange(5,eventKey)}>
@@ -273,7 +385,7 @@ class OpenDays extends React.Component {
                                 <FormGroup>
                                   <Col sm={1}></Col>
                                   <Col sm={3}>
-                                    Saturday:
+                                  {strings.saturday}
                                   </Col>
                                   <Col sm={3}>
                                     <DropdownButton title={strings[this.state.saturdayFlag]} className="subscription-select" id="subscriptioin-planTypeSelect-dropdown" onSelect={(eventKey)=>this.handleSettingChange(6,eventKey)}>
@@ -287,7 +399,7 @@ class OpenDays extends React.Component {
                                 <FormGroup>
                                   <Col sm={1}></Col>
                                   <Col sm={3}>
-                                    Sunday:
+                                  {strings.sunday}
                                   </Col>
                                   <Col sm={3}>
                                     <DropdownButton title={strings[this.state.sundayFlag]} className="subscription-select" id="subscriptioin-planTypeSelect-dropdown" onSelect={(eventKey)=>this.handleSettingChange(7,eventKey)}>
@@ -303,7 +415,7 @@ class OpenDays extends React.Component {
                   </div>
                   <Modal.Footer>
                   <Button bsStyle="" className="button button-back" onClick={this.close}>{strings.backButton}</Button>
-                  <Button bsStyle="" className="button button-back" onClick={this.handleOpenDaysUpdate}>{strings.updateButton}</Button>
+                  <Button bsStyle="" className="button" onClick={this.handleOpenDaysUpdate}>{strings.updateButton}</Button>
                   </Modal.Footer>
               </Modal>
           </div>
@@ -338,6 +450,7 @@ class DeliverySettings extends React.Component {
     this.setState({showModal: true});
   }
   handleSettingChange = (key, eventKey) => {
+    console.log('eventkey is ', eventKey);
     var newSetting = this.state.deliveryDetails;
     var feeValue;
     if (eventKey === 'n')  {
@@ -412,15 +525,14 @@ class DeliverySettings extends React.Component {
         return (
           <div key={key}>
             <Grid>
-              <div className="sub-list-item">
+              <div className="region-list-item">
                 <Row className="show-grid">
                   <FormGroup>
-                    <Col sm={1}></Col>
-                    <Col sm={3}>
-                      {key}
+                    <Col xs={6}>
+                      {strings[key]}
                     </Col>
-                    <Col sm={3}>
-                      <DropdownButton title={strings[refKey]} className="subscription-select" id="subscriptioin-planTypeSelect-dropdown" onSelect={(eventKey)=>this.handleSettingChange(key,eventKey)}>
+                    <Col xs={6}>
+                      <DropdownButton title={strings[refKey]} id="subscriptioin-planTypeSelect-dropdown" onSelect={(eventKey)=>this.handleSettingChange(key,eventKey)}>
                         <MenuItem eventKey="n">{strings.n}</MenuItem>
                         <MenuItem eventKey="free">{strings.free}</MenuItem>
                         <MenuItem eventKey="fifty">{strings.fifty}</MenuItem>
@@ -439,7 +551,7 @@ class DeliverySettings extends React.Component {
 
       return (
           <div>
-              <Button bsStyle="" className="sub-details-unsub"onClick={this.open}>Settings</Button>
+              <Button bsStyle="" className="shop-settings-button"onClick={this.open}>{strings.setting}</Button>
               <Modal show={this.state.showModal} onHide={this.close}>
 
                   <div>
@@ -447,14 +559,14 @@ class DeliverySettings extends React.Component {
                       <Modal.Title><strong>{strings.deliveryRegionSettingsTitle}</strong></Modal.Title>
                       </Modal.Header>
                       <Modal.Body>
-                          <h4>{strings.deliveryRegionSettingsText1}</h4>
+                          <p>{strings.deliveryRegionSettingsText1}</p>
                           {deliverySettings}
                       </Modal.Body>
                   </div>
 
                   <Modal.Footer>
                   <Button bsStyle="" className="button button-back" onClick={this.close}>{strings.backButton}</Button>
-                  <Button bsStyle="" className="button button-back" onClick={this.handleShopInfoUpdate}>{strings.updateButton}</Button>
+                  <Button bsStyle="" className="button" onClick={this.handleShopInfoUpdate}>{strings.updateButton}</Button>
                   
                   </Modal.Footer>
               </Modal>
@@ -470,9 +582,7 @@ export default class ShopInfo extends Component {
     this.state = {
       userData: {},
       loading: true,
-      accountName: '',
-      accountPhone: '',
-      accountInfoMessage: null
+      InfoMessage: null
     }
   }
 
@@ -529,7 +639,7 @@ export default class ShopInfo extends Component {
           deliveryLeadTime: leadTime
       }
     }).then(() => 
-        this.setState({ InfoMessage: `${strings.accountUpdated}`})
+        this.setState({ InfoMessage: `${strings.shopInfoUpdated}`})
       ).catch(err => {
         console.log('An error occured when updating shop information.');
         this.setState({ InfoMessage: `${strings.errorOccured}`});
@@ -561,23 +671,23 @@ export default class ShopInfo extends Component {
                 </div>
               }
             </Row>
-            <div className="sub-list-item">
+            <div className="shop-info-details">
               <Row className="show-grid">
                 <FormGroup>
-                  <Col sm={1}></Col>
-                  <Col sm={3}>
-                    <div><strong>Shop Name:</strong></div>
+                  <Col sm={1} md={2}></Col>
+                  <Col sm={3} md={2}>
+                    <div><strong>{strings.shopName}</strong></div>
                   </Col>
                   <Col sm={8}>
-                    <div>{this.state.name}</div>
+                    <div>{this.state.name} (<Link to={`/florist/${this.props.designerCode}`} target='_blank'>{strings.shopPage}</Link>)</div>
                   </Col>
                 </FormGroup>
               </Row>
               <Row className="show-grid">
                 <FormGroup>
-                  <Col sm={1}></Col>
-                  <Col sm={3}>
-                    <div><strong>Shop ID:</strong></div>
+                  <Col sm={1} md={2}></Col>
+                  <Col sm={3} md={2}>
+                    <div><strong>{strings.shopID}</strong></div>
                   </Col>
                   <Col sm={8}>
                     <div>{this.props.designerCode}</div>
@@ -587,30 +697,30 @@ export default class ShopInfo extends Component {
 
               <Row className="show-grid">
                 <FormGroup>
-                  <Col sm={1}></Col>
-                  <Col sm={3}>
+                  <Col sm={1} md={2}></Col>
+                  <Col sm={3} md={2}>
                     <div><strong>{strings.address}</strong></div>
                   </Col>
                   <Col sm={7}>
-                    <FormControl className="data-field-update" type="text" value={address} onChange={this.handleAddressChange}/>
+                    <FormControl componentClass='textarea' className="data-field-update" value={address} onChange={this.handleAddressChange}/>
                   </Col>
                 </FormGroup>
               </Row>
               <Row className="show-grid">
                 <FormGroup>
-                  <Col sm={1}></Col>
-                  <Col sm={3}>
+                  <Col sm={1} md={2}></Col>
+                  <Col sm={3} md={2}>
                     <div><strong>{strings.description}</strong></div>
                   </Col>
                   <Col sm={7}>
-                    <FormControl className="data-field-update" type="text" value={description} onChange={this.handleDescriptionChange}/>
+                    <FormControl componentClass='textarea' className="data-field-update" type="text" value={description} onChange={this.handleDescriptionChange}/>
                   </Col>
                 </FormGroup>
               </Row>
               <Row className="show-grid">
                 <FormGroup>
-                  <Col sm={1}></Col>
-                  <Col sm={3}>
+                  <Col sm={1} md={2}></Col>
+                  <Col sm={3} md={2}>
                     <div><strong>{strings.leadTime}</strong></div>
                   </Col>
                   <Col sm={7}>
@@ -620,8 +730,8 @@ export default class ShopInfo extends Component {
               </Row>
               <Row className="show-grid">
                 <FormGroup>
-                  <Col sm={1}></Col>
-                  <Col sm={3}>
+                  <Col sm={1} md={2}></Col>
+                  <Col sm={3} md={2}>
                     <div><strong>{strings.deliveryRegions}</strong></div>
                   </Col>
                   <Col sm={7}>
@@ -634,8 +744,8 @@ export default class ShopInfo extends Component {
               </Row>
               <Row className="show-grid">
                 <FormGroup>
-                  <Col sm={1}></Col>
-                  <Col sm={3}>
+                  <Col sm={1} md={2}></Col>
+                  <Col sm={3} md={2}>
                     <div><strong>{strings.openDays}</strong></div>
                   </Col>
                   <Col sm={7}>
@@ -661,9 +771,12 @@ export default class ShopInfo extends Component {
     return (
         <div className="loggedin-background">
            <Grid>
-            <Row>
-              <div className="no-sub-section">            
-                <Route path="/" render={(props) => <ButtonToPersonalAccount {...props}/>} />
+            <Row className="head-button-inline">
+              <div className="head-button-section">            
+                <Route path="/" render={(props) => <ButtonToShop {...props}/>} />
+              </div>
+              <div className="head-button-section">            
+                <Route path="/" render={(props) => <ButtonToAccount {...props}/>} />
               </div>
             </Row>
             <Row className="show-grid loggedin-nav">

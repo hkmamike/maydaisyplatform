@@ -68,7 +68,7 @@ const ButtonToShop = ({ title, history }) => (
 );
 
 const ButtonToAccount = ({ title, history }) => (
-  <Button bsStyle="" className="head-button-pink" onClick={() => history.push('/orderhistory')}>{strings.buttonToAccount}</Button>
+  <Button bsStyle="" className="head-button-teal" onClick={() => history.push('/orderhistory')}>{strings.buttonToAccount}</Button>
 );
 
 class DeleteAddressModal extends React.Component {
@@ -252,7 +252,7 @@ class AddressDetails extends React.Component {
                       <div><strong>{strings.address}</strong></div>
                   </Col>
                   <Col sm={6} md={4}>
-                    <FormControl className="data-field-update" type="text" value={this.state.address} onChange={this.handleAddressChange}/>
+                    <FormControl componentClass="textarea" className="data-field-update" value={this.state.address} onChange={this.handleAddressChange}/>
                   </Col>
                   <Col sm={2} md={3}></Col>
                 </FormGroup>
@@ -264,7 +264,7 @@ class AddressDetails extends React.Component {
                       <div><strong>{strings.deliveryInstruction}</strong></div>
                   </Col>
                   <Col sm={6} md={4}>
-                    <FormControl className="data-field-update" type="text" value={this.state.deliveryInstruction} onChange={this.handleDeliveryInstructionChange}/>
+                    <FormControl componentClass="textarea" className="data-field-update" type="text" value={this.state.deliveryInstruction} onChange={this.handleDeliveryInstructionChange}/>
                   </Col>
                   <Col sm={2} md={3}></Col>
                 </FormGroup>

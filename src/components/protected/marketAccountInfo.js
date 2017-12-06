@@ -17,7 +17,7 @@ let strings = new LocalizedStrings({
     accountInformation2: 'Information',
     email: 'Email:',
     name: 'Name:',
-    phoneNum: 'Phone number:',
+    phoneNum: 'Phone:',
     phoneNumTip: '*We may use this number to contact you regarding your account and orders only.',
     updateAccountButton: 'Update Account',
     resetPWButton: 'Reset Password',
@@ -53,7 +53,7 @@ const ButtonToShop = ({ title, history }) => (
 );
 
 const ButtonToAccount = ({ title, history }) => (
-  <Button bsStyle="" className="head-button-pink" onClick={() => history.push('/orderhistory')}>{strings.buttonToAccount}</Button>
+  <Button bsStyle="" className="head-button-teal" onClick={() => history.push('/orderhistory')}>{strings.buttonToAccount}</Button>
 );
 
 export default class MarketAccountInfo extends Component {
@@ -160,11 +160,11 @@ export default class MarketAccountInfo extends Component {
             <div className="account-details">
               <Row className="show-grid">
                 <FormGroup>
-                  <Col sm={1}></Col>
-                  <Col sm={3}>
+                  <Col sm={1} md={4}></Col>
+                  <Col sm={3} md={1}>
                     <div><strong>{strings.email}</strong></div>
                   </Col>
-                  <Col sm={8}>
+                  <Col sm={8} md={5}>
                     <div>{userData.email}</div>
                   </Col>
                 </FormGroup>
@@ -172,22 +172,22 @@ export default class MarketAccountInfo extends Component {
 
               <Row className="show-grid">
                 <FormGroup>
-                  <Col sm={1}></Col>
-                  <Col sm={3}>
+                  <Col sm={1} md={4}></Col>
+                  <Col sm={3} md={1}>
                     <div><strong>{strings.name}</strong></div>
                   </Col>
-                  <Col sm={7}>
+                  <Col sm={7} md={5}>
                     <FormControl className="data-field-update" type="text" value={accountName} onChange={this.handleAccountNameChange}/>
                   </Col>
                 </FormGroup>
               </Row>
               <Row className="show-grid">
                 <FormGroup>
-                  <Col sm={1}></Col>
-                  <Col sm={3}>
+                  <Col sm={1} md={4}></Col>
+                  <Col sm={3} md={1}>
                     <div><strong>{strings.phoneNum}</strong></div>
                   </Col>
-                  <Col sm={7}>
+                  <Col sm={7} md={5}>
                     <FormControl className="data-field-update" type="text" value={accountPhone} onChange={this.handleAccountPhoneChange}/>
                     <div className="subscription-tips">{strings.phoneNumTip}</div>
                   </Col>
@@ -196,7 +196,7 @@ export default class MarketAccountInfo extends Component {
 
               <Row className="show-grid">
                 <FormGroup>
-                  <Col xs={12} xsPush={2} smPush={5} mdPush={6}>
+                  <Col xs={12} xsPush={2} smPush={5} mdPush={5}>
                     <Button bsStyle="" className="button" onClick={() => this.handleAccountUpdate(accountName, accountPhone)}>{strings.updateAccountButton}</Button>
                     <Button bsStyle="" className="button" onClick={() => this.resetPassword()}>{strings.resetPWButton}</Button>
                   </Col>

@@ -18,8 +18,14 @@ let strings = new LocalizedStrings({
     shopInformation2: 'Information',
 
     allDesigns: 'All Designs',
-    newDesign: 'New Design',
     designsUpdate: 'Details & Update',
+
+    design: 'Design',
+    price: 'Price',
+
+    newDesign: 'New Design',
+
+
     referenceCode: 'Reference Code:',
 
     to: 'To:',
@@ -52,14 +58,38 @@ let strings = new LocalizedStrings({
     order_received: 'Order Received',
 
     n: 'no',
-    y: 'yes'
+    y: 'yes',
+
+
+    buttonToShop: 'My Shop',
+    buttonToAccount: 'My Account',
 
   },
-  ch: {}
+  ch: {
+    ordersDashboard1: ' ',
+    ordersDashboard2: '定單列表',
+    designs1: " ",
+    designs2: '貨品列表',
+    shopInformation1: ' ',
+    shopInformation2: '店舖資料',
+
+    allDesigns: '所有設計',
+    designsUpdate: '詳情+更新',
+
+    design: '設計名稱',
+    price: '價格',
+
+    buttonToShop: '我的花店',
+    buttonToAccount: '我的帳戶',
+  }
 });
 
-const ButtonToPersonalAccount = ({ title, history }) => (
-  <Button bsStyle="" className="no-sub-button" onClick={() => history.push('/orderhistory')}>Go to Personal Account</Button>
+const ButtonToShop = ({ title, history }) => (
+  <Button bsStyle="" className="head-button-teal" onClick={() => history.push('/ordersdashboard')}>{strings.buttonToShop}</Button>
+);
+
+const ButtonToAccount = ({ title, history }) => (
+  <Button bsStyle="" className="head-button-white" onClick={() => history.push('/orderhistory')}>{strings.buttonToAccount}</Button>
 );
 
 class ColorType extends React.Component {
@@ -259,10 +289,10 @@ class ColorType extends React.Component {
                               <Row className="show-grid">
                                 <FormGroup>
                                   <Col sm={1}></Col>
-                                  <Col sm={3}>
+                                  <Col sm={5}>
                                     Blue:
                                   </Col>
-                                  <Col sm={3}>
+                                  <Col sm={5}>
                                     <DropdownButton title={strings[this.state.blue]} className="subscription-select" id="subscriptioin-planTypeSelect-dropdown" onSelect={(eventKey)=>this.handleSettingChange('blue',eventKey)}>
                                       <MenuItem eventKey="y">{strings.y}</MenuItem>
                                       <MenuItem eventKey="n">{strings.n}</MenuItem>
@@ -273,10 +303,10 @@ class ColorType extends React.Component {
                               <Row className="show-grid">
                                 <FormGroup>
                                   <Col sm={1}></Col>
-                                  <Col sm={3}>
+                                  <Col sm={5}>
                                     Green:
                                   </Col>
-                                  <Col sm={3}>
+                                  <Col sm={5}>
                                     <DropdownButton title={strings[this.state.green]} className="subscription-select" id="subscriptioin-planTypeSelect-dropdown" onSelect={(eventKey)=>this.handleSettingChange('green',eventKey)}>
                                       <MenuItem eventKey="y">{strings.y}</MenuItem>
                                       <MenuItem eventKey="n">{strings.n}</MenuItem>
@@ -287,10 +317,10 @@ class ColorType extends React.Component {
                               <Row className="show-grid">
                                 <FormGroup>
                                   <Col sm={1}></Col>
-                                  <Col sm={3}>
+                                  <Col sm={5}>
                                     Lavender:
                                   </Col>
-                                  <Col sm={3}>
+                                  <Col sm={5}>
                                     <DropdownButton title={strings[this.state.lavender]} className="subscription-select" id="subscriptioin-planTypeSelect-dropdown" onSelect={(eventKey)=>this.handleSettingChange('lavender',eventKey)}>
                                       <MenuItem eventKey="y">{strings.y}</MenuItem>
                                       <MenuItem eventKey="n">{strings.n}</MenuItem>
@@ -301,10 +331,10 @@ class ColorType extends React.Component {
                               <Row className="show-grid">
                                 <FormGroup>
                                   <Col sm={1}></Col>
-                                  <Col sm={3}>
+                                  <Col sm={5}>
                                     Orange:
                                   </Col>
-                                  <Col sm={3}>
+                                  <Col sm={5}>
                                     <DropdownButton title={strings[this.state.orange]} className="subscription-select" id="subscriptioin-planTypeSelect-dropdown" onSelect={(eventKey)=>this.handleSettingChange('orange',eventKey)}>
                                       <MenuItem eventKey="y">{strings.y}</MenuItem>
                                       <MenuItem eventKey="n">{strings.n}</MenuItem>
@@ -315,10 +345,10 @@ class ColorType extends React.Component {
                               <Row className="show-grid">
                                 <FormGroup>
                                   <Col sm={1}></Col>
-                                  <Col sm={3}>
+                                  <Col sm={5}>
                                     Pink:
                                   </Col>
-                                  <Col sm={3}>
+                                  <Col sm={5}>
                                     <DropdownButton title={strings[this.state.pink]} className="subscription-select" id="subscriptioin-planTypeSelect-dropdown" onSelect={(eventKey)=>this.handleSettingChange('pink',eventKey)}>
                                       <MenuItem eventKey="y">{strings.y}</MenuItem>
                                       <MenuItem eventKey="n">{strings.n}</MenuItem>
@@ -329,10 +359,10 @@ class ColorType extends React.Component {
                               <Row className="show-grid">
                                 <FormGroup>
                                   <Col sm={1}></Col>
-                                  <Col sm={3}>
+                                  <Col sm={5}>
                                     Purple:
                                   </Col>
-                                  <Col sm={3}>
+                                  <Col sm={5}>
                                     <DropdownButton title={strings[this.state.purple]} className="subscription-select" id="subscriptioin-planTypeSelect-dropdown" onSelect={(eventKey)=>this.handleSettingChange('purple',eventKey)}>
                                       <MenuItem eventKey="y">{strings.y}</MenuItem>
                                       <MenuItem eventKey="n">{strings.n}</MenuItem>
@@ -343,10 +373,10 @@ class ColorType extends React.Component {
                               <Row className="show-grid">
                                 <FormGroup>
                                   <Col sm={1}></Col>
-                                  <Col sm={3}>
+                                  <Col sm={5}>
                                     Red:
                                   </Col>
-                                  <Col sm={3}>
+                                  <Col sm={5}>
                                     <DropdownButton title={strings[this.state.red]} className="subscription-select" id="subscriptioin-planTypeSelect-dropdown" onSelect={(eventKey)=>this.handleSettingChange('red',eventKey)}>
                                       <MenuItem eventKey="y">{strings.y}</MenuItem>
                                       <MenuItem eventKey="n">{strings.n}</MenuItem>
@@ -371,10 +401,10 @@ class ColorType extends React.Component {
                               <Row className="show-grid">
                                 <FormGroup>
                                   <Col sm={1}></Col>
-                                  <Col sm={3}>
+                                  <Col sm={5}>
                                     Yellow:
                                   </Col>
-                                  <Col sm={3}>
+                                  <Col sm={5}>
                                     <DropdownButton title={strings[this.state.yellow]} className="subscription-select" id="subscriptioin-planTypeSelect-dropdown" onSelect={(eventKey)=>this.handleSettingChange('yellow',eventKey)}>
                                       <MenuItem eventKey="y">{strings.y}</MenuItem>
                                       <MenuItem eventKey="n">{strings.n}</MenuItem>
@@ -620,10 +650,10 @@ class FlowerType extends React.Component {
                               <Row className="show-grid">
                                 <FormGroup>
                                   <Col sm={1}></Col>
-                                  <Col sm={3}>
+                                  <Col sm={5}>
                                     Dahlias:
                                   </Col>
-                                  <Col sm={3}>
+                                  <Col sm={5}>
                                     <DropdownButton 
                                       title={strings[this.state.dahlias]} 
                                       className="subscription-select" id="subscriptioin-planTypeSelect-dropdown" 
@@ -638,10 +668,10 @@ class FlowerType extends React.Component {
                               <Row className="show-grid">
                                 <FormGroup>
                                   <Col sm={1}></Col>
-                                  <Col sm={3}>
+                                  <Col sm={5}>
                                     Delphinium:
                                   </Col>
-                                  <Col sm={3}>
+                                  <Col sm={5}>
                                     <DropdownButton 
                                       title={strings[this.state.delphinium]} 
                                       className="subscription-select" id="subscriptioin-planTypeSelect-dropdown" 
@@ -656,10 +686,10 @@ class FlowerType extends React.Component {
                               <Row className="show-grid">
                                 <FormGroup>
                                   <Col sm={1}></Col>
-                                  <Col sm={3}>
+                                  <Col sm={5}>
                                     Daisies:
                                   </Col>
-                                  <Col sm={3}>
+                                  <Col sm={5}>
                                     <DropdownButton 
                                       title={strings[this.state.daisies]} 
                                       className="subscription-select" id="subscriptioin-planTypeSelect-dropdown" 
@@ -674,10 +704,10 @@ class FlowerType extends React.Component {
                               <Row className="show-grid">
                                 <FormGroup>
                                   <Col sm={1}></Col>
-                                  <Col sm={3}>
+                                  <Col sm={5}>
                                     Hydrangeas:
                                   </Col>
-                                  <Col sm={3}>
+                                  <Col sm={5}>
                                     <DropdownButton 
                                       title={strings[this.state.hydrangeas]} 
                                       className="subscription-select" id="subscriptioin-planTypeSelect-dropdown" 
@@ -692,10 +722,10 @@ class FlowerType extends React.Component {
                               <Row className="show-grid">
                                 <FormGroup>
                                   <Col sm={1}></Col>
-                                  <Col sm={3}>
+                                  <Col sm={5}>
                                     Iris:
                                   </Col>
-                                  <Col sm={3}>
+                                  <Col sm={5}>
                                     <DropdownButton 
                                       title={strings[this.state.iris]} 
                                       className="subscription-select" id="subscriptioin-planTypeSelect-dropdown" 
@@ -710,10 +740,10 @@ class FlowerType extends React.Component {
                               <Row className="show-grid">
                                 <FormGroup>
                                   <Col sm={1}></Col>
-                                  <Col sm={3}>
+                                  <Col sm={5}>
                                     Orchids:
                                   </Col>
-                                  <Col sm={3}>
+                                  <Col sm={5}>
                                     <DropdownButton 
                                       title={strings[this.state.orchids]} 
                                       className="subscription-select" id="subscriptioin-planTypeSelect-dropdown" 
@@ -728,10 +758,10 @@ class FlowerType extends React.Component {
                               <Row className="show-grid">
                                 <FormGroup>
                                   <Col sm={1}></Col>
-                                  <Col sm={3}>
+                                  <Col sm={5}>
                                     Peonies:
                                   </Col>
-                                  <Col sm={3}>
+                                  <Col sm={5}>
                                     <DropdownButton 
                                       title={strings[this.state.peonies]} 
                                       className="subscription-select" id="subscriptioin-planTypeSelect-dropdown" 
@@ -746,10 +776,10 @@ class FlowerType extends React.Component {
                               <Row className="show-grid">
                                 <FormGroup>
                                   <Col sm={1}></Col>
-                                  <Col sm={3}>
+                                  <Col sm={5}>
                                     Roses:
                                   </Col>
-                                  <Col sm={3}>
+                                  <Col sm={5}>
                                     <DropdownButton 
                                       title={strings[this.state.roses]} 
                                       className="subscription-select" id="subscriptioin-planTypeSelect-dropdown" 
@@ -764,10 +794,10 @@ class FlowerType extends React.Component {
                               <Row className="show-grid">
                                 <FormGroup>
                                   <Col sm={1}></Col>
-                                  <Col sm={3}>
+                                  <Col sm={5}>
                                     Sun Flowers:
                                   </Col>
-                                  <Col sm={3}>
+                                  <Col sm={5}>
                                     <DropdownButton 
                                       title={strings[this.state.sunflowers]} 
                                       className="subscription-select" id="subscriptioin-planTypeSelect-dropdown" 
@@ -782,10 +812,10 @@ class FlowerType extends React.Component {
                               <Row className="show-grid">
                                 <FormGroup>
                                   <Col sm={1}></Col>
-                                  <Col sm={3}>
+                                  <Col sm={5}>
                                     Tulips:
                                   </Col>
-                                  <Col sm={3}>
+                                  <Col sm={5}>
                                     <DropdownButton 
                                       title={strings[this.state.tulips]} 
                                       className="subscription-select" id="subscriptioin-planTypeSelect-dropdown" 
@@ -800,10 +830,10 @@ class FlowerType extends React.Component {
                               <Row className="show-grid">
                                 <FormGroup>
                                   <Col sm={1}></Col>
-                                  <Col sm={3}>
+                                  <Col sm={5}>
                                     Carnations:
                                   </Col>
-                                  <Col sm={3}>
+                                  <Col sm={5}>
                                     <DropdownButton 
                                       title={strings[this.state.carnations]} 
                                       className="subscription-select" id="subscriptioin-planTypeSelect-dropdown" 
@@ -1464,39 +1494,38 @@ export default class Designs extends Component {
     var loadingState = this.state.loading;
     var designsDetailsStatus = this.state.designsDetailsStatus;
     var designs;
+    var designsHeader;
 
     // console.log('data check: ', Object.keys(data).length);
     if (Object.keys(data).length===0) {
+      designsHeader = null;
       designs = (
         <div className="no-sub-section">            
           <div className="center-text">{strings.noDesign}</div>
         </div>
       )
     } else {
+      designsHeader = (
+        <Grid>
+          <Row className="designs-list-titles">
+            <Col xs={6}>{strings.design}</Col>
+            <Col xs={6}>{strings.price}</Col>
+          </Row>
+        </Grid>
+      );
       designs = Object.keys(data).map(function(key) {
         var chosenKey = data[key].id;
         return (
-          <div key={key}>
+          <div key={key} onClick={() => this.handleChooseDesign(chosenKey)}>
             <Grid>
-              <div className="sub-list-item">
+              <div className="design-list-item">
                 <Row className="show-grid">
-                  <FormGroup>
-                    <Col sm={1}></Col>
-                    <Col sm={3}>
-                        <div><strong>Arrangement:</strong></div>
+                    <Col xs={6}>
+                        <div>{data[key].name}</div>
                     </Col>
-                    <Col sm={3}>
-                      <div>{data[key].name}</div>
+                    <Col xs={6}>
+                      <div>{data[key].currency} {data[key].price}</div>
                     </Col>
-                  </FormGroup>
-                </Row>
-                <Row className="show-grid">
-                  <FormGroup>
-                    {/* <Col xs={} sm={5}></Col> */}
-                    <Col xs={1} xsOffset={6} smOffset={9} mdOffset={10}>
-                      <Button bsStyle="" className="button sub-details-button" onClick={() => this.handleChooseDesign(chosenKey)}>{strings.detailsButton}</Button>
-                    </Col>
-                  </FormGroup>
                 </Row>
               </div>
             </Grid>
@@ -1519,11 +1548,17 @@ export default class Designs extends Component {
           <Grid>
             <Row className="show-grid loggedin-flow">
               <div className="horizontal-line"></div>
+              <Col xs={12}>
+                  <div className="flow-selected">{strings.allDesigns}</div>
+                    <i className="fa fa-chevron-right"></i>
+                  <div>{strings.designsUpdate}</div>
+              </Col>
+              <div className="horizontal-line"></div>
             </Row>
           </Grid>
 
           <Button bsStyle="" onClick={() => this.setState({designsDetailsStatus: 2}, () => {window.scrollTo(0, 0);})}>{strings.createButton}</Button>
-
+          {designsHeader}
           {designs}
         </div>
       )
@@ -1578,9 +1613,12 @@ export default class Designs extends Component {
     return (
       <div className="loggedin-background">
         <Grid> 
-          <Row>
-            <div className="no-sub-section">            
-              <Route path="/" render={(props) => <ButtonToPersonalAccount {...props}/>} />
+          <Row className="head-button-inline">
+            <div className="head-button-section">            
+              <Route path="/" render={(props) => <ButtonToShop {...props}/>} />
+            </div>
+            <div className="head-button-section">            
+              <Route path="/" render={(props) => <ButtonToAccount {...props}/>} />
             </div>
           </Row>
           <Row className="show-grid loggedin-nav">

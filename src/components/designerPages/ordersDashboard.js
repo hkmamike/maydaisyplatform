@@ -90,8 +90,8 @@ let strings = new LocalizedStrings({
     orderStatus: '狀況:',
 
     order_submitted: '定單已發出',
-    order_received: '花店已收到',
-    order_fulfilled: '花店已送花',
+    order_received: '已收定單',
+    order_fulfilled: '已送花',
 
     location_office: '辦公室',
     location_home: '住家',
@@ -140,9 +140,8 @@ let strings = new LocalizedStrings({
   }
 });
 
-
 const ButtonToShop = ({ title, history }) => (
-  <Button bsStyle="" className="head-button-pink" onClick={() => history.push('/ordersdashboard')}>{strings.buttonToShop}</Button>
+  <Button bsStyle="" className="head-button-teal" onClick={() => history.push('/ordersdashboard')}>{strings.buttonToShop}</Button>
 );
 
 const ButtonToAccount = ({ title, history }) => (
@@ -334,8 +333,8 @@ class OrderDetails extends React.Component {
             <div className="ordersdashboard-details">
                 <Row className="show-grid">
                     <FormGroup>
-                    <Col sm={1}></Col>
-                    <Col sm={3}>
+                    <Col sm={1} md={2}></Col>
+                    <Col sm={3} md={2}>
                         <div><strong>{strings.orderStatus}</strong></div>
                     </Col>
                     <Col sm={5}>
@@ -355,8 +354,8 @@ class OrderDetails extends React.Component {
                 </Row>
               <Row className="show-grid">
                 <FormGroup>
-                  <Col sm={1}></Col>
-                  <Col sm={3}>
+                  <Col sm={1} md={2}></Col>
+                  <Col sm={3} md={2}>
                       <div><strong>{strings.referenceCode}</strong></div>
                   </Col>
                   <Col sm={5}>
@@ -368,8 +367,8 @@ class OrderDetails extends React.Component {
               </Row>
               <Row className="show-grid">
                 <FormGroup>
-                  <Col sm={1}></Col>
-                  <Col sm={3}>
+                  <Col sm={1} md={2}></Col>
+                  <Col sm={3} md={2}>
                       <div><strong>{strings.deliveryDay}</strong></div>
                   </Col>
                   <Col sm={8}>
@@ -379,8 +378,8 @@ class OrderDetails extends React.Component {
               </Row>
               <Row className="show-grid">
                 <FormGroup>
-                  <Col sm={1}></Col>
-                  <Col sm={3}>
+                  <Col sm={1} md={2}></Col>
+                  <Col sm={3} md={2}>
                       <div><strong>{strings.arrangement}</strong></div>
                   </Col>
                   <Col sm={8}>
@@ -390,8 +389,8 @@ class OrderDetails extends React.Component {
               </Row>
               <Row className="show-grid">
                 <FormGroup>
-                  <Col sm={1}></Col>
-                  <Col sm={3}>
+                  <Col sm={1} md={2}></Col>
+                  <Col sm={3} md={2}>
                       <div><strong>{strings.deliveryType}</strong></div>
                   </Col>
                   <Col sm={8}>
@@ -401,8 +400,8 @@ class OrderDetails extends React.Component {
               </Row>
               { orderDetails.selectDeliveryType === 'delivery_gift' && <Row className="show-grid">
                 <FormGroup>
-                  <Col sm={1}></Col>
-                  <Col sm={3}>
+                  <Col sm={1} md={2}></Col>
+                  <Col sm={3} md={2}>
                       <div><strong>{strings.recipient}</strong></div>
                   </Col>
                   <Col sm={8}>
@@ -412,8 +411,8 @@ class OrderDetails extends React.Component {
               </Row> }
               { orderDetails.selectDeliveryType === 'delivery_gift' && <Row className="show-grid">
                 <FormGroup>
-                  <Col sm={1}></Col>
-                  <Col sm={3}>
+                  <Col sm={1} md={2}></Col>
+                  <Col sm={3} md={2}>
                       <div><strong>{strings.recipientNum}</strong></div>
                   </Col>
                   <Col sm={8}>
@@ -423,8 +422,8 @@ class OrderDetails extends React.Component {
               </Row> }
               <Row className="show-grid">
                 <FormGroup>
-                  <Col sm={1}></Col>
-                  <Col sm={3}>
+                  <Col sm={1} md={2}></Col>
+                  <Col sm={3} md={2}>
                       <div><strong>{strings.locationType}</strong></div>
                   </Col>
                   <Col sm={8}>
@@ -434,8 +433,8 @@ class OrderDetails extends React.Component {
               </Row>
               <Row className="show-grid">
                 <FormGroup>
-                  <Col sm={1}></Col>
-                  <Col sm={3}>
+                  <Col sm={1} md={2}></Col>
+                  <Col sm={3} md={2}>
                       <div><strong>{strings.address}</strong></div>
                   </Col>
                   <Col sm={8}>
@@ -445,8 +444,8 @@ class OrderDetails extends React.Component {
               </Row>
               <Row className="show-grid">
                 <FormGroup>
-                  <Col sm={1}></Col>
-                  <Col sm={3}>
+                  <Col sm={1} md={2}></Col>
+                  <Col sm={3} md={2}>
                       <div><strong>{strings.card}</strong></div>
                   </Col>
                   <Col sm={7}>
@@ -461,8 +460,8 @@ class OrderDetails extends React.Component {
               </Row>
               <Row className="show-grid">
                 <FormGroup>
-                  <Col sm={1}></Col>
-                  <Col sm={3}>
+                  <Col sm={1} md={2}></Col>
+                  <Col sm={3} md={2}>
                       <div><strong>{strings.deliveryInstruction}</strong></div>
                   </Col>
                   <Col sm={7}>
@@ -472,8 +471,8 @@ class OrderDetails extends React.Component {
               </Row>
               <Row className="show-grid">
                 <FormGroup>
-                  <Col sm={1}></Col>
-                  <Col sm={3}>
+                  <Col sm={1} md={2}></Col>
+                  <Col sm={3} md={2}>
                       <div><strong>{strings.sender}</strong></div>
                   </Col>
                   <Col sm={7}>
@@ -483,8 +482,8 @@ class OrderDetails extends React.Component {
               </Row>
               <Row className="show-grid">
                 <FormGroup>
-                  <Col sm={1}></Col>
-                  <Col sm={3}>
+                  <Col sm={1} md={2}></Col>
+                  <Col sm={3} md={2}>
                       <div><strong>{strings.senderNum}</strong></div>
                   </Col>
                   <Col sm={7}>
@@ -494,8 +493,8 @@ class OrderDetails extends React.Component {
               </Row>
               <Row className="show-grid">
                 <FormGroup>
-                  <Col sm={1}></Col>
-                  <Col sm={3}>
+                  <Col sm={1} md={2}></Col>
+                  <Col sm={3} md={2}>
                       <div><strong>{strings.senderEmail}</strong></div>
                   </Col>
                   <Col sm={7}>
@@ -631,7 +630,7 @@ export default class OrdersDashboard extends Component {
             <Col xs={4}>{strings.orderStatus}</Col>
           </Row>
         </Grid>
-      )
+      );
       orders = Object.keys(data).map(function(key) {
         var chosenKey = data[key].referenceCode;
         return (

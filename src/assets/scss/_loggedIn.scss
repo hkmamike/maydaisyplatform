@@ -12,7 +12,16 @@
     font-size: 18px !important;
 }
 
+textarea.data-field-update {
+    min-height: 100px;
+    font-size: 90% !important;
+}
+
 .modal-content {
+    .container {
+        width: 100% !important;
+
+    }
     .button {
         margin-left: 10px !important;
         margin-top: 15px !important;
@@ -33,6 +42,23 @@
         }
         a {
             color: $white !important;
+        }
+    }
+    .row {
+        margin-bottom: 5px;
+    }
+    .region-list-item {
+        line-height: 200%;
+        div[class^="col-"] {
+            @media (max-width: 768px) {
+                font-size: 80%;
+            }
+        }
+        button {
+            @media (max-width: 768px) {
+                font-size: 80%;
+            }
+            @include translateY(-10%);
         }
     }
 }
@@ -235,7 +261,7 @@
                 height: 2px;
             }
 
-            .order-list-titles, .address-list-titles, .ordersdashboard-list-titles {
+            .order-list-titles, .address-list-titles, .ordersdashboard-list-titles, .designs-list-titles {
                 background-color: $pink;
                 color: white;
                 padding: 10px;
@@ -245,7 +271,7 @@
                 }
             }
 
-            .order-list-item, .address-list-item, .ordersdashboard-list-item {
+            .order-list-item, .address-list-item, .ordersdashboard-list-item, .design-list-item {
                 border-bottom: 1px solid;
                 border-color: $darkGrey;
                 padding: 10px 10px 10px 10px;
@@ -318,13 +344,13 @@
                 border-color: $pinkhover;
             }
         }
-        .head-button-pink {
+        .head-button-teal {
             margin-top: 10px !important;
             padding-left: 20px;
             padding-right: 20px;
             width: 150px !important;
             height: 40px !important;
-            background-color: $pink ;
+            background-color: $teal ;
             font-weight: bold !important;
             color: $white !important;
             outline: none;
@@ -341,7 +367,11 @@
         }
     }
 
-    .order-details, .address-details, .account-details, .ordersdashboard-details {
+    .order-details, .address-details, .account-details, .ordersdashboard-details, .shop-info-details {
+
+        a {
+            color: $darkpink !important;
+        }
 
         .row {
             margin: 5px auto !important;
@@ -355,7 +385,7 @@
             }
         }
 
-        .address-delete-button, .ordersdashboard-update-button {
+        .address-delete-button, .ordersdashboard-update-button, .shop-settings-button {
             color: white;
             background: $red;
             font-weight: bold;
