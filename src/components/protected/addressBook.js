@@ -28,11 +28,12 @@ let strings = new LocalizedStrings({
     noAddress: 'You do not have any address book record.',
     errorOccured: 'An error occured, please try again later.',
     addressUpdated: 'address has been updated.',
-    deleteText1: 'The Addres Book helps you speed up the checkout process',
-    deleteText2: "Proceed to delete this record by clicking the 'delete' button below",
+    deleteText1: 'The Addres Book helps you speed up the checkout process.',
+    deleteText2: "To Proceed deleting this record, click the 'delete' button below.",
     buttonToShop: 'My Shop',
     buttonToAccount: 'My Account',
-    deleteAddress: 'Delete Address'
+    deleteAddress: 'Delete Address',
+    deleteSuccess: 'Address has been removed from record',
   },
   ch: {
     orderHistory1: ' ',
@@ -56,10 +57,11 @@ let strings = new LocalizedStrings({
     errorOccured: '系統錯誤，請稍後再試。',
     addressUpdated: '地址已更新。',
     deleteText1: '地址記錄令您的下單更快捷。',
-    deleteText2: "如要刪取這個地址，請按下'刪除'鈕扣。",
+    deleteText2: "如要繼續刪取這個地址，請按下'刪除'鈕扣。",
     buttonToShop: '我的花店',
     buttonToAccount: '我的帳戶',
-    deleteAddress: '刪除地址'
+    deleteAddress: '刪除地址',
+    deleteSuccess: '地址已刪除。',
   }
 });
 
@@ -101,7 +103,7 @@ class DeleteAddressModal extends React.Component {
               <Modal.Title><strong>{strings.deleteAddress}</strong></Modal.Title>
             </Modal.Header>
             <Modal.Body>
-              <h4>{strings.deleteText1}</h4>
+              <p>{strings.deleteText1}</p>
               <p>{strings.deleteText2}</p>
             </Modal.Body>
             <Modal.Footer>
@@ -148,6 +150,7 @@ class AddressDetails extends React.Component {
     componentWillUnmount () {
         //returns the unsubscribe function
         this.fireBaseListenerForAddressDetails && this.fireBaseListenerForAddressDetails();
+        this.fireBaseListenerForDeleteAddress && this.fireBaseListenerForDeleteAddress();
     }
 
 
@@ -176,7 +179,7 @@ class AddressDetails extends React.Component {
     handleDelete = () => {
         this.fireBaseListenerForDeleteAddress = firebaseAuth().onAuthStateChanged((user) => {
             base.remove(`users/${user.uid}/address/${this.props.selectedAddress}`).then(() => {
-                this.setState({ InfoMessage: 'address has been removed from record'}, () => this.props.onAddressDeleteSuccess())
+                this.setState({ InfoMessage: strings.deleteSuccess}, () => this.props.onAddressDeleteSuccess())
             }).catch(error => {
                 //handle error
             });
@@ -216,7 +219,6 @@ class AddressDetails extends React.Component {
                   <Col xs={2} sm={2} md={3}>
                     <DeleteAddressModal
                         onDeleteAddress={this.handleDelete}
-                        uid={this.state.uid}
                     />
                   </Col>
                 </FormGroup>
@@ -358,7 +360,6 @@ export default class AddressBook extends Component {
       });
   }
   addressDeleteSuccess() {
-      console.log('hello world');
     this.setState({addressDetailsStatus: 0});
     base.fetch(`users/${this.state.userID}/address/`, {
       context: this,

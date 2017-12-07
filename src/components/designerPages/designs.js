@@ -2,7 +2,7 @@ import React, { Component } from 'react'
 import ReactDOM from 'react-dom';
 import { firebaseAuth } from '../config/constants';
 import { Link, Route } from 'react-router-dom';
-import { FormGroup, FormControl, Grid, Row, Col, Button, Glyphicon, Modal, DropdownButton, MenuItem } from 'react-bootstrap';
+import { FormGroup, FormControl, Grid, Row, Col, Button, Glyphicon, Modal, DropdownButton, MenuItem, HelpBlock } from 'react-bootstrap';
 import { base } from '../config/constants';
 import * as firebase from 'firebase';
 import LocalizedStrings from 'react-localization';
@@ -16,53 +16,78 @@ let strings = new LocalizedStrings({
     designs2: 'Designs',
     shopInformation1: 'Shop',
     shopInformation2: 'Information',
-
     allDesigns: 'All Designs',
     designsUpdate: 'Details & Update',
 
+    buttonToShop: 'My Shop',
+    buttonToAccount: 'My Account',
+
+    deleteButton: 'Delete',
+    deleteDesign: 'Delete Design',
+    deleteText1: "To Proceed deleting this record, click the 'delete' button below",
     design: 'Design',
     price: 'Price',
-
     newDesign: 'New Design',
-
-
-    referenceCode: 'Reference Code:',
-
-    to: 'To:',
-    deliveryDay: 'Delivery Day:',
-    detailsButton: 'Details',
 
     backButton: 'Back',
     updateButton: 'Update',
     saveButton: 'Save',
-    createButton: 'Create',
-         
-    colorSettingsTitle: 'Color Type',
-    colorSettingsText1: 'This helps customers search for designs.',
-    colorSettingsText2: 'Which of these frequently searched for colors does your design contain?',
-
-
-    orderUpdate: 'Your update has been sent.',
-
     cancelButton: 'Close',
 
-    noOrder: 'You do not have any design listed.',
+    createButton: 'Create',
 
+    colorSettingsTitle: 'Color Type Setting',
+    colorSettingsText1: 'This helps customers search for designs.',
+    colorSettingsText2: 'Which of these frequently searched for colors does your design contain?',
+    
+    flowerSettingsTitle: 'Flower Type Setting',
+    flowerSettingsText1: 'This helps customers search for designs.',
+    flowerSettingsText2: 'Which of these frequently searched for flowers does your design contain?',
 
+    noDesign: 'You do not have any design listed.',
     errorOccured: 'An error occured, please try again later.',
-    reviewSubmitted: 'Your review has been submited.',
-    browseMarket: 'Browse Market',
-
-    order_submitted: 'Order Submitted',
-    order_delivered: 'Order Delivered',
-    order_received: 'Order Received',
+    designCreated: 'A new design has been created.',
+    designUpdated: 'Design has been updated',
+    errorIncomplete: 'Please complete all fields to create a new design',
 
     n: 'no',
     y: 'yes',
 
+    designImage: 'Image:',
+    designName: "Design's name:",
+    designID: "Design's ID:",
+    description: "Description:",
+    color: 'Color:',
+    flower: 'Flower:',
 
-    buttonToShop: 'My Shop',
-    buttonToAccount: 'My Account',
+    designNameTip: "The new design's name should be at least 2 characters long.",
+    designDescriptionTip: 'The description should be at least 20 characters long.',
+    priceTip: 'Price should be an integer value greater or equal to 10.',
+
+    settingButton: 'Setting',
+
+    red: 'Red:',
+    pink: 'Pink:',
+    green: 'Green:',
+    orange: 'Orange:',
+    purple: 'Purple:',
+    white: 'White:',
+    yellow: 'Yellow:',
+    lavender: 'Lavender:',
+    blue: 'Blue:',
+
+    dahlias: 'Dahlias:',
+    delphinium: 'Delphinium:',
+    daisies: 'Daisies:',
+    hydrangeas: 'Hydrangeas:',
+    iris: 'Iris:',
+    orchids: 'Orchids:',
+    peonies: 'Peonies:',
+    roses: 'Roses:',
+    sunFlowers: 'Sun Flowers:',
+    tulips: 'Tulips:',
+    carnations: 'Carnations:',
+    deleteSuccess: 'Design has been removed from record.',
 
   },
   ch: {
@@ -72,15 +97,79 @@ let strings = new LocalizedStrings({
     designs2: '貨品列表',
     shopInformation1: ' ',
     shopInformation2: '店舖資料',
-
     allDesigns: '所有設計',
     designsUpdate: '詳情+更新',
 
-    design: '設計名稱',
-    price: '價格',
-
     buttonToShop: '我的花店',
     buttonToAccount: '我的帳戶',
+
+    deleteButton: '刪除',
+    deleteDesign: '刪除設計',
+    deleteText1: "如要繼續刪取這個地址，請按下'刪除'鈕扣。",
+    design: '設計名稱',
+    price: '價格',
+    newDesign: '新增設計',
+
+    backButton: '返回',
+    updateButton: '更新',
+    saveButton: '儲存',
+    cancelButton: '關閉',
+
+    createButton: '新增',
+
+    colorSettingsTitle: '顏色類型設定',
+    colorSettingsText1: '顏色類型設定可以幫客人更快的尋找適合的設計。',
+    colorSettingsText2: '您新增的設計符合以下哪些顏色類型?',
+
+    flowerSettingsTitle: '花種類型設定',
+    flowerSettingsText1: '花種類型設定可以幫客人更快的尋找適合的設計。',
+    flowerSettingsText2: '您新增的設計符合以下哪些花種類型?',
+    
+    noDesign: '您的商店目前並沒有貨品。',
+    errorOccured: '系統錯誤，請稍後再試。',
+    designCreated: '新設計已上架。',
+    designUpdated: '設計已更新。',
+    errorIncomplete: '資料不完整。請填寫所有設計資料。',
+
+    n: 'no',
+    y: 'yes',
+
+    designImage: '設計照片:',
+    designName: "設計名稱:",
+    designID: "設計ID:",
+    description: "設計描述:",
+    color: '顏色:',
+    flower: '花種:',
+    
+    designNameTip: "新設計的名稱最短應為兩個字。",
+    designDescriptionTip: '描述最短應為二十個字。',
+    priceTip: '價格應為最少是十的整數。',
+
+    settingButton: '設定',
+
+    red: '紅色:',
+    pink: '粉紅色:',
+    green: '綠色:',
+    orange: '橙色:',
+    purple: '紫色:',
+    white: '白色:',
+    yellow: '黃色:',
+    lavender: '薰衣草色:',
+    blue: '藍色:',
+
+    dahlias: '大麗花:',
+    delphinium: '翠雀:',
+    daisies: '菊花:',
+    hydrangeas: '繡球:',
+    iris: '鳶尾花:',
+    orchids: '蘭花:',
+    peonies: '牡丹:',
+    roses: '玫瑰:',
+    sunFlowers: '太陽花:',
+    tulips: '鬱金香:',
+    carnations: '康乃馨:',
+    deleteSuccess: '設計已刪除。',
+
   }
 });
 
@@ -91,6 +180,48 @@ const ButtonToShop = ({ title, history }) => (
 const ButtonToAccount = ({ title, history }) => (
   <Button bsStyle="" className="head-button-white" onClick={() => history.push('/orderhistory')}>{strings.buttonToAccount}</Button>
 );
+
+class DeleteDesignModal extends React.Component {
+  constructor() {
+    super();
+    this.open = this.open.bind(this);
+    this.close = this.close.bind(this);
+    this.deleteDesign = this.deleteDesign.bind(this);
+    this.state = {
+      showModal: false
+    }
+  }
+
+  close() {
+    this.setState({showModal: false});
+  }
+  open() {
+    this.setState({showModal: true});
+  }
+  deleteDesign() {
+    this.props.onDeleteDesign();
+    this.close();
+  }
+  render() {
+    return (
+      <div>
+        <Button bsStyle="" className="design-delete-button" onClick={this.open}>{strings.deleteButton}</Button>
+        <Modal show={this.state.showModal} onHide={this.close}>
+          <Modal.Header closeButton>
+            <Modal.Title><strong>{strings.deleteDesign}</strong></Modal.Title>
+          </Modal.Header>
+          <Modal.Body>
+            <p>{strings.deleteText1}</p>
+          </Modal.Body>
+          <Modal.Footer>
+            <Button bsStyle="" className="button button-back" onClick={this.close}>{strings.cancelButton}</Button>
+            <Button bsStyle="" className="button" onClick={this.deleteDesign}>{strings.deleteButton}</Button>
+          </Modal.Footer>
+        </Modal>
+      </div>
+    )
+  }
+}
 
 class ColorType extends React.Component {
   constructor() {
@@ -274,7 +405,7 @@ class ColorType extends React.Component {
   render() {
       return (
           <div>
-              <Button bsStyle="" className="sub-details-unsub"onClick={this.open}>Settings</Button>
+              <Button bsStyle="" className="setting-button" onClick={this.open}>{strings.settingButton}</Button>
               <Modal show={this.state.showModal} onHide={this.close}>
 
                   <div>
@@ -290,7 +421,7 @@ class ColorType extends React.Component {
                                 <FormGroup>
                                   <Col sm={1}></Col>
                                   <Col sm={5}>
-                                    Blue:
+                                    {strings.blue}
                                   </Col>
                                   <Col sm={5}>
                                     <DropdownButton title={strings[this.state.blue]} className="subscription-select" id="subscriptioin-planTypeSelect-dropdown" onSelect={(eventKey)=>this.handleSettingChange('blue',eventKey)}>
@@ -304,7 +435,7 @@ class ColorType extends React.Component {
                                 <FormGroup>
                                   <Col sm={1}></Col>
                                   <Col sm={5}>
-                                    Green:
+                                  {strings.green}
                                   </Col>
                                   <Col sm={5}>
                                     <DropdownButton title={strings[this.state.green]} className="subscription-select" id="subscriptioin-planTypeSelect-dropdown" onSelect={(eventKey)=>this.handleSettingChange('green',eventKey)}>
@@ -318,7 +449,7 @@ class ColorType extends React.Component {
                                 <FormGroup>
                                   <Col sm={1}></Col>
                                   <Col sm={5}>
-                                    Lavender:
+                                  {strings.lavender}
                                   </Col>
                                   <Col sm={5}>
                                     <DropdownButton title={strings[this.state.lavender]} className="subscription-select" id="subscriptioin-planTypeSelect-dropdown" onSelect={(eventKey)=>this.handleSettingChange('lavender',eventKey)}>
@@ -332,7 +463,7 @@ class ColorType extends React.Component {
                                 <FormGroup>
                                   <Col sm={1}></Col>
                                   <Col sm={5}>
-                                    Orange:
+                                  {strings.orange}
                                   </Col>
                                   <Col sm={5}>
                                     <DropdownButton title={strings[this.state.orange]} className="subscription-select" id="subscriptioin-planTypeSelect-dropdown" onSelect={(eventKey)=>this.handleSettingChange('orange',eventKey)}>
@@ -346,7 +477,7 @@ class ColorType extends React.Component {
                                 <FormGroup>
                                   <Col sm={1}></Col>
                                   <Col sm={5}>
-                                    Pink:
+                                  {strings.pink}
                                   </Col>
                                   <Col sm={5}>
                                     <DropdownButton title={strings[this.state.pink]} className="subscription-select" id="subscriptioin-planTypeSelect-dropdown" onSelect={(eventKey)=>this.handleSettingChange('pink',eventKey)}>
@@ -360,7 +491,7 @@ class ColorType extends React.Component {
                                 <FormGroup>
                                   <Col sm={1}></Col>
                                   <Col sm={5}>
-                                    Purple:
+                                  {strings.purple}
                                   </Col>
                                   <Col sm={5}>
                                     <DropdownButton title={strings[this.state.purple]} className="subscription-select" id="subscriptioin-planTypeSelect-dropdown" onSelect={(eventKey)=>this.handleSettingChange('purple',eventKey)}>
@@ -374,7 +505,7 @@ class ColorType extends React.Component {
                                 <FormGroup>
                                   <Col sm={1}></Col>
                                   <Col sm={5}>
-                                    Red:
+                                  {strings.red}
                                   </Col>
                                   <Col sm={5}>
                                     <DropdownButton title={strings[this.state.red]} className="subscription-select" id="subscriptioin-planTypeSelect-dropdown" onSelect={(eventKey)=>this.handleSettingChange('red',eventKey)}>
@@ -387,10 +518,10 @@ class ColorType extends React.Component {
                               <Row className="show-grid">
                                 <FormGroup>
                                   <Col sm={1}></Col>
-                                  <Col sm={3}>
-                                    White:
+                                  <Col sm={5}>
+                                  {strings.white}
                                   </Col>
-                                  <Col sm={3}>
+                                  <Col sm={5}>
                                     <DropdownButton title={strings[this.state.white]} className="subscription-select" id="subscriptioin-planTypeSelect-dropdown" onSelect={(eventKey)=>this.handleSettingChange('white',eventKey)}>
                                       <MenuItem eventKey="y">{strings.y}</MenuItem>
                                       <MenuItem eventKey="n">{strings.n}</MenuItem>
@@ -402,7 +533,7 @@ class ColorType extends React.Component {
                                 <FormGroup>
                                   <Col sm={1}></Col>
                                   <Col sm={5}>
-                                    Yellow:
+                                  {strings.yellow}
                                   </Col>
                                   <Col sm={5}>
                                     <DropdownButton title={strings[this.state.yellow]} className="subscription-select" id="subscriptioin-planTypeSelect-dropdown" onSelect={(eventKey)=>this.handleSettingChange('yellow',eventKey)}>
@@ -418,7 +549,7 @@ class ColorType extends React.Component {
                   </div>
                   <Modal.Footer>
                   <Button bsStyle="" className="button button-back" onClick={this.close}>{strings.backButton}</Button>
-                  <Button bsStyle="" className="button button-back" onClick={this.handleColorUpdate}>{strings.saveButton}</Button>
+                  <Button bsStyle="" className="button" onClick={this.handleColorUpdate}>{strings.saveButton}</Button>
                   </Modal.Footer>
               </Modal>
           </div>
@@ -635,15 +766,15 @@ class FlowerType extends React.Component {
   render() {
       return (
           <div>
-              <Button bsStyle="" className="sub-details-unsub"onClick={this.open}>Settings</Button>
+              <Button bsStyle="" className="setting-button" onClick={this.open}>{strings.settingButton}</Button>
               <Modal show={this.state.showModal} onHide={this.close}>
 
                   <div>
                       <Modal.Header closeButton>
-                      <Modal.Title><strong>{strings.colorSettingsTitle}</strong></Modal.Title>
+                      <Modal.Title><strong>{strings.flowerSettingsTitle}</strong></Modal.Title>
                       </Modal.Header>
                       <Modal.Body>
-                          <h4>{strings.flowerSettingsText1}</h4>
+                          <p>{strings.flowerSettingsText1}</p>
                           <p>{strings.flowerSettingsText2}</p>
                           <Grid>
                             <div className="sub-list-item">
@@ -651,7 +782,7 @@ class FlowerType extends React.Component {
                                 <FormGroup>
                                   <Col sm={1}></Col>
                                   <Col sm={5}>
-                                    Dahlias:
+                                    {strings.dahlias}
                                   </Col>
                                   <Col sm={5}>
                                     <DropdownButton 
@@ -669,7 +800,7 @@ class FlowerType extends React.Component {
                                 <FormGroup>
                                   <Col sm={1}></Col>
                                   <Col sm={5}>
-                                    Delphinium:
+                                    {strings.delphinium}
                                   </Col>
                                   <Col sm={5}>
                                     <DropdownButton 
@@ -687,7 +818,7 @@ class FlowerType extends React.Component {
                                 <FormGroup>
                                   <Col sm={1}></Col>
                                   <Col sm={5}>
-                                    Daisies:
+                                    {strings.daisies}
                                   </Col>
                                   <Col sm={5}>
                                     <DropdownButton 
@@ -705,7 +836,7 @@ class FlowerType extends React.Component {
                                 <FormGroup>
                                   <Col sm={1}></Col>
                                   <Col sm={5}>
-                                    Hydrangeas:
+                                    {strings.hydrangeas}
                                   </Col>
                                   <Col sm={5}>
                                     <DropdownButton 
@@ -723,7 +854,7 @@ class FlowerType extends React.Component {
                                 <FormGroup>
                                   <Col sm={1}></Col>
                                   <Col sm={5}>
-                                    Iris:
+                                    {strings.iris}
                                   </Col>
                                   <Col sm={5}>
                                     <DropdownButton 
@@ -741,7 +872,7 @@ class FlowerType extends React.Component {
                                 <FormGroup>
                                   <Col sm={1}></Col>
                                   <Col sm={5}>
-                                    Orchids:
+                                    {strings.orchids}
                                   </Col>
                                   <Col sm={5}>
                                     <DropdownButton 
@@ -759,7 +890,7 @@ class FlowerType extends React.Component {
                                 <FormGroup>
                                   <Col sm={1}></Col>
                                   <Col sm={5}>
-                                    Peonies:
+                                    {strings.peonies}
                                   </Col>
                                   <Col sm={5}>
                                     <DropdownButton 
@@ -777,7 +908,7 @@ class FlowerType extends React.Component {
                                 <FormGroup>
                                   <Col sm={1}></Col>
                                   <Col sm={5}>
-                                    Roses:
+                                    {strings.roses}
                                   </Col>
                                   <Col sm={5}>
                                     <DropdownButton 
@@ -795,7 +926,7 @@ class FlowerType extends React.Component {
                                 <FormGroup>
                                   <Col sm={1}></Col>
                                   <Col sm={5}>
-                                    Sun Flowers:
+                                    {strings.sunFlowers}
                                   </Col>
                                   <Col sm={5}>
                                     <DropdownButton 
@@ -813,7 +944,7 @@ class FlowerType extends React.Component {
                                 <FormGroup>
                                   <Col sm={1}></Col>
                                   <Col sm={5}>
-                                    Tulips:
+                                    {strings.tulips}
                                   </Col>
                                   <Col sm={5}>
                                     <DropdownButton 
@@ -831,7 +962,7 @@ class FlowerType extends React.Component {
                                 <FormGroup>
                                   <Col sm={1}></Col>
                                   <Col sm={5}>
-                                    Carnations:
+                                    {strings.carnations}
                                   </Col>
                                   <Col sm={5}>
                                     <DropdownButton 
@@ -888,7 +1019,7 @@ class DesignDetails extends React.Component {
           designDetails: {},
           cropperOpen: false,
           img: null,
-          newImageFlag: false
+          newImageFlag: false,
       }
   }
 
@@ -915,6 +1046,7 @@ class DesignDetails extends React.Component {
   componentWillUnmount () {
       //returns the unsubscribe function
       this.fireBaseListenerForDesignDetails && this.fireBaseListenerForDesignDetails();
+      this.fireBaseListenerForDeleteDesign && this.fireBaseListenerForDeleteDesign();
   }
 
   handleBack = () => {
@@ -954,6 +1086,17 @@ class DesignDetails extends React.Component {
           cropperOpen: false
         });
   }
+  handleDelete = () => {
+    console.log('designerCode:', this.props.designerCode);
+    console.log('design ID:', this.state.designDetails.id);
+    base.remove(`florists/${this.props.designerCode}/arrangements/${this.state.designDetails.id}`).then(() => {
+        base.remove(`arrangementsList/${this.state.designDetails.id}`);
+        this.props.onDesignDeleteSuccess();
+    }).catch(error => {
+        //handle error
+        console.log('an error occured when deleting record.');
+    });
+}
 
   render() {
     var designDetails = this.state.designDetails;
@@ -978,21 +1121,26 @@ class DesignDetails extends React.Component {
                 <Glyphicon glyph="exclamation-sign" className="icons"/>&nbsp;{this.props.infoMessage} 
               </div>
             }
-            <div className="sub-list-item">
+            { this.props.errorMessage &&
+              <div className="alert alert-danger update-message" role="alert">
+                <Glyphicon glyph="exclamation-sign" className="icons"/>&nbsp;{this.props.errorMessage} 
+              </div>
+            }
+            <div className="design-details">
                 <Row className="show-grid">
                     <FormGroup>
-                    <Col sm={1}></Col>
-                    <Col sm={3}>
-                        <div><strong>Design Image:</strong></div>
+                    <Col sm={1} md={2}></Col>
+                    <Col sm={3} md={2}>
+                        <div><strong>{strings.designImage}</strong></div>
                     </Col>
-                    <Col sm={8}>
+                    <Col sm={8} md={5}>
                     <div>
                         <div className="avatar-photo">
                             <FileUpload handleFileChange={this.handleFileChange} />
                             <div className="avatar-edit">
                                 <i className="fa fa-camera"></i>
                             </div>
-                            <img className="design-detail-arrangement-pic" alt="" src={this.state.croppedImg} />
+                            {this.state.croppedImg && <img className="design-detail-arrangement-pic" alt="" src={this.state.croppedImg} />}
                         </div>
                         {this.state.cropperOpen &&
                         <AvatarCropper
@@ -1010,61 +1158,60 @@ class DesignDetails extends React.Component {
                 </Row>
                 <Row className="show-grid">
                     <FormGroup>
-                    <Col sm={1}></Col>
-                    <Col sm={3}>
-                        <div><strong>Design name:</strong></div>
+                    <Col sm={1} md={2}></Col>
+                    <Col sm={3} md={2}>
+                        <div><strong>{strings.designName}</strong></div>
                     </Col>
-                    <Col sm={5}>
-                        <FormControl className="data-field-update" type="text" value={name} onChange={this.handleNameChange}/>
+                    <Col sm={5} md={5}>
+                      <FormControl className="data-field-update" type="text" value={name} onChange={this.handleNameChange}/>
                     </Col>
-                    <Col sm={3}>
+                    <Col sm={3} md={2}>
+                      <DeleteDesignModal
+                        onDeleteDesign={this.handleDelete}
+                      />
                     </Col>
                     </FormGroup>
                 </Row>
                 <Row className="show-grid">
                     <FormGroup>
-                    <Col sm={1}></Col>
-                    <Col sm={3}>
-                        <div><strong>Item ID:</strong></div>
+                    <Col sm={1} md={2}></Col>
+                    <Col sm={3} md={2}>
+                        <div><strong>{strings.designID}</strong></div>
                     </Col>
-                    <Col sm={5}>
+                    <Col sm={8}  md={5}>
                         <div>{designDetails.id}</div>
-                    </Col>
-                    <Col sm={3}>
                     </Col>
                     </FormGroup>
                 </Row>
               <Row className="show-grid">
                 <FormGroup>
-                  <Col sm={1}></Col>
-                  <Col sm={3}>
-                      <div><strong>Price ({designDetails.currency}):</strong></div>
+                  <Col sm={1} md={2}></Col>
+                  <Col sm={3} md={2}>
+                      <div><strong>{strings.price} ({designDetails.currency}):</strong></div>
                   </Col>
-                  <Col sm={5}>
+                  <Col sm={8} md={5}>
                     <FormControl className="data-field-update" type="text" value={price} onChange={this.handlePriceChange}/>
-                  </Col>
-                  <Col sm={3}>
                   </Col>
                 </FormGroup>
               </Row>
               <Row className="show-grid">
                 <FormGroup>
-                  <Col sm={1}></Col>
-                  <Col sm={3}>
-                      <div><strong>Description:</strong></div>
+                  <Col sm={1} md={2}></Col>
+                  <Col sm={3} md={2}>
+                      <div><strong>{strings.description}</strong></div>
                   </Col>
-                  <Col sm={8}>
+                  <Col sm={8} md={5}>
                     <FormControl className="card-text-area data-field-update" componentClass="textarea" value={description} onChange={this.handleDescriptionChange}/>
                   </Col>
                 </FormGroup>
               </Row>
               <Row className="show-grid">
                 <FormGroup>
-                  <Col sm={1}></Col>
-                  <Col sm={3}>
-                      <div><strong>Color:</strong></div>
+                  <Col sm={1} md={2}></Col>
+                  <Col sm={3} md={2}>
+                      <div><strong>{strings.color}</strong></div>
                   </Col>
-                  <Col sm={8}>
+                  <Col sm={8} md={5}>
                     <ColorType
                         selectedDesign={this.props.selectedDesign}
                         designerCode={this.props.designerCode}
@@ -1074,11 +1221,11 @@ class DesignDetails extends React.Component {
               </Row>
               <Row className="show-grid">
                 <FormGroup>
-                  <Col sm={1}></Col>
-                  <Col sm={3}>
-                      <div><strong>Flower:</strong></div>
+                  <Col sm={1} md={2}></Col>
+                  <Col sm={3} md={2}>
+                      <div><strong>{strings.flower}</strong></div>
                   </Col>
-                  <Col sm={8}>
+                  <Col sm={8} md={5}>
                     <FlowerType
                         selectedDesign={this.props.selectedDesign}
                         designerCode={this.props.designerCode}
@@ -1091,8 +1238,8 @@ class DesignDetails extends React.Component {
                   <Col sm={5}>
                   </Col>
                   <Col sm={4}>
-                    <Button bsStyle="" className="button sub-details-back" onClick={() => this.handleBack()}>{strings.backButton}</Button>
-                    <Button bsStyle="" className="button sub-details-update" onClick={() => this.handleDesignUpdate(name, price, description, color, flower, croppedImg, newImageFlag)}>{strings.updateButton}</Button>
+                    <Button bsStyle="" className="button button-back" onClick={() => this.handleBack()}>{strings.backButton}</Button>
+                    <Button bsStyle="" className="button button-update" onClick={() => this.handleDesignUpdate(name, price, description, color, flower, croppedImg, newImageFlag)}>{strings.updateButton}</Button>
                   </Col>
                 </FormGroup>
               </Row>
@@ -1122,7 +1269,7 @@ class NewDesign extends React.Component {
           description: '',
           croppedImg: null,
           colorsArray: [],
-          flowersArray: []
+          flowersArray: [],
       }
   }
 
@@ -1141,7 +1288,11 @@ class NewDesign extends React.Component {
   }
 
   handleNewDesign = (name, price, description, colorsArray, flowersArray, croppedImg) => {
-      this.props.onHandleNewDesign(name, price, description, colorsArray, flowersArray, croppedImg);
+      if (this.validateName() ==='success' && this.validatePrice() ==='success' && this.validateDescription() ==='success' && this.validatePic() ==='success') {
+        this.props.onHandleNewDesign(name, price, description, colorsArray, flowersArray, croppedImg);
+      } else {
+        this.props.onNewDesignIncomplete();
+      }
   }
 
   handleNameChange = (e) => {
@@ -1175,11 +1326,61 @@ class NewDesign extends React.Component {
   handleCreateDesignColorUpdate = (colorsArray) => {
     this.setState({colorsArray: colorsArray});
   }
-
   handleCreateDesignFlowerUpdate = (flowersArray) => {
     this.setState({flowersArray: flowersArray});
   }
+  validatePic = () => {
+    var pic = this.state.croppedImg;
+    if (pic===null) {
+      return 'warning'
+    } else if (pic!==null) {
+      return 'success'
+    } else {
+      return null;
+    }
+  }
+  validateName = () => {
+    const length = this.state.name.length;
+    if (length > 2){
+      return 'success';
+    }  else if (length > 0) {
+      return 'warning';
+    } else {
+      return null;
+    }
+  }
+  validateDescription = () => {
+    const length = this.state.description.length;
+    if (length > 20){
+      return 'success';
+    }  else if (length > 0) {
+      return 'warning';
+    } else {
+      return null;
+    }
+  }
+  validatePrice = () => {
+    const length = this.state.price.length;
+    const price = this.state.price;
+    const priceInt = parseInt(price);
+    var positive = false;
+    var integer = false;
 
+    if (priceInt >= 10) {
+      positive = true;
+    }
+    if (!(price.indexOf('.') >= 0)) {
+      integer = true;
+    }
+
+    if (positive && integer){
+      return 'success';
+    } else if (length > 0) {
+      return 'error';
+    } else {
+      return null;
+    }
+  }
   render() {
     var loadingState = this.state.loading;
     var name = this.state.name;
@@ -1201,12 +1402,17 @@ class NewDesign extends React.Component {
                 <Glyphicon glyph="exclamation-sign" className="icons"/>&nbsp;{this.props.infoMessage} 
               </div>
             }
-            <div className="sub-list-item">
+            { this.props.errorMessage &&
+              <div className="alert alert-danger update-message" role="alert">
+                <Glyphicon glyph="exclamation-sign" className="icons"/>&nbsp;{this.props.errorMessage} 
+              </div>
+            }
+            <div className="design-details">
                 <Row className="show-grid">
                     <FormGroup>
-                    <Col sm={1}></Col>
-                    <Col sm={3}>
-                        <div><strong>Design Image:</strong></div>
+                    <Col sm={1} md={2}></Col>
+                    <Col sm={3} md={2}>
+                        <div><strong>{strings.designImage}</strong></div>
                     </Col>
                     <Col sm={8}>
                     <div>
@@ -1233,46 +1439,62 @@ class NewDesign extends React.Component {
                 </Row>
                 <Row className="show-grid">
                     <FormGroup>
-                    <Col sm={1}></Col>
-                    <Col sm={3}>
-                        <div><strong>Design name:</strong></div>
+                    <Col sm={1} md={2}></Col>
+                    <Col sm={3} md={2}>
+                        <div><strong>{strings.designName}</strong></div>
                     </Col>
-                    <Col sm={5}>
-                        <FormControl className="data-field-update" type="text" value={name} onChange={this.handleNameChange}/>
-                    </Col>
-                    <Col sm={3}>
+                    <Col sm={8} md={5}>
+                        <FormGroup
+                          validationState={this.validateName()}
+                        >
+                          <FormControl className="data-field-update" type="text" value={name} onChange={this.handleNameChange}/>
+                          <FormControl.Feedback/>
+                          <HelpBlock>{strings.designNameTip}</HelpBlock>
+                        </FormGroup>
                     </Col>
                     </FormGroup>
                 </Row>
               <Row className="show-grid">
                 <FormGroup>
-                  <Col sm={1}></Col>
-                  <Col sm={3}>
-                      <div><strong>Description:</strong></div>
+                  <Col sm={1} md={2}></Col>
+                  <Col sm={3} md={2}>
+                      <div><strong>{strings.designDescription}</strong></div>
                   </Col>
-                  <Col sm={8}>
-                    <FormControl className="card-text-area data-field-update" componentClass="textarea" value={description} onChange={this.handleDescriptionChange}/>
-                  </Col>
-                </FormGroup>
-              </Row>
-              <Row className="show-grid">
-                <FormGroup>
-                  <Col sm={1}></Col>
-                  <Col sm={3}>
-                      <div><strong>Price:</strong></div>
-                  </Col>
-                  <Col sm={8}>
-                    <FormControl className="data-field-update" componentClass="textarea" value={price} onChange={this.handlePriceChange}/>
+                  <Col sm={8} md={5}>
+                    <FormGroup
+                      validationState={this.validateDescription()}
+                    >
+                      <FormControl className="card-text-area data-field-update" componentClass="textarea" value={description} onChange={this.handleDescriptionChange}/>
+                      <FormControl.Feedback/>
+                      <HelpBlock>{strings.designDescriptionTip}</HelpBlock>
+                    </FormGroup>
                   </Col>
                 </FormGroup>
               </Row>
               <Row className="show-grid">
                 <FormGroup>
-                  <Col sm={1}></Col>
-                  <Col sm={3}>
-                      <div><strong>Color:</strong></div>
+                  <Col sm={1} md={2}></Col>
+                  <Col sm={3} md={2}>
+                      <div><strong>{strings.price}</strong></div>
                   </Col>
-                  <Col sm={8}>
+                  <Col sm={8} md={5}>
+                    <FormGroup
+                      validationState={this.validatePrice()}
+                    >
+                      <FormControl className="data-field-update" type="text" value={price} onChange={this.handlePriceChange}/>
+                      <FormControl.Feedback/>
+                      <HelpBlock>{strings.priceTip}</HelpBlock>
+                    </FormGroup>
+                  </Col>
+                </FormGroup>
+              </Row>
+              <Row className="show-grid">
+                <FormGroup>
+                  <Col sm={1} md={2}></Col>
+                  <Col sm={3} md={2}>
+                      <div><strong>{strings.color}</strong></div>
+                  </Col>
+                  <Col sm={8} md={5}>
                     <ColorType
                         onCreateDesignColorUpdate = {this.handleCreateDesignColorUpdate}
                         selectedDesign={null}
@@ -1283,11 +1505,11 @@ class NewDesign extends React.Component {
               </Row>
               <Row className="show-grid">
                 <FormGroup>
-                  <Col sm={1}></Col>
-                  <Col sm={3}>
-                      <div><strong>Flower:</strong></div>
+                  <Col sm={1} md={2}></Col>
+                  <Col sm={3} md={2}>
+                      <div><strong>{strings.flower}</strong></div>
                   </Col>
-                  <Col sm={8}>
+                  <Col sm={8} md={5}>
                     <FlowerType
                         onCreateDesignFlowerUpdate = {this.handleCreateDesignFlowerUpdate}
                         selectedDesign={null}
@@ -1330,6 +1552,7 @@ export default class Designs extends Component {
       designsDetailsStatus: 0,
       selectedDesign: '',
       infoMessage: null,
+      errorMessage: null,
       newImage: false
     }
   }
@@ -1342,7 +1565,6 @@ export default class Designs extends Component {
   }
   componentWillMount() {
     var designer = this.props.designerCode;
-    console.log('designer is', designer);
     var thisRef = this;
     strings.setLanguage(this.props.languageChanged);
     if (designer) {
@@ -1370,7 +1592,7 @@ export default class Designs extends Component {
     this.fireBaseListenerForDesigns && this.fireBaseListenerForDesigns();
   }
   handleChooseDesign(chosenKey) {
-    this.setState({designsDetailsStatus: 1, selectedDesign: chosenKey});
+    this.setState({designsDetailsStatus: 1, selectedDesign: chosenKey, infoMessage: null, errorMessage: null});
   }
   handleBack() {
     this.setState({designsDetailsStatus: 0});
@@ -1384,6 +1606,9 @@ export default class Designs extends Component {
             equalTo: designer
         },
     });
+  }
+  newDesignIncomplete = () => {
+    this.setState({errorMessage: strings.errorIncomplete});
   }
 
   handleNewDesign = (name, price, description, colorsArray, flowersArray, croppedImg) => {
@@ -1412,9 +1637,18 @@ export default class Designs extends Component {
                 city: data.city
             }
           }).then((newLocation) => {
+
               var newLocationKey = newLocation.key;
               var newRef = storageRef.child(`${newLocationKey}.jpg`);
               var downloadURL;
+
+              //update florist nodex
+              base.post(`florists/${designerCode}/arrangements/${newLocationKey}`, {
+                data: {
+                  id: newLocationKey,
+                  name: name,
+                }
+              });
 
               //first upload the image
               newRef.putString(croppedImg, 'data_url').then((snapshot) => {
@@ -1427,14 +1661,13 @@ export default class Designs extends Component {
                       id: newLocationKey,
                   }              
                 });
-                this.setState({ infoMessage: 'new design has been created'});
+                this.setState({ infoMessage: strings.designCreated}, () => this.updateDesignsList());
 
             }).catch(err => {
               console.log('An error occured when creating design.');
-              this.setState({ infoMessage: 'An error occured when creating design'});
+              this.setState({ errorMessage: strings.errorOccured});
             });
-
-          })
+          });
          } else {
           console.log('user id does not match shop record');
         }
@@ -1464,10 +1697,10 @@ export default class Designs extends Component {
               image: downloadURL
           }
         }).then(() => 
-              this.setState({ infoMessage: 'design has been updated'})
+              this.setState({ infoMessage: strings.designUpdated}, () => window.scrollTo(0, 0))
           ).catch(err => {
               console.log('An error occured when updating design.');
-              this.setState({ infoMessage: 'An error occured when updating design'});
+              this.setState({ errorMessage: strings.errorOccured});
           });
       })
     } else {
@@ -1480,12 +1713,26 @@ export default class Designs extends Component {
             flower: flower,
         }
       }).then(() => 
-            this.setState({ infoMessage: 'design has been updated'})
+            this.setState({ infoMessage: strings.designUpdated}, () => window.scrollTo(0, 0))
         ).catch(err => {
             console.log('An error occured when updating design.');
-            this.setState({ infoMessage: 'An error occured when updating design'});
+            this.setState({ errorMessage: strings.errorOccured});
         });
     }
+  }
+
+  updateDesignsList = () => {
+    var designer = this.props.designerCode;
+    var thisRef = this;
+        firebase.database().ref(`arrangementsList`).orderByChild('florist').equalTo(designer).once('value', function(snapshot) {
+            var snapshotVal = snapshot.val();
+            if (snapshotVal) {
+                thisRef.setState({
+                    designsData: snapshotVal,
+                    designsDetailsStatus: 0,
+                });
+            }
+        });
   }
 
   render () {
@@ -1556,10 +1803,11 @@ export default class Designs extends Component {
               <div className="horizontal-line"></div>
             </Row>
           </Grid>
-
-          <Button bsStyle="" onClick={() => this.setState({designsDetailsStatus: 2}, () => {window.scrollTo(0, 0);})}>{strings.createButton}</Button>
           {designsHeader}
           {designs}
+          <div className="new-design-button-box">
+            <i className="fa fa-plus-circle fa-6x" aria-hidden="true" onClick={() => this.setState({designsDetailsStatus: 2, infoMessage: null, errorMessage: null}, () => {window.scrollTo(0, 0);})}></i>
+          </div>
         </div>
       )
     } else if (designsDetailsStatus===1) {
@@ -1569,7 +1817,7 @@ export default class Designs extends Component {
             <Row className="show-grid loggedin-flow">
               <div className="horizontal-line"></div>
               <Col xs={12}>
-                  <div>{strings.allDesigns}</div>
+                  <div className='flow-nav' onClick={() => this.setState({designsDetailsStatus: 0}, () => {window.scrollTo(0, 0);})}>{strings.allDesigns}</div>
                     <i className="fa fa-chevron-right"></i>
                   <div className="flow-selected">{strings.designsUpdate}</div>
               </Col>
@@ -1579,9 +1827,11 @@ export default class Designs extends Component {
           <DesignDetails
             selectedDesign={this.state.selectedDesign}
             infoMessage={this.state.infoMessage}
+            errorMessage={this.state.errorMessage}
             onHandleBack={this.handleBack}
             designerCode={this.props.designerCode}
             onHandleDesignUpdate={this.handleDesignUpdate}
+            onDesignDeleteSuccess={this.updateDesignsList}
           />
         </div>
       )
@@ -1592,7 +1842,7 @@ export default class Designs extends Component {
             <Row className="show-grid loggedin-flow">
               <div className="horizontal-line"></div>
               <Col xs={12}>
-                  <div onClick={() => this.setState({designsDetailsStatus: 0}, () => {window.scrollTo(0, 0);})}>{strings.allDesigns}</div>
+                  <div className='flow-nav' onClick={() => this.setState({designsDetailsStatus: 0}, () => {window.scrollTo(0, 0);})}>{strings.allDesigns}</div>
                     <i className="fa fa-chevron-right"></i>
                   <div className="flow-selected">{strings.newDesign}</div>
               </Col>
@@ -1601,9 +1851,11 @@ export default class Designs extends Component {
           </Grid>
           <NewDesign
             infoMessage={this.state.infoMessage}
+            errorMessage={this.state.errorMessage}
             onHandleBack={this.handleBack}
             designerCode={this.props.designerCode}
             onHandleNewDesign={this.handleNewDesign}
+            onNewDesignIncomplete={this.newDesignIncomplete}
           />
         </div>
       )
