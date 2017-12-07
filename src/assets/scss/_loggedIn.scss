@@ -91,21 +91,15 @@ textarea.data-field-update {
         min-width: 260px;
         // max-height: 300px;
         // max-width: 600px;
-        padding-top: 10px;
+        padding-top: 30px;
         margin: auto;
         float: inherit !important;
         @media (max-width: 600px) {
-            @include translateY(20px);
-            padding-top: 0;
+            @include translateY(0);
+            padding-top: 10px;
         }
         @media (min-width: 601px) {
-            @include translateY(20px);
-        }
-        @media (max-width: 600px) {
-            margin: auto;
-        }
-        @media (min-width: 601px) {
-            margin: auto;
+            @include translateY(0);
         }
         .loggedin-nav-button {
             text-align: center;
@@ -177,17 +171,11 @@ textarea.data-field-update {
             margin: auto;
             float: inherit !important;
             @media (max-width: 600px) {
-                @include translateY(20px);
+                @include translateY(0);
                 padding-top: 0;
             }
             @media (min-width: 601px) {
-                @include translateY(20px);
-            }
-            @media (max-width: 600px) {
-                margin: auto;
-            }
-            @media (min-width: 601px) {
-                margin: auto;
+                @include translateY(0);
             }
             .center-text {
                 text-align: center;
