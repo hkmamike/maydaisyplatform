@@ -21,12 +21,59 @@ textarea.data-field-update {
 }
 
 .modal-content {
+    .selected-import-address {
+        @media (max-width: 768px) {
+            font-size: 70%;
+        }
+    }
     .container {
         width: 100% !important;
+        .import-list-titles {
+            background-color: $pink;
+            color: white;
+            margin-left: -25px;
+            margin-right: -25px;
+            padding-top: 10px;
+            padding-bottom: 10px;
+            margin-bottom: 1px;
 
+            @media (max-width: 768px) {
+                font-size: 70%;
+                padding-top: 5px;
+                padding-bottom: 5px;
+            }
+        }
+        .import-list-item {
+            border-bottom: 1px solid;
+            border-color: $darkGrey;
+            padding-top: 10px; 
+            padding-bottom: 10px;
+            margin: 1px auto;
+            color: black;
+            background: white;
+            margin-left: -25px;
+            margin-right: -25px;
+            @media (max-width: 768px) {
+                padding-top: 5px; 
+                padding-bottom: 5px;
+            }
+            &:hover {
+                background: $lightGreyhover;
+                cursor: pointer;
+            }
+            .import-address-name {
+                margin-left: 10px;
+            }
+            div[class^="col-"] {
+                white-space: nowrap;
+                overflow: hidden;
+                @media (max-width: 768px) {
+                    font-size: 70%;
+                }
+            }
+        }
     }
     .button {
-        margin-left: 10px !important;
         margin-top: 15px !important;
         padding-left: 20px;
         padding-right: 20px;
@@ -36,6 +83,18 @@ textarea.data-field-update {
         color: $white !important;
         &:hover {
             background-color: $redhover ;
+        }
+    }
+    .button-pink {
+        margin-top: 15px !important;
+        padding-left: 20px;
+        padding-right: 20px;
+        height: 40px !important;
+        background-color: $pink ;
+        font-weight: bold !important;
+        color: $white !important;
+        &:hover {
+            background-color: $pinkhover ;
         }
     }
     .button-back {
@@ -84,6 +143,13 @@ textarea.data-field-update {
         .row {
             margin-left: 0 !important;
             margin-right: 0 !important;
+        }
+    }
+
+    .checkbox {
+        font-size: 85%;
+        @media (max-width: 768px) {
+            font-size: 75%;
         }
     }
 
@@ -200,7 +266,12 @@ textarea.data-field-update {
                     width: 100%;
                 }
             }
-
+            .order-tips {
+                font-size: 85%;
+                @media (max-width: 768px) {
+                    font-size: 75%;
+                }
+            }
             .cardMessage {
                 width: 100% !important;
                 min-height: 150px;
@@ -261,7 +332,7 @@ textarea.data-field-update {
                 background: #CCC;
                 height: 2px;
             }
-            .order-list-titles, .address-list-titles, .ordersdashboard-list-titles, .designs-list-titles {
+            .order-list-titles, .address-list-titles, .ordersdashboard-list-titles, .designs-list-titles, .import-list-titles {
                 background-color: $pink;
                 color: white;
                 padding: 10px;
@@ -270,7 +341,7 @@ textarea.data-field-update {
                     font-size: 70%;
                 }
             }
-            .order-list-item, .address-list-item, .ordersdashboard-list-item, .design-list-item {
+            .order-list-item, .address-list-item, .ordersdashboard-list-item, .design-list-item, .import-list-item {
                 border-bottom: 1px solid;
                 border-color: $darkGrey;
                 padding: 10px 10px 10px 10px;
@@ -378,7 +449,7 @@ textarea.data-field-update {
         }
     }
 
-    .order-details, .address-details, .account-details, .ordersdashboard-details, .shop-info-details, .design-details {
+    .order-details, .address-details, .account-details, .ordersdashboard-details, .shop-info-details, .design-details, .review-order {
 
         a {
             color: $darkpink !important;

@@ -83,7 +83,9 @@ let strings = new LocalizedStrings({
     order_received: '花店已收到',
     order_fulfilled: '花店已送花',
     buttonToShop: '我的花店',
-    buttonToAccount: '我的帳戶'
+    buttonToAccount: '我的帳戶',
+
+    noRecord: '您目前並沒有地址記錄。'
   }
 });
 

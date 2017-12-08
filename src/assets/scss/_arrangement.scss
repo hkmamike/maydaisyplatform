@@ -52,7 +52,11 @@
             &:hover {
                 background-color: $lightGreyhover;
             }
-            display: inline-block
+            display: inline-block;
+            @media (max-width: 768px) {
+                font-size: 60%;
+                margin: 1px 1px 1px 1px; 
+            }
         }
     
         .arrangement-name {
@@ -62,6 +66,9 @@
             font-weight: 600;
             margin: 0 0 5px;
             display: inline-block;
+            @media (max-width: 768px) {
+                font-size: 100%;
+            }
         }
     }
 
@@ -72,6 +79,9 @@
             &:hover {
                 color: $darkpink;
             }
+        }
+        @media (max-width: 768px) {
+            font-size: 80%;
         }
     }
 
@@ -86,6 +96,9 @@
             min-width: 100px;
             margin: 0 10px 0 0;
             padding: 10px;
+            @media (max-width: 768px) {
+                font-size: 9px;
+            }
             &:hover {
                 cursor: pointer;
                 background: $shadowteal;
@@ -105,6 +118,9 @@
         min-height: 100px;
         margin: 0 0 10px 15px;
         font-size: 85%;
+        @media (max-width: 768px) {
+            font-size: 75%;
+        }
     }
 
     .delivery-inline {
@@ -112,6 +128,9 @@
         .select-delivery-block {
             display: inline-block;
             margin-left: 15px;
+            @media (max-width: 768px) {
+                margin-bottom: 5px;
+            }
             .region-select-tip {
                 color: $grey;
                 font-size: 75%;
@@ -130,6 +149,9 @@
     .select-date-block {
         display: inline-block;
         margin-left: 15px;
+        @media (max-width: 768px) {
+            margin-bottom: 5px;
+        }
         .date-select-tip {
             color: $grey;
             font-size: 75%;
@@ -137,7 +159,7 @@
             margin: 0 0 5px;
             font-family: 'Quicksand', sans-serif;
         }
-        .date-select {
+        .DateInput {
             height: 50px;
         }
     }
@@ -151,6 +173,10 @@
                 color: $darkGrey;
                 font-size: 170%;
                 line-height: 120%;
+                @media (max-width: 768px) {
+                    font-size: 140%;
+                    line-height: 100%;
+                }
                 font-weight: 600;
                 font-family: 'Quicksand', sans-serif;
             }
@@ -169,6 +195,10 @@
                 color: $darkGrey;
                 font-size: 170%;
                 line-height: 120%;
+                @media (max-width: 768px) {
+                    font-size: 140%;
+                    line-height: 100%;
+                }
                 font-weight: 600;
                 font-family: 'Quicksand', sans-serif;
             }
@@ -207,5 +237,9 @@
         font-size: 120%;
         margin-left: 50px;
         margin-right: 50px;
+        @media (max-width: 768px) {
+            font-size: 100%;
+            margin: 10px;
+        }
     }
 }

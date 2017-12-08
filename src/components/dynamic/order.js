@@ -32,6 +32,7 @@ let strings = new LocalizedStrings({
     recipientCompanyPlaceholder: "recipient's company or location name",
     recipientAddress: 'Address:',
     recipientAddressPlaceholder: 'delivery address',
+    saveThis: 'save this to my address book.',
     deliveryInstruction: "Delivery Instruction:",
     deliveryInstructionPlaceholder: "Florists will try their best to accommodate. Please reference selected florist's delivery policy.",
     senderNum: "Sender's number:",
@@ -42,7 +43,7 @@ let strings = new LocalizedStrings({
     deliveryFee: 'Delivery Fee:',
     deliveryDay: 'Delivery Day:',
     orderButton: 'Place Order',
-    termsTip1: '**By clicking "Place Order" below, you confirm that you have viewed and accept our ',
+    termsTip1: '*By clicking "Place Order" below, you confirm that you have viewed and accept our ',
     termsTip2: 'Terms of Services',
     termsTip3: '.',
     referenceCode: 'Reference Code:',
@@ -58,6 +59,9 @@ let strings = new LocalizedStrings({
     deliveryType: 'Gift? :',
     delivery_self: 'For Myself',
     delivery_gift: 'Gift',
+
+
+
     loginTitle: 'Welcome Back',
     loginSubtitle: 'Log in to continue',
     loginButton: 'Login',
@@ -68,9 +72,66 @@ let strings = new LocalizedStrings({
     invalidCredential: 'Invalid username/password.',
     resetSent1_1: 'Password reset email has been sent to ',
     resetSent1_2: '.',
-    noAccountFound: 'No account is registered under this email.'
+    noAccountFound: 'No account is registered under this email.',
+
+    importButton: 'Import',
+    importTitle: 'Import Delivery Address',
+    selectedAddress: 'Selected Address ID:',
+    selectButton: 'Select',
+    noRecord: 'You currently have no saved address.',
+
   },
   ch: {
+
+    navLogin: '登入',
+    navCard: '心意卡',
+    navDelivery: '配送資料',
+    navReview: '檢查',
+    navPayment: '付款',
+
+    nextButton: '繼續',
+    backButton: '返回',
+
+    deliveryType: '用途:',
+    delivery_self: '自用',
+    delivery_gift: '禮物',
+
+    cardMessage: '信息:',
+    cardMessagePlaceholder: '心意卡信息 - 非必要',
+    cardMessageTip1_1: '*請在此欄填寫心意卡手寫信息的上下款。',
+    cardMessageTip1_2: " ",
+    from: '送花人:',
+    fromPlaceholder: "送花人名字",
+    fromTip: '*花匠在手寫心意卡信息時會以心意卡信息欄中的名稱為準，如您已經在心意卡信息欄中填寫名稱，此欄只會用作送花和帳戶資訊更新。',
+    recipientName: "收花人:",
+    recipientNamePlaceholder: '配送用',
+    recipientNum: "收花人電話:",
+    recipientNumPlaceholder: '配送用',
+    recipientCompany: '地點名稱:',
+    recipientCompanyPlaceholder: "收花人公司或地點名稱",
+    recipientAddress: '地址:',
+    saveThis: '儲存這地址到我的地址記錄。',
+    recipientAddressPlaceholder: '配送用',
+    deliveryInstruction: "送貨指示:",
+    deliveryInstructionPlaceholder: "你的花匠會盡力跟指示安排，送貨詳情以花店的送貨規則為準，請參閱。",
+    senderNum: "送花人電話:",
+    senderNumPlaceholder: '您的電話號碼',
+    senderNumTip: '*此欄會用作帳戶資訊更新和訂單跟進。',
+    total: '總價:',
+    arrangementPrice: '貨品價格:',
+    deliveryFee: '配送費:',
+    deliveryDay: '配送日:',
+    orderButton: '訂購',
+    termsTip1: '*如您繼續並按下"訂購"，您確認您已經閱讀並同意接受我們的',
+    termsTip2: '服務條款',
+    termsTip3: '.',
+    referenceCode: 'Reference Code:',
+    referenceCodeTip: '*如要聯絡客戶服務部，請提供這個交易參考號碼。',
+    stripeTxnID: 'Stripe 訂購號碼:',
+    subIDTip: '*這是我們的支付平台發出的訂購號碼。',
+    orderHistoryButton: '購買記錄',
+    orderSucceed: '您已成功新增一個訂購！',
+
     loginTitle: '歡迎回來',
     loginSubtitle: '如要繼續請登入',
     loginButton: '登入',
@@ -81,7 +142,14 @@ let strings = new LocalizedStrings({
     invalidCredential: '電郵或密碼錯誤。',
     resetSent1_1: '密碼重設方法已寄出:',
     resetSent1_2: ' ',
-    noAccountFound: '並沒有以此電郵登記的帳戶。'
+    noAccountFound: '並沒有以此電郵登記的帳戶。',
+
+    importButton: '載入',
+    importTitle: '載入送貨地址',
+    selectedAddress: '已選地址ID:',
+    selectButton: '選擇',
+
+    noRecord: 'No Record',
   }
 });
 
@@ -127,40 +195,35 @@ class ImportAddressModal extends React.Component {
     render() {
         var data = this.state.addressData;
         var addresses;
+        var addressesHeader;
         if (Object.keys(data).length===0) {
+            addressesHeader = null;
             addresses = (
               <div className="no-sub-section">            
-                <div className="center-text">No record</div>
+                <div className="center-text">{strings.noRecord}</div>
               </div>
             )
         } else {
+            addressesHeader = (
+                <Grid>
+                    <Row className="import-list-titles">
+                    <Col xs={6}>{strings.recipientName}</Col>
+                    <Col xs={6}>{strings.recipientAddress}</Col>
+                    </Row>
+                </Grid>
+            )
             addresses = Object.keys(data).map(function(key) {
                 return (
                     <div key={key}>
                         <Grid>
-                            <div className="sub-list-item">
+                            <div className="import-list-item" onClick={() => {this.selectAddress(key)}}>
                                 <Row className="show-grid">
-                                <FormGroup>
-                                    <Col sm={1}></Col>
-                                    <Col sm={3}>
-                                        <div><strong>Recipient:</strong></div>
+                                    <Col xs={6}>
+                                    <div className='import-address-name'>{data[key].recipient}</div>
                                     </Col>
-                                    <Col sm={3}>
-                                    <div>{data[key].recipient}</div>
-                                    </Col>
-                                </FormGroup>
-                                </Row>
-                                <Row className="show-grid">
-                                <FormGroup>
-                                    <Col sm={1}></Col>
-                                    <Col sm={3}>
-                                        <div><strong>Address:</strong></div>
-                                    </Col>
-                                    <Col sm={3}>
+                                    <Col xs={6}>
                                         <div>{data[key].address}</div>
-                                        <Button bsStyle="" className="button" onClick={() => {this.selectAddress(key)}}>Select</Button>
                                     </Col>
-                                </FormGroup>
                                 </Row>
                             </div>
                         </Grid>
@@ -171,18 +234,19 @@ class ImportAddressModal extends React.Component {
 
         return (
             <div>
-                <Button bsStyle="" className="sub-details-unsub" onClick={this.open}>Import from Address Book</Button>
+                <Button bsStyle="" className="sub-details-unsub" onClick={this.open}>{strings.importButton}</Button>
                 <Modal show={this.state.showModal} onHide={this.close}>
                     <Modal.Header closeButton>
-                    <Modal.Title><strong>Import Delivery Address</strong></Modal.Title>
+                    <Modal.Title><strong>{strings.importTitle}</strong></Modal.Title>
                     </Modal.Header>
                     <Modal.Body>
-                        {addresses} 
+                        {addressesHeader}
+                        {addresses}
+                        <div className="selected-import-address">{strings.selectedAddress} {this.state.selectedAddress}</div>
                     </Modal.Body>
-                                <div> Selected Address: {this.state.selectedAddress}</div>
                     <Modal.Footer>
-                    <Button bsStyle="" className="button button-back" onClick={this.close}>Cancel</Button>
-                    <Button bsStyle="" className="button" onClick={this.importAddress}>Import</Button>
+                    <Button bsStyle="" className="button button-back" onClick={this.close}>{strings.backButton}</Button>
+                    <Button bsStyle="" className="button" onClick={this.importAddress}>{strings.importButton}</Button>
                     </Modal.Footer>
                 </Modal>
             </div>
@@ -299,6 +363,7 @@ export default class Order extends Component {
         this.setState({addressBookChecked: e.target.checked});
     }
     componentDidMount() {
+        window.scrollTo(0, 0);
         var thisRef = this;
         var marketRegion = this.props.marketRegion;
         var floristID = this.props.match.params.floristID;
@@ -448,10 +513,12 @@ export default class Order extends Component {
                         <Col sm={2}></Col>
                         <Col sm={3}><div><strong>{strings.deliveryType}</strong></div></Col>
                         <Col sm={6}>
-                            <DropdownButton title={strings[selectDeliveryType]} className="subscription-select" id="subscriptioin-planTypeSelect-dropdown" onSelect={this.handleDeliveryTypeSelect}>
-                                <MenuItem eventKey="delivery_self">{strings.delivery_self}</MenuItem>
-                                <MenuItem eventKey="delivery_gift">{strings.delivery_gift}</MenuItem>
-                            </DropdownButton>
+                            <FormGroup>
+                                <DropdownButton title={strings[selectDeliveryType]} className="subscription-select" id="subscriptioin-planTypeSelect-dropdown" onSelect={this.handleDeliveryTypeSelect}>
+                                    <MenuItem eventKey="delivery_self">{strings.delivery_self}</MenuItem>
+                                    <MenuItem eventKey="delivery_gift">{strings.delivery_gift}</MenuItem>
+                                </DropdownButton>
+                            </FormGroup>
                         </Col>
                     </Row>
                     { this.state.selectDeliveryType === 'delivery_gift' &&
@@ -463,7 +530,7 @@ export default class Order extends Component {
                             <Col sm={6}>
                                 <FormGroup>
                                     <FormControl value={this.state.cardMessage} componentClass="textarea" className="cardMessage" placeholder={strings.cardMessagePlaceholder} onChange={this.handleCardMessage}/>
-                                    <div className="subscription-tips">{strings.cardMessageTip1_1}{strings.cardMessageTip1_2}</div>
+                                    <div className="order-tips">{strings.cardMessageTip1_1}{strings.cardMessageTip1_2}</div>
                                 </FormGroup>
                             </Col>
                         </Row>
@@ -477,7 +544,7 @@ export default class Order extends Component {
                             <Col sm={6}>
                                 <FormGroup>
                                     <FormControl value={this.state.sender} type="text" placeholder={strings.fromPlaceholder} onChange={this.handleSender}/>
-                                    <div className="subscription-tips">{strings.fromTip}</div>
+                                    <div className="order-tips">{strings.fromTip}</div>
                                 </FormGroup>
                             </Col>
                         </Row>
@@ -523,24 +590,15 @@ export default class Order extends Component {
                         </Col>
                     </Row>
                     <Row className="show-grid">
-                        <Col sm={2}></Col>
-                        <Col sm={3}><div><strong>{strings.locationType}</strong></div></Col>
-                        <Col sm={6}>
-                            <DropdownButton title={strings[selectLocationType]} className="subscription-select" id="subscriptioin-planTypeSelect-dropdown" onSelect={this.handleLocationTypeSelect}>
-                                <MenuItem eventKey="location_office">{strings.location_office}</MenuItem>
-                                <MenuItem eventKey="location_home">{strings.location_home}</MenuItem>
-                                <MenuItem eventKey="location_cemetery">{strings.location_cemetery}</MenuItem>
-                            </DropdownButton>
-                        </Col>
-                    </Row>
-                    <Row className="show-grid">
                         <FormGroup>
                             <Col sm={2}></Col>
                             <Col sm={3}>
                                 <ControlLabel>{strings.recipientName}</ControlLabel>
                             </Col>
                             <Col sm={6}>
-                                <FormControl value={this.state.recipient} type="text" onChange={this.handleRecipient} placeholder={strings.recipientNamePlaceholder}/>
+                                <FormGroup>
+                                    <FormControl value={this.state.recipient} type="text" onChange={this.handleRecipient} placeholder={strings.recipientNamePlaceholder}/>
+                                </FormGroup>
                             </Col>
                         </FormGroup>
                     </Row>
@@ -552,7 +610,9 @@ export default class Order extends Component {
                                 <ControlLabel>{strings.recipientNum}</ControlLabel>
                             </Col>
                             <Col sm={6}>
-                                <FormControl value={this.state.recipientNum} type="text" placeholder={strings.recipientNumPlaceholder} onChange={this.handleRecipientNum}/>
+                                <FormGroup>
+                                    <FormControl value={this.state.recipientNum} type="text" placeholder={strings.recipientNumPlaceholder} onChange={this.handleRecipientNum}/>
+                                </FormGroup>
                             </Col>
                         </FormGroup>
                     </Row>}
@@ -564,7 +624,9 @@ export default class Order extends Component {
                                 <ControlLabel>{strings.recipientNum}</ControlLabel>
                             </Col>
                             <Col sm={6}>
-                                <FormControl value={this.state.recipientNum} type="text" placeholder={strings.recipientNumPlaceholder} onChange={this.handleRecipientNum}/>
+                                <FormGroup>
+                                    <FormControl value={this.state.recipientNum} type="text" placeholder={strings.recipientNumPlaceholder} onChange={this.handleRecipientNum}/>
+                                </FormGroup>
                             </Col>
                         </FormGroup>
                     </Row>}
@@ -575,7 +637,9 @@ export default class Order extends Component {
                                 <ControlLabel>{strings.recipientCompany}</ControlLabel>
                             </Col>
                             <Col sm={6}>
-                                <FormControl value={this.state.company} type="text" placeholder={strings.recipientCompanyPlaceholder} onChange={this.handleCompany}/>
+                                <FormGroup>
+                                    <FormControl value={this.state.company} type="text" placeholder={strings.recipientCompanyPlaceholder} onChange={this.handleCompany}/>
+                                </FormGroup>
                             </Col>
                         </FormGroup>
                     </Row>
@@ -586,13 +650,15 @@ export default class Order extends Component {
                                 <ControlLabel>{strings.recipientAddress}</ControlLabel>
                             </Col>
                             <Col sm={6}>
-                                <FormControl value={this.state.address} componentClass="textarea" className="recipientAddress" onChange={this.handleAddress} placeholder={strings.recipientAddressPlaceholder}/>
-                                <Checkbox 
-                                    onChange={this.addressBookOption}
-                                    checked={this.state.addressBookChecked}
-                                >
-                                    Save this to my address book.
-                                </Checkbox>
+                                <FormGroup>
+                                    <FormControl value={this.state.address} componentClass="textarea" className="recipientAddress" onChange={this.handleAddress} placeholder={strings.recipientAddressPlaceholder}/>
+                                    <Checkbox 
+                                        onChange={this.addressBookOption}
+                                        checked={this.state.addressBookChecked}
+                                    >
+                                        {strings.saveThis}
+                                    </Checkbox>
+                                </FormGroup>
                             </Col>
                         </FormGroup>
                     </Row>
@@ -603,7 +669,9 @@ export default class Order extends Component {
                                 <ControlLabel>{strings.deliveryInstruction}</ControlLabel>
                             </Col>
                             <Col sm={6}>
-                                <FormControl value={this.state.deliveryInstruction} componentClass="textarea" className="deliveryInstruction" onChange={this.handleDeliveryInstruction} placeholder={strings.deliveryInstructionPlaceholder}/>
+                                <FormGroup>
+                                    <FormControl value={this.state.deliveryInstruction} componentClass="textarea" className="deliveryInstruction" onChange={this.handleDeliveryInstruction} placeholder={strings.deliveryInstructionPlaceholder}/>
+                                </FormGroup>
                             </Col>
                         </FormGroup>
                     </Row>
@@ -614,8 +682,10 @@ export default class Order extends Component {
                                 <ControlLabel>{strings.senderNum}</ControlLabel>
                             </Col>
                             <Col sm={6}>
-                                <FormControl value={this.state.senderNum} type="text" placeholder={strings.senderNumPlaceholder} onChange={this.handleSenderNum}/>
-                                <div className="subscription-tips">{strings.senderNumTip}</div>
+                                <FormGroup>
+                                    <FormControl value={this.state.senderNum} type="text" placeholder={strings.senderNumPlaceholder} onChange={this.handleSenderNum}/>
+                                    <div className="order-tips">{strings.senderNumTip}</div>
+                                </FormGroup>
                             </Col>
                         </FormGroup>
                     </Row>
@@ -649,7 +719,7 @@ export default class Order extends Component {
                         <div className="horizontal-line"></div>
                     </Row>
                 </Grid>
-                <Grid>
+                <Grid className="review-order">
                     <Row className="show-grid">
                         <FormGroup>
                             <Col sm={2}></Col>
@@ -814,7 +884,7 @@ export default class Order extends Component {
                             <div className="horizontal-line"></div>
                         </Row>
                     </Grid>
-                    <Grid>
+                    <Grid className="review-order">
                         <Row className="show-grid">
                             <FormGroup>
                                 <Col sm={2}></Col>
@@ -858,10 +928,9 @@ export default class Order extends Component {
                         <Row className="show-grid">
                             <Col sm={2}></Col>
                             <Col sm={9}>
-                                <div className="subscription-tips"><strong>{strings.termsTip1}<Link to='/terms' target="_blank">{strings.termsTip2}</Link></strong>{strings.termsTip3}</div>
+                                <div className="order-tips"><strong>{strings.termsTip1}<Link to='/terms' target="_blank">{strings.termsTip2}</Link></strong>{strings.termsTip3}</div>
                             </Col>
                         </Row>
-
                         <Row className="show-grid">
                             <Col sm={5}></Col>
                             <Col sm={4}>
@@ -911,7 +980,7 @@ export default class Order extends Component {
                         </Col>
                         <Col sm={6}>
                             <div>{this.state.referenceCode}</div>
-                            <div className="subscription-tips">{strings.referenceCodeTip}</div>
+                            <div className="order-tips">{strings.referenceCodeTip}</div>
                         </Col>
                     </Row>
                     <Row className="show-grid">
@@ -921,7 +990,7 @@ export default class Order extends Component {
                         </Col>
                         <Col sm={6}>
                             <div>{this.state.stripeTxnID}</div>
-                            <div className="subscription-tips">{strings.subIDTip}</div>
+                            <div className="order-tips">{strings.subIDTip}</div>
                         </Col>
                     </Row>
                     <Row className="show-grid">

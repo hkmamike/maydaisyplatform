@@ -292,7 +292,6 @@ export default class Arrangement extends Component {
                         <div className="select-date-block">
                             <div className="date-select-tip">Select date:</div> 
                             <SingleDatePicker
-                                className="date-select"
                                 numberOfMonths={1}
                                 date={this.state.date} // momentPropTypes.momentObj or null
                                 onDateChange={date => {
