@@ -81,6 +81,10 @@ textarea.data-field-update {
             padding-right: 5px;
             padding-left: 5px;
         }
+        .row {
+            margin-left: 0 !important;
+            margin-right: 0 !important;
+        }
     }
 
     .loggedin-nav {
@@ -130,6 +134,9 @@ textarea.data-field-update {
     }
     .loggedin-flow {
         text-align: center;
+        @media (max-width: 768px) {
+            font-size: 85%;
+        }
         div { 
             display: inline-block;
             margin-left: 10px;
@@ -155,6 +162,9 @@ textarea.data-field-update {
             margin: 15px auto;
             background: #CCC;
             height: 2px;
+            @media (max-width: 768px) {
+                margin: 5px auto !important;
+            }
         }
     }
     .loggedin-margin-box {
@@ -340,9 +350,9 @@ textarea.data-field-update {
                 height: 30px !important;
             }
             &:hover {
-                background-color: $pinkhover;
+                background-color: $tealhover;
                 color: white !important;
-                border-color: $pinkhover;
+                border-color: $tealhover;
             }
         }
         .head-button-teal {
@@ -370,23 +380,6 @@ textarea.data-field-update {
 
     .order-details, .address-details, .account-details, .ordersdashboard-details, .shop-info-details, .design-details {
 
-        .avatar-photo {
-
-            label {
-                background-color: $pink;
-                color: white;
-                padding: 6px 12px;
-                border-radius: 4px;
-                font-size: 14px;
-                &:hover {
-                    background-color: $pinkhover;
-                    cursor: pointer
-                }
-                input {
-                    display: none !important;
-                }
-            }
-        }
         a {
             color: $darkpink !important;
         }
