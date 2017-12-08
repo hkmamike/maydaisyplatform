@@ -1,0 +1,81 @@
+.design-detail-arrangement-pic {
+    padding: 0;
+    min-height: 250px;
+    max-height: 300px;
+    max-width: 300px;
+    @media (max-width: 768px) {
+        min-height: 150px;
+        max-width: 250px;
+        max-height: 250px;
+    }
+
+    background-position: center center;
+    background-repeat: no-repeat;
+    background-size: cover;
+    border-width: 0;
+    border-color: $white;
+    border-style: solid;
+}
+
+.AvatarCropper-canvas {
+    canvas {
+        width: 350px;
+        height: 350px;
+        @media (max-width: 768px) {
+            width: 180px;
+            height: 180px;
+        }
+    }
+    input {
+        @media (max-width: 768px) {
+            width: 180px !important;
+        }
+    }
+
+    button.btn-default {
+        background-image: none !important;
+        border: none;
+        background-color: $grey;
+        color: white;
+        text-shadow: none;
+        @media (max-width: 768px) {
+            font-size: 75%;
+        }
+        &:hover {
+            background-color: $greyhover;
+        }
+    }
+
+    button.btn-primary {
+        background-image: none !important;
+        border: none;
+        background-color: $pink;
+        color: white;
+        text-shadow: none;
+        @media (max-width: 768px) {
+            font-size: 75%;
+        }
+        &:hover {
+            background-color: $pinkhover;
+        }
+    }
+}
+
+.design-details {
+    .avatar-photo {
+        label {
+            background-color: $pink;
+            color: white;
+            padding: 6px 12px;
+            border-radius: 4px;
+            font-size: 14px;
+            &:hover {
+                background-color: $pinkhover;
+                cursor: pointer
+            }
+            input {
+                display: none !important;
+            }
+        }
+    }
+}

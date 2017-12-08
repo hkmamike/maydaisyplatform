@@ -589,7 +589,7 @@ export default class OrdersDashboard extends Component {
     base.removeBinding(this.setUpStepListener);
   }
   handleChooseOrder(chosenKey) {
-    this.setState({orderDetailsStatus: 1, selectedOrder: chosenKey});
+    this.setState({orderDetailsStatus: 1, selectedOrder: chosenKey}, () => window.scrollTo(0, 0));
   }
   handleBack() {
     this.setState({orderDetailsStatus: 0});

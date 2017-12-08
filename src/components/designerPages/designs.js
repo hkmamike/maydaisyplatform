@@ -88,6 +88,7 @@ let strings = new LocalizedStrings({
     tulips: 'Tulips:',
     carnations: 'Carnations:',
     deleteSuccess: 'Design has been removed from record.',
+    chooseButton: 'Choose',
 
   },
   ch: {
@@ -170,6 +171,7 @@ let strings = new LocalizedStrings({
     carnations: '康乃馨:',
     deleteSuccess: '設計已刪除。',
 
+    chooseButton: '選擇',
   }
 });
 
@@ -1006,7 +1008,9 @@ class FileUpload extends React.Component {
     
     render() {
         return (
-            <input ref="in" type="file" accept="image/*" onChange={this.handleFile} />
+          <div>
+            <label>{strings.chooseButton}<input ref="in"type="file" accept="image/*" onChange={this.handleFile}/></label>
+          </div>
         );
     }
 }
@@ -1020,6 +1024,7 @@ class DesignDetails extends React.Component {
           cropperOpen: false,
           img: null,
           newImageFlag: false,
+          croppedImg: null,
       }
   }
 
@@ -1137,10 +1142,7 @@ class DesignDetails extends React.Component {
                     <div>
                         <div className="avatar-photo">
                             <FileUpload handleFileChange={this.handleFileChange} />
-                            <div className="avatar-edit">
-                                <i className="fa fa-camera"></i>
-                            </div>
-                            {this.state.croppedImg && <img className="design-detail-arrangement-pic" alt="" src={this.state.croppedImg} />}
+                            <img className="design-detail-arrangement-pic" alt="" src={croppedImg} />
                         </div>
                         {this.state.cropperOpen &&
                         <AvatarCropper
@@ -1418,10 +1420,7 @@ class NewDesign extends React.Component {
                     <div>
                         <div className="avatar-photo">
                             <FileUpload handleFileChange={this.handleFileChange} />
-                            <div className="avatar-edit">
-                                <i className="fa fa-camera"></i>
-                            </div>
-                            <img className="design-detail-arrangement-pic" alt="" src={this.state.croppedImg} />
+                            {(croppedImg !== null) && <img className="design-detail-arrangement-pic" alt="" src={this.state.croppedImg} />}
                         </div>
                         {this.state.cropperOpen &&
                         <AvatarCropper
@@ -1523,8 +1522,8 @@ class NewDesign extends React.Component {
                   <Col sm={5}>
                   </Col>
                   <Col sm={4}>
-                    <Button bsStyle="" className="button sub-details-back" onClick={() => this.handleBack()}>{strings.backButton}</Button>
-                    <Button bsStyle="" className="button sub-details-update" onClick={() => this.handleNewDesign(name, price, description, colorsArray, flowersArray, croppedImg)}>{strings.createButton}</Button>
+                    <Button bsStyle="" className="button button-back" onClick={() => this.handleBack()}>{strings.backButton}</Button>
+                    <Button bsStyle="" className="button button-update" onClick={() => this.handleNewDesign(name, price, description, colorsArray, flowersArray, croppedImg)}>{strings.createButton}</Button>
                   </Col>
                 </FormGroup>
               </Row>
@@ -1592,7 +1591,7 @@ export default class Designs extends Component {
     this.fireBaseListenerForDesigns && this.fireBaseListenerForDesigns();
   }
   handleChooseDesign(chosenKey) {
-    this.setState({designsDetailsStatus: 1, selectedDesign: chosenKey, infoMessage: null, errorMessage: null});
+    this.setState({designsDetailsStatus: 1, selectedDesign: chosenKey, infoMessage: null, errorMessage: null},  () => window.scrollTo(0, 0));
   }
   handleBack() {
     this.setState({designsDetailsStatus: 0});

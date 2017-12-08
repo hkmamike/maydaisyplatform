@@ -334,7 +334,7 @@ export default class AddressBook extends Component {
     this.fireBaseListenerForAddress && this.fireBaseListenerForAddress();
   }
   handleChooseAddress(chosenKey) {
-    this.setState({addressDetailsStatus: 1, selectedAddress: chosenKey});
+    this.setState({addressDetailsStatus: 1, selectedAddress: chosenKey}, () => window.scrollTo(0, 0));
   }
   handleBack() {
     this.setState({addressDetailsStatus: 0});

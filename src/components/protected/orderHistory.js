@@ -412,7 +412,7 @@ export default class OrderHistory extends Component {
     this.fireBaseListenerForOrder && this.fireBaseListenerForOrder();
   }
   handleChooseOrder(chosenKey, stripeTxnID) {
-    this.setState({orderDetailsStatus: 1, selectedOrder: chosenKey, stripeTxnID: stripeTxnID});
+    this.setState({orderDetailsStatus: 1, selectedOrder: chosenKey, stripeTxnID: stripeTxnID},  () => window.scrollTo(0, 0));
   }
   handleBack() {
     this.setState({orderDetailsStatus: 0}, () => window.scrollTo(0, 0));

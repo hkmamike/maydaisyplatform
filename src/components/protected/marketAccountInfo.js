@@ -196,7 +196,7 @@ export default class MarketAccountInfo extends Component {
 
               <Row className="show-grid">
                 <FormGroup>
-                  <Col xs={12} xsPush={2} smPush={5} mdPush={5}>
+                  <Col xs={12} xsPush={1} smPush={5} mdPush={5}>
                     <Button bsStyle="" className="button" onClick={() => this.handleAccountUpdate(accountName, accountPhone)}>{strings.updateAccountButton}</Button>
                     <Button bsStyle="" className="button" onClick={() => this.resetPassword()}>{strings.resetPWButton}</Button>
                   </Col>

@@ -370,6 +370,23 @@ textarea.data-field-update {
 
     .order-details, .address-details, .account-details, .ordersdashboard-details, .shop-info-details, .design-details {
 
+        .avatar-photo {
+
+            label {
+                background-color: $pink;
+                color: white;
+                padding: 6px 12px;
+                border-radius: 4px;
+                font-size: 14px;
+                &:hover {
+                    background-color: $pinkhover;
+                    cursor: pointer
+                }
+                input {
+                    display: none !important;
+                }
+            }
+        }
         a {
             color: $darkpink !important;
         }
