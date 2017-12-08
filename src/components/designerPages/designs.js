@@ -1594,7 +1594,7 @@ export default class Designs extends Component {
     this.setState({designsDetailsStatus: 1, selectedDesign: chosenKey, infoMessage: null, errorMessage: null},  () => window.scrollTo(0, 0));
   }
   handleBack() {
-    this.setState({designsDetailsStatus: 0});
+    this.setState({designsDetailsStatus: 0}, () => window.scrollTo(0, 0));
     var designer = this.props.designerCode;
 
     // reloading data since a review might have been posted

@@ -507,7 +507,7 @@ class OrderDetails extends React.Component {
                   <Col sm={5}>
                   </Col>
                   <Col sm={4}>
-                    <Button bsStyle="" className="button sub-details-back" onClick={() => this.handleBack()}>{strings.backButton}</Button>
+                    <Button bsStyle="" className="button button-back" onClick={() => this.handleBack()}>{strings.backButton}</Button>
                   </Col>
                 </FormGroup>
               </Row>
@@ -592,7 +592,7 @@ export default class OrdersDashboard extends Component {
     this.setState({orderDetailsStatus: 1, selectedOrder: chosenKey}, () => window.scrollTo(0, 0));
   }
   handleBack() {
-    this.setState({orderDetailsStatus: 0});
+    this.setState({orderDetailsStatus: 0}, () => window.scrollTo(0, 0));
 
     // reloading data since a review might have been posted
     base.fetch(`allTransactions/${this.props.designerCode}`, {

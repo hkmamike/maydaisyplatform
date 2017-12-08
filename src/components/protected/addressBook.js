@@ -213,7 +213,7 @@ class AddressDetails extends React.Component {
                   <Col xs={12} sm={3}>
                       <div><strong>{strings.recipient}</strong></div>
                   </Col>
-                  <Col xs={9} sm={6} md={4}>
+                  <Col xs={8} sm={6} md={4}>
                     <FormControl className="data-field-update" type="text" value={this.state.recipient} onChange={this.handleRecipientChange}/>
                   </Col>
                   <Col xs={2} sm={2} md={3}>
@@ -273,11 +273,11 @@ class AddressDetails extends React.Component {
               </Row>
               <Row className="show-grid">
                 <FormGroup>
-                  <Col xs={2} sm={5}>
+                  <Col xs={1} sm={5}>
                   </Col>
-                  <Col xs={8} sm={4}>
-                    <Button bsStyle="" className="button sub-details-back" onClick={() => this.handleBack()}>{strings.backButton}</Button>
-                    <Button bsStyle="" className="button sub-details-back" onClick={() => this.handleUpdate()}>{strings.updateButton}</Button>
+                  <Col xs={10} sm={4}>
+                    <Button bsStyle="" className="button button-back" onClick={() => this.handleBack()}>{strings.backButton}</Button>
+                    <Button bsStyle="" className="button button-update" onClick={() => this.handleUpdate()}>{strings.updateButton}</Button>
                   </Col>
                 </FormGroup>
               </Row>
@@ -337,7 +337,7 @@ export default class AddressBook extends Component {
     this.setState({addressDetailsStatus: 1, selectedAddress: chosenKey}, () => window.scrollTo(0, 0));
   }
   handleBack() {
-    this.setState({addressDetailsStatus: 0});
+    this.setState({addressDetailsStatus: 0}, () => window.scrollTo(0, 0));
   }
 
   handleAddressUpdate(recipient, recipientNum, company, address, deliveryInstruction) {

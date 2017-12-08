@@ -399,7 +399,7 @@ textarea.data-field-update {
             margin: none !important;
         }
 
-        .address-delete-button, .ordersdashboard-update-button, .shop-settings-button, .setting-button, .design-delete-button {
+        .ordersdashboard-update-button, .shop-settings-button, .setting-button, .design-delete-button {
             color: white;
             background: $red;
             font-weight: bold;
@@ -409,6 +409,15 @@ textarea.data-field-update {
             @media (max-width: 768px) {
                 margin-top: 5px;
                 margin-bottom: 5px;
+            }
+        }
+
+        .address-delete-button {
+            color: white;
+            background: $red;
+            font-weight: bold;
+            &:hover {
+                background: $redhover;
             }
         }
 

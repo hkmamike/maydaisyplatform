@@ -355,7 +355,7 @@ class OrderDetails extends React.Component {
                   <Col sm={5}>
                   </Col>
                   <Col sm={7}>
-                    <Button bsStyle="" className="button sub-details-back" onClick={() => this.handleBack()}>{strings.backButton}</Button>
+                    <Button bsStyle="" className="button button-back" onClick={() => this.handleBack()}>{strings.backButton}</Button>
                   </Col>
               </Row>
             </div>
