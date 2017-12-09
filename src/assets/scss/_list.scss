@@ -127,6 +127,37 @@
         }
     }
 
+    .filter-popup-slider {
+        position: absolute;
+        padding: 24px !important;
+        overflow-y: auto;
+        background: white;
+        box-shadow: 0 14px 36px 2px rgba(0, 0, 0, 0.15) !important;
+        border-radius: 4px;
+        border: 1px solid darkGrey;
+        margin-top: 15px;
+        z-index: 10;
+        display: inline-block;
+
+        .rc-slider {
+            margin-top: 40px;
+            margin-bottom: 15px;
+            width: 300px;
+        }
+
+        .button {
+            float: right;
+            background-image: none;
+            background-color: $pink;
+            color: white;
+            text-shadow: none;
+            border: none;
+            &:hover {
+                background-color: $pinkhover;
+            }
+        }
+    }
+
     .pagination-box {
         text-align: center;
         .pagination {
@@ -148,7 +179,9 @@
 .facet-wrapper {
     max-width: 850px;
     margin: 15px auto 15px auto;
-
+    @media (max-width: 768px) {
+        margin: 10px auto 5px auto;
+    }
     .ais-ClearAll__root {
         float: left;
         height: 33px;
@@ -165,14 +198,16 @@
             background: white;
             color: $darkGrey;
             outline: none;
+            margin-left: 5px;
         }
 
         .button-filter-active {
             background: $shadowteal;
             outline: none;
             color: white;
-            border: none;
+            border-color: $shadowteal;
             text-shadow: none;
+            margin-left: 5px;
         }
 
         .search-box {
@@ -187,6 +222,20 @@
                 float: left;
                 @include translateY(50%);
             }
+
+            ::-webkit-input-placeholder { /* Chrome/Opera/Safari */
+                font-size: 80%;
+            }
+            ::-moz-placeholder { /* Firefox 19+ */
+                font-size: 80%;
+            }
+            :-ms-input-placeholder { /* IE 10+ */
+                font-size: 80%;
+            }
+            :-moz-placeholder { /* Firefox 18- */
+                font-size: 80%;
+            }
+
             .search-field{
                 margin: auto 0 auto 5px;
                 border: none;
@@ -196,8 +245,7 @@
                 }
             }
         }
-
-    }
+    } 
 }
 
 .list-container {
@@ -279,5 +327,91 @@
             font-size: 80%;
         }
     }
+}
 
+.modal-content {
+    .ais-RefinementList__item {
+        color: black;
+        .ais-RefinementList__itemCount {
+            color: black !important;
+        }
+    }
+    .ais-RefinementList__itemBoxSelected {
+        background-color: $shadowteal !important;
+    }
+    .button {
+        background-image: none;
+        background-color: $pink;
+        text-shadow: none;
+        border: none;
+        &:hover {
+            background-color: $pinkhover;
+        }
+    }
+}
+
+.rc-slider-tooltip {
+    z-index: 999;
+}
+
+.ais-InstantSearch__root {
+    min-height: 150px;
+}
+
+.facet-color {
+    width: 35px;
+    height: 35px;
+    border-radius: 3px;
+    margin: 6px 6px;
+    display: block;
+    overflow: hidden;
+    float: left;
+    .fa-check {
+        margin-top: 8px;
+        display: none;
+    }
+}
+.facet-color.checked {
+    text-align: center;
+    .fa-check {
+        display: inline-block;
+        opacity: 1;
+    }
+}
+.facet-color[data-facet-value="blue"] {
+    background-color: blue;
+    color: white !important;
+}
+.facet-color[data-facet-value="green"] {
+    background-color: green;
+    color: white !important;
+}
+.facet-color[data-facet-value="lavender"] {
+    background-color: #BEBED6;
+    color: black !important;
+}
+.facet-color[data-facet-value="orange"] {
+    background-color: orange;
+    color: black !important;
+}
+.facet-color[data-facet-value="pink"] {
+    background-color: pink;
+    color: black !important;
+}
+.facet-color[data-facet-value="purple"] {
+    background-color: purple;
+    color: white !important;
+}
+.facet-color[data-facet-value="red"] {
+    background-color: red;
+    color: white !important;
+}
+.facet-color[data-facet-value="white"] {
+    background-color: white;
+    box-shadow: inset 0 0 0 1px #CCC;
+    color: black !important;
+}
+.facet-color[data-facet-value="yellow"] {
+    background-color: yellow;
+    color: black !important;
 }

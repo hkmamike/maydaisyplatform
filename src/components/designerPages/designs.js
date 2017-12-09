@@ -421,11 +421,11 @@ class ColorType extends React.Component {
                             <div className="sub-list-item">
                               <Row className="show-grid">
                                 <FormGroup>
-                                  <Col sm={1}></Col>
-                                  <Col sm={5}>
+                                  <Col xs={1}></Col>
+                                  <Col xs={5}>
                                     {strings.blue}
                                   </Col>
-                                  <Col sm={5}>
+                                  <Col xs={5}>
                                     <DropdownButton title={strings[this.state.blue]} className="subscription-select" id="subscriptioin-planTypeSelect-dropdown" onSelect={(eventKey)=>this.handleSettingChange('blue',eventKey)}>
                                       <MenuItem eventKey="y">{strings.y}</MenuItem>
                                       <MenuItem eventKey="n">{strings.n}</MenuItem>
@@ -435,11 +435,11 @@ class ColorType extends React.Component {
                               </Row>
                               <Row className="show-grid">
                                 <FormGroup>
-                                  <Col sm={1}></Col>
-                                  <Col sm={5}>
+                                  <Col xs={1}></Col>
+                                  <Col xs={5}>
                                   {strings.green}
                                   </Col>
-                                  <Col sm={5}>
+                                  <Col xs={5}>
                                     <DropdownButton title={strings[this.state.green]} className="subscription-select" id="subscriptioin-planTypeSelect-dropdown" onSelect={(eventKey)=>this.handleSettingChange('green',eventKey)}>
                                       <MenuItem eventKey="y">{strings.y}</MenuItem>
                                       <MenuItem eventKey="n">{strings.n}</MenuItem>
@@ -449,11 +449,11 @@ class ColorType extends React.Component {
                               </Row>
                               <Row className="show-grid">
                                 <FormGroup>
-                                  <Col sm={1}></Col>
-                                  <Col sm={5}>
+                                  <Col xs={1}></Col>
+                                  <Col xs={5}>
                                   {strings.lavender}
                                   </Col>
-                                  <Col sm={5}>
+                                  <Col xs={5}>
                                     <DropdownButton title={strings[this.state.lavender]} className="subscription-select" id="subscriptioin-planTypeSelect-dropdown" onSelect={(eventKey)=>this.handleSettingChange('lavender',eventKey)}>
                                       <MenuItem eventKey="y">{strings.y}</MenuItem>
                                       <MenuItem eventKey="n">{strings.n}</MenuItem>
@@ -463,11 +463,11 @@ class ColorType extends React.Component {
                               </Row>
                               <Row className="show-grid">
                                 <FormGroup>
-                                  <Col sm={1}></Col>
-                                  <Col sm={5}>
+                                  <Col xs={1}></Col>
+                                  <Col xs={5}>
                                   {strings.orange}
                                   </Col>
-                                  <Col sm={5}>
+                                  <Col xs={5}>
                                     <DropdownButton title={strings[this.state.orange]} className="subscription-select" id="subscriptioin-planTypeSelect-dropdown" onSelect={(eventKey)=>this.handleSettingChange('orange',eventKey)}>
                                       <MenuItem eventKey="y">{strings.y}</MenuItem>
                                       <MenuItem eventKey="n">{strings.n}</MenuItem>
@@ -477,11 +477,11 @@ class ColorType extends React.Component {
                               </Row>
                               <Row className="show-grid">
                                 <FormGroup>
-                                  <Col sm={1}></Col>
-                                  <Col sm={5}>
+                                  <Col xs={1}></Col>
+                                  <Col xs={5}>
                                   {strings.pink}
                                   </Col>
-                                  <Col sm={5}>
+                                  <Col xs={5}>
                                     <DropdownButton title={strings[this.state.pink]} className="subscription-select" id="subscriptioin-planTypeSelect-dropdown" onSelect={(eventKey)=>this.handleSettingChange('pink',eventKey)}>
                                       <MenuItem eventKey="y">{strings.y}</MenuItem>
                                       <MenuItem eventKey="n">{strings.n}</MenuItem>
@@ -491,11 +491,11 @@ class ColorType extends React.Component {
                               </Row>
                               <Row className="show-grid">
                                 <FormGroup>
-                                  <Col sm={1}></Col>
-                                  <Col sm={5}>
+                                  <Col xs={1}></Col>
+                                  <Col xs={5}>
                                   {strings.purple}
                                   </Col>
-                                  <Col sm={5}>
+                                  <Col xs={5}>
                                     <DropdownButton title={strings[this.state.purple]} className="subscription-select" id="subscriptioin-planTypeSelect-dropdown" onSelect={(eventKey)=>this.handleSettingChange('purple',eventKey)}>
                                       <MenuItem eventKey="y">{strings.y}</MenuItem>
                                       <MenuItem eventKey="n">{strings.n}</MenuItem>
@@ -505,11 +505,11 @@ class ColorType extends React.Component {
                               </Row>
                               <Row className="show-grid">
                                 <FormGroup>
-                                  <Col sm={1}></Col>
-                                  <Col sm={5}>
+                                  <Col xs={1}></Col>
+                                  <Col xs={5}>
                                   {strings.red}
                                   </Col>
-                                  <Col sm={5}>
+                                  <Col xs={5}>
                                     <DropdownButton title={strings[this.state.red]} className="subscription-select" id="subscriptioin-planTypeSelect-dropdown" onSelect={(eventKey)=>this.handleSettingChange('red',eventKey)}>
                                       <MenuItem eventKey="y">{strings.y}</MenuItem>
                                       <MenuItem eventKey="n">{strings.n}</MenuItem>
@@ -519,11 +519,11 @@ class ColorType extends React.Component {
                               </Row>
                               <Row className="show-grid">
                                 <FormGroup>
-                                  <Col sm={1}></Col>
-                                  <Col sm={5}>
+                                  <Col xs={1}></Col>
+                                  <Col xs={5}>
                                   {strings.white}
                                   </Col>
-                                  <Col sm={5}>
+                                  <Col xs={5}>
                                     <DropdownButton title={strings[this.state.white]} className="subscription-select" id="subscriptioin-planTypeSelect-dropdown" onSelect={(eventKey)=>this.handleSettingChange('white',eventKey)}>
                                       <MenuItem eventKey="y">{strings.y}</MenuItem>
                                       <MenuItem eventKey="n">{strings.n}</MenuItem>
@@ -533,11 +533,11 @@ class ColorType extends React.Component {
                               </Row>
                               <Row className="show-grid">
                                 <FormGroup>
-                                  <Col sm={1}></Col>
-                                  <Col sm={5}>
+                                  <Col xs={1}></Col>
+                                  <Col xs={5}>
                                   {strings.yellow}
                                   </Col>
-                                  <Col sm={5}>
+                                  <Col xs={5}>
                                     <DropdownButton title={strings[this.state.yellow]} className="subscription-select" id="subscriptioin-planTypeSelect-dropdown" onSelect={(eventKey)=>this.handleSettingChange('yellow',eventKey)}>
                                       <MenuItem eventKey="y">{strings.y}</MenuItem>
                                       <MenuItem eventKey="n">{strings.n}</MenuItem>
@@ -782,11 +782,11 @@ class FlowerType extends React.Component {
                             <div className="sub-list-item">
                               <Row className="show-grid">
                                 <FormGroup>
-                                  <Col sm={1}></Col>
-                                  <Col sm={5}>
+                                  <Col xs={1}></Col>
+                                  <Col xs={5}>
                                     {strings.dahlias}
                                   </Col>
-                                  <Col sm={5}>
+                                  <Col xs={5}>
                                     <DropdownButton 
                                       title={strings[this.state.dahlias]} 
                                       className="subscription-select" id="subscriptioin-planTypeSelect-dropdown" 
@@ -800,11 +800,11 @@ class FlowerType extends React.Component {
                               </Row>
                               <Row className="show-grid">
                                 <FormGroup>
-                                  <Col sm={1}></Col>
-                                  <Col sm={5}>
+                                  <Col xs={1}></Col>
+                                  <Col xs={5}>
                                     {strings.delphinium}
                                   </Col>
-                                  <Col sm={5}>
+                                  <Col xs={5}>
                                     <DropdownButton 
                                       title={strings[this.state.delphinium]} 
                                       className="subscription-select" id="subscriptioin-planTypeSelect-dropdown" 
@@ -818,11 +818,11 @@ class FlowerType extends React.Component {
                               </Row>
                               <Row className="show-grid">
                                 <FormGroup>
-                                  <Col sm={1}></Col>
-                                  <Col sm={5}>
+                                  <Col xs={1}></Col>
+                                  <Col xs={5}>
                                     {strings.daisies}
                                   </Col>
-                                  <Col sm={5}>
+                                  <Col xs={5}>
                                     <DropdownButton 
                                       title={strings[this.state.daisies]} 
                                       className="subscription-select" id="subscriptioin-planTypeSelect-dropdown" 
@@ -836,11 +836,11 @@ class FlowerType extends React.Component {
                               </Row>
                               <Row className="show-grid">
                                 <FormGroup>
-                                  <Col sm={1}></Col>
-                                  <Col sm={5}>
+                                  <Col xs={1}></Col>
+                                  <Col xs={5}>
                                     {strings.hydrangeas}
                                   </Col>
-                                  <Col sm={5}>
+                                  <Col xs={5}>
                                     <DropdownButton 
                                       title={strings[this.state.hydrangeas]} 
                                       className="subscription-select" id="subscriptioin-planTypeSelect-dropdown" 
@@ -854,11 +854,11 @@ class FlowerType extends React.Component {
                               </Row>
                               <Row className="show-grid">
                                 <FormGroup>
-                                  <Col sm={1}></Col>
-                                  <Col sm={5}>
+                                  <Col xs={1}></Col>
+                                  <Col xs={5}>
                                     {strings.iris}
                                   </Col>
-                                  <Col sm={5}>
+                                  <Col xs={5}>
                                     <DropdownButton 
                                       title={strings[this.state.iris]} 
                                       className="subscription-select" id="subscriptioin-planTypeSelect-dropdown" 
@@ -872,11 +872,11 @@ class FlowerType extends React.Component {
                               </Row>
                               <Row className="show-grid">
                                 <FormGroup>
-                                  <Col sm={1}></Col>
-                                  <Col sm={5}>
+                                  <Col xs={1}></Col>
+                                  <Col xs={5}>
                                     {strings.orchids}
                                   </Col>
-                                  <Col sm={5}>
+                                  <Col xs={5}>
                                     <DropdownButton 
                                       title={strings[this.state.orchids]} 
                                       className="subscription-select" id="subscriptioin-planTypeSelect-dropdown" 
@@ -890,11 +890,11 @@ class FlowerType extends React.Component {
                               </Row>
                               <Row className="show-grid">
                                 <FormGroup>
-                                  <Col sm={1}></Col>
-                                  <Col sm={5}>
+                                  <Col xs={1}></Col>
+                                  <Col xs={5}>
                                     {strings.peonies}
                                   </Col>
-                                  <Col sm={5}>
+                                  <Col xs={5}>
                                     <DropdownButton 
                                       title={strings[this.state.peonies]} 
                                       className="subscription-select" id="subscriptioin-planTypeSelect-dropdown" 
@@ -908,11 +908,11 @@ class FlowerType extends React.Component {
                               </Row>
                               <Row className="show-grid">
                                 <FormGroup>
-                                  <Col sm={1}></Col>
-                                  <Col sm={5}>
+                                  <Col xs={1}></Col>
+                                  <Col xs={5}>
                                     {strings.roses}
                                   </Col>
-                                  <Col sm={5}>
+                                  <Col xs={5}>
                                     <DropdownButton 
                                       title={strings[this.state.roses]} 
                                       className="subscription-select" id="subscriptioin-planTypeSelect-dropdown" 
@@ -926,11 +926,11 @@ class FlowerType extends React.Component {
                               </Row>
                               <Row className="show-grid">
                                 <FormGroup>
-                                  <Col sm={1}></Col>
-                                  <Col sm={5}>
+                                  <Col xs={1}></Col>
+                                  <Col xs={5}>
                                     {strings.sunFlowers}
                                   </Col>
-                                  <Col sm={5}>
+                                  <Col xs={5}>
                                     <DropdownButton 
                                       title={strings[this.state.sunflowers]} 
                                       className="subscription-select" id="subscriptioin-planTypeSelect-dropdown" 
@@ -944,11 +944,11 @@ class FlowerType extends React.Component {
                               </Row>
                               <Row className="show-grid">
                                 <FormGroup>
-                                  <Col sm={1}></Col>
-                                  <Col sm={5}>
+                                  <Col xs={1}></Col>
+                                  <Col xs={5}>
                                     {strings.tulips}
                                   </Col>
-                                  <Col sm={5}>
+                                  <Col xs={5}>
                                     <DropdownButton 
                                       title={strings[this.state.tulips]} 
                                       className="subscription-select" id="subscriptioin-planTypeSelect-dropdown" 
@@ -962,11 +962,11 @@ class FlowerType extends React.Component {
                               </Row>
                               <Row className="show-grid">
                                 <FormGroup>
-                                  <Col sm={1}></Col>
-                                  <Col sm={5}>
+                                  <Col xs={1}></Col>
+                                  <Col xs={5}>
                                     {strings.carnations}
                                   </Col>
-                                  <Col sm={5}>
+                                  <Col xs={5}>
                                     <DropdownButton 
                                       title={strings[this.state.carnations]} 
                                       className="subscription-select" id="subscriptioin-planTypeSelect-dropdown" 

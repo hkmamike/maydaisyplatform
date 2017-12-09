@@ -144,6 +144,18 @@ textarea.data-field-update {
             margin-left: 0 !important;
             margin-right: 0 !important;
         }
+        .import-button {
+            color: white;
+            background: $pink;
+            font-weight: bold;
+            &:hover {
+                background: $pinkhover;
+            }
+            @media (max-width: 768px) {
+                margin-top: 5px;
+                margin-bottom: 5px;
+            }
+        }
     }
 
     .checkbox {
@@ -449,7 +461,7 @@ textarea.data-field-update {
         }
     }
 
-    .order-details, .address-details, .account-details, .ordersdashboard-details, .shop-info-details, .design-details, .review-order {
+    .order-details, .address-details, .account-details, .ordersdashboard-details, .shop-info-details, .design-details, .review-order, .order-succeed {
 
         a {
             color: $darkpink !important;

@@ -234,7 +234,7 @@ class ImportAddressModal extends React.Component {
 
         return (
             <div>
-                <Button bsStyle="" className="sub-details-unsub" onClick={this.open}>{strings.importButton}</Button>
+                <Button bsStyle="" className="import-button" onClick={this.open}>{strings.importButton}</Button>
                 <Modal show={this.state.showModal} onHide={this.close}>
                     <Modal.Header closeButton>
                     <Modal.Title><strong>{strings.importTitle}</strong></Modal.Title>
@@ -246,7 +246,7 @@ class ImportAddressModal extends React.Component {
                     </Modal.Body>
                     <Modal.Footer>
                     <Button bsStyle="" className="button button-back" onClick={this.close}>{strings.backButton}</Button>
-                    <Button bsStyle="" className="button" onClick={this.importAddress}>{strings.importButton}</Button>
+                    <Button bsStyle="" className="button-pink" onClick={this.importAddress}>{strings.importButton}</Button>
                     </Modal.Footer>
                 </Modal>
             </div>
@@ -581,24 +581,21 @@ export default class Order extends Component {
                 
                 <Grid>
                     <Row className="show-grid">
-                        <Col sm={9}></Col>
-                        <Col sm={3}>
-                            <ImportAddressModal
-                                uid={this.state.uid}
-                                onImportAddress={this.handleImportAddress}
-                            />
-                        </Col>
-                    </Row>
-                    <Row className="show-grid">
                         <FormGroup>
                             <Col sm={2}></Col>
                             <Col sm={3}>
                                 <ControlLabel>{strings.recipientName}</ControlLabel>
                             </Col>
-                            <Col sm={6}>
+                            <Col sm={4}>
                                 <FormGroup>
                                     <FormControl value={this.state.recipient} type="text" onChange={this.handleRecipient} placeholder={strings.recipientNamePlaceholder}/>
                                 </FormGroup>
+                            </Col>
+                            <Col sm={2}>
+                                <ImportAddressModal
+                                    uid={this.state.uid}
+                                    onImportAddress={this.handleImportAddress}
+                                />
                             </Col>
                         </FormGroup>
                     </Row>
