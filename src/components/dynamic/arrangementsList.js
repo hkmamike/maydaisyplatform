@@ -97,7 +97,7 @@ let strings = new LocalizedStrings({
         flower: '花種',
         flowerFilter: '花種篩選',
         color: '顏色',
-        colorFilter: '篩選',
+        colorFilter: '顏色篩選',
 
         searchPlaceholder: '設計 / 花藝師',
 
@@ -193,7 +193,7 @@ class PriceRange extends Component {
                 />
                 <Button 
                     bsStyle="" 
-                    className="button" 
+                    className="button modal-range-button" 
                     onClick={() => {
                         this.props.refine({min: this.props.tempMin, max: this.props.tempMax});
                         this.props.onHide();
@@ -231,7 +231,7 @@ class PopoverPrice extends Component {
     render() {
         return (
             <div
-                className="filter-popup-slider" 
+                className="filter-popup-slider"
                 style={{...this.props.style}}
             >
               <InstantSearch
@@ -371,12 +371,81 @@ class ColorFilterModal extends React.Component {
                         onSearchStateChange={this.props.onSearchStateChange}
                         searchState={this.props.searchState}
                     >
-                    <ConnectedColorRefinementList attributeName="color" operator="or" />
+                        <ConnectedColorRefinementList attributeName="color" operator="or" />
                     </InstantSearch>
                 </Modal.Body>
                 <Modal.Footer>
                     <Button bsStyle="" className="button" onClick={this.close}>{strings.seeDesignsButton}</Button>
                 </Modal.Footer>
+            </Modal>
+        </div>
+      )
+    }
+}
+
+class PriceFilterModal extends React.Component {
+    constructor() {
+      super();
+      this.open = this.open.bind(this);
+      this.close = this.close.bind(this);
+      this.state = {
+        showModal: false,
+        tempMin: 0,
+        tempMax: 3000,
+      }
+    }
+    close() {
+      this.setState({showModal: false});
+    }
+    open() {
+      this.setState({showModal: true});
+    }
+    handleChange = (value1, value2) => {
+        this.setState({
+            tempMin: value1,
+            tempMax: value2,
+        });
+    }
+
+    render() {
+      return (
+        <div>
+            <Button
+                className={ 'large-screen-hide ' + (
+                    this.props.priceFilterShow
+                    || (typeof this.props.searchState.range !== "undefined"  
+                            && (typeof this.props.searchState.range.price['min'] !== "undefined" && this.props.searchState.range.price['max'] !== "undefined")
+                        )
+                    ? 'button-filter-active' : 'button-filter' )} 
+                onClick={this.open}
+            >
+                {strings.priceButton}
+            </Button>
+
+            <Modal show={this.state.showModal} onHide={this.close}>
+                <Modal.Header closeButton>
+                    <Modal.Title><strong>{strings.priceFilter}</strong></Modal.Title>
+                </Modal.Header>
+                <Modal.Body>
+                    <InstantSearch
+                        appId="IWC5275GW4"
+                        apiKey="24a14549af086c57dc295ac4bc6f5cc5"
+                        indexName="arrangementsList"
+                        onSearchStateChange={this.props.onSearchStateChange}
+                        searchState={this.props.searchState}
+                    >
+                        <ConnectedRange
+                            attributeName="price"
+                            min={0}
+                            max={3000}
+                            onHandleChange = {this.handleChange}
+                            onHide={this.close}
+                            tempMin={this.state.tempMin}
+                            tempMax={this.state.tempMax}
+                        />
+                        <div className='modal-range-num'>${this.state.tempMin} - ${this.state.tempMax}</div>
+                    </InstantSearch>
+                </Modal.Body>
             </Modal>
         </div>
       )
@@ -544,22 +613,22 @@ class Facets extends Component {
                                 searchState={props.searchState}
                             />
                         </Overlay>
-
                         <ConnectedSearchBox/>
-
+                        <PriceFilterModal
+                            onSearchStateChange={props.onSearchStateChange}
+                            searchState={props.searchState}
+                            priceFilterShow={props.priceFilterShow}
+                        />
                         <FlowerFilterModal
-                            onFlowerFilter={this.openFlowerFilter}
                             onSearchStateChange={props.onSearchStateChange}
                             searchState={props.searchState}
                             flowerFilterShow={props.flowerFilterShow}
                         />
                         <ColorFilterModal
-                            onColorFilter={this.openColorFilter}
                             onSearchStateChange={props.onSearchStateChange}
                             searchState={props.searchState}
                             colorFilterShow={props.colorFilterShow}
                         />
-
                     </ButtonToolbar>
 
                 </section>

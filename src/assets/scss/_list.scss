@@ -103,6 +103,9 @@
 .content-wrapper {
     position: relative;
     .filter-popup {
+        min-height: 100px;
+        min-width: 300px;
+        margin-left: 30px;
         position: absolute;
         padding: 24px !important;
         overflow-y: auto;
@@ -128,6 +131,9 @@
     }
 
     .filter-popup-slider {
+        min-height: 100px;
+        min-width: 300px;
+        margin-left: 30px;
         position: absolute;
         padding: 24px !important;
         overflow-y: auto;
@@ -330,6 +336,7 @@
 }
 
 .modal-content {
+    min-height: 120px;
     .ais-RefinementList__item {
         color: black;
         .ais-RefinementList__itemCount {
@@ -348,6 +355,17 @@
             background-color: $pinkhover;
         }
     }
+    .rc-slider {
+        margin-top: 30px;
+    }
+    .modal-range-num {
+        margin-top: 55px;
+        margin-left: 10px;
+    }
+    .modal-range-button {
+        float: right;
+        margin-top: 50px !important;
+    }
 }
 
 .rc-slider-tooltip {
@@ -355,7 +373,7 @@
 }
 
 .ais-InstantSearch__root {
-    min-height: 150px;
+    min-height: 120px;
 }
 
 .facet-color {
