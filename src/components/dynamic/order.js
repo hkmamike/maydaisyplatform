@@ -966,7 +966,7 @@ export default class Order extends Component {
     }   else if (orderStep===5){
         content = (
             <div>
-                <div className="sub-succeed">            
+                <div className="order-succeed">            
                     <div className="center-text">{strings.orderSucceed}</div>
                 </div>
                 <Grid>

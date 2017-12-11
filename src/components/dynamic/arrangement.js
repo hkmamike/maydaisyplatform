@@ -7,20 +7,95 @@ import { SingleDatePicker } from 'react-dates';
 import moment from 'moment';
 
 let strings = new LocalizedStrings({
-    en:{},
-    ch: {}
+    en:{
+        select_region: 'Select Region',
+        HK_CentralWestern: 'Central & Western',
+        HK_Eastern: 'Eastern',
+        HK_Southern: 'Southern',
+        HK_WanChai: 'Wan Chai',
+        KL_KowloonCity: 'Kowloon City',
+        KL_KwunTong: 'Kwun Tong',
+        KL_ShamShuiPo: 'Sham Shui Po',
+        KL_WongTaiSin: 'Wong Tai Sin',
+        KL_YauTsimMong: 'Yau Tsim Mong',
+        NT_Islands: 'Outlying Islands',
+        NT_KwaiTsing: 'Kwai Tsing',
+        NT_North: 'Northern Region',
+        NT_SaiKung: 'Sai Kung',
+        NT_ShaTin: 'Sha Tin',
+        NT_TaiPo: 'Tai Po',
+        NT_TsuenWan: 'Tsuen Wan',
+        NT_TuenMun: 'Tuen Mun',
+        NT_YuenLong: 'Yuen Long',
+
+        buttonToMarket: 'Back to market',
+
+        descriptionTab: 'DESCRIPTION',
+        deliveryInfoTab: 'DELIVERY INFO',
+        deliveryFeeTip: 'Florists specified delivery fee for this region.',
+        deliverTo: 'Deliver to:',
+        selectDate: 'Select date:',
+        noCoverageTip1: 'Oh no! This florist does not deliver to ',
+        noCoverageTip2: ". Let's go back to the market to find one that does.",
+        excludingDelivery: 'Excluding delivery',
+        deliveryFee: 'Delivery fee',
+
+        dateRequired: '*Please select a delivery date.',
+        orderNow: 'Order Now',
+        otherDesigns1: 'Other Designs by ',
+        otherDesigns2: ':',
+    },
+    ch: {
+        select_region: '選擇地區',
+        HK_CentralWestern: '中西區',
+        HK_Eastern: '東區',
+        HK_Southern: '南區',
+        HK_WanChai: '灣仔區',
+        KL_KowloonCity: '九龍城區',
+        KL_KwunTong: '觀塘區',
+        KL_ShamShuiPo: '深水埗區',
+        KL_WongTaiSin: '黃大仙區',
+        KL_YauTsimMong: '油尖旺區',
+        NT_Islands: '離島區',
+        NT_KwaiTsing: '葵青區',
+        NT_North: '北區',
+        NT_SaiKung: '西貢區',
+        NT_ShaTin: '沙田區',
+        NT_TaiPo: '大埔區',
+        NT_TsuenWan: '荃灣區',
+        NT_TuenMun: '屯門區',
+        NT_YuenLong: '元朗區',
+
+        buttonToMarket: '返回市集',
+        descriptionTab: '貨品描述',
+        deliveryInfoTab: '送貨詳情',
+
+        deliveryFeeTip: '花匠收取的送貨費用。',
+        deliverTo: '送往:',
+        selectDate: '送花日期:',
+        noCoverageTip1: '這位花匠暫時不送貨到',
+        noCoverageTip2: "。我們返回市集再選購吧！",
+        excludingDelivery: '不包括送貨費',
+        deliveryFee: '送貨費',
+
+        dateRequired: '*請選擇送貨日期。',
+        orderNow: '現在下單',
+        otherDesigns1: ' ',
+        otherDesigns2: '的其他設計:',
+
+    }
 });
 
 const ButtonToMarket = ({ history }) => (
-    <Button bsStyle="" className="button-to-market" onClick={() => history.push('/arrangements')}>Back to Market</Button>
+    <Button bsStyle="" className="button-to-market" onClick={() => history.push('/arrangements')}>{strings.buttonToMarket}</Button>
 );
 
 const ButtonToSearch = ({ history }) => (
-    <Button bsStyle="" className="button-to-search" onClick={() => history.push('/arrangements')}>Back to Market</Button>
+    <Button bsStyle="" className="button-to-search" onClick={() => history.push(`/arrangements/${this.props.marketRegion}`)}>{strings.buttonToMarket}</Button>
 );
 
 const deliveryTooltip = (
-    <Tooltip id="deliveryTooltip">Florists specified delivery fee for this region.</Tooltip>
+    <Tooltip id="deliveryTooltip">{strings.deliveryFeeTip}</Tooltip>
   );
 
 export default class Arrangement extends Component {
@@ -249,8 +324,8 @@ export default class Arrangement extends Component {
                     </div>
                     <div className="arrangement-florist-name">by <Link to={`/florist/${this.state.arrangementFlorist}`} >{this.state.arrangementFloristName}</Link></div>
                     <ul className="arrangement-details-toggle">
-                        <li className={this.state.descriptionActive ? 'toggle-active': null} onClick={() => this.toggleContent(0)} >DESCRIPTION</li>
-                        <li className={this.state.deliveryActive ? 'toggle-active': null} onClick={() => this.toggleContent(1)} >DELIVERY INFO</li>
+                        <li className={this.state.descriptionActive ? 'toggle-active': null} onClick={() => this.toggleContent(0)} >{strings.descriptionTab}</li>
+                        <li className={this.state.deliveryActive ? 'toggle-active': null} onClick={() => this.toggleContent(1)} >{strings.deliveryInfoTab}</li>
                     </ul>
                     { this.state.descriptionActive &&
                         <div className="arrangement-info">{this.state.arrangementDescription}</div>
@@ -261,36 +336,36 @@ export default class Arrangement extends Component {
 
                     <div className="delivery-inline">
                         <div className="select-delivery-block">
-                            <div className="region-select-tip">Deliver to:</div> 
+                            <div className="region-select-tip">{strings.deliverTo}</div> 
                             <DropdownButton 
-                                title={marketRegion}
+                                title={strings[marketRegion]}
                                 className="region-select" 
                                 id="bg-nested-dropdown" 
                                 onSelect={this.handleSelectRegion}
                             >
-                                <MenuItem eventKey="HK_CentralWestern">HK Island - Central/Western District</MenuItem>
-                                <MenuItem eventKey="HK_Eastern">HK Island - Eastern District</MenuItem>
-                                <MenuItem eventKey="HK_Southern">HK Island - Southern District</MenuItem>
-                                <MenuItem eventKey="HK_WanChai">HK Island - Wan Chai District</MenuItem>
-                                <MenuItem eventKey="KL_ShamShuiPo">KL - Sam Shui Po District</MenuItem>
-                                <MenuItem eventKey="KL_KowloonCity">KL - Kowloon City District</MenuItem>
-                                <MenuItem eventKey="KL_KwunTong">KL - Kwun Tong District</MenuItem>
-                                <MenuItem eventKey="KL_WongTaiSin">KL - Wong Tai Sin District</MenuItem>
-                                <MenuItem eventKey="KL_YauTsimMong">KL - Yau Tsim Mong District</MenuItem>
-                                <MenuItem eventKey="NT_Islands">NT - Outlying Islands</MenuItem>
-                                <MenuItem eventKey="NT_KwaiTsing">NT - Kwai Tsing District</MenuItem>
-                                <MenuItem eventKey="NT_North">NT - Northern District</MenuItem>
-                                <MenuItem eventKey="NT_SaiKung">NT - Sai Kung District</MenuItem>
-                                <MenuItem eventKey="NT_ShaTin">NT - Sha Tin District</MenuItem>
-                                <MenuItem eventKey="NT_TaiPo">NT - Tai Po District</MenuItem>
-                                <MenuItem eventKey="NT_TsuenWan">NT - Tsuen Wan District</MenuItem>
-                                <MenuItem eventKey="NT_TuenMun">NT - Tuen Mun District</MenuItem>
-                                <MenuItem eventKey="NT_YuenLong">NT - Yuen Long District</MenuItem>
+                                <MenuItem eventKey="HK_CentralWestern">{strings.HK_CentralWestern}</MenuItem>
+                                <MenuItem eventKey="HK_Eastern">{strings.HK_Eastern}</MenuItem>
+                                <MenuItem eventKey="HK_Southern">{strings.HK_Southern}</MenuItem>
+                                <MenuItem eventKey="HK_WanChai">{strings.HK_WanChai}</MenuItem>
+                                <MenuItem eventKey="KL_ShamShuiPo">{strings.KL_ShamShuiPo}</MenuItem>
+                                <MenuItem eventKey="KL_KowloonCity">{strings.KL_KowloonCity}</MenuItem>
+                                <MenuItem eventKey="KL_KwunTong">{strings.KL_KwunTong}</MenuItem>
+                                <MenuItem eventKey="KL_WongTaiSin">{strings.KL_WongTaiSin}</MenuItem>
+                                <MenuItem eventKey="KL_YauTsimMong">{strings.KL_YauTsimMong}</MenuItem>
+                                <MenuItem eventKey="NT_Islands">{strings.NT_Islands}</MenuItem>
+                                <MenuItem eventKey="NT_KwaiTsing">{strings.NT_KwaiTsing}</MenuItem>
+                                <MenuItem eventKey="NT_North">{strings.NT_North}</MenuItem>
+                                <MenuItem eventKey="NT_SaiKung">{strings.NT_SaiKung}</MenuItem>
+                                <MenuItem eventKey="NT_ShaTin">{strings.NT_ShaTin}</MenuItem>
+                                <MenuItem eventKey="NT_TaiPo">{strings.NT_TaiPo}</MenuItem>
+                                <MenuItem eventKey="NT_TsuenWan">{strings.NT_TsuenWan}</MenuItem>
+                                <MenuItem eventKey="NT_TuenMun">{strings.NT_TuenMun}</MenuItem>
+                                <MenuItem eventKey="NT_YuenLong">{strings.NT_YuenLong}</MenuItem>
                             </DropdownButton>
                         </div>
 
                         <div className="select-date-block">
-                            <div className="date-select-tip">Select date:</div> 
+                            <div className="date-select-tip">{strings.selectDate}</div> 
                             <SingleDatePicker
                                 numberOfMonths={1}
                                 date={this.state.date} // momentPropTypes.momentObj or null
@@ -307,14 +382,14 @@ export default class Arrangement extends Component {
 
                     { this.state.arrangementDeliveryFee=== -1 &&
                         <div>
-                            <div className="error-message">Oh no! This florist does not deliver to {marketRegion}. Let's go back to the market to find one that does.</div>
+                            <div className="error-message">{strings.noCoverageTip1}{strings[marketRegion]}{strings.noCoverageTip2}</div>
                         </div>
                     }
 
                     <div className="price-inline">
                         <div className="price-block">
                             <div className="arrangement-price">${this.state.arrangementPrice}</div>
-                            <div className="arrangement-price-tip">Excluding delivery</div>
+                            <div className="arrangement-price-tip">{strings.excludingDelivery}</div>
                         </div>
 
                         { this.state.arrangementDeliveryFee!== -1 &&
@@ -324,7 +399,7 @@ export default class Arrangement extends Component {
                                     <OverlayTrigger placement="right" overlay={deliveryTooltip}>
                                         <i className="fa fa-question-circle" aria-hidden="true"></i>
                                     </OverlayTrigger>
-                                    <span> Delivery fee ({marketRegion})</span>
+                                    <span> {strings.deliveryFee}({strings[marketRegion]})</span>
                                 </div>
                             </div>
                         }
@@ -332,7 +407,7 @@ export default class Arrangement extends Component {
 
                     { (!this.props.deliveryDate && this.state.orderButtonPressed) &&
                         <div>
-                            <div className="error-message">*Please select a delivery date.</div>
+                            <div className="error-message">{strings.dateRequired}</div>
                         </div>
                     }
 
@@ -344,7 +419,7 @@ export default class Arrangement extends Component {
 
                     { this.state.arrangementDeliveryFee!== -1 &&
                         <div className="button-box">
-                            <Route path="/" render={() => <Button bsStyle="" className="button-to-order" onClick={() => this.handleOrder(this.state.floristID, this.state.arrangement)}>Order Now</Button>}/>
+                            <Route path="/" render={() => <Button bsStyle="" className="button-to-order" onClick={() => this.handleOrder(this.state.floristID, this.state.arrangement)}>{strings.orderNow}</Button>}/>
                         </div>
                     }
 
@@ -352,7 +427,7 @@ export default class Arrangement extends Component {
             </Row>
             <Row>
                 <div className="horizontal-line"></div>
-                <div className="arrangement-section-title">Other Designs by {this.state.arrangementFloristName}</div>
+                <div className="arrangement-section-title">{strings.otherDesign1}{this.state.arrangementFloristName}{strings.otherDesign2}</div>
                 <div className="sub-content list-container">{listOfArrangements}</div>
             </Row>
         </Grid>
