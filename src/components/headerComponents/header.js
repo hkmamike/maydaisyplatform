@@ -26,7 +26,7 @@ const ButtonToLogin = ({ title, history }) => (
 );
 
 const ButtonToAccount = ({ title, history }) => (
-    <Button bsStyle="" className="button" onClick={() => history.push('/subscriptions')}>{strings.accountButton}</Button>
+    <Button bsStyle="" className="button" onClick={() => history.push('/orderhistory')}>{strings.accountButton}</Button>
 );
 
 export default class Header extends Component {

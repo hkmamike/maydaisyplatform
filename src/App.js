@@ -5,14 +5,13 @@ import { base } from './components/config/constants';
 import Login from './components/pages/login';
 import Register from './components/pages/register';
 import { firebaseAuth } from './components/config/constants';
+
 //content components
 import Header from './components/headerComponents/header';
 import Footer from './components/footerComponents/footer';
 import Homepage from './components/pages/homePage';
 import SignUps from './components/pages/signUps';
-import Subscriptions from './components/protected/subscriptions';
-import NewSubscription from './components/protected/newSubscription';
-import AccountInfo from './components/protected/accountInfo';
+
 //text pages
 import PrivacyPolicy from './components/textPages/privacyPolicy'
 import TermsOfServices from './components/textPages/terms'
@@ -20,10 +19,6 @@ import ContactUs from './components/textPages/contactUs'
 import About from './components/textPages/about'
 import FAQ from './components/textPages/faq'
 import Career from './components/textPages/career'
-//gallery
-import GalleryClassic from './components/gallery/classic';
-import GalleryElegant from './components/gallery/elegant';
-import GalleryBloom from './components/gallery/bloom';
 
 //dynamic - marketplace
 import ArrangementsList from './components/dynamic/arrangementsList';
@@ -43,6 +38,7 @@ import ShopInfo from './components/designerPages/shopInfo';
 
 //compressed css
 import './assets/css/default.min.css';
+
 //airbnb date picker
 import 'react-dates/lib/css/_datepicker.css';
 import 'react-dates/initialize';
@@ -218,10 +214,6 @@ export default class App extends Component {
               marketRegion={this.state.marketRegion}/>)}
             />
 
-            <Route path='/gallery-classic' exact render={(props) => (<GalleryClassic {...props} languageChanged={this.state.languageChanged}/>)}/>
-            <Route path='/gallery-elegant' exact render={(props) => (<GalleryElegant {...props} languageChanged={this.state.languageChanged}/>)}/>
-            <Route path='/gallery-bloom' exact render={(props) => (<GalleryBloom {...props} languageChanged={this.state.languageChanged}/>)}/>
-
             <Route path='/privacy-policy' exact render={(props) => (<PrivacyPolicy {...props} languageChanged={this.state.languageChanged}/>)}/>
             <Route path='/terms' exact render={(props) => (<TermsOfServices {...props} languageChanged={this.state.languageChanged}/>)}/>
             <Route path='/faq' exact render={(props) => (<FAQ {...props} languageChanged={this.state.languageChanged}/>)}/>
@@ -237,11 +229,6 @@ export default class App extends Component {
             <PrivateRoute authed={this.state.authed} path='/addressbook' component={AddressBook} languageChanged={this.state.languageChanged}/>
             <PrivateRoute authed={this.state.authed} path='/userinfo' component={MarketAccountInfo} languageChanged={this.state.languageChanged}/>
 
-            <PrivateRoute authed={this.state.authed} path='/subscriptions' component={Subscriptions} languageChanged={this.state.languageChanged}/>
-            <PrivateRoute authed={this.state.authed} selectRegion={selectRegion} onRegionSelection={this.handleRegionSelection} path='/newsubscription' component={NewSubscription} languageChanged={this.state.languageChanged}/>
-            <PrivateRoute authed={this.state.authed} path='/accountinfo' component={AccountInfo} languageChanged={this.state.languageChanged}/>
- 
- 
             <PrivateRoute authed={this.state.authed} path='/ordersdashboard' component={OrdersDashboard} designerCode={this.state.designerCode} onCreateShop={this.handleCreateShop} languageChanged={this.state.languageChanged}/>
             <PrivateRoute authed={this.state.authed} path='/designs' component={Designs} designerCode={this.state.designerCode} languageChanged={this.state.languageChanged}/>
             <PrivateRoute authed={this.state.authed} path='/shopinfo' component={ShopInfo} designerCode={this.state.designerCode} languageChanged={this.state.languageChanged}/>

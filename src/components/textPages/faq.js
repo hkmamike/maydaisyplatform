@@ -8,34 +8,30 @@ let strings = new LocalizedStrings({
     en:{
         returnHome: 'Back to Home',
         pageTitle: 'Frequently Asked Questions',
-        lastUpdated: 'Last Updated: September 26, 2017',
+        lastUpdated: 'Last Updated: Dec 12, 2017',
         subtitle: "These are some of the frequently asked questions about MayDaisy and our services.",
-        q1: 'What if I (or the recipient) am not home at the time of delivery?',
-        a1: "If you (or the recipient) will not be home during delivery and your lobby reception does not take flowers, please leave your vase at a safe location in front of your door (please don't use your favorite vase as accidents can happen in public space).",
-        q2: 'Can I choose what flowers to send?',
-        a2: "MayDaisy weekly arrangements are designed with seasonal flowers by our florists' choice. By giving florists the creative free rein, we unleash their potential and get a nice surprise in return.",
-        q3: 'I just signed up! When and how frequently do I pay?',
-        a3: "We charge our subscribers on Wednesday everyweek at 11:59 p.m. HKT for the following week's delivery. This continues until you unsubscribe from the plan.",
-        q4: "Why can't I specify which day to receive flowers?",
-        a4: "Eventually, we aim to provide more delivery day options when we achieve a bigger scale. For now, restricting the delivery day helps us keep the delivering cost low so more people can afford the joy of flowers.",
-        q5: "How do I unsubscribe?",
-        a5: "To unsubscribe, you need to be logged into your account. Under 'My Subscriptions' > 'Details & Update', there is a 'Unsubscribe' button in red colour. Please note that if your cancelation request is received after 11:59 pm HKT on Wednesday, your card has already been charged this week and one more delivery will be made in the following week.",
+        q1: 'What is the difference between flower shops and independent artists?',
+        a1: "The biggest difference is their business hours. Typically, flower shops are open for business everyday and some even offer sameday delivery. On the other hand, independent artists only take orders on restricted days and usually have longer delivery lead time.",
+        q2: 'You only accept credit card, is it safe?',
+        a2: "MayDaisy's payment processing partner is Stripe. Stripe is the world's top payment processing technology company that is trusted by thousands of public companies. We do not save your credit card details on our server.",
+        q3: 'Where can my customers write reviews for me?',
+        a3: "Only customers with verified purchases can write reviews. Once an order is placed, the customer can write a review for you in his/her 'Order History' tab after logging in.",
+        q4: "Is same day delivery possible?",
+        a4: "Some flower shops cater for same day delivery. Across the MayDaisy platform, the standard cut off time for sameday delivery is 1 p.m. HKT",
     },
     ch: {
         returnHome: '返回主頁',
         pageTitle: '常見問題和答案',
-        lastUpdated: '最後更新: 2017年9月27日',
+        lastUpdated: '最後更新: 2017年12月12日',
         subtitle: "這裡有一些常見的問題和答案，希望幫到您。",
-        q1: '如果我（或收花人）在配送日不在家怎麼辦?',
-        a1: "如果您（或收花人）配送當天不在家而您的大堂前台不收花，請把一個花瓶放在門前一個安全的地方。為了避免意外發生，請不要用您最愛的花瓶接收配送噢!",
-        q2: '我可以選擇花的種類嗎？',
-        a2: "五月菊每週的花卉由花匠選用時令花材設計。我們給予花匠們創意空間，釋放藝術潛能，也同時達到製造驚喜的效果。",
-        q3: '我訂購了！付款的時間和頻率是怎樣?',
-        a3: "我們會在每個星期三香港時間晚上 11:59 p.m. 向客人收取下一配送週的費用，直到您取消訂單。",
-        q4: "為什麼我不能選擇配送日?",
-        a4: "當我們的服務規模成長起來的時候，將會為客人提供更多的配送日選擇。現在的配送日限制有助我們控制成本降低價格，令更多的客人可以欣賞到鮮花的美。",
-        q5: "怎樣取消訂單?",
-        a5: "在登入之後，'所有訂購' 內的 '詳情＆訂購' 中有一個紅色的 '取消訂購' 按鍵。請注意，五月菊服務的付款時間為配送前一週的星期三香港時間晚上 11:59 p.m. 。如果您本週已經付款，我們下一週會為您提供最後一次服務。",
+        q1: '五月菊平台上的花店和獨立花藝師有什麼不同？',
+        a1: '主要的區別在於辦公時間。五月菊平台上的花店一般是每天營運的，有一些更提供當天送貨服務。獨立花藝師一般只在特定的日子接單，以且需要提前預訂。',
+        q2: '五月菊只接受信用卡支付，安全嗎？',
+        a2: '五月菊的支付處理合作夥伴為STRIPE，STRIEP是全球領先的支付平台，深得上千上市公司的信賴。五月菊的伺服器不會儲存您的信用卡詳情。',
+        q3: '我的客人怎樣為我的花店寫評論？',
+        a3: "只有曾經從您的花店購買設計的客人可以選寫評論。當客人下單之後，他（她）可以在'購買記錄'一頁中選寫評論。",
+        q4: '您們提供當天送貨服務嗎？',
+        a4: '我們有部份花店提供當天送貨服務。這些花店的當天送貨最後接單時間為下午1時正。',
     }
 });
 
@@ -72,7 +68,6 @@ export default class FAQ extends Component {
                             <Col sm={1}></Col>
                             <Col sm={10}>
                             <div className="text-page-text">
-                                <p className="font-italic bold">{strings.lastUpdated}</p>
                                 <p className="font-italic bold">{strings.subtitle}</p>
                                 <p className="faq-question">{strings.q1}</p>
                                 <p className="faq-answer">{strings.a1}</p>

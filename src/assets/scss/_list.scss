@@ -64,7 +64,6 @@
     .region-select-button {
         position: relative;
         top: 50%;
-        @include translateY(-58%);
         display: inline-block;
         margin-right: 10px;
         background-color: $shadowteal;
@@ -73,6 +72,10 @@
         line-height: 35px;
         border-radius: 4px;
         padding: 0 10px !important;
+        @include translateY(-54%);
+        @media (max-width: 768px) {
+            @include translateY(-58%);
+        }
     }
 
     .white-text {

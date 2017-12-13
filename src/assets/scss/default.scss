@@ -2,7 +2,6 @@
 @import "_regionSelect.scss";
 @import "_login.scss";
 @import "_loggedIn.scss";
-@import "_gallery.scss";
 @import "_textPages.scss";
 @import "_list.scss";
 @import "_florist.scss";
@@ -128,10 +127,10 @@ header {
         padding: 20px;
         margin-right: 20px;
         margin-left: 20px;
-        @media (max-width: 600px) {
+        @media (max-width: 768px) {
             @include translateY(20%);
         }
-        @media (min-width: 601px) {
+        @media (min-width: 769px) {
             @include translateY(70%);
         }
         .home-image-title {
@@ -162,6 +161,9 @@ header {
             background-color: $pink !important;
             font-weight: bold !important;
             color: $white !important;
+            @media (max-width: 768px) {
+                margin-left: 0 !important;
+            }
             &:hover {
                 background-color: $pinkhover !important;
             }
@@ -190,64 +192,6 @@ header {
     }
 }
 
-.home-pic-section {
-    .home-pic-container {
-        margin: 10px;
-    }
-    .home-pic {
-        padding: 0;
-        height: 400px;
-        background-position: center center;
-        background-repeat: no-repeat;
-        background-size: cover;
-        border-style: solid;
-        border-width: 5px;
-        border-color: $white;
-    }
-    .home-pic-1 {
-        background-image: url('https://firebasestorage.googleapis.com/v0/b/onebloom-cfa9d.appspot.com/o/home-pic-1.jpg?alt=media&token=a8a56cbc-6a5a-4c45-af56-c14ab0a9a7cb');
-    }
-    .home-pic-2 {
-        background-image: url('https://firebasestorage.googleapis.com/v0/b/onebloom-cfa9d.appspot.com/o/home-pic-2.jpg?alt=media&token=62b59665-3126-480e-9d2e-3bc219039432');
-    }
-    .home-pic-3 {
-        background-image: url('https://firebasestorage.googleapis.com/v0/b/onebloom-cfa9d.appspot.com/o/home-pic-3.jpg?alt=media&token=f52b1539-d1b9-4237-8622-9c3806dfd42f');
-    }
-    .home-pic-shade {
-        background: $black;
-        opacity: 0;
-        width: 100%;
-        height: 100%;
-    }
-    .home-pic-default:not(:hover) .home-pic-shade {
-        display: none;
-    }
-    .home-pic:hover .home-pic-shade {
-        display: none;
-    }
-    .home-pic-text {
-        color: $white;
-        background: $darkpink;
-        opacity: 0.8;
-        text-align: center;
-        padding: 15px;
-        width: 100%;
-        min-height: 20px;
-        position: absolute;
-        bottom: 0;
-        display: none;
-        .home-pic-title {
-            font-weight: bold;
-            font-size: 120%;
-        }
-    }
-    .home-pic:hover .home-pic-text {
-        display: block;
-    }
-    .home-pic-default:not(:hover) .home-pic-text {
-        display: block;
-    }
-}
 
 .home-about {
     background-color: $white;

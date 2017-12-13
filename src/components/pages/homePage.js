@@ -7,72 +7,101 @@ import LocalizedStrings from 'react-localization';
 let strings = new LocalizedStrings({
     en:{
       signUp: 'Sign Up',
-      homeImgTitle: 'Weekly Designer Choice Flowers Brightens Your Week!',
+      homeImgTitle: 'Shop directly from classy flower shops and independent floral artists.',
       homeImgSubtitle: 'Where are the flowers going?',
-      howItWorks1: 'How ',
-      howItWorks2: 'MayDaisy',
-      howItWorks3: ' Works',
-      howItWorks4: 'AS SIMPLE AS 1,2,3',
-      subscribe: 'Subscribe',
-      subscribeText: 'Reward yourself or Send weekly flowers to your loved one. A local forist will pick the best seasonal flowers and design the gift for you. Surprise!',
-      receiveUpdate: 'Update',
-      receiveUpdateText: 'We will keep you updated about your subscription through email and your account page, and you can update your message card on this website.',
-      delight: 'Delight',
-      delightText: 'Your loved one receives flowers and your card (we hand write your message), prepared with heart by your local florist!',
-      classic: 'Classic',
-      classicText: 'designer picked seasonal flowers, 1-2 blooms, HKD53 per week. >>click<<',
-      elegant: 'Elegant',
-      elegantText: 'designer picked seasonal flowers, 2-4 blooms, HKD93 per week. >>click<<',
-      bloom: 'Bloom',
-      bloomText: 'designer picked seasonal flowers, 5-10 blooms, HKD223 per week. >>click<<',
+      go: 'Go',
+
+      select_region: 'Select Region',
+      HK_CentralWestern: 'Central & Western',
+      HK_Eastern: 'Eastern',
+      HK_Southern: 'Southern',
+      HK_WanChai: 'Wan Chai',
+      KL_KowloonCity: 'Kowloon City',
+      KL_KwunTong: 'Kwun Tong',
+      KL_ShamShuiPo: 'Sham Shui Po',
+      KL_WongTaiSin: 'Wong Tai Sin',
+      KL_YauTsimMong: 'Yau Tsim Mong',
+      NT_Islands: 'Outlying Islands',
+      NT_KwaiTsing: 'Kwai Tsing',
+      NT_North: 'Northern Region',
+      NT_SaiKung: 'Sai Kung',
+      NT_ShaTin: 'Sha Tin',
+      NT_TaiPo: 'Tai Po',
+      NT_TsuenWan: 'Tsuen Wan',
+      NT_TuenMun: 'Tuen Mun',
+      NT_YuenLong: 'Yuen Long',
+
+      howItWorks1: 'Why ',
+      howItWorks2: 'MayDaisy?',
+      howItWorks3: ' ',
+      howItWorks4: 'FLOWER MARKETPLACE',
+
+      flowerShop: 'Flower Shops',
+      flowerShopText: "Find all the classiest flower shops in our marketplace, reference reviews to see how others' experience went.",
+
+      artist: 'Independent Artists',
+      artistText: "If you are not ordering last minute, consider buying from our independent floral artists for their distinctive styles.",
+      
+      trustAndConvenience: 'Trust and Convenience',
+      trustAndConvenienceText: 'We hold our florists to a high artistic and customer service standard; Shopping with us is convient with our quick checkout features and our detailed purchase log.',
+      
+      
       aboutUs1: 'About',
       aboutUs2: 'MayDaisy',
-      aboutUsText: 'MayDaisy is a movement of lasting love and simply enjoying flower. Through a weekly unrestricted design and delivery service, we make the expression of love persisting, fun, affordable, and full of surprises. We can deliver the weekly flowers to you (so you can deliver them in person), or deliver them directly to the reciepient. To make the movement more affordable to flower lovers, we begin to invite customers to subscribe when 150 customers have shown interest in an area. Check out if we are delivering your location now!',
-      joinNow: "Join the flower lovers' MayDaisy movement now ",
-      HK_Admiralty: 'HK-Admiralty',
-      HK_Central: 'HK-Central',
-      HK_ChaiWan: 'HK-Chai Wan',
-      KL_Olympic: 'KL-Olympic',
-      HK_ChaiWan_BMCPC: 'HK-Chai Wan, BMCPC',
-      HK_ChaiWan_CapeCollison: 'HK-Chai Wan, Cape Collison',
-      other: 'Other areas'
+      aboutUsText: "MayDaisy is a marketplace and community to connect customers with great florists in their city. By bringing the best florists together in one place, we can focus resources on your flowers and spend less on reaching you. MayDaisy also provides a channel for established and emerging independent floral artists to reach a broader audience. Independent artists do not operate a flower shop full time, but they offer dinstinctive styles that cannot be found anywhere else!", 
+      joinNow: "Join the flower lovers' MayDaisy movement now",
+      
     },
     ch: {
       signUp: '報名',
-      homeImgTitle: '時令鮮花花卉，每週一次，令您的每週更美好。',
+      homeImgTitle: '鮮花市集，直接向花店和獨立花藝師下單。',
       homeImgSubtitle: '花卉送往哪裏?',
-      howItWorks1: ' ',
+      go: '去市集',
+
+      select_region: '選擇地區',
+      HK_CentralWestern: '中西區',
+      HK_Eastern: '東區',
+      HK_Southern: '南區',
+      HK_WanChai: '灣仔區',
+      KL_KowloonCity: '九龍城區',
+      KL_KwunTong: '觀塘區',
+      KL_ShamShuiPo: '深水埗區',
+      KL_WongTaiSin: '黃大仙區',
+      KL_YauTsimMong: '油尖旺區',
+      NT_Islands: '離島區',
+      NT_KwaiTsing: '葵青區',
+      NT_North: '北區',
+      NT_SaiKung: '西貢區',
+      NT_ShaTin: '沙田區',
+      NT_TaiPo: '大埔區',
+      NT_TsuenWan: '荃灣區',
+      NT_TuenMun: '屯門區',
+      NT_YuenLong: '元朗區',
+
+      howItWorks1: '為什麼用',
       howItWorks2: '五月菊',
-      howItWorks3: '是什麼',
-      howItWorks4: '簡單如 1,2,3',
-      subscribe: '訂購',
-      subscribeText: '驚喜！獎勵自己或給您愛的人每週送花，由本地花匠運用時令鮮花設計，品種隨機。',
-      receiveUpdate: '訂單資訊',
-      receiveUpdateText: '我們會用電郵和這網頁保持聯繫，您亦可以在這個網頁上更新您的心意卡。',
-      delight: '收花',
-      delightText: '收花人會於每週收到鲜花和您的問候卡並由您的花匠送出手寫字表達心意。',
-      classic: '經典',
-      classicText: '花匠用時令花材設計，1-2朵主花，每週 HKD53。 >>看圖<<',
-      elegant: '優雅',
-      elegantText: '花匠用時令花材設計，2-4朵主花，每週 HKD93。 >>看圖<<',
-      bloom: '盛會',
-      bloomText: '花匠用時令花材設計，5-10朵主花，每週 HKD223。 >>看圖<<',
+      howItWorks3: ' ',
+      howItWorks4: '一站式鮮花市集',
+
+      flowerShop: '大小花店',
+      flowerShopText: '一個市集看盡最潮最優雅的花店。看看評論令您對您的選擇更有信心。',
+
+      artist: '獨立花藝師',
+      artistText: '如果您是預早下單，可以考慮獨立花藝師們獨特風格的藝術花卉。',
+
+      trustAndConvenience: '信任與方便',
+      trustAndConvenienceText: '我們對花店和花藝師們有極高的顧客服務和藝術上的要求; 詳盡購買記錄和快速下單功能令您的購物體驗更暢快。',
+
+
       aboutUs1: '關於',
       aboutUs2: '五月菊',
-      aboutUsText: '五月菊的理念是推動細水長流的愛及簡單地享受鮮花。以每週發送無限制形式的藝術花卉，我們令愛的表達變得更持久而有趣，更可以令愛花之人有更多驚喜。我們可以將鮮花配送給您(如果您想親自送花)，或直接配送給收花人。為了令五月菊價格更大眾化，每個地區的服務會在收集到150個報名之後開啟，屆時已報名的客人會收到電郵邀請。快來看看您的地區服務是否已開啟!',
+      aboutUsText: '五月菊是由花藝師們建立的一站式鮮花市集和花藝社群，我們的目標是為客人找到最好最適合他們的花卉設計。鮮花市集的模式令我們可以減低在市場推廣上花費的時間和資源，更集中的為您創造鮮花經驗。',
       joinNow: '快來加入愛花之人的五月菊運動 ',
-      HK_Admiralty: '香港-金鐘',
-      HK_Central: '香港-中環',
-      HK_ChaiWan: '香港-柴灣',
-      KL_Olympic: '九龍-奧運',
-      HK_ChaiWan_BMCPC: '香港-柴灣墓園(華人永遠)',
-      HK_ChaiWan_CapeCollison: '香港-柴灣墓園(歌連臣角十字架)',
-      other: '其他地區'
     }
   });
 
 const ButtonToMarket = ({ title, history, marketRegion }) => (
-  <Button bsStyle="" className="button" onClick={() => history.push(`/arrangements/${marketRegion}`)}>Go</Button>
+  <Button bsStyle="" className="button" onClick={() => history.push(`/arrangements/${marketRegion}`)}>{strings.go}</Button>
 );
 
 const ButtonToScrollUp = ({ title, history }) => (
@@ -117,27 +146,27 @@ export default class Homepage extends Component {
             <Grid>
               <Row className="show-grid">
                 <Col md={5} className="home-image-prompt">
-                  <h3 className="home-image-title">Discover dazzling designs from independent florists</h3>
+                  <h3 className="home-image-title">{strings.homeImgTitle}</h3>
                   <div className="home-image-pink">{strings.homeImgSubtitle}</div>
-                  <DropdownButton title={marketRegion} className="home-image-select" id="bg-nested-dropdown" onSelect={this.handleSelect}>
-                    <MenuItem eventKey="HK_CentralWestern">HK Island - Central/Western District</MenuItem>
-                    <MenuItem eventKey="HK_Eastern">HK Island - Eastern District</MenuItem>
-                    <MenuItem eventKey="HK_Southern">HK Island - Southern District</MenuItem>
-                    <MenuItem eventKey="HK_WanChai">HK Island - Wan Chai District</MenuItem>
-                    <MenuItem eventKey="KL_ShamShuiPo">KL - Sam Shui Po District</MenuItem>
-                    <MenuItem eventKey="KL_KowloonCity">KL - Kowloon City District</MenuItem>
-                    <MenuItem eventKey="KL_KwunTong">KL - Kwun Tong District</MenuItem>
-                    <MenuItem eventKey="KL_WongTaiSin">KL - Wong Tai Sin District</MenuItem>
-                    <MenuItem eventKey="KL_YauTsimMong">KL - Yau Tsim Mong District</MenuItem>
-                    <MenuItem eventKey="NT_Islands">NT - Outlying Islands</MenuItem>
-                    <MenuItem eventKey="NT_KwaiTsing">NT - Kwai Tsing District</MenuItem>
-                    <MenuItem eventKey="NT_North">NT - Northern District</MenuItem>
-                    <MenuItem eventKey="NT_SaiKung">NT - Sai Kung District</MenuItem>
-                    <MenuItem eventKey="NT_ShaTin">NT - Sha Tin District</MenuItem>
-                    <MenuItem eventKey="NT_TaiPo">NT - Tai Po District</MenuItem>
-                    <MenuItem eventKey="NT_TsuenWan">NT - Tsuen Wan District</MenuItem>
-                    <MenuItem eventKey="NT_TuenMun">NT - Tuen Mun District</MenuItem>
-                    <MenuItem eventKey="NT_YuenLong">NT - Yuen Long District</MenuItem>
+                  <DropdownButton title={strings[marketRegion]} className="home-image-select" id="bg-nested-dropdown" onSelect={this.handleSelect}>
+                    <MenuItem eventKey="HK_CentralWestern">{strings.HK_CentralWestern}</MenuItem>
+                    <MenuItem eventKey="HK_Eastern">{strings.HK_Eastern}</MenuItem>
+                    <MenuItem eventKey="HK_Southern">{strings.HK_Southern}</MenuItem>
+                    <MenuItem eventKey="HK_WanChai">{strings.HK_WanChai}</MenuItem>
+                    <MenuItem eventKey="KL_ShamShuiPo">{strings.KL_ShamShuiPo}</MenuItem>
+                    <MenuItem eventKey="KL_KowloonCity">{strings.KL_KowloonCity}</MenuItem>
+                    <MenuItem eventKey="KL_KwunTong">{strings.KL_KwunTong}</MenuItem>
+                    <MenuItem eventKey="KL_WongTaiSin">{strings.KL_WongTaiSin}</MenuItem>
+                    <MenuItem eventKey="KL_YauTsimMong">{strings.KL_YauTsimMong}</MenuItem>
+                    <MenuItem eventKey="NT_Islands">{strings.NT_Islands}</MenuItem>
+                    <MenuItem eventKey="NT_KwaiTsing">{strings.NT_KwaiTsing}</MenuItem>
+                    <MenuItem eventKey="NT_North">{strings.NT_North}</MenuItem>
+                    <MenuItem eventKey="NT_SaiKung">{strings.NT_SaiKung}</MenuItem>
+                    <MenuItem eventKey="NT_ShaTin">{strings.NT_ShaTin}</MenuItem>
+                    <MenuItem eventKey="NT_TaiPo">{strings.NT_TaiPo}</MenuItem>
+                    <MenuItem eventKey="NT_TsuenWan">{strings.NT_TsuenWan}</MenuItem>
+                    <MenuItem eventKey="NT_TuenMun">{strings.NT_TuenMun}</MenuItem>
+                    <MenuItem eventKey="NT_YuenLong">{strings.NT_YuenLong}</MenuItem>
                   </DropdownButton>
                   <Route path="/" render={(props) => <ButtonToMarket marketRegion={marketRegion} {...props}/>} />
                 </Col>
@@ -151,67 +180,25 @@ export default class Homepage extends Component {
           <h3 className="home-123">{strings.howItWorks4}</h3>
           <Grid>
             <Row className="show-grid">
-              <Col sm={4}><Glyphicon glyph="list-alt" className="icons"/>
-                <h3 className="icon-title">{strings.subscribe}</h3>
-                <div className="icon-description">{strings.subscribeText}</div>
+              <Col sm={4}><i className="fa fa-list icons" aria-hidden="true"></i>
+                <h3 className="icon-title">{strings.flowerShop}</h3>
+                <div className="icon-description">{strings.flowerShopText}</div>
               </Col>
-              <Col sm={4}><Glyphicon glyph="question-sign" className="icons"/>
-                <h3 className="icon-title">{strings.receiveUpdate}</h3>
-                <div className="icon-description">{strings.receiveUpdateText}</div>
+              <Col sm={4}><i className="fa fa-users icons" aria-hidden="true"></i>
+                <h3 className="icon-title">{strings.artist}</h3>
+                <div className="icon-description">{strings.artistText}</div>
               </Col>
-              <Col sm={4}><Glyphicon glyph="heart" className="icons"/>
-                <h3 className="icon-title">{strings.delight}</h3>
-                <div className="icon-description">{strings.delightText}</div>
+              <Col sm={4}><i className="fa fa-heart icons" aria-hidden="true"></i>
+                <h3 className="icon-title">{strings.trustAndConvenience}</h3>
+                <div className="icon-description">{strings.trustAndConvenienceText}</div>
               </Col>
             </Row>
           </Grid>
         </div>
 
         <div className="home-pic-section">
-          <Grid>
-            <Row className="show-grid home-pic-container">
-              <Link to="/gallery-classic">
-                <Col sm={4} className="home-pic-1 home-pic">
-                  <div className="home-pic-shade"></div>
-                  <div className="home-pic-text">
-                    <div className="home-pic-title">{strings.classic}</div>
-                    <div>{strings.classicText}</div>
-                  </div>
-                </Col>
-              </Link>
-              <Link to="/gallery-elegant">
-                <Col sm={4} className="home-pic-2 home-pic">
-                  <div className="home-pic-shade"></div>
-                  <div className="home-pic-text">
-                    <div className="home-pic-title">{strings.elegant}</div>
-                    <div>{strings.elegantText}</div>
-                  </div>
-                </Col>
-              </Link>
-              <Link to="/gallery-bloom">
-                <Col sm={4} className="home-pic-3 home-pic">
-                  <div className="home-pic-shade"></div>
-                  <div className="home-pic-text">
-                    <div className="home-pic-title">{strings.bloom}</div>
-                    <div>{strings.bloomText}</div>
-                  </div>
-                </Col>
-              </Link>
-            </Row>
-          </Grid>
         </div>
 
-        <div className="home-about">
-          <Grid>
-            <Row>
-              <h2>{strings.aboutUs1}<span className="home-company-name">{strings.aboutUs2}</span></h2>
-              <Col sm={12}>
-                <div className="home-about-text">{strings.aboutUsText}</div>
-              </Col>
-            </Row>
-            <Route path="/" render={(props) => <ButtonToScrollUp {...props}/>} />
-          </Grid>
-        </div>
 
         <div className="bar-pink">
           {strings.joinNow}<i className="fa fa-users"></i>

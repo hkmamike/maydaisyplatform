@@ -56,7 +56,6 @@ export default class ContactUs extends Component {
                             <Col sm={1}></Col>
                             <Col sm={10}>
                             <div className="text-page-text">
-                                <p className="font-italic bold">{strings.lastUpdated}</p>
                                 <p>{strings.subtitle}</p>
                                 <p>{strings.email}<a href="mailto:contact@maydaisy.com">contact@maydaisy.com</a></p>
                                 <p>{strings.hotline}(852)9346-8427</p>

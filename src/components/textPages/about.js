@@ -8,20 +8,16 @@ let strings = new LocalizedStrings({
     en:{
       returnHome: 'Back to Home',
       pageTitle: 'About MayDaisy',
-      lastUpdated: 'Last Updated: September 26, 2017',
-      q1: 'Our Mission:',
-      a1: "Flowers are gifts from nature. MayDaisy strives to make enjoying flowers simple and affordable. We hope to bring flowers back to people's life to brighten their days and to help them express love.",
-      q2: 'Our Style:',
-      a2: "We focus on small arrangements. We believe a 6 stems bouquet can do just as much as 60. MayDaisy florists tend to use a minimal wrapping style that brings out the natural elegance of blooms.",
+      lastUpdated: 'Last Updated: December 12, 2017',
+      q1: 'What is MayDaisy? :',
+      a1: "MayDaisy is a marketplace and community to connect customers with great florists in their city. By bringing the best florists together in one place, we can focus resources on your flowers and spend less on reaching you. MayDaisy also provides a channel for established and emerging independent floral artists to reach a broader audience. Independent artists do not operate a flower shop full time, but they offer dinstinctive styles that cannot be found anywhere else!",
     },
     ch: {
       returnHome: '返回主頁',
       pageTitle: '關於五月菊',
-      lastUpdated: '最後更新: 2017年9月27日',
-      q1: '我們的使命:',
-      a1: "花是大自然給我們的禮物。五月菊努力令享受花變成一件簡單及容易負擔的事。我們希望可以將花的快樂帶回大家的生活中，幫助大家表達愛。",
-      q2: '我們的風格',
-      a2: "我們主打小型花卉，我們相信一小束花帶來的滿足和表達的感情跟99支玫瑰一樣多。五月菊的花匠一般傾向用簡單的綁紮方式去特顯鮮花的自然美。",
+      lastUpdated: '最後更新: 2017年12月12日',
+      q1: '五月菊是什麼? :',
+      a1: "五月菊是由花藝師們建立的一站式鮮花市集和花藝社群，我們的目標是為客人找到最好最適合他們的花卉設計。鮮花市集的模式令我們可以減低在市場推廣上花費的時間和資源，更集中的為您創造花藝。",
     }
 });
 
@@ -58,7 +54,6 @@ export default class About extends Component {
                             <Col sm={1}></Col>
                             <Col sm={10}>
                             <div className="text-page-text">
-                                <p className="font-italic bold">{strings.lastUpdated}</p>
                                 <p className="font-italic bold">{strings.subtitle}</p>
                                 <p className="faq-question">{strings.q1}</p>
                                 <p className="faq-answer">{strings.a1}</p>
