@@ -66,6 +66,18 @@ let strings = new LocalizedStrings({
 
         priceFilter: 'Price Filter:',
         priceButton: 'Price',
+
+        dahlias: 'Dahlias',
+        delphinium: 'Delphinium',
+        daisies: 'Daisies',
+        hydrangeas: 'Hydrangeas',
+        iris: 'Iris',
+        orchids: 'Orchids',
+        peonies: 'Peonies',
+        roses: 'Roses',
+        sunflowers: 'Sun Flowers',
+        tulips: 'Tulips',
+        carnations: 'Carnations',
     },
     ch: {
         seeDesignsButton: '確定',
@@ -104,8 +116,53 @@ let strings = new LocalizedStrings({
         priceFilter: '價格篩選:',
         priceButton: '價格',
 
+        dahlias: '大麗花',
+        delphinium: '翠雀',
+        daisies: '菊花',
+        hydrangeas: '繡球',
+        iris: '鳶尾花',
+        orchids: '蘭花',
+        peonies: '牡丹',
+        roses: '玫瑰',
+        sunflowers: '太陽花',
+        tulips: '鬱金香',
+        carnations: '康乃馨',
+
     }
 });
+
+const FlowerItem = ({ item, createURL, refine }) => {
+    const active = item.isRefined ? 'checked' : '';
+    const flower = item.label;
+    const count = item.count;
+    return (
+      <a
+        className={`${active} facet-flower`}
+        href={createURL(item.value)}
+        onClick={e => {
+          e.preventDefault();
+          refine(item.value);
+        }}
+        data-facet-value={item.label}
+      >
+        <i className="fa check-square-o" aria-hidden="true"/><i className="fa square-o" aria-hidden="true"/> {strings[flower]} ({count})
+      </a>
+    );
+  };
+  
+  const CustomFlowerRefinementList = ({ items, refine, createURL }) =>
+    items.length > 0 ? (
+      <div>
+        {items.map(item => (
+          <FlowerItem
+            key={item.label}
+            item={item}
+            refine={refine}
+            createURL={createURL}
+          />
+        ))}
+      </div>
+    ) : null;
 
 const ColorItem = ({ item, createURL, refine }) => {
     const active = item.isRefined ? 'checked' : '';
@@ -152,11 +209,7 @@ class PopoverFlower extends Component {
                     onSearchStateChange={this.props.onSearchStateChange}
                     searchState={this.props.searchState}
                 >
-                    <RefinementList
-                        attributeName="flower"
-                        operator="or"
-                        limitMin={10}
-                    />
+                    <ConnectedFlowerRefinementList attributeName="flower" operator="or" />
                 </InstantSearch>
             </div>
         )
@@ -824,4 +877,4 @@ const VirtualRange = connectRange(() => null);
 const ConnectedRange = connectRange(PriceRange);
 const ConnectedSearchBox = connectSearchBox(CustomSearchBox);
 const ConnectedColorRefinementList = connectRefinementList(CustomColorRefinementList);
-// const ConnectedFlowerRefinementList = connectedRefinementList(CustomFlowerRefinementList);
+const ConnectedFlowerRefinementList = connectRefinementList(CustomFlowerRefinementList);

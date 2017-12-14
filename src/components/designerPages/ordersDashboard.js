@@ -73,14 +73,15 @@ let strings = new LocalizedStrings({
     orderReceived: 'Order Received',
     orderFulfilled: 'Order Fulfilled',
 
-
+    submitButton: 'Submit',
+    submitButtonSubmitted: 'Submitted ',
 
 
     floristRegistrationTitle: 'Become a MayDaisy florist',
     floristRegistrationSubtitle: "You don't currently have a shop set up. If you are a florist with distinctive styles, get in touch! We can help you reach a broader customer base and connect you with a community that shares your passion.",
     
     floristRegistrationStep1Title: 'We received your registration!',
-    floristRegistrationStep1Subtitle: "To ensure florists on our platform receive a meaningful volume of orders, we invite new florists to join as our customer base grows. In any case, we will contact you within 14 days to get in touch. If you don't hear from us by then, please feel free to reach out.",
+    floristRegistrationStep1Subtitle: "To ensure florists on our platform receive a meaningful volume of orders, we invite new florists to join as our customer base grows. In any case, we will contact you within 7 days to get in touch. If you don't hear from us by then, please feel free to reach out.",
     
     registrationFormTitle: 'Get in touch',
     floristSource: "How did you hear about us?",
@@ -93,12 +94,10 @@ let strings = new LocalizedStrings({
     floristFirstNamePlaceholder: "first name",
     floristLastNamePlaceholder: "last name",
     shopNamePlaceholder: "shop's name",
-    shopWebPlaceholder: "website/ facebook /instagram",
+    shopWebPlaceholder: "website/ facebook/ instagram",
     floristPhonePlaceholder: "phone #",
 
 
-    submitButton: 'Submit',
-    submitButtonSubmitted: 'Submitted ',
 
     newsLetter: 'Newsletter',
     socialMedia: 'Social Media',
@@ -198,6 +197,52 @@ let strings = new LocalizedStrings({
     signUpTip: '當您的地區開啟的時候我們會用電郵聯繫您',
     submitButton: '遞交',
     submitButtonSubmitted: '已遞交 ',
+
+
+    floristRegistrationTitle: '成為五月菊花匠',
+    floristRegistrationSubtitle: "您目前在五月菊沒有花店。如果您是一個有獨特風格的花藝師，可以考慮加入五月菊。我們可以將您的藝術帶到更多客人的面前，您亦可以在五月菊的圈子找到跟您一樣熱衷於花藝的朋友。",
+    
+    floristRegistrationStep1Title: '我們已收到您的登記!',
+    floristRegistrationStep1Subtitle: "為了令已註冊的五月菊花匠可以收到足夠的定單，我們會隨著平台的發展邀請新的花匠加入。但無論我們可否立即給您發出邀請，我們會在收到登記之後的7天之內聯繫您，如果介時您還沒收到任何聯絡，請給我們發一個電郵。",
+    
+    registrationFormTitle: '登記',
+    floristSource: "您是從何聽說五月菊的?",
+    floristFirstName: "姓:",
+    floristLastName: "名:",
+    shopName: "花店名稱:",
+    shopWeb: "網站:",
+    floristPhone: "電話:",
+
+    floristFirstNamePlaceholder: "姓",
+    floristLastNamePlaceholder: "名",
+    shopNamePlaceholder: "花店名稱",
+    shopWebPlaceholder: "url/ facebook/instagram",
+    floristPhonePlaceholder: "電話",
+
+
+    newsLetter: '五月菊刊物',
+    socialMedia: '社交媒體',
+    tradeShow: '貿易展覽會',
+    searchEngine: '搜索引擎',
+    onlineAdvertisement: '網上廣告',
+    offlineAdvertisement: '線下廣告',
+    otherSources: '其他',
+    select: '選擇',
+    floristReferral: '朋友介紹',
+
+    formIncompleteMessage: '*請填寫所有資訊欄',
+
+    whatToExpect: '五月菊的好處:',
+    expectation1: '自由:',
+    expectation1_1: " 賣您的設計，定您的價格，用您的送貨方式。",
+    expectation2: '彈性:',
+    expectation2_1: " 彈性的開店時間，定明您的預定需時。",
+    expectation3: '沒有上架費:',
+    expectation3_1: " 您只需為成功收費的定單付交易費。",
+    expectation4: '雙贏的合作，令你可以更集中:',
+    expectation4_1: " 視乎當季的市場推廣成本，您將會收到最多90％，不少於80％的收益。收取的交易費將投資在市場推廣、支付處理、和五月菊平台的發展。",
+    expectation5: '您的客人:',
+    expectation5_1: " 在五月菊發展您的花藝事業，利用我們的評論平台建立您的聲望。",
   }
 });
 
@@ -917,7 +962,7 @@ export default class OrdersDashboard extends Component {
             <div className="florist-registration-grid">
               <Grid>
                 <Row className="show-grid">
-                  <Col md={5} className="region-select-shade">
+                  <Col md={5} className="florist-registration-shade">
                     <form className="florist-registration-form" onSubmit={this.handleSubmit}>
                       <h2 className="form-title"><strong>{strings.registrationFormTitle}</strong></h2>
                       <FormGroup controlId="florist-registration-form-region" validationState={this.getSelectValidationState()}>

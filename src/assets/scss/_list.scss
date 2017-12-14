@@ -131,6 +131,11 @@
         .ais-RefinementList__item input[type=checkbox]:checked~.ais-RefinementList__itemBox {
             background-color: $shadowteal;
         }
+
+        a {
+            color: black;
+            display: block;
+        }
     }
 
     .filter-popup-slider {

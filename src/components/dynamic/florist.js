@@ -6,8 +6,10 @@ import * as firebase from 'firebase';
 import StarRatingComponent from 'react-star-rating-component';
 
 let strings = new LocalizedStrings({
-    en:{},
-    ch: {}
+    en:{
+    },
+    ch: {
+    }
   });
 
 export default class Florist extends Component {
