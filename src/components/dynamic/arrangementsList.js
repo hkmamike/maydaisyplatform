@@ -824,3 +824,4 @@ const VirtualRange = connectRange(() => null);
 const ConnectedRange = connectRange(PriceRange);
 const ConnectedSearchBox = connectSearchBox(CustomSearchBox);
 const ConnectedColorRefinementList = connectRefinementList(CustomColorRefinementList);
+// const ConnectedFlowerRefinementList = connectedRefinementList(CustomFlowerRefinementList);

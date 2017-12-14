@@ -248,6 +248,11 @@ textarea.data-field-update {
     .loggedin-margin-box {
         margin-left: 0 !important;
         margin-right: 0 !important;
+
+        .loggedin-content-suppressed {
+            min-height: 0 !important;
+        }
+        
         .loggedin-content {
             color: $darkGrey;
             background-color:$white;

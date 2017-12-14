@@ -1,7 +1,7 @@
 import React, { Component } from 'react'
 import { firebaseAuth } from '../config/constants';
 import { Link, Route } from 'react-router-dom';
-import { FormGroup, Grid, Row, Col, Button, Glyphicon, Modal } from 'react-bootstrap';
+import { FormGroup, Grid, Row, Col, Button, Glyphicon, Modal, DropdownButton, MenuItem, FormControl, ControlLabel } from 'react-bootstrap';
 import { base } from '../config/constants';
 import LocalizedStrings from 'react-localization';
 
@@ -73,6 +73,56 @@ let strings = new LocalizedStrings({
     orderReceived: 'Order Received',
     orderFulfilled: 'Order Fulfilled',
 
+
+
+
+    floristRegistrationTitle: 'Become a MayDaisy florist',
+    floristRegistrationSubtitle: "You don't currently have a shop set up. If you are a florist with distinctive styles, get in touch! We can help you reach a broader customer base and connect you with a community that shares your passion.",
+    
+    floristRegistrationStep1Title: 'We received your registration!',
+    floristRegistrationStep1Subtitle: "To ensure florists on our platform receive a meaningful volume of orders, we invite new florists to join as our customer base grows. In any case, we will contact you within 14 days to get in touch. If you don't hear from us by then, please feel free to reach out.",
+    
+    registrationFormTitle: 'Get in touch',
+    floristSource: "How did you hear about us?",
+    floristFirstName: "First Name:",
+    floristLastName: "Last Name:",
+    shopName: "Flower Shop:",
+    shopWeb: "Website:",
+    floristPhone: "Phone:",
+
+    floristFirstNamePlaceholder: "first name",
+    floristLastNamePlaceholder: "last name",
+    shopNamePlaceholder: "shop's name",
+    shopWebPlaceholder: "website/ facebook /instagram",
+    floristPhonePlaceholder: "phone #",
+
+
+    submitButton: 'Submit',
+    submitButtonSubmitted: 'Submitted ',
+
+    newsLetter: 'Newsletter',
+    socialMedia: 'Social Media',
+    tradeShow: 'Trade Shows',
+    searchEngine: 'Search Engine',
+    onlineAdvertisement: 'Online Ads',
+    offlineAdvertisement: 'Offline Ads',
+    otherSources: 'Other Sources',
+    select: 'Select Source',
+    floristReferral: 'Referral',
+
+    formIncompleteMessage: '*please complete the form.',
+
+    whatToExpect: 'What to expect at MayDaisy:',
+    expectation1: 'Freedom:',
+    expectation1_1: " Sell your own designs, set your own price, and decide on your own delivery policy.",
+    expectation2: 'Flexibility:',
+    expectation2_1: " Decide which days to open and set your own delivery lead time.",
+    expectation3: 'No Commitments:',
+    expectation3_1: " You only pay us on what you sell.",
+    expectation4: 'Fair Deal, More Focus:',
+    expectation4_1: " Depending on marketing cost of the season, you keep 80-90% of the revenue, but no less than 80%. We invest it to help you reach a broader customer base and make the whole transaction process as smooth as possible, so you can focus on your art.",
+    expectation5: 'Your customers:',
+    expectation5_1: " Build your reputation with customers with our review system.",
   },
   ch: {
     ordersDashboard1: ' ',
@@ -137,6 +187,17 @@ let strings = new LocalizedStrings({
     tipForDeliverySelf: '客人的定單用途為自用，您可以為他(她)寫下祝福語。',
     orderReceived: '已收到',
     orderFulfilled: '已送花',
+
+    floristRegistrationTitle: '報名',
+    floristRegistrationSubtitle: '為了令五月菊價格更大眾化，每個地區的服務會在收集到150個報名之後開啟，屆時已報名的客人會收到電郵邀請。請填寫以下的報名表。如果您的送花地點不在香港，我們很快會來到您的城市 ^.^',
+    signUpFormTitle: '報名表',
+    signUpFormrecipientRegion: "收花地區:",
+    signUpSender: "送花人名稱:",
+    signUpEmail: "電郵:",
+    signUpPhone: "電話:",
+    signUpTip: '當您的地區開啟的時候我們會用電郵聯繫您',
+    submitButton: '遞交',
+    submitButtonSubmitted: '已遞交 ',
   }
 });
 
@@ -147,6 +208,21 @@ const ButtonToShop = ({ title, history }) => (
 const ButtonToAccount = ({ title, history }) => (
   <Button bsStyle="" className="head-button-white" onClick={() => history.push('/orderhistory')}>{strings.buttonToAccount}</Button>
 );
+
+class SubmitButton extends React.Component {
+  render() {
+    return (
+      <Button type="submit" className="florist-registration-submit-button">{strings.submitButton}</Button>
+    )
+  }
+}
+class SubmitButtonSubmited extends React.Component {
+  render() {
+    return (
+      <Button type="submit" className="florist-registration-submit-button" disabled>{strings.submitButtonSubmitted}<Glyphicon glyph="ok" className="icons"/></Button>
+    )
+  }
+}
 
 class UpdateProgress extends React.Component {
     constructor() {
@@ -525,14 +601,20 @@ class OrderDetails extends React.Component {
 export default class OrdersDashboard extends Component {
   constructor() {
     super();
-    this.handleChooseOrder = this.handleChooseOrder.bind(this);
-    this.handleBack = this.handleBack.bind(this);
     this.state = {
       orderData: {},
       loading: true,
       orderDetailsStatus: 0,
       selectedOrder: '',
-      orderInfoMessage: null
+      orderInfoMessage: null,
+      firstName: '',
+      lastName: '',
+      shopName: '',
+      shopWeb: '',
+      floristPhone: '',
+      floristSource: 'select',
+      formSubmitted: false,
+      formIncompleteMessage: null,
     }
   }
   componentWillReceiveProps (nextProps) {
@@ -567,9 +649,9 @@ export default class OrdersDashboard extends Component {
     window.scrollTo(0, 0);
     this.removeListener = firebaseAuth().onAuthStateChanged((user) => {
 
-      this.setUpStepListener = base.bindToState(`users/${user.uid}/info/shopSetupStep`, {
+      this.setUpStepListener = base.bindToState(`users/${user.uid}/info/floristRegistrationStep`, {
         context: this,
-        state: 'shopSetupStep'
+        state: 'floristRegistrationStep'
       });
 
       this.setUpStepListener = base.bindToState(`users/${user.uid}/info/isDesigner`, {
@@ -577,23 +659,18 @@ export default class OrdersDashboard extends Component {
         state: 'isDesigner'
       });
 
+      this.setState({userID: user.uid});
     });
   }
   componentWillUnmount () {
-    //returns the unsubscribe function
-
-    // this.fireBaseListenerForOrder && this.fireBaseListenerForOrder();
-    // this.authListenerForShopSetup && this.authListenerForShopSetup();
-
     this.removeListener && this.removeListener();
     base.removeBinding(this.setUpStepListener);
   }
-  handleChooseOrder(chosenKey) {
+  handleChooseOrder= (chosenKey) => {
     this.setState({orderDetailsStatus: 1, selectedOrder: chosenKey}, () => window.scrollTo(0, 0));
   }
-  handleBack() {
+  handleBack = () => {
     this.setState({orderDetailsStatus: 0}, () => window.scrollTo(0, 0));
-
     // reloading data since a review might have been posted
     base.fetch(`allTransactions/${this.props.designerCode}`, {
         context: this,
@@ -602,6 +679,82 @@ export default class OrdersDashboard extends Component {
         }
     });
   }
+
+  //Functions for florist signup
+  getFirstNameValidationState = () => {
+    const nameLength = this.state.firstName.length;
+    if (nameLength >= 2) return 'success';
+    else if (nameLength > 0) return 'warning';
+  }
+  getLastNameValidationState = () => {
+    const nameLength = this.state.lastName.length;
+    if (nameLength >= 2) return 'success';
+    else if (nameLength > 0) return 'warning';
+  }
+  getShopNameValidationState = () => {
+    const nameLength = this.state.shopName.length;
+    if (nameLength >= 2) return 'success';
+    else if (nameLength > 0) return 'warning';
+  }
+  getShopWebValidationState = () => {
+    const name = this.state.shopWeb;
+    const nameLength = this.state.shopWeb.length;
+    if (nameLength >= 5 && name.indexOf(".") >= 0) return 'success';
+    else if (nameLength > 0) return 'warning';
+  }
+  getPhoneValidationState = () => {
+    const phoneLength = this.state.floristPhone.length;
+    if (phoneLength >= 8) return 'success';
+    else if (phoneLength > 0) return 'warning';
+  }
+  getSelectValidationState = () => {
+    const floristSource = this.state.floristSource;
+    if (floristSource !== "select") return 'success';
+  }
+  handleFirstNameChange = (e) => {
+    this.setState({ firstName: e.target.value });
+  }
+  handleLastNameChange = (e) => {
+    this.setState({ lastName: e.target.value });
+  }
+  handleShopNameChange = (e) => {
+    this.setState({ shopName: e.target.value });
+  }
+  handleWebsiteChange = (e) => {
+    this.setState({ shopWeb: e.target.value });
+  }
+  handlePhoneChange = (e) => {
+    this.setState({ floristPhone: e.target.value });
+  }
+  handleSelect = (eventKey) => {
+    this.setState({floristSource: eventKey});
+  }
+  submitSignUp = (firstName, lastName, shopName, shopWeb, floristSource, floristPhone) => {
+    base.update(`floristRegistration/${this.state.userID}`, {
+      data: {firstName: firstName, lastName: lastName, shopName: shopName, shopWeb: shopWeb, source: floristSource, phone: floristPhone, date: new Date(), floristRegistrationStep: 1}
+    });
+    base.update(`users/${this.state.userID}/info`, {
+      data: {firstName: firstName, lastName: lastName, shopName: shopName, shopWebOnRegistration: shopWeb, source: floristSource, phone: floristPhone, floristRegistrationStep: 1}
+    })
+    this.setState({formSubmitted: true});
+  }
+  handleSubmit = (e) => {
+    e.preventDefault();
+    if (
+      this.getFirstNameValidationState() && 
+      this.getLastNameValidationState() && 
+      this.getPhoneValidationState() && 
+      this.getSelectValidationState() && 
+      this.getShopNameValidationState() && 
+      this.getShopWebValidationState()
+    ) {
+      this.submitSignUp(this.state.firstName, this.state.lastName, this.state.shopName, this.state.shopWeb, this.state.floristSource, this.state.floristPhone);
+      this.setState({formIncompleteMessage: null});
+    } else {
+      this.setState({formIncompleteMessage: strings.formIncompleteMessage});
+    }
+  }
+  //////////////
 
   render () {
 
@@ -612,6 +765,8 @@ export default class OrdersDashboard extends Component {
     var ordersHeader;
     let headerNav = null;
     let content = null;
+    let floristRegistrationContent = null;
+    var floristRegistrationHeader = null;
 
     // console.log('data check: ', Object.keys(data).length);
     if (Object.keys(data).length===0) {
@@ -680,11 +835,6 @@ export default class OrdersDashboard extends Component {
           </Row>
         </div>
       )
-    } else {
-      headerNav = (
-        <div>
-        </div>
-      )
     }
 
     if (loadingState) {
@@ -734,22 +884,94 @@ export default class OrdersDashboard extends Component {
           />
         </div>
       )
-    } else if (this.state.shopSetupStep ===0) {
-      content = (
-        <div>
-          
-          <div>shopSetupStep: {this.state.shopSetupStep}, signup form </div>
-          <div>We are currently accepting new florists in the following regions</div>
-          <div>If you are interested, please fill out this form: first name, last name, phone, email, flower shop name, website url, how did you hear about us</div>
-
+    } else if (this.state.floristRegistrationStep ===1) {
+      floristRegistrationHeader = (
+        <div className="text-section">
+          <div className="section-title">{strings.floristRegistrationStep1Title}</div>
+          <div className="section-subtitle">{strings.floristRegistrationStep1Subtitle}</div>
         </div>
       )
-    } else if (this.state.shopSetupStep ===1) {
-      content = (
-        <div>you are all set, our </div>
+      floristRegistrationContent = (
+        <div className="florist-registration-image">
+          <div className="big-shade">
+            <div className="section-title">{strings.whatToExpect}</div>
+            <ul>
+              <li><strong>{strings.expectation1}</strong>{strings.expectation1_1}</li>
+              <li><strong>{strings.expectation2}</strong>{strings.expectation2_1}</li>
+              <li><strong>{strings.expectation3}</strong>{strings.expectation3_1}</li>
+              <li><strong>{strings.expectation4}</strong>{strings.expectation4_1}</li>
+              <li><strong>{strings.expectation5}</strong>{strings.expectation5_1}</li>
+            </ul>
+          </div>
+        </div>
+      )
+    } else {
+      floristRegistrationHeader = (
+        <div className="text-section">
+          <div className="section-title">{strings.floristRegistrationTitle}</div>
+          <div className="section-subtitle">{strings.floristRegistrationSubtitle}</div>
+        </div>
+      )
+      floristRegistrationContent = (
+          <div className="florist-registration-image">
+            <div className="florist-registration-grid">
+              <Grid>
+                <Row className="show-grid">
+                  <Col md={5} className="region-select-shade">
+                    <form className="florist-registration-form" onSubmit={this.handleSubmit}>
+                      <h2 className="form-title"><strong>{strings.registrationFormTitle}</strong></h2>
+                      <FormGroup controlId="florist-registration-form-region" validationState={this.getSelectValidationState()}>
+                        <ControlLabel>{strings.floristSource}</ControlLabel>
+                        <DropdownButton title={strings[this.state.floristSource]} placeholder={strings.floristSource} className="florist-registration-select" id="bg-nested-dropdown" onSelect={this.handleSelect}>
+                          <MenuItem eventKey="floristReferral">{strings.floristReferral}</MenuItem>
+                          <MenuItem eventKey="newsLetter">{strings.newsLetter}</MenuItem>
+                          <MenuItem eventKey="socialMedia">{strings.socialMedia}</MenuItem>
+                          <MenuItem eventKey="tradeShow">{strings.tradeShow}</MenuItem>
+                          <MenuItem eventKey="searchEngine">{strings.searchEngine}</MenuItem>
+                          <MenuItem eventKey="onlineAdvertisement">{strings.onlineAdvertisement}</MenuItem>
+                          <MenuItem eventKey="offlineAdvertisement">{strings.offlineAdvertisement}</MenuItem>
+                          <MenuItem eventKey="otherSources">{strings.otherSources}</MenuItem>
+                        </DropdownButton>
+                        <FormControl.Feedback />
+                      </FormGroup>
+                      <FormGroup controlId="florist-registration-form-first-name" validationState={this.getFirstNameValidationState()}>
+                        <ControlLabel>{strings.floristFirstName}</ControlLabel>
+                        <FormControl className="florist-registration-form-field" placeholder={strings.floristFirstNamePlaceholder} type="text" value={this.state.firstName} onChange={this.handleFirstNameChange}/>
+                        <FormControl.Feedback />
+                      </FormGroup>
+                      <FormGroup controlId="florist-registration-form-last-name" validationState={this.getLastNameValidationState()}>
+                        <ControlLabel>{strings.floristLastName}</ControlLabel>
+                        <FormControl className="florist-registration-form-field" placeholder={strings.floristLastNamePlaceholder} type="text" value={this.state.lastName} onChange={this.handleLastNameChange}/>
+                        <FormControl.Feedback />
+                      </FormGroup>
+                      <FormGroup controlId="florist-registration-form-shop-name" validationState={this.getShopNameValidationState()}>
+                        <ControlLabel>{strings.shopName}</ControlLabel>
+                        <FormControl className="florist-registration-form-field" placeholder={strings.shopNamePlaceholder} type="text" value={this.state.shopName} onChange={this.handleShopNameChange}/>
+                        <FormControl.Feedback />
+                      </FormGroup>
+                      <FormGroup controlId="florist-registration-form-phone" validationState={this.getPhoneValidationState()}>
+                        <ControlLabel>{strings.floristPhone}</ControlLabel>
+                        <FormControl className="florist-registration-form-field" placeholder={strings.floristPhonePlaceholder} type="text" value={this.state.floristPhone} onChange={this.handlePhoneChange}/>
+                        <FormControl.Feedback />
+                      </FormGroup>
+                      <FormGroup controlId="florist-registration-form-website" validationState={this.getShopWebValidationState()}>
+                        <ControlLabel>{strings.shopWeb}</ControlLabel>
+                        <FormControl className="florist-registration-form-field" placeholder={strings.shopWebPlaceholder} type="text" value={this.state.shopWeb} onChange={this.handleWebsiteChange}/>
+                        <FormControl.Feedback />
+                      </FormGroup>
+                      { this.state.formIncompleteMessage &&
+                        <div className="error-message">{this.state.formIncompleteMessage}</div>
+                      }
+                      {this.state.formSubmitted===false && <SubmitButton/>}
+                      {this.state.formSubmitted===true && <SubmitButtonSubmited/>}
+                    </form>
+                  </Col>
+                </Row>
+              </Grid>
+            </div>
+          </div>
       )
     }
-
     return (
       <div className="loggedin-background">
         <Grid>
@@ -763,11 +985,13 @@ export default class OrdersDashboard extends Component {
           </Row>
           {headerNav}
           <Row className="show-grid loggedin-margin-box">
-            <Col className="loggedin-content">
+            <Col className={"loggedin-content" + (floristRegistrationContent !== null ? 'loggedin-content-suppressed' : '')}>
               {content}
             </Col>
           </Row>
         </Grid>
+        {floristRegistrationHeader}
+        {floristRegistrationContent}
       </div>
     )
   }
