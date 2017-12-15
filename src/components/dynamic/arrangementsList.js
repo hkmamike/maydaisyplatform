@@ -67,17 +67,27 @@ let strings = new LocalizedStrings({
         priceFilter: 'Price Filter:',
         priceButton: 'Price',
 
-        dahlias: 'Dahlias',
-        delphinium: 'Delphinium',
-        daisies: 'Daisies',
-        hydrangeas: 'Hydrangeas',
-        iris: 'Iris',
-        orchids: 'Orchids',
-        peonies: 'Peonies',
-        roses: 'Roses',
-        sunflowers: 'Sun Flowers',
-        tulips: 'Tulips',
-        carnations: 'Carnations',
+        dahlias: ' Dahlias',
+        delphinium: ' Delphinium',
+        daisies: ' Daisies',
+        hydrangeas: ' Hydrangeas',
+        iris: ' Iris',
+        orchids: ' Orchids',
+        peonies: ' Peonies',
+        roses: ' Roses',
+        sunflowers: ' Sun Flowers',
+        tulips: ' Tulips',
+        carnations: ' Carnations',
+
+        red: 'Red',
+        pink: 'Pink',
+        green: 'Green',
+        orange: 'Orange',
+        purple: 'Purple',
+        white: 'White',
+        yellow: 'Yellow',
+        lavender: 'Lavender',
+        blue: 'Blue',
     },
     ch: {
         seeDesignsButton: '確定',
@@ -116,17 +126,27 @@ let strings = new LocalizedStrings({
         priceFilter: '價格篩選:',
         priceButton: '價格',
 
-        dahlias: '大麗花',
-        delphinium: '翠雀',
-        daisies: '菊花',
-        hydrangeas: '繡球',
-        iris: '鳶尾花',
-        orchids: '蘭花',
-        peonies: '牡丹',
-        roses: '玫瑰',
-        sunflowers: '太陽花',
-        tulips: '鬱金香',
-        carnations: '康乃馨',
+        dahlias: ' 大麗花',
+        delphinium: ' 翠雀',
+        daisies: ' 菊花',
+        hydrangeas: ' 繡球',
+        iris: ' 鳶尾花',
+        orchids: ' 蘭花',
+        peonies: ' 牡丹',
+        roses: ' 玫瑰',
+        sunflowers: ' 太陽花',
+        tulips: ' 鬱金香',
+        carnations: ' 康乃馨',
+
+        red: '紅色',
+        pink: '粉紅色',
+        green: '綠色',
+        orange: '橙色',
+        purple: '紫色',
+        white: '白色',
+        yellow: '黃色',
+        lavender: '薰衣草色',
+        blue: '藍色',
 
     }
 });
@@ -145,7 +165,9 @@ const FlowerItem = ({ item, createURL, refine }) => {
         }}
         data-facet-value={item.label}
       >
-        <i className="fa check-square-o" aria-hidden="true"/><i className="fa square-o" aria-hidden="true"/> {strings[flower]} ({count})
+        <i className="fa fa-check-square-o" aria-hidden="true"></i>
+        <i className="fa fa-square-o" aria-hidden="true"></i>
+        { strings[flower]} ({count})
       </a>
     );
   };
@@ -370,11 +392,7 @@ class FlowerFilterModal extends React.Component {
                         onSearchStateChange={this.props.onSearchStateChange}
                         searchState={this.props.searchState}
                     >
-                        <RefinementList
-                            attributeName="flower"
-                            operator="or"
-                            limitMin={10}
-                        />
+                        <ConnectedFlowerRefinementList attributeName="flower" operator="or" />
                     </InstantSearch>
                 </Modal.Body>
                 <Modal.Footer>
@@ -530,6 +548,21 @@ const CustomSearchBox = ({currentRefinement, refine}) => (
 )
 ///////////
 
+///////////
+const CustomSearchBoxSmall = ({currentRefinement, refine}) => (
+    <div className="search-box large-screen-hide">
+        <input 
+            className="search-field"
+            placeholder='e.g. Floritale by JKo'
+            type="text"
+            value={currentRefinement}
+            onChange={e => refine(e.target.value)}
+        />
+        <i className="fa fa-search" aria-hidden="true"></i>
+    </div>
+)
+///////////
+
 //////////
 function Product({hit}) {
     return (
@@ -593,12 +626,14 @@ class Facets extends Component {
 
                         <Button 
                             ref="flowerFilter" 
-                            className={ 'small-screen-hide ' + (
+                            className={ 
+                                'small-screen-hide ' + (
                                 props.flowerFilterShow
                                 || (typeof props.searchState.refinementList !== "undefined"  
                                         && (typeof props.searchState.refinementList.flower !== "undefined" && props.searchState.refinementList.flower !== "")
                                     )
-                                ? 'button-filter-active' : 'button-filter' )} 
+                                ? 'button-filter-active' : 'button-filter' )
+                            } 
                             onClick={props.onFlowerFilterToggle}
                         >
                             {typeof props.searchState.refinementList === "undefined" 
@@ -610,7 +645,7 @@ class Facets extends Component {
                                 && (strings.flower)}
                             {(typeof props.searchState.refinementList !== "undefined" 
                                 && typeof props.searchState.refinementList.flower !== "undefined"
-                                && props.searchState.refinementList.flower.length === 1) && props.searchState.refinementList.flower[0]}
+                                && props.searchState.refinementList.flower.length === 1) && strings[props.searchState.refinementList.flower[0]]}
                             {(typeof props.searchState.refinementList !== "undefined"
                                 && (typeof props.searchState.refinementList.flower !== "undefined" && props.searchState.refinementList.flower !== "")
                                 && props.searchState.refinementList.flower.length !== 1) && (strings.flower) + ': ' + props.searchState.refinementList.flower.length}
@@ -631,12 +666,14 @@ class Facets extends Component {
 
                         <Button 
                             ref="colorFilter" 
-                            className={ 'small-screen-hide ' + (
+                            className=
+                            { 'small-screen-hide ' + (
                                 props.colorFilterShow
                                 || (typeof props.searchState.refinementList !== "undefined"
                                         && (typeof props.searchState.refinementList.color !== "undefined" && props.searchState.refinementList.color !== "")
                                     )
-                                ? 'button-filter-active' : 'button-filter' )}
+                                ? 'button-filter-active' : 'button-filter' )
+                            }
                             onClick={props.onColorFilterToggle}
                         >
                             {typeof props.searchState.refinementList === "undefined"
@@ -648,7 +685,7 @@ class Facets extends Component {
                                 && (strings.color)}
                             {(typeof props.searchState.refinementList !== "undefined"
                                 && typeof props.searchState.refinementList.color !== "undefined"
-                                && props.searchState.refinementList.color.length === 1) && props.searchState.refinementList.color[0]}
+                                && props.searchState.refinementList.color.length === 1) && strings[props.searchState.refinementList.color[0]]}
                             {(typeof props.searchState.refinementList !== "undefined"
                                 && (typeof props.searchState.refinementList.color !== "undefined" && props.searchState.refinementList.color !== "")
                                 && props.searchState.refinementList.color.length !== 1) && (strings.color) + ': ' + props.searchState.refinementList.color.length}
@@ -667,21 +704,39 @@ class Facets extends Component {
                             />
                         </Overlay>
                         <ConnectedSearchBox/>
-                        <PriceFilterModal
-                            onSearchStateChange={props.onSearchStateChange}
-                            searchState={props.searchState}
-                            priceFilterShow={props.priceFilterShow}
-                        />
-                        <FlowerFilterModal
-                            onSearchStateChange={props.onSearchStateChange}
-                            searchState={props.searchState}
-                            flowerFilterShow={props.flowerFilterShow}
-                        />
-                        <ColorFilterModal
-                            onSearchStateChange={props.onSearchStateChange}
-                            searchState={props.searchState}
-                            colorFilterShow={props.colorFilterShow}
-                        />
+                        <Button 
+                            className={
+                                "large-screen-hide " + (
+                                this.props.smallScreenSearchShow ? 'button-filter-active' : 'button-filter' )
+                            }
+                            onClick={() => this.props.onToggleSmallScreenSearch()}
+                        >
+                            <i className="fa fa-search" aria-hidden="true"></i>
+                        </Button>
+                        {this.props.smallScreenSearchShow && 
+                            <ConnectedSearchBoxSmall/>
+                        }
+                        {!this.props.smallScreenSearchShow && 
+                            <PriceFilterModal
+                                onSearchStateChange={props.onSearchStateChange}
+                                searchState={props.searchState}
+                                priceFilterShow={props.priceFilterShow}
+                            />
+                        }
+                        {!this.props.smallScreenSearchShow && 
+                            <FlowerFilterModal
+                                onSearchStateChange={props.onSearchStateChange}
+                                searchState={props.searchState}
+                                flowerFilterShow={props.flowerFilterShow}
+                            />
+                        }
+                        {!this.props.smallScreenSearchShow && 
+                            <ColorFilterModal
+                                onSearchStateChange={props.onSearchStateChange}
+                                searchState={props.searchState}
+                                colorFilterShow={props.colorFilterShow}
+                            />
+                        }
                     </ButtonToolbar>
 
                 </section>
@@ -702,7 +757,8 @@ export default class ArrangementsList extends Component {
             priceFilterShow: false,
             deFocusContent: false,
             showRegionSelect: false,
-            tempMarketRegion: 'select_region'
+            tempMarketRegion: 'select_region',
+            smallScreenSearchShow: false,
         };
     }
 
@@ -742,6 +798,12 @@ export default class ArrangementsList extends Component {
         this.setState({
             priceFilterShow: !this.state.priceFilterShow,
         });
+    }
+
+    toggleSmallScreenSearch = () => {
+        this.setState({
+            smallScreenSearchShow: !this.state.smallScreenSearchShow,
+        });    
     }
 
     flowerFilterClose = () => {
@@ -852,6 +914,8 @@ export default class ArrangementsList extends Component {
                             onFlowerFilterClose={this.flowerFilterClose}
                             onColorFilterClose={this.colorFilterClose}
                             onPriceFilterClose={this.priceFilterClose}
+                            onToggleSmallScreenSearch={this.toggleSmallScreenSearch}
+                            smallScreenSearchShow={this.state.smallScreenSearchShow}
                         />
                         <CustomResult
                             flowerFilterShow={this.state.flowerFilterShow}
@@ -876,5 +940,6 @@ const VirtualRefinementList = connectRefinementList(() => null);
 const VirtualRange = connectRange(() => null);
 const ConnectedRange = connectRange(PriceRange);
 const ConnectedSearchBox = connectSearchBox(CustomSearchBox);
+const ConnectedSearchBoxSmall = connectSearchBox(CustomSearchBoxSmall);
 const ConnectedColorRefinementList = connectRefinementList(CustomColorRefinementList);
 const ConnectedFlowerRefinementList = connectRefinementList(CustomFlowerRefinementList);

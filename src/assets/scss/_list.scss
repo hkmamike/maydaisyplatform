@@ -1,11 +1,11 @@
 .small-screen-hide {
-    @media (max-width: 600px) {
+    @media (max-width: 768px) {
         display: none !important;
     }
 }
 
 .large-screen-hide {
-    @media (min-width: 601px) {
+    @media (min-width: 769px) {
         display: none !important;
     }
 }
@@ -374,6 +374,11 @@
         float: right;
         margin-top: 50px !important;
     }
+    a {
+        outline: none;
+        color: black;
+        display: block;
+    }
 }
 
 .rc-slider-tooltip {
@@ -382,6 +387,25 @@
 
 .ais-InstantSearch__root {
     min-height: 120px;
+}
+
+.facet-flower {
+    .fa-check-square-o {
+        display: none;
+
+    }
+    .fa-square-o {
+        display: inline-block;
+    }
+}
+.facet-flower.checked {
+    .fa-check-square-o {
+        display: inline-block;
+        color: $darkteal;
+    }
+    .fa-square-o {
+        display: none;
+    }
 }
 
 .facet-color {
