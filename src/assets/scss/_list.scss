@@ -254,6 +254,38 @@
                 margin: auto 0 auto 5px;
                 border: none;
                 height: 33px;
+                font-size: 80%;
+                &:focus{
+                    outline: none;
+                }
+            }
+        }
+        .search-box-small {
+            margin: 0 3px 0 5px;
+            border-radius: 3px;
+            display: inline-block;
+            border:1px solid #CCC;
+            height: 35px;
+            width: 120px;
+
+            ::-webkit-input-placeholder { /* Chrome/Opera/Safari */
+                font-size: 80%;
+            }
+            ::-moz-placeholder { /* Firefox 19+ */
+                font-size: 80%;
+            }
+            :-ms-input-placeholder { /* IE 10+ */
+                font-size: 80%;
+            }
+            :-moz-placeholder { /* Firefox 18- */
+                font-size: 80%;
+            }
+            .search-field{
+                margin: auto 0 auto 5px;
+                border: none;
+                height: 33px;
+                width: 110px;
+                font-size: 80%;
                 &:focus{
                     outline: none;
                 }

@@ -7,8 +7,16 @@ import StarRatingComponent from 'react-star-rating-component';
 
 let strings = new LocalizedStrings({
     en:{
+        designs: 'Designs',
+        about: 'About',
+        reviews: 'Reviews',
+        verifiedPurchase: 'verified purchase',
     },
     ch: {
+        designs: '設計',
+        about: '關於花店',
+        reviews: '評論',
+        verifiedPurchase: '已驗證',
     }
   });
 
@@ -120,7 +128,7 @@ export default class Florist extends Component {
                             value={review.rating}
                     />
                 </div>
-                <div className='review-date'>{review.reviewDate} verified purchase</div>
+                <div className='review-date'>{review.reviewDate}{strings.verifiedPurchase}</div>
                 <div className='review-message'>{review.reviewMessage}</div>
             </Col>
         )
@@ -156,9 +164,9 @@ export default class Florist extends Component {
                         <Row className="show-grid florist-nav">
                             <Col xs={12} className="nav-margin">
                                 <ul>
-                                    <li className="selected"><div className="nav-text">Designs</div></li>
-                                    <li onClick={() => this.setState({onTab: 1}, () => {window.scrollTo(0, 0);})}><div className="nav-text">About</div></li>
-                                    <li onClick={() => this.setState({onTab: 2}, () => {window.scrollTo(0, 0);})}><div className="nav-text">Reviews</div></li>
+                                    <li className="selected"><div className="nav-text">{strings.designs}</div></li>
+                                    <li onClick={() => this.setState({onTab: 1}, () => {window.scrollTo(0, 0);})}><div className="nav-text">{strings.about}</div></li>
+                                    <li onClick={() => this.setState({onTab: 2}, () => {window.scrollTo(0, 0);})}><div className="nav-text">{strings.reviews}</div></li>
                                 </ul>
                             </Col>
                         </Row>
@@ -177,9 +185,9 @@ export default class Florist extends Component {
 
                         <Col xs={12} className="nav-margin">
                             <ul>
-                                <li onClick={() => this.setState({onTab: 0}, () => {window.scrollTo(0, 0);})}><div className="nav-text">Designs</div></li>
-                                <li className="selected"><div className="nav-text">About</div></li>
-                                <li onClick={() => this.setState({onTab: 2}, () => {window.scrollTo(0, 0);})}><div className="nav-text">Reviews</div></li>
+                                <li onClick={() => this.setState({onTab: 0}, () => {window.scrollTo(0, 0);})}><div className="nav-text">{strings.designs}</div></li>
+                                <li className="selected"><div className="nav-text">{strings.about}</div></li>
+                                <li onClick={() => this.setState({onTab: 2}, () => {window.scrollTo(0, 0);})}><div className="nav-text">{strings.reviews}</div></li>
                             </ul>
                         </Col>
                     </Row>
@@ -204,9 +212,9 @@ export default class Florist extends Component {
         
                             <Col xs={12} className="nav-margin">
                                 <ul>
-                                    <li onClick={() => this.setState({onTab: 0}, () => {window.scrollTo(0, 0);})}><div className="nav-text">Designs</div></li>
-                                    <li onClick={() => this.setState({onTab: 1}, () => {window.scrollTo(0, 0);})}><div className="nav-text">About</div></li>
-                                    <li className="selected"><div className="nav-text">Reviews</div></li>
+                                    <li onClick={() => this.setState({onTab: 0}, () => {window.scrollTo(0, 0);})}><div className="nav-text">{strings.desings}</div></li>
+                                    <li onClick={() => this.setState({onTab: 1}, () => {window.scrollTo(0, 0);})}><div className="nav-text">{strings.about}</div></li>
+                                    <li className="selected"><div className="nav-text">{strings.reviews}</div></li>
                                 </ul>
                             </Col>
                         </Row>

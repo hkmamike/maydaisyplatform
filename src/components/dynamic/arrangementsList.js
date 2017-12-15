@@ -550,15 +550,14 @@ const CustomSearchBox = ({currentRefinement, refine}) => (
 
 ///////////
 const CustomSearchBoxSmall = ({currentRefinement, refine}) => (
-    <div className="search-box large-screen-hide">
+    <div className="search-box-small large-screen-hide">
         <input 
             className="search-field"
-            placeholder='e.g. Floritale by JKo'
+            placeholder='e.g. Floritale'
             type="text"
             value={currentRefinement}
             onChange={e => refine(e.target.value)}
         />
-        <i className="fa fa-search" aria-hidden="true"></i>
     </div>
 )
 ///////////

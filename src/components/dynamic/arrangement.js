@@ -427,7 +427,7 @@ export default class Arrangement extends Component {
             </Row>
             <Row>
                 <div className="horizontal-line"></div>
-                <div className="arrangement-section-title">{strings.otherDesign1}{this.state.arrangementFloristName}{strings.otherDesign2}</div>
+                <div className="arrangement-section-title">{strings.otherDesigns1}{this.state.arrangementFloristName}{strings.otherDesigns2}</div>
                 <div className="sub-content list-container">{listOfArrangements}</div>
             </Row>
         </Grid>
