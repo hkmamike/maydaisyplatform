@@ -1,9 +1,11 @@
-import React, { Component } from 'react'
+import React, { Component } from 'react';
+import ReactDOM from 'react-dom';
 import { firebaseAuth } from '../config/constants';
 import { Link, Route } from 'react-router-dom';
 import { base } from '../config/constants';
 import { Grid, Row, Col, FormGroup, FormControl, Button, Glyphicon, Modal, DropdownButton, MenuItem } from 'react-bootstrap';
 import LocalizedStrings from 'react-localization';
+import AvatarCropper from 'react-avatar-cropper';
 
 let strings = new LocalizedStrings({
   en:{
@@ -77,6 +79,9 @@ let strings = new LocalizedStrings({
     friday: 'Friday:',
     saturday: 'Saturday:',
     sunday: 'Sunday:',
+
+    chooseButton: 'Choose',
+    shopProfile: 'Image:',
   },
   ch: {
     ordersDashboard1: ' ',
@@ -149,6 +154,8 @@ let strings = new LocalizedStrings({
     saturday: '星期六:',
     sunday: '星期日:',
 
+    chooseButton: '選擇',
+    shopProfile: '店舖標誌:',
   }
 });
 
@@ -159,6 +166,29 @@ const ButtonToShop = ({ title, history }) => (
 const ButtonToAccount = ({ title, history }) => (
   <Button bsStyle="" className="head-button-white" onClick={() => history.push('/orderhistory')}>{strings.buttonToAccount}</Button>
 );
+
+class FileUpload extends React.Component {
+  handleFile = (e) => {
+      var reader = new FileReader();
+      var file = e.target.files[0];
+  
+      if (!file) return;
+  
+      reader.onload = function(img) {
+        ReactDOM.findDOMNode(this.refs.in).value = '';
+        this.props.handleFileChange(img.target.result);
+      }.bind(this);
+      reader.readAsDataURL(file);
+  }
+  
+  render() {
+      return (
+        <div>
+          <label>{strings.chooseButton}<input ref="in"type="file" accept="image/*" onChange={this.handleFile}/></label>
+        </div>
+      );
+  }
+}
 
 class OpenDays extends React.Component {
   constructor() {
@@ -582,7 +612,10 @@ export default class ShopInfo extends Component {
     this.state = {
       userData: {},
       loading: true,
-      InfoMessage: null
+      InfoMessage: null,
+      img: null,
+      croppedImg: null,
+      cropperOpen: false,
     }
   }
 
@@ -615,12 +648,33 @@ export default class ShopInfo extends Component {
             type: data.type,
             website: data.website,
             leadTime: data.deliveryLeadTime,
+            croppedImg: data.profilePic,
           });
         }
       });
     });
   }
 
+  handleFileChange = (dataURL) => {
+    this.setState({
+        img: dataURL,
+        croppedImg: this.state.croppedImg,
+        cropperOpen: true
+      });
+  }
+  handleCrop = (dataURL) => {
+    this.setState({
+        cropperOpen: false,
+        img: null,
+        croppedImg: dataURL,
+        newImageFlag: true
+      });
+  }
+  handleRequestHide = () => {
+      this.setState({
+          cropperOpen: false,
+        });
+  }
   handleAddressChange = (e) => {
     this.setState({ address: e.target.value });
   }
@@ -631,16 +685,18 @@ export default class ShopInfo extends Component {
     this.setState({ leadTime: e.target.value });
   }
 
-  handleAccountUpdate = (address, description, leadTime) => {
+  handleAccountUpdate = (address, description, leadTime, croppedImg) => {
     base.update(`florists/${this.props.designerCode}`, {
       data: {
           address: address,
           description: description,
-          deliveryLeadTime: leadTime
+          deliveryLeadTime: leadTime,
+          profilePic: croppedImg,
       }
-    }).then(() => 
-        this.setState({ InfoMessage: `${strings.shopInfoUpdated}`})
-      ).catch(err => {
+    }).then(() => {
+        this.setState({ InfoMessage: `${strings.shopInfoUpdated}`});
+        window.scrollTo(0, 0);
+      }).catch(err => {
         console.log('An error occured when updating shop information.');
         this.setState({ InfoMessage: `${strings.errorOccured}`});
       });
@@ -652,6 +708,7 @@ export default class ShopInfo extends Component {
     var address = this.state.address;
     var description = this.state.description;
     var leadTime = this.state.leadTime;
+    var croppedImg = this.state.croppedImg;
 
     let content = null;
     if (loadingState) {
@@ -694,7 +751,32 @@ export default class ShopInfo extends Component {
                   </Col>
                 </FormGroup>
               </Row>
-
+              <Row className="show-grid">
+                  <FormGroup>
+                  <Col sm={1} md={2}></Col>
+                  <Col sm={3} md={2}>
+                      <div><strong>{strings.shopProfile}</strong></div>
+                  </Col>
+                  <Col sm={8}>
+                    <div>
+                        <div className="avatar-photo">
+                            <FileUpload handleFileChange={this.handleFileChange} />
+                            {(this.state.croppedImg !== null) && <img className="shop-detail-arrangement-pic" alt="" src={this.state.croppedImg} />}
+                        </div>
+                        {this.state.cropperOpen &&
+                        <AvatarCropper
+                            onRequestHide={this.handleRequestHide}
+                            cropperOpen={this.state.cropperOpen}
+                            onCrop={this.handleCrop}
+                            image={this.state.img}
+                            width={400}
+                            height={400}
+                        />
+                        }
+                    </div>
+                  </Col>
+                </FormGroup>
+              </Row>
               <Row className="show-grid">
                 <FormGroup>
                   <Col sm={1} md={2}></Col>
@@ -758,7 +840,7 @@ export default class ShopInfo extends Component {
               <Row className="show-grid">
                 <FormGroup>
                   <Col xs={10} xsPush={2} smPush={5} mdPush={6}>
-                    <Button bsStyle="" className="button" onClick={() => this.handleAccountUpdate(address, description, leadTime)}>{strings.updateButton}</Button>
+                    <Button bsStyle="" className="button" onClick={() => this.handleAccountUpdate(address, description, leadTime, croppedImg)}>{strings.updateButton}</Button>
                   </Col>
                 </FormGroup>
               </Row>

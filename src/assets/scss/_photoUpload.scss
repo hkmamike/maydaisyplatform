@@ -1,4 +1,4 @@
-.design-detail-arrangement-pic {
+.design-detail-arrangement-pic, .shop-detail-arrangement-pic {
     padding: 0;
     min-height: 250px;
     max-height: 300px;
@@ -61,7 +61,7 @@
     }
 }
 
-.design-details {
+.design-details, .shop-info-details {
     .avatar-photo {
         label {
             background-color: $pink;
