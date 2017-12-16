@@ -37,7 +37,6 @@ let strings = new LocalizedStrings({
     browseMarket: 'Browse Market',
     arrangement: 'Arrangement:',
     florist: 'Florist:',
-    reviewSubmittedFlag: 'Reviewed? :',
     howWasYourExp: "how was your experience with this florist?",
     rating: 'Rating:',
     submitButton: 'Submit',
@@ -75,7 +74,6 @@ let strings = new LocalizedStrings({
     browseMarket: '返回花市場',
     arrangement: '設計名稱: ',
     florist: '花店',
-    reviewSubmittedFlag: '已評分:',
     howWasYourExp: "花店今次的服務如何?",
     rating: '評分:',
     submitButton: '發出',
@@ -452,7 +450,7 @@ export default class OrderHistory extends Component {
           <Col xs={4} sm={4}>{strings.to}</Col>
           <Col xs={4} sm={3}>{strings.deliveryDay}</Col>
           <Col xs={4} sm={3}>{strings.orderStatus}</Col>
-          <Col sm={2} xsHidden>{strings.reviewSubmittedFlag}</Col>
+          <Col sm={2} xsHidden>{strings.florist}</Col>
         </Row>
       </Grid>
       )
@@ -474,8 +472,7 @@ export default class OrderHistory extends Component {
                     <div>{strings[data[key].status]}</div>
                   </Col>
                   <Col sm={2} xsHidden>
-                    <div>{data[key].reviewed && 'Yes'}</div>
-                    <div>{!data[key].reviewed && 'No'}</div>
+                    <div>{data[key].floristName}</div>
                   </Col>
                 </Row>
               </div>
