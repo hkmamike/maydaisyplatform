@@ -97,8 +97,6 @@ let strings = new LocalizedStrings({
     shopWebPlaceholder: "website/ facebook/ instagram",
     floristPhonePlaceholder: "phone #",
 
-
-
     newsLetter: 'Newsletter',
     socialMedia: 'Social Media',
     tradeShow: 'Trade Shows',
@@ -187,14 +185,6 @@ let strings = new LocalizedStrings({
     orderReceived: '已收到',
     orderFulfilled: '已送花',
 
-    floristRegistrationTitle: '報名',
-    floristRegistrationSubtitle: '為了令五月菊價格更大眾化，每個地區的服務會在收集到150個報名之後開啟，屆時已報名的客人會收到電郵邀請。請填寫以下的報名表。如果您的送花地點不在香港，我們很快會來到您的城市 ^.^',
-    signUpFormTitle: '報名表',
-    signUpFormrecipientRegion: "收花地區:",
-    signUpSender: "送花人名稱:",
-    signUpEmail: "電郵:",
-    signUpPhone: "電話:",
-    signUpTip: '當您的地區開啟的時候我們會用電郵聯繫您',
     submitButton: '遞交',
     submitButtonSubmitted: '已遞交 ',
 

@@ -54,7 +54,7 @@ let strings = new LocalizedStrings({
     },
     ch: {
       signUp: '報名',
-      homeImgTitle: '鮮花市集，直接向花店和獨立花藝師下單。',
+      homeImgTitle: '鮮花市集，一網搜盡最潮最優雅的花店和獨立花藝師。',
       homeImgSubtitle: '花卉送往哪裏?',
       go: '去市集',
 
@@ -116,7 +116,7 @@ export default class Homepage extends Component {
   }
 
   handleSelect = (eventKey) => {
-    this.props.onRegionSelection(eventKey);
+    this.props.onMarketRegionSelect(eventKey);
   }
 
   componentWillReceiveProps (nextProps) {

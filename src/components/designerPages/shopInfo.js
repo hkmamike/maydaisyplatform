@@ -679,7 +679,7 @@ export default class ShopInfo extends Component {
                     <div><strong>{strings.shopName}</strong></div>
                   </Col>
                   <Col sm={8}>
-                    <div>{this.state.name} (<Link to={`/florist/${this.props.designerCode}`} target='_blank'>{strings.shopPage}</Link>)</div>
+                    <div>{this.state.name} (<Link to={`/florist/${this.props.designerCode}`} id="shop-link" target='_blank'>{strings.shopPage}</Link>)</div>
                   </Col>
                 </FormGroup>
               </Row>

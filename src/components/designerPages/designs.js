@@ -26,8 +26,10 @@ let strings = new LocalizedStrings({
     deleteDesign: 'Delete Design',
     deleteText1: "To Proceed deleting this record, click the 'delete' button below",
     design: 'Design',
-    price: 'Price',
+    price: 'Price(HKD):',
     newDesign: 'New Design',
+    category: 'Category:',
+    designCategoryTip: 'We only accept design listings that fit these categories, but more categories will open soon. Please contact us to suggest a new category.',
 
     backButton: 'Back',
     updateButton: 'Update',
@@ -56,13 +58,13 @@ let strings = new LocalizedStrings({
     designImage: 'Image:',
     designName: "Design's name:",
     designID: "Design's ID:",
-    description: "Description:",
+    designDescription: "Description:",
     color: 'Color:',
     flower: 'Flower:',
 
     designNameTip: "The new design's name should be at least 2 characters long.",
     designDescriptionTip: 'The description should be at least 20 characters long.',
-    priceTip: 'Price should be an integer value greater or equal to 10.',
+    priceTip: 'Price should be an integer value greater or equal to 40.',
 
     settingButton: 'Setting',
 
@@ -90,6 +92,12 @@ let strings = new LocalizedStrings({
     deleteSuccess: 'Design has been removed from record.',
     chooseButton: 'Choose',
 
+    wrappedBouquets: 'Wrapped Bouquets',
+    hampers: 'Hampers',
+    arrangements: 'Arrangements',
+    congratulatoryStand: 'Congratulatory Stand',
+    dropdownSelectItem: 'Select',
+
   },
   ch: {
     ordersDashboard1: ' ',
@@ -108,8 +116,10 @@ let strings = new LocalizedStrings({
     deleteDesign: '刪除設計',
     deleteText1: "如要繼續刪取這個地址，請按下'刪除'鈕扣。",
     design: '設計名稱',
-    price: '價格',
+    price: '價格(HKD):',
+    category: '貨品種類:',
     newDesign: '新增設計',
+    designCategoryTip: '只接受已開通種類的新增設計，其他的種類將陸續開通。如您有對新貨品種類的建議，請聯絡我們。',
 
     backButton: '返回',
     updateButton: '更新',
@@ -138,13 +148,13 @@ let strings = new LocalizedStrings({
     designImage: '設計照片:',
     designName: "設計名稱:",
     designID: "設計ID:",
-    description: "設計描述:",
+    designDescription: "設計描述:",
     color: '顏色:',
     flower: '花種:',
     
     designNameTip: "新設計的名稱最短應為兩個字。",
     designDescriptionTip: '描述最短應為二十個字。',
-    priceTip: '價格應為最少是十的整數。',
+    priceTip: '價格應為最少是四十的整數。',
 
     settingButton: '設定',
 
@@ -172,6 +182,13 @@ let strings = new LocalizedStrings({
     deleteSuccess: '設計已刪除。',
 
     chooseButton: '選擇',
+
+    wrappedBouquets: '花束',
+    hampers: '禮品花籃',
+    arrangements: '插花',
+    congratulatoryStand: '祝賀花牌',
+
+    dropdownSelectItem: '選擇',
   }
 });
 
@@ -319,7 +336,9 @@ class ColorType extends React.Component {
   close() {
     this.setState({showModal: false});
     //force states to update since it does not dismount on close. It cases content to flash if placed on open()
-    this.fetchData();
+    if(this.props.page==='designUpdate') {
+      this.fetchData();
+    }
   }
   open() {
     this.setState({showModal: true});
@@ -669,7 +688,9 @@ class FlowerType extends React.Component {
   close() {
     this.setState({showModal: false});
     //force states to update since it does not dismount on close. It cases content to flash if placed on open()
-    this.fetchData();
+    if(this.props.page==='designUpdate') {
+      this.fetchData();
+    }
   }
   open() {
     this.setState({showModal: true});
@@ -928,7 +949,7 @@ class FlowerType extends React.Component {
                                 <FormGroup>
                                   <Col xs={1}></Col>
                                   <Col xs={5}>
-                                    {strings.sunFlowers}
+                                    {strings.sunflowers}
                                   </Col>
                                   <Col xs={5}>
                                     <DropdownButton 
@@ -984,7 +1005,7 @@ class FlowerType extends React.Component {
                   </div>
                   <Modal.Footer>
                   <Button bsStyle="" className="button button-back" onClick={this.close}>{strings.backButton}</Button>
-                  <Button bsStyle="" className="button button-back" onClick={this.handleFlowerUpdate}>{strings.updateButton}</Button>
+                  <Button bsStyle="" className="button button" onClick={this.handleFlowerUpdate}>{strings.updateButton}</Button>
                   </Modal.Footer>
               </Modal>
           </div>
@@ -1027,7 +1048,6 @@ class DesignDetails extends React.Component {
           croppedImg: null,
       }
   }
-
   componentWillMount () {
       this.fireBaseListenerForDesignDetails = firebaseAuth().onAuthStateChanged((user) => {
           base.fetch(`arrangementsList/${this.props.selectedDesign}`, {
@@ -1047,23 +1067,16 @@ class DesignDetails extends React.Component {
           });
       });
   }
-
   componentWillUnmount () {
       //returns the unsubscribe function
       this.fireBaseListenerForDesignDetails && this.fireBaseListenerForDesignDetails();
       this.fireBaseListenerForDeleteDesign && this.fireBaseListenerForDeleteDesign();
   }
-
   handleBack = () => {
       this.props.onHandleBack();
   }
-
   handleDesignUpdate = (name, price, description, color, flower, croppedImg, newImageFlag) => {
       this.props.onHandleDesignUpdate(this.props.selectedDesign, name, price, description, color, flower, croppedImg, newImageFlag);
-  }
-
-  handleNameChange = (e) => {
-      this.setState({ name: e.target.value });
   }
   handlePriceChange = (e) => {
       this.setState({ price: e.target.value });
@@ -1136,6 +1149,22 @@ class DesignDetails extends React.Component {
                     <FormGroup>
                     <Col sm={1} md={2}></Col>
                     <Col sm={3} md={2}>
+                        <div><strong>{strings.designName}</strong></div>
+                    </Col>
+                    <Col sm={5} md={3}>
+                      <div>{name}</div>
+                    </Col>
+                    <Col sm={3} md={2}>
+                      <DeleteDesignModal
+                        onDeleteDesign={this.handleDelete}
+                      />
+                    </Col>
+                    </FormGroup>
+                </Row>
+                <Row className="show-grid">
+                    <FormGroup>
+                    <Col sm={1} md={2}></Col>
+                    <Col sm={3} md={2}>
                         <div><strong>{strings.designImage}</strong></div>
                     </Col>
                     <Col sm={8} md={5}>
@@ -1162,22 +1191,6 @@ class DesignDetails extends React.Component {
                     <FormGroup>
                     <Col sm={1} md={2}></Col>
                     <Col sm={3} md={2}>
-                        <div><strong>{strings.designName}</strong></div>
-                    </Col>
-                    <Col sm={5} md={5}>
-                      <FormControl className="data-field-update" type="text" value={name} onChange={this.handleNameChange}/>
-                    </Col>
-                    <Col sm={3} md={2}>
-                      <DeleteDesignModal
-                        onDeleteDesign={this.handleDelete}
-                      />
-                    </Col>
-                    </FormGroup>
-                </Row>
-                <Row className="show-grid">
-                    <FormGroup>
-                    <Col sm={1} md={2}></Col>
-                    <Col sm={3} md={2}>
                         <div><strong>{strings.designID}</strong></div>
                     </Col>
                     <Col sm={8}  md={5}>
@@ -1185,11 +1198,22 @@ class DesignDetails extends React.Component {
                     </Col>
                     </FormGroup>
                 </Row>
+                <Row className="show-grid">
+                    <FormGroup>
+                    <Col sm={1} md={2}></Col>
+                    <Col sm={3} md={2}>
+                        <div><strong>{strings.category}</strong></div>
+                    </Col>
+                    <Col sm={8}  md={5}>
+                        <div>{strings[designDetails.category]}</div>
+                    </Col>
+                    </FormGroup>
+                </Row>
               <Row className="show-grid">
                 <FormGroup>
                   <Col sm={1} md={2}></Col>
                   <Col sm={3} md={2}>
-                      <div><strong>{strings.price} ({designDetails.currency}):</strong></div>
+                      <div><strong>{strings.price}</strong></div>
                   </Col>
                   <Col sm={8} md={5}>
                     <FormControl className="data-field-update" type="text" value={price} onChange={this.handlePriceChange}/>
@@ -1200,7 +1224,7 @@ class DesignDetails extends React.Component {
                 <FormGroup>
                   <Col sm={1} md={2}></Col>
                   <Col sm={3} md={2}>
-                      <div><strong>{strings.description}</strong></div>
+                      <div><strong>{strings.designDescription}</strong></div>
                   </Col>
                   <Col sm={8} md={5}>
                     <FormControl className="card-text-area data-field-update" componentClass="textarea" value={description} onChange={this.handleDescriptionChange}/>
@@ -1217,6 +1241,7 @@ class DesignDetails extends React.Component {
                     <ColorType
                         selectedDesign={this.props.selectedDesign}
                         designerCode={this.props.designerCode}
+                        page='designUpdate'
                     />
                   </Col>
                 </FormGroup>
@@ -1231,6 +1256,7 @@ class DesignDetails extends React.Component {
                     <FlowerType
                         selectedDesign={this.props.selectedDesign}
                         designerCode={this.props.designerCode}
+                        page='designUpdate'
                     />
                   </Col>
                 </FormGroup>
@@ -1272,6 +1298,7 @@ class NewDesign extends React.Component {
           croppedImg: null,
           colorsArray: [],
           flowersArray: [],
+          category: 'dropdownSelectItem'
       }
   }
 
@@ -1289,9 +1316,9 @@ class NewDesign extends React.Component {
       this.props.onHandleBack();
   }
 
-  handleNewDesign = (name, price, description, colorsArray, flowersArray, croppedImg) => {
-      if (this.validateName() ==='success' && this.validatePrice() ==='success' && this.validateDescription() ==='success' && this.validatePic() ==='success') {
-        this.props.onHandleNewDesign(name, price, description, colorsArray, flowersArray, croppedImg);
+  handleNewDesign = (name, price, description, colorsArray, flowersArray, croppedImg, category) => {
+      if (this.validateName() ==='success' && this.validatePrice() ==='success' && this.validateDescription() ==='success' && this.validatePic() ==='success' && this.validateCategory() ==='success') {
+        this.props.onHandleNewDesign(name, price, description, colorsArray, flowersArray, croppedImg, category);
       } else {
         this.props.onNewDesignIncomplete();
       }
@@ -1299,6 +1326,9 @@ class NewDesign extends React.Component {
 
   handleNameChange = (e) => {
       this.setState({ name: e.target.value });
+  }
+  handleCategoryChange = (eventKey) => {
+    this.setState({ category: eventKey });
   }
   handlePriceChange = (e) => {
       this.setState({ price: e.target.value });
@@ -1326,6 +1356,7 @@ class NewDesign extends React.Component {
         });
   }
   handleCreateDesignColorUpdate = (colorsArray) => {
+    console.log(colorsArray);
     this.setState({colorsArray: colorsArray});
   }
   handleCreateDesignFlowerUpdate = (flowersArray) => {
@@ -1351,6 +1382,14 @@ class NewDesign extends React.Component {
       return null;
     }
   }
+  validateCategory = () => {
+    const category = this.state.category;
+    if (category !== 'dropdownSelectItem'){
+      return 'success';
+    } else {
+      return null;
+    }
+  }
   validateDescription = () => {
     const length = this.state.description.length;
     if (length > 20){
@@ -1368,7 +1407,7 @@ class NewDesign extends React.Component {
     var positive = false;
     var integer = false;
 
-    if (priceInt >= 10) {
+    if (priceInt >= 40) {
       positive = true;
     }
     if (!(price.indexOf('.') >= 0)) {
@@ -1391,6 +1430,7 @@ class NewDesign extends React.Component {
     var croppedImg = this.state.croppedImg;
     var colorsArray = this.state.colorsArray;
     var flowersArray = this.state.flowersArray;
+    var category = this.state.category;
     let content = null;
 
     if (loadingState) {
@@ -1410,49 +1450,69 @@ class NewDesign extends React.Component {
               </div>
             }
             <div className="design-details">
-                <Row className="show-grid">
-                    <FormGroup>
-                    <Col sm={1} md={2}></Col>
-                    <Col sm={3} md={2}>
-                        <div><strong>{strings.designImage}</strong></div>
-                    </Col>
-                    <Col sm={8}>
-                    <div>
-                        <div className="avatar-photo">
-                            <FileUpload handleFileChange={this.handleFileChange} />
-                            {(croppedImg !== null) && <img className="design-detail-arrangement-pic" alt="" src={this.state.croppedImg} />}
-                        </div>
-                        {this.state.cropperOpen &&
-                        <AvatarCropper
-                            onRequestHide={this.handleRequestHide}
-                            cropperOpen={this.state.cropperOpen}
-                            onCrop={this.handleCrop}
-                            image={this.state.img}
-                            width={400}
-                            height={400}
-                        />
-                        }
-                    </div>
-                    </Col>
+              <Row className="show-grid">
+                  <FormGroup>
+                  <Col sm={1} md={2}></Col>
+                  <Col sm={3} md={2}>
+                      <div><strong>{strings.designName}</strong></div>
+                  </Col>
+                  <Col sm={8} md={5}>
+                      <FormGroup
+                        validationState={this.validateName()}
+                      >
+                        <FormControl className="data-field-update" type="text" value={name} onChange={this.handleNameChange}/>
+                        <FormControl.Feedback/>
+                        <HelpBlock>{strings.designNameTip}</HelpBlock>
+                      </FormGroup>
+                  </Col>
                   </FormGroup>
-                </Row>
-                <Row className="show-grid">
-                    <FormGroup>
-                    <Col sm={1} md={2}></Col>
-                    <Col sm={3} md={2}>
-                        <div><strong>{strings.designName}</strong></div>
-                    </Col>
-                    <Col sm={8} md={5}>
-                        <FormGroup
-                          validationState={this.validateName()}
-                        >
-                          <FormControl className="data-field-update" type="text" value={name} onChange={this.handleNameChange}/>
-                          <FormControl.Feedback/>
-                          <HelpBlock>{strings.designNameTip}</HelpBlock>
-                        </FormGroup>
-                    </Col>
-                    </FormGroup>
-                </Row>
+              </Row>
+              <Row className="show-grid">
+                  <FormGroup>
+                  <Col sm={1} md={2}></Col>
+                  <Col sm={3} md={2}>
+                      <div><strong>{strings.designImage}</strong></div>
+                  </Col>
+                  <Col sm={8}>
+                  <div>
+                      <div className="avatar-photo">
+                          <FileUpload handleFileChange={this.handleFileChange} />
+                          {(croppedImg !== null) && <img className="design-detail-arrangement-pic" alt="" src={this.state.croppedImg} />}
+                      </div>
+                      {this.state.cropperOpen &&
+                      <AvatarCropper
+                          onRequestHide={this.handleRequestHide}
+                          cropperOpen={this.state.cropperOpen}
+                          onCrop={this.handleCrop}
+                          image={this.state.img}
+                          width={400}
+                          height={400}
+                      />
+                      }
+                  </div>
+                  </Col>
+                </FormGroup>
+              </Row>
+              <Row className="show-grid">
+                  <FormGroup>
+                  <Col sm={1} md={2}></Col>
+                  <Col sm={3} md={2}>
+                      <div><strong>{strings.category}</strong></div>
+                  </Col>
+                  <Col sm={8} md={5}>
+                      <FormGroup validationState={this.validateCategory()}>
+                        <DropdownButton title={strings[category]} id='new-design-category' onSelect={(eventKey)=>this.handleCategoryChange(eventKey)}>
+                          <MenuItem eventKey="wrappedBouquets">{strings.wrappedBouquets}</MenuItem>
+                          <MenuItem eventKey="hampers">{strings.hampers}</MenuItem>
+                          <MenuItem eventKey="arrangements">{strings.arrangements}</MenuItem>
+                          <MenuItem eventKey="congratulatoryStand">{strings.congratulatoryStand}</MenuItem>
+                        </DropdownButton>
+                        <FormControl.Feedback/>
+                        <HelpBlock>{strings.designCategoryTip}</HelpBlock>
+                      </FormGroup>
+                  </Col>
+                  </FormGroup>
+              </Row>
               <Row className="show-grid">
                 <FormGroup>
                   <Col sm={1} md={2}></Col>
@@ -1498,6 +1558,7 @@ class NewDesign extends React.Component {
                         onCreateDesignColorUpdate = {this.handleCreateDesignColorUpdate}
                         selectedDesign={null}
                         designerCode={this.props.designerCode}
+                        page='newDesign'
                     />
                   </Col>
                 </FormGroup>
@@ -1513,6 +1574,7 @@ class NewDesign extends React.Component {
                         onCreateDesignFlowerUpdate = {this.handleCreateDesignFlowerUpdate}
                         selectedDesign={null}
                         designerCode={this.props.designerCode}
+                        page='newDesign'
                     />
                   </Col>
                 </FormGroup>
@@ -1523,7 +1585,7 @@ class NewDesign extends React.Component {
                   </Col>
                   <Col sm={4}>
                     <Button bsStyle="" className="button button-back" onClick={() => this.handleBack()}>{strings.backButton}</Button>
-                    <Button bsStyle="" className="button button-update" onClick={() => this.handleNewDesign(name, price, description, colorsArray, flowersArray, croppedImg)}>{strings.createButton}</Button>
+                    <Button bsStyle="" className="button button-update" onClick={() => this.handleNewDesign(name, price, description, colorsArray, flowersArray, croppedImg, category)}>{strings.createButton}</Button>
                   </Col>
                 </FormGroup>
               </Row>
@@ -1610,7 +1672,7 @@ export default class Designs extends Component {
     this.setState({errorMessage: strings.errorIncomplete});
   }
 
-  handleNewDesign = (name, price, description, colorsArray, flowersArray, croppedImg) => {
+  handleNewDesign = (name, price, description, colorsArray, flowersArray, croppedImg, category) => {
     var designerCode = this.props.designerCode;
     var storageRef = firebase.storage().ref();
 
@@ -1633,7 +1695,10 @@ export default class Designs extends Component {
                 name: name,
                 price: price,
                 seasonality: 'all',
-                city: data.city
+                city: data.city,
+                featured: 'false',
+                floristType: data.floristType,
+                category: category
             }
           }).then((newLocation) => {
 
@@ -1754,8 +1819,9 @@ export default class Designs extends Component {
       designsHeader = (
         <Grid>
           <Row className="designs-list-titles">
-            <Col xs={6}>{strings.design}</Col>
-            <Col xs={6}>{strings.price}</Col>
+            <Col xs={4}>{strings.category}</Col>
+            <Col xs={4}>{strings.design}</Col>
+            <Col xs={4}>{strings.price}</Col>
           </Row>
         </Grid>
       );
@@ -1766,10 +1832,13 @@ export default class Designs extends Component {
             <Grid>
               <div className="design-list-item">
                 <Row className="show-grid">
-                    <Col xs={6}>
+                    <Col xs={4}>
+                      <div>{strings[data[key].category]}</div>
+                    </Col>
+                    <Col xs={4}>
                         <div>{data[key].name}</div>
                     </Col>
-                    <Col xs={6}>
+                    <Col xs={4}>
                       <div>{data[key].currency} {data[key].price}</div>
                     </Col>
                 </Row>

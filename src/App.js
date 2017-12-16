@@ -44,19 +44,29 @@ import 'react-dates/lib/css/_datepicker.css';
 import 'react-dates/initialize';
 
 
-function PrivateRoute ({component: Component, authed, selectRegion, onRegionSelection, languageChanged, designerCode, ...rest}) {
+function PrivateRoute ({component: Component, authed, languageChanged, designerCode, ...rest}) {
   return (
     <Route {...rest} render={(props) => authed === true? 
-        <Component {...props} selectRegion={selectRegion} onRegionSelection={onRegionSelection} designerCode={designerCode} languageChanged={languageChanged}/>
+        <Component {...props} designerCode={designerCode} languageChanged={languageChanged}/>
         : <Redirect to={{pathname: '/login', state: {from: props.location}}} />}
     />
   )
 }
-function PublicRoute ({component: Component, isDesigner, authed, selectRegion, onRegionSelection, languageChanged, ...rest}) {
+
+function PublicRoute ({component: Component, isDesigner, authed, languageChanged, ...rest}) {
   return (
     <Route {...rest} render={(props) => authed === false?
-        <Component {...props} selectRegion={selectRegion} onRegionSelection={onRegionSelection} languageChanged={languageChanged}/>
+        <Component {...props} languageChanged={languageChanged}/>
         : (isDesigner? <Redirect to='/ordersdashboard'/> : <Redirect to='/orderhistory'/>) }
+    />
+  )
+}
+
+function FloristRegisterRoute ({component: Component, authed, languageChanged, ...rest}) {
+  return (
+    <Route {...rest} render={(props) => authed === false?
+        <Component {...props} languageChanged={languageChanged}/>
+        : <Redirect to='/ordersdashboard'/>}
     />
   )
 }
@@ -64,7 +74,6 @@ function PublicRoute ({component: Component, isDesigner, authed, selectRegion, o
 export default class App extends Component {
   constructor() {
     super();
-    this.handleRegionSelection = this.handleRegionSelection.bind(this);
     this.handleLanguageToggle = this.handleLanguageToggle.bind(this);
     this.handleMarketRegionSelect = this.handleMarketRegionSelect.bind(this);
     this.handleDeliveryDateSelect = this.handleDeliveryDateSelect.bind(this);
@@ -72,15 +81,10 @@ export default class App extends Component {
       authed: false,
       isDesigner: false,
       loading: true,
-      selectRegion: 'HK_Central',
       languageChanged: 'ch',
       marketRegion: 'HK_CentralWestern',
       // deliveryDate: 1
     }
-  }
-
-  handleRegionSelection(region) {
-    this.setState({selectRegion : region});
   }
 
   handleMarketRegionSelect(region) {
@@ -188,11 +192,14 @@ export default class App extends Component {
           <Header authed={this.state.authed} onLanguageToggle={this.handleLanguageToggle}/>
 
           <Switch>
-            <Route path='/' exact render={(props) => (<Homepage {...props} marketRegion={marketRegion} onRegionSelection={this.handleRegionSelection} languageChanged={this.state.languageChanged}/>)}/>
+            <Route path='/' exact render={(props) => (<Homepage {...props} marketRegion={marketRegion} onMarketRegionSelect={this.handleMarketRegionSelect} languageChanged={this.state.languageChanged}/>)}/>
           
             
             <PublicRoute authed={this.state.authed} isDesigner={this.state.isDesigner} path='/login' component={Login} languageChanged={this.state.languageChanged}/>
             <PublicRoute authed={this.state.authed} isDesigner={this.state.isDesigner} path='/register' component={Register} languageChanged={this.state.languageChanged}/>
+
+            <FloristRegisterRoute authed={this.state.authed} path='/artist-registration-login' component={Login} languageChanged={this.state.languageChanged}/>
+            <FloristRegisterRoute authed={this.state.authed} path='/artist-registration-register' component={Register} languageChanged={this.state.languageChanged}/>
 
             <Route path='/arrangements/:marketRegion?' exact render={(props) => (<ArrangementsList {...props} 
               languageChanged={this.state.languageChanged}

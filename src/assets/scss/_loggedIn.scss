@@ -278,7 +278,7 @@ textarea.data-field-update {
             }
             .dropdown{
                 width: 100%;
-                max-width: 375px;
+                // max-width: 375px;
                 button {
                     width: 100%;
                 }
@@ -468,9 +468,10 @@ textarea.data-field-update {
 
     .order-details, .address-details, .account-details, .ordersdashboard-details, .shop-info-details, .design-details, .review-order, .order-succeed {
 
-        a {
+        #shop-link {
             color: $darkpink !important;
         }
+        
         .row {
             margin: 5px auto !important;
             @media (max-width: 768px) {

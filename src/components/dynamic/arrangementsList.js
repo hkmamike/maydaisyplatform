@@ -19,7 +19,8 @@ import {
     HierarchicalMenu, 
     RangeSlider,
     Configure,
-    ClearAll
+    ClearAll,
+    Menu
 } from 'react-instantsearch/dom';
 import {
     connectRefinementList,
@@ -899,6 +900,10 @@ export default class ArrangementsList extends Component {
                     <VirtualRange
                         attributeName="price"
                     />
+{/* 
+                    <Menu
+                        attributeName="category"
+                    /> */}
 
                     <div className="content-wrapper">
                         <Facets 
