@@ -55,7 +55,6 @@ export default class PlaceOrder extends React.Component {
     }
 
     onToken = (token) => {
-        var addressBookChecked = this.props.addressBookChecked;
         var floristID = this.props.floristID;
         var floristName = this.props.floristName;
         var arrangementCode = this.props.arrangement;
@@ -63,7 +62,6 @@ export default class PlaceOrder extends React.Component {
         var arrangementImage = this.props.arrangementImage;
         var currency = this.props.currency;
         var price = this.props.price;
-        var uid = firebase.auth().currentUser.uid;
         var selectLocationType = this.props.selectLocationType;
         var selectDeliveryType = this.props.selectDeliveryType;
         var languageChanged = this.props.languageChanged;
@@ -87,6 +85,17 @@ export default class PlaceOrder extends React.Component {
         var referenceRan = Math.floor(Math.random()*(999 - 100) + 100);
         var dateNow = new Date().getTime();
         var referenceCode = "" + dateNow + referenceRan;
+        var orderRoute = this.props.orderRoute;
+        var senderEmailOnReg = this.props.email;
+        var uid = '';
+        var addressBookChecked = false;
+
+        if (orderRoute === 'login') {
+            addressBookChecked = this.props.addressBookChecked;
+            uid = firebase.auth().currentUser.uid;
+        }
+
+
 
         console.log('stripe created token. Forwarding to web server : ', token);
         console.log('reference code is :', referenceCode);
@@ -140,6 +149,7 @@ export default class PlaceOrder extends React.Component {
                                 senderName: senderName,
                                 senderNum: senderNum,
                                 senderEmail: senderEmail,
+                                senderEmailOnReg: senderEmailOnReg,
                                 recipient: recipient,
                                 recipientNum: recipientNum,
                                 company: company,
@@ -156,66 +166,112 @@ export default class PlaceOrder extends React.Component {
                                 referenceCode: referenceCode,
                                 selectDeliveryType: selectDeliveryType,
                                 languageChanged: languageChanged,
-                                deliveryInstruction: deliveryInstruction
+                                deliveryInstruction: deliveryInstruction,
+                                orderRoute: orderRoute,
                             }
                         });
-                        base.post(`users/${uid}/transactions/${referenceCode}`, {
-                            data: {
-                                city: 'HK',
-                                reviewed: false,
-                                status: 'order_submitted',
-                                florist: floristID,
-                                floristName: floristName,
-                                uid: uid,
-                                price: price,
-                                currency: currency,
-                                arrangementName: arrangementName,
-                                arrangementImage: arrangementImage,
-                                arrangementCode: arrangementCode,
-                                deliveryDate: deliveryDate,
-                                selectLocationType: selectLocationType,
-                                senderName: senderName,
-                                senderNum: senderNum,
-                                senderEmail: senderEmail,
-                                recipient: recipient,
-                                recipientNum: recipientNum,
-                                company: company,
-                                address: address,
-                                cardMessage: cardMessage,
-                                stripeTokID: stripeTokID,
-                                stripeCusID: stripeCusID,
-                                stripeTxnID: stripeTxnID,
-                                orderReceivedAt: dateNow,
-                                last4: last4,
-                                cardType: cardType,
-                                cardExpYear: cardExpYear,
-                                cardExpMonth: cardExpMonth,
-                                referenceCode: referenceCode,
-                                selectDeliveryType: selectDeliveryType,
-                                languageChanged: languageChanged,
-                                deliveryInstruction: deliveryInstruction
-                            }
-                        });
-                        base.update(`users/${uid}/info/`, {
-                            data: {
-                                name: senderName,
-                                phone: senderNum,
-                            }
-                        });
-                        if (addressBookChecked) {
-                            base.post(`users/${uid}/address/${referenceCode}`, {
+                        if (orderRoute === 'login') {
+                            base.post(`users/${uid}/transactions/${referenceCode}`, {
                                 data: {
                                     city: 'HK',
+                                    reviewed: false,
+                                    status: 'order_submitted',
+                                    florist: floristID,
+                                    floristName: floristName,
                                     uid: uid,
-                                    referenceCode: referenceCode,
+                                    price: price,
+                                    currency: currency,
+                                    arrangementName: arrangementName,
+                                    arrangementImage: arrangementImage,
+                                    arrangementCode: arrangementCode,
+                                    deliveryDate: deliveryDate,
                                     selectLocationType: selectLocationType,
+                                    senderName: senderName,
+                                    senderNum: senderNum,
+                                    senderEmail: senderEmail,
+                                    senderEmailOnReg: senderEmailOnReg,
                                     recipient: recipient,
                                     recipientNum: recipientNum,
                                     company: company,
                                     address: address,
+                                    cardMessage: cardMessage,
+                                    stripeTokID: stripeTokID,
+                                    stripeCusID: stripeCusID,
+                                    stripeTxnID: stripeTxnID,
+                                    orderReceivedAt: dateNow,
+                                    last4: last4,
+                                    cardType: cardType,
+                                    cardExpYear: cardExpYear,
+                                    cardExpMonth: cardExpMonth,
+                                    referenceCode: referenceCode,
                                     selectDeliveryType: selectDeliveryType,
+                                    languageChanged: languageChanged,
                                     deliveryInstruction: deliveryInstruction,
-                                    defaultAddress: false
+                                    orderRoute: orderRoute,
+                                }
+                            });
+
+                            base.update(`users/${uid}/info/`, {
+                                data: {
+                                    name: senderName,
+                                    phone: senderNum,
+                                }
+                            });
+
+                            if (addressBookChecked) {
+                                base.post(`users/${uid}/address/${referenceCode}`, {
+                                    data: {
+                                        city: 'HK',
+                                        uid: uid,
+                                        referenceCode: referenceCode,
+                                        selectLocationType: selectLocationType,
+                                        recipient: recipient,
+                                        recipientNum: recipientNum,
+                                        company: company,
+                                        address: address,
+                                        selectDeliveryType: selectDeliveryType,
+                                        deliveryInstruction: deliveryInstruction,
+                                        defaultAddress: false
+                                    }
+                                });
+                            }
+                        } else if (orderRoute === 'guest') {
+                            base.push(`guestTransactions/${referenceCode}`, {
+                                data: {
+                                    city: 'HK',
+                                    reviewed: false,
+                                    status: 'order_submitted',
+                                    florist: floristID,
+                                    floristName: floristName,
+                                    price: price,
+                                    currency: currency,
+                                    arrangementName: arrangementName,
+                                    arrangementImage: arrangementImage,
+                                    arrangementCode: arrangementCode,
+                                    deliveryDate: deliveryDate,
+                                    selectLocationType: selectLocationType,
+                                    senderName: senderName,
+                                    senderNum: senderNum,
+                                    senderEmail: senderEmail,
+                                    senderEmailOnReg: senderEmailOnReg,
+                                    recipient: recipient,
+                                    recipientNum: recipientNum,
+                                    company: company,
+                                    address: address,
+                                    cardMessage: cardMessage,
+                                    stripeTokID: stripeTokID,
+                                    stripeCusID: stripeCusID,
+                                    stripeTxnID: stripeTxnID,
+                                    orderReceivedAt: dateNow,
+                                    last4: last4,
+                                    cardType: cardType,
+                                    cardExpYear: cardExpYear,
+                                    cardExpMonth: cardExpMonth,
+                                    referenceCode: referenceCode,
+                                    selectDeliveryType: selectDeliveryType,
+                                    languageChanged: languageChanged,
+                                    deliveryInstruction: deliveryInstruction,
+                                    orderRoute: orderRoute,
                                 }
                             });
                         }

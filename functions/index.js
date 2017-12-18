@@ -16,24 +16,7 @@ const mailTransport = nodemailer.createTransport({
     }
   });
 
-///////
-exports.SignUpResponse = functions.database.ref('/signUp/{CityID}/areas/{RegionID}/records').onWrite(event => {
-
-    var CityID = event.params.CityID;
-    var RegionID = event.params.RegionID;
-
-    admin.database().ref('/signUp/'+ CityID +'/areas/' + RegionID + '/signUpCount/').once('value', function(snapshot) {
-        var prevCount = snapshot.val();
-        var newCount = prevCount + 1;
-        var updates = {};
-        updates['/signUp/'+ CityID +'/areas/' + RegionID + '/signUpCount/'] = newCount;
-        admin.database().ref().update(updates);
-        console.log ('New Sign Up Recorded, total sign up count: ', newCount);
-    });
-});
-
-////////
-
+  //////////
 function sendWelcomeEmail(email, displayName) {
     const mailOptions = {
       from: `MayDaisy <mike@maydaisy.com>`,
@@ -76,7 +59,7 @@ function sendEmailFloristOnTxn (email, arrangementCode, arrangementName, deliver
     <p>Arrangement: ${arrangementName}</p>
     <p>Arrangement ID: ${arrangementCode}</p>
     <p>Delivery Date: ${deliveryDate}</p>
-    <p>Please login to check details on your orders dashboard.</p>`
+    <p>Please <a href="https://maydaisy.com/login">login</a> to check details on your orders dashboard.</p>`
     );
     return mailTransport.sendMail(mailOptions).then(() => {
       console.log('new order alert email sent to:', email);
@@ -94,7 +77,7 @@ exports.EmailFloristOnTxn = functions.database.ref('/allTransactions/{FloristID}
     admin.database().ref('/florists/' + FloristID + '/email/').once('value', function(snapshot) {
        email = snapshot.val();
     }).then(() => {
-        return sendEmailFloristOnTxn(email, arrangementCode, arrangementName, deliveryDate, referenceCode, floristName, floristCode);
+        return sendEmailFloristOnTxn(email, arrangementCode, arrangementName, deliveryDate, referenceCode);
     })
 });
 
@@ -112,13 +95,16 @@ function sendEmailCustomerOnReceived (email, arrangementCode, arrangementName, d
     <p>Reference Code: ${referenceCode}</p> 
     <p>Arrangement: ${arrangementName}</p>
     <p>Arrangement ID: ${arrangementCode}</p>
-    <p>Florist: <a href=https://www.maydaisy.com/florist/"${floristCode}" target="_blank">${floristName}</a></p>
+    <p>Florist: <a href="https://www.maydaisy.com/florist/${floristCode}" target="_blank">${floristName}</a></p>
     <p>Status: ${status}</p>  
     <p>Delivery Date: ${deliveryDate}</p>
     <p>For more details, please login to access your order history</p>`
     );
     return mailTransport.sendMail(mailOptions).then(() => {
       console.log('status update email sent to:', email);
+      var updates = {};
+      updates['/allTransactions/' + floristCode + '/' + referenceCode + '/orderReceivedEmailSent/'] = true;
+      admin.database().ref().update(updates);
     });
 }
 
@@ -134,39 +120,39 @@ function sendEmailCustomerOnFulfilled (email, arrangementCode, arrangementName, 
     <p>Reference Code: ${referenceCode}</p> 
     <p>Arrangement: ${arrangementName}</p>
     <p>Arrangement ID: ${arrangementCode}</p>
-    <p>Florist: <a href=https://www.maydaisy.com/florist/"${floristCode}" target="_blank">${floristName}</a></p>
+    <p>Florist: <a href="https://www.maydaisy.com/florist/${floristCode}" target="_blank">${floristName}</a></p>
     <p>Status: ${status}</p>  
     <p>Delivery Date: ${deliveryDate}</p>
     <p>For more details, please login to access your order history</p>`
     );
     return mailTransport.sendMail(mailOptions).then(() => {
       console.log('status update email sent to:', email);
+      var updates = {};
+      updates['/allTransactions/' + floristCode + '/' + refereoceCode + '/orderFulfilledEmailSent/'] = true;
+      admin.database().ref().update(updates);
     });
 }
 
-exports.EmailCustomerOnUpdate = functions.database.ref('/allTransactions/{CusID}/transactions/{TxnID}').onUpdate(event => {
-    var CusID = event.params.CusID;
+exports.EmailCustomerOnUpdate = functions.database.ref('/allTransactions/{FloristID}/{TxnID}').onUpdate(event => {
     var TxnID = event.params.TxnID;
-    var email;
+    var email = event.data.child('senderEmail').val();
     var status = event.data.child('status').val();
     var arrangementCode = event.data.child('arrangementCode').val();
     var arrangementName = event.data.child('arrangementName').val();
     var deliveryDate = event.data.child('deliveryDate').val();
     var referenceCode = event.data.child('referenceCode').val();
     var floristName = event.data.child('floristName').val();
-    var floristCode = event.data.child('floristCode').val();
-
-    admin.database().ref('/users/' + CusID + '/info/email').once('value', function(snapshot) {
-       email = snapshot.val();
-    }).then(() => {
+    var floristCode = event.data.child('florist').val();
+    var orderReceivedEmailSent = event.data.child('orderReceivedEmailSent').val();
+    var orderFulfilledEmailSent = event.data.child('orderFulfilledEmailSent').val();
+    var CusID = event.data.child('uid').val();
         
-        if (status==='order_received') {
-            return sendEmailCustomerOnReceived(email, arrangementCode, arrangementName, deliveryDate, referenceCode, status, floristName, floristCode);
-        }
-        if (status==='order_fulfilled') {
-            return sendEmailCustomerOnFulfilled(email, arrangementCode, arrangementName, deliveryDate, referenceCode, status, floristName, floristCode);
-        }
-    })
+    if (status==='order_received' && orderReceivedEmailSent===false) {
+        return sendEmailCustomerOnReceived(email, arrangementCode, arrangementName, deliveryDate, referenceCode, status, floristName, floristCode);
+    }
+    if (status==='order_fulfilled' && orderFulfilledEmailSent===false) {
+        return sendEmailCustomerOnFulfilled(email, arrangementCode, arrangementName, deliveryDate, referenceCode, status, floristName, floristCode);
+    }
 });
 
 /////////

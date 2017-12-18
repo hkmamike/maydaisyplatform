@@ -9,6 +9,18 @@
 @import "_orderHistory.scss";
 @import "_photoUpload.scss";
 
+.small-screen-hide {
+    @media (max-width: 768px) {
+        display: none !important;
+    }
+}
+
+.large-screen-hide {
+    @media (min-width: 769px) {
+        display: none !important;
+    }
+}
+
 .loader {
     border: 16px solid #f3f3f3; /* Light grey */
     border-top: 16px solid $pink;

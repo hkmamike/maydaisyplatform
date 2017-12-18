@@ -4,6 +4,16 @@
     background: #333333;
 
     .florist-info {
+        max-width: 1000px;
+        margin: auto;
+
+        a {
+            color: white !important;
+            &:hover {
+                color: white !important;
+            }
+        }
+
         @media (max-width: 768px) {
             padding: 1vh 1vw 1vh 1vw;
             text-align: center;
@@ -19,29 +29,34 @@
             max-width: 8em;
             max-height: 8em;
             padding: .4em;
-            margin-bottom: .4em;
+            margin-top: 1em;
             border-radius: 2px;
             background: #fff;
             overflow: hidden;
-            @media (min-width: 769px) {
-                width: 100%;
+            @media (min-width: 576px) {
                 max-width: 10em;
                 max-height: 10em;
                 padding: .5em;
                 border-radius: 4px;
-                margin-bottom: 0px;
+                margin-top: 0.5em;
                 margin-right: 3em;
             }
             img {
                 width: 100%;
             }
         }
+
+        .justify-container {
+            position: relative;
+        }
+
         .florist-info-container {
             margin-left: 15px;
             text-align: left;
             display: inline-block;
-            @media (max-width: 768px) {
+            @media (max-width: 340px) {
                 text-align: center;
+                margin-left: 0 !important;
             }
             .florist-name {
                 font-size: 120%;
@@ -54,6 +69,28 @@
             .florist-website {
                 color: white;
                 font-size: 80%;
+            }
+            .florist-info-small-screen-social-container {
+                margin-top: 10px;
+                @media (max-width: 340px) {
+                    margin-bottom: 5px;
+                }
+                .fa {
+                    display: inline-block;
+                    margin-right: 10px;
+                    font-size: 150%;
+                }
+            }
+        }
+        .florist-info-social-container {
+            position: absolute;
+            bottom: 0;
+            right: 0;
+            text-align: right;
+            font-size: 200%;
+            margin-right: 20px;
+            .fa {
+                margin-left: 10px;
             }
         }
     }

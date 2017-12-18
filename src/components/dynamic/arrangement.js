@@ -129,7 +129,6 @@ export default class Arrangement extends Component {
             firebase.database().ref(`arrangementsList/${this.state.arrangement}`).once('value', function(snapshot) {
                 thisRef.setState({
                     loading: false,
-                    arrangementApproval: snapshot.val().approval,
                     arrangementDescription: snapshot.val().description,
                     arrangementPrice: snapshot.val().price,
                     arrangementCurrency: snapshot.val().currency,
@@ -207,7 +206,6 @@ export default class Arrangement extends Component {
                 var snapshotVal = snapshot.val();
                 thisRef.setState({
                     loading: false,
-                    arrangementApproval: snapshotVal.approval,
                     arrangementDescription: snapshotVal.description,
                     arrangementPrice: snapshotVal.price,
                     arrangementCurrency: snapshotVal.currency,

@@ -20,14 +20,14 @@ const algolia = algoliasearch(
 const index = algolia.initIndex(process.env.ALGOLIA_INDEX_NAME);
 
 
-// Get all contacts from Firebase
-database.ref('/arrangementsList').once('value', contacts => {
+// Get all recordss from Firebase
+database.ref('/arrangementsList').once('value', arrangements => {
     // Build an array of all records to push to Algolia
     const records = [];
-    contacts.forEach(contact => {
+    arrangements.forEach(arrangement => {
       // get the key and data from the snapshot
-      const childKey = contact.key;
-      const childData = contact.val();
+      const childKey = arrangement.key;
+      const childData = arrangement.val();
       // We set the Algolia objectID as the Firebase .key
       childData.objectID = childKey;
       // Add object for indexing
@@ -38,10 +38,10 @@ database.ref('/arrangementsList').once('value', contacts => {
     index
       .saveObjects(records)
       .then(() => {
-        console.log('Contacts imported into Algolia');
+        console.log('Records imported into Algolia');
       })
       .catch(error => {
-        console.error('Error when importing contact into Algolia', error);
+        console.error('Error when importing record into Algolia', error);
         process.exit(1);
       });
 

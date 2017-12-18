@@ -683,6 +683,7 @@ export default class OrdersDashboard extends Component {
   componentDidMount () {
     window.scrollTo(0, 0);
     this.removeListener = firebaseAuth().onAuthStateChanged((user) => {
+      console.log(user);
 
       this.setUpStepListener = base.bindToState(`users/${user.uid}/info/floristRegistrationStep`, {
         context: this,

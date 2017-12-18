@@ -7,6 +7,7 @@ import PlaceOrder from '../helpers/singleOrderPayment'
 import LocalizedStrings from 'react-localization';
 import * as firebase from 'firebase';
 import { base } from '../config/constants';
+import { auth } from '../helpers/auth'
 
 let strings = new LocalizedStrings({
   en:{
@@ -61,9 +62,6 @@ let strings = new LocalizedStrings({
     delivery_gift: 'Gift',
 
 
-
-    loginTitle: 'Welcome Back',
-    loginSubtitle: 'Log in to continue',
     loginButton: 'Login',
     forgotPW: 'Forgot Password?',
     createAccount: 'Create Account',
@@ -80,6 +78,25 @@ let strings = new LocalizedStrings({
     selectButton: 'Select',
     noRecord: 'You currently have no saved address.',
 
+    orderLoginGuestTitle: 'Guest Checkout',
+    orderLoginSignIn: "Sign In",
+    orderLoginRegister: 'Register Account',
+    proceedAsGuestButton: 'Proceed as Guest',
+    proceedAsGuestTip: '*Some features such as address book and order history will be disabled.',
+
+    emailInUse: 'there already exists an account with the given email address.',
+    invalidEmail: 'the email address is not valid.',
+    operationNotAllowed: 'an error occured, please try again later.',
+    weakPW: 'password is not strong enough.',
+
+    createAccountButton: 'Create Account',
+    haveAccount: 'Have an account?',
+
+    floristName: 'Florist:',
+    floristPhone: "Florist's Phone:",
+
+    shopPage: 'shop page',
+    
   },
   ch: {
 
@@ -132,8 +149,6 @@ let strings = new LocalizedStrings({
     orderHistoryButton: '購買記錄',
     orderSucceed: '您已成功新增一個訂購！',
 
-    loginTitle: '歡迎回來',
-    loginSubtitle: '如要繼續請登入',
     loginButton: '登入',
     forgotPW: '忘記密碼?',
     createAccount: '建立帳戶', 
@@ -150,12 +165,40 @@ let strings = new LocalizedStrings({
     selectButton: '選擇',
 
     noRecord: '沒有記錄',
+
+    proceedAsGuestButton: '結帳',
+
+    orderLoginGuestTitle: '訪客結帳',
+    orderLoginSignIn: "登入結帳",
+    orderLoginRegister: '登記新帳戶',
+    proceedAsGuestButton: '繼續訪客結帳',
+    proceedAsGuestTip: '*某些系統功能需要登入後才可使用（例如地址簿）。',
+
+    emailInUse: '電郵已被另一個帳戶使用。',
+    invalidEmail: '電郵地址格式錯誤。',
+    operationNotAllowed: '系統錯誤，請稍後再試。',
+    weakPW: '密碼強度不達標準。',
+
+    createAccountButton: '建立帳戶',
+    haveAccount: '已有帳戶?',
+
+    floristName: '花匠:',
+    floristPhone: "花匠聯絡電話:",
+
+    shopPage: '店舖主頁',
+    
   }
 });
 
-function setErrorMsg(error) {
+function setErrorMsgLogin (error) {
     return {
-      loginMessage: error
+        loginMessage: error
+    }
+}
+
+function setErrorMsgRegister (error) {
+    return {
+        registerError: error
     }
 }
 
@@ -265,6 +308,7 @@ export default class Order extends Component {
         this.handleOrderStep = this.handleOrderStep.bind(this);
         this.state = {
             loading: true,
+            orderRoute: 'login',
             orderStep: 0,
             cardMessage: '',
             sender: '',
@@ -279,13 +323,17 @@ export default class Order extends Component {
             email: '',
             password: '',
             addressBookChecked: false,
+            loginRegisterToggle: 'login',
+            loginMessage: null,
+            registerError: null,
+            deliveryInstruction: '',
         }
     }
 
     resetPassword = () => {
         resetPassword(this.state.email)
-        .then(() => this.setState(setErrorMsg(`${strings.resetSent1_1}${this.state.email}${strings.resetSent1_2}`)))
-        .catch((error) => this.setState(setErrorMsg(strings.noAccountFound)))
+        .then(() => this.setState(setErrorMsgLogin(`${strings.resetSent1_1}${this.state.email}${strings.resetSent1_2}`)))
+        .catch((error) => this.setState(setErrorMsgLogin(strings.noAccountFound)))
     }
 
     handleEmailChange(e) {
@@ -296,14 +344,47 @@ export default class Order extends Component {
         this.setState({ password: e.target.value });
     }
 
-    handleSubmit = (e) => {
-        e.preventDefault()
+    handleGuestSubmit = (e) => {
+        e.preventDefault();
+        this.setState({
+            orderStep: 1,
+            orderRoute: 'guest'
+        });
+    }
+
+    handleSubmitLogin = (e) => {
+        e.preventDefault();
         login(this.state.email, this.state.password).then(() => {
                 this.setState({orderStep:1});
             }).catch((error) => {
-            this.setState(setErrorMsg(strings.invalidCredential));
+            this.setState(setErrorMsgLogin(strings.invalidCredential));
         })
-      }
+    }
+
+    handleSubmitRegister = (e) => {
+        e.preventDefault();
+        auth(this.state.email, this.state.password).then(() => {
+            this.setState({orderStep:1});
+        }).catch((e) => {
+          if (e.code==="auth/email-already-in-use") {
+            this.setState(setErrorMsgRegister(strings.emailInUse));
+          } else if (e.code==="auth/invalid-email") {
+            this.setState(setErrorMsgRegister(strings.invalidEmail));
+          } else if (e.code==="auth/operation-not-allowed") {
+            this.setState(setErrorMsgRegister(strings.operationNotAllowed));
+          } else if (e.code==="auth/weak-password") {
+            this.setState(setErrorMsgRegister(strings.weakPW));
+          }
+        })
+    }
+
+    linkCreateAccount = () => {
+        this.setState({loginRegisterToggle: 'register'})
+    }
+
+    linkLogin = () => {
+        this.setState({loginRegisterToggle: 'login'})
+    }
 
     handleOrderStep(referenceCode, stripeTxnID, deliveryDate) {
         this.setState({orderStep : 5, referenceCode: referenceCode, stripeTxnID: stripeTxnID, deliveryDate: deliveryDate, loading: false}, () => {window.scrollTo(0, 0);});
@@ -378,7 +459,7 @@ export default class Order extends Component {
                     loading: false,
                     arrangementApproval: snapshotVal.approval,
                     arrangementDescription: snapshotVal.description,
-                    arrangementPrice: snapshotVal.price,
+                    arrangementPrice: Number(snapshotVal.price),
                     arrangementCurrency: snapshotVal.currency,
                     arrangementSeasonality: snapshotVal.seasonality,
                     arrangementID: snapshotVal.id,
@@ -386,12 +467,13 @@ export default class Order extends Component {
                     arrangementName: snapshotVal.name,
                     arrangementFlorist: snapshotVal.florist,
                     arrangementFloristName: snapshotVal.floristName,
+                    arrangementContact: snapshotVal.phone,
                 });
             });
             firebase.database().ref(`florists/${floristID}/deliveryFee`).once('value', function(snapshot) {
                 var snapshotVal = snapshot.val();
                 thisRef.setState({
-                    arrangementDeliveryFee: snapshotVal[marketRegion],
+                    arrangementDeliveryFee: Number(snapshotVal[marketRegion]),
                     arrangementDeliveryCurrency: snapshotVal.currency,
                 });
             });
@@ -400,18 +482,20 @@ export default class Order extends Component {
     componentWillMount () {
 
         strings.setLanguage(this.props.languageChanged);
-
         var thisRef = this;
+
         this.fireBaseListenerForUserData = firebaseAuth().onAuthStateChanged((user) => {
-            firebase.database().ref(`users/${user.uid}/info`).once('value', function(snapshot) {
-                var snapshotVal = snapshot.val();
-                if (snapshotVal) {
-                    thisRef.setState({
-                        sender: snapshotVal.name,
-                        senderNum: snapshotVal.phone
-                    });
-                }
-            });
+            if (user !== null) {
+                firebase.database().ref(`users/${user.uid}/info`).once('value', function(snapshot) {
+                    var snapshotVal = snapshot.val();
+                    if (snapshotVal) {
+                        thisRef.setState({
+                            sender: snapshotVal.name,
+                            senderNum: snapshotVal.phone
+                        });
+                    }
+                });
+            }
         });
     }
 
@@ -457,35 +541,82 @@ export default class Order extends Component {
                         <div className="horizontal-line"></div>
                     </Row>
                 </Grid>
-                <div className="login-image">
-                    <Grid>
-                    <Row className="show-grid login-margin-box">
-                        <Col className="login-image-prompt">
-            
-                            <form className="login-form" onSubmit={this.handleSubmit}>
-                            <h2 className="login-title"><strong>{strings.loginTitle}</strong></h2>
-                            <div className="login-subtitle">{strings.loginSubtitle}</div>
-                            <div className="horizontal-line"></div>
-                            { this.state.loginMessage &&
-                                <div className="alert alert-danger login-error" role="alert">
-                                <Glyphicon glyph="exclamation-sign" className="icons"/>&nbsp;{this.state.loginMessage} 
-                                </div>
-                            }
-                            <FormGroup>
-                                <FormControl className="login-form-field" type="text" value={this.state.email} placeholder={strings.email} onChange={this.handleEmailChange}/>
-                                <FormControl className="login-form-field" type="password" value={this.state.password} placeholder={strings.password} onChange={this.handlePWChange}/>
-                            </FormGroup>
-            
-                            <Button bsStyle="" type="submit" className="button">{strings.loginButton}</Button>
-                            <div className="link-group">
-                                <a onClick={this.resetPassword} className="alert-link link-forgot-pw">{strings.forgotPW}</a>
-                                <Link to="/register" className="link-create-account">{strings.createAccount}</Link>
-                            </div>
+                <Grid className='order-login-page'>
+                    <Row className="show-grid">
+                    { this.state.loginMessage &&
+                        <div className="alert alert-danger login-error" role="alert">
+                        <Glyphicon glyph="exclamation-sign" className="icons"/>&nbsp;{this.state.loginMessage} 
+                        </div>
+                    }
+                    { this.state.registerError &&
+                        <div className="alert alert-danger login-error" role="alert">
+                        <Glyphicon glyph="exclamation-sign" className="icons"/>&nbsp;{this.state.registerError} 
+                        </div>
+                    }
+                    </Row>  
+                    <Row className="show-grid">
+                        
+                        <Col sm={1} xsHidden></Col>
+
+                        <Col sm={5} xs={12}>
+                            <form className="guest-check-out-form" onSubmit={this.handleGuestSubmit}>
+                                <h2 className="login-title"><strong>{strings.orderLoginGuestTitle}</strong></h2>
+                                <FormGroup>
+                                    <ControlLabel>{strings.email}</ControlLabel>
+                                    <FormControl className="login-form-field" type="text" value={this.state.email} placeholder={strings.email} onChange={this.handleEmailChange}/>
+                                </FormGroup>
+                                <Button bsStyle="" type="submit" id="login-button" className="button">{strings.proceedAsGuestButton}</Button>
+                                <div className="order-tips">{strings.proceedAsGuestTip}</div>
                             </form>
                         </Col>
+
+                        <Col sm={1} xsHidden>
+                            <div className="vertical-line"></div>
+                        </Col>
+
+                        <Col sm={5} xs={12}>
+                            {this.state.loginRegisterToggle === 'login' &&
+                                <form className="login-form" onSubmit={this.handleSubmitLogin}>
+                                    <h2 className="login-title"><strong>{strings.orderLoginSignIn}</strong></h2>
+                                    <FormGroup>
+                                        <ControlLabel>{strings.email}</ControlLabel>
+                                        <FormControl className="login-form-field" type="text" value={this.state.email} placeholder={strings.email} onChange={this.handleEmailChange}/>
+                                    </FormGroup>
+
+                                    <FormGroup>
+                                        <ControlLabel>{strings.password}</ControlLabel>
+                                        <FormControl className="login-form-field" type="password" value={this.state.password} placeholder={strings.password} onChange={this.handlePWChange}/>
+                                    </FormGroup>
+                    
+                                    <Button bsStyle="" type="submit" id="login-button" className="button">{strings.loginButton}</Button>
+                                    <div className="login-link-group">
+                                        <a onClick={this.resetPassword} className="alert-link link-forgot-pw">{strings.forgotPW}</a>
+                                        <a onClick={this.linkCreateAccount} className="alert-link link-create-account">{strings.createAccount}</a>
+                                    </div>
+                                </form>
+                            }
+                            {this.state.loginRegisterToggle === 'register' &&
+                                <form className="login-form" onSubmit={this.handleSubmitRegister}>
+                                    <h2 className="login-title"><strong>{strings.orderLoginRegister}</strong></h2>
+                                    <FormGroup>
+                                        <ControlLabel>{strings.email}</ControlLabel>
+                                        <FormControl className="login-form-field" type="text" value={this.state.email} placeholder={strings.email} onChange={this.handleEmailChange}/>
+                                    </FormGroup>
+
+                                    <FormGroup>
+                                        <ControlLabel>{strings.password}</ControlLabel>
+                                        <FormControl className="login-form-field" type="password" value={this.state.password} placeholder={strings.password} onChange={this.handlePWChange}/>
+                                    </FormGroup>
+                    
+                                    <Button bsStyle="" type="submit" id="login-button" className="button">{strings.createAccountButton}</Button>
+                                    <div className="login-link-group-register">
+                                        <a onClick={this.linkLogin} className="alert-link link-login">{strings.haveAccount}</a>
+                                    </div>
+                                </form>
+                            }
+                        </Col>
                     </Row>
-                    </Grid>
-                </div>
+                </Grid>
             </div>
         )
     } else if (orderStep===1){
@@ -586,17 +717,28 @@ export default class Order extends Component {
                             <Col sm={3}>
                                 <ControlLabel>{strings.recipientName}</ControlLabel>
                             </Col>
-                            <Col sm={4}>
-                                <FormGroup>
-                                    <FormControl value={this.state.recipient} type="text" onChange={this.handleRecipient} placeholder={strings.recipientNamePlaceholder}/>
-                                </FormGroup>
-                            </Col>
+                            {this.state.orderRoute === 'guest' &&
+                                <Col sm={6}>
+                                    <FormGroup>
+                                        <FormControl value={this.state.recipient} type="text" onChange={this.handleRecipient} placeholder={strings.recipientNamePlaceholder}/>
+                                    </FormGroup>
+                                </Col>
+                            }
+                            {this.state.orderRoute === 'login' &&
+                                <Col sm={4}>
+                                    <FormGroup>
+                                        <FormControl value={this.state.recipient} type="text" onChange={this.handleRecipient} placeholder={strings.recipientNamePlaceholder}/>
+                                    </FormGroup>
+                                </Col>
+                            }
+                            {this.state.orderRoute === 'login' &&
                             <Col sm={2}>
                                 <ImportAddressModal
                                     uid={this.state.uid}
                                     onImportAddress={this.handleImportAddress}
                                 />
                             </Col>
+                            }
                         </FormGroup>
                     </Row>
                     {this.state.selectLocationType==='location_office' && this.state.selectDeliveryType === 'delivery_gift' &&
@@ -649,12 +791,14 @@ export default class Order extends Component {
                             <Col sm={6}>
                                 <FormGroup>
                                     <FormControl value={this.state.address} componentClass="textarea" className="recipientAddress" onChange={this.handleAddress} placeholder={strings.recipientAddressPlaceholder}/>
-                                    <Checkbox 
-                                        onChange={this.addressBookOption}
-                                        checked={this.state.addressBookChecked}
-                                    >
-                                        {strings.saveThis}
-                                    </Checkbox>
+                                    {this.state.orderRoute === 'login' &&
+                                        <Checkbox 
+                                            onChange={this.addressBookOption}
+                                            checked={this.state.addressBookChecked}
+                                        >
+                                            {strings.saveThis}
+                                        </Checkbox>
+                                    }
                                 </FormGroup>
                             </Col>
                         </FormGroup>
@@ -955,6 +1099,8 @@ export default class Order extends Component {
                                     arrangementImage={this.state.arrangementImage}
                                     deliveryDate={this.props.deliveryDate}
                                     addressBookChecked={this.state.addressBookChecked}
+                                    email={this.state.email}
+                                    orderRoute={this.state.orderRoute}
                                 />
                                 <Button bsStyle="" className="button-new-sub button-back" onClick={() => this.setState({orderStep: 3}, () => {window.scrollTo(0, 0);})}>{strings.backButton}</Button>
                             </Col>
@@ -969,7 +1115,7 @@ export default class Order extends Component {
                 <div className="order-succeed">            
                     <div className="center-text">{strings.orderSucceed}</div>
                 </div>
-                <Grid>
+                <Grid className="order-succeed-section">
                     <Row className="show-grid">
                         <Col sm={2}></Col>
                         <Col sm={3}>
@@ -1002,11 +1148,35 @@ export default class Order extends Component {
                      
                     </Row>
                     <Row className="show-grid">
-                        <Col sm={5}></Col>
-                        <Col sm={4}>
-                            <Button bsStyle="" className="button-new-sub button-back"><Link to="/orderhistory">{strings.orderHistoryButton}</Link></Button>
+                 
+                        <Col sm={2}></Col>
+                        <Col sm={3}>
+                            <div><strong>{strings.floristName}</strong></div>
                         </Col>
+                        <Col sm={6}>
+                            <div>{this.state.arrangementFloristName} (<Link to={`/florist/${this.state.arrangementFlorist}`} id="shop-link" target='_blank'>{strings.shopPage}</Link>)</div>
+                        </Col>
+                     
                     </Row>
+                    <Row className="show-grid">
+                 
+                        <Col sm={2}></Col>
+                        <Col sm={3}>
+                            <div><strong>{strings.floristPhone}</strong></div>
+                        </Col>
+                        <Col sm={6}>
+                            <div>{this.state.arrangementContact}</div>
+                        </Col>
+                     
+                    </Row>
+                    {this.state.orderRoute === 'login' &&
+                        <Row className="show-grid">
+                            <Col sm={5}></Col>
+                            <Col sm={4}>
+                                <Button bsStyle="" className="button-new-sub button-back"><Link to="/orderhistory">{strings.orderHistoryButton}</Link></Button>
+                            </Col>
+                        </Row>
+                    }
                 </Grid>
             </div>
         )

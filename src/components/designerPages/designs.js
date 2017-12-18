@@ -96,6 +96,8 @@ let strings = new LocalizedStrings({
     hampers: 'Hampers',
     arrangements: 'Arrangements',
     congratulatoryStand: 'Congratulatory Stand',
+    flowerBoxes: 'Flower Boxes',
+
     dropdownSelectItem: 'Select',
 
   },
@@ -1698,7 +1700,9 @@ export default class Designs extends Component {
                 city: data.city,
                 featured: 'false',
                 floristType: data.floristType,
-                category: category
+                category: category,
+                phone: data.phone,
+
             }
           }).then((newLocation) => {
 

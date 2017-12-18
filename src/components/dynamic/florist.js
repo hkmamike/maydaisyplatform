@@ -49,7 +49,9 @@ export default class Florist extends Component {
                     floristName: snapshotVal.name,
                     floristProfilePic: snapshotVal.profilePic,
                     floristWebsite: snapshotVal.website,
-                    floristAddress: snapshotVal.address
+                    floristAddress: snapshotVal.address,
+                    floristFacebook: snapshotVal.facebook,
+                    floristInstagram: snapshotVal.instagram,
                 });
             });
         })
@@ -137,13 +139,29 @@ export default class Florist extends Component {
     header = (
         <div className="florist-header">
             <div className="florist-info">
-                <div className="florist-pic-container">
-                    <img src={this.state.floristProfilePic} alt=""/>
-                </div>
-                <div className="florist-info-container">
-                    <div className="florist-name">{this.state.floristName}</div>
-                    <div className="florist-address">{this.state.floristAddress}</div>
-                    <div className="florist-website"><a href={this.state.floristWebsite}>{this.state.floristWebsite}</a></div>
+
+                <div className="justify-container">
+
+                    <div className="inline-container">
+                        <div className="florist-pic-container">
+                            <img src={this.state.floristProfilePic} alt=""/>
+                        </div>
+                        <div className="florist-info-container">
+                            <div className="florist-name">{this.state.floristName}</div>
+                            <div className="florist-address">{this.state.floristAddress}</div>
+                            <div className="florist-website"><a href={this.state.floristWebsite}>{this.state.floristWebsite}</a></div>
+                            <div className="florist-info-small-screen-social-container large-screen-hide">
+                                {this.state.floristFacebook && <a href={this.state.floristFacebook} target="_blank"><i className="fa fa-facebook-official"></i></a>}
+                                {this.state.floristInstagram && <a href={this.state.floristInstagram} target="_blank"><i className="fa fa-instagram"></i></a>}
+                            </div>
+                        </div>
+                    </div>
+
+                    <div className="florist-info-social-container small-screen-hide">
+                        {this.state.floristFacebook && <a href={this.state.floristFacebook} target="_blank"><i className="fa fa-facebook-official"></i></a>}
+                        {this.state.floristInstagram && <a href={this.state.floristInstagram} target="_blank"><i className="fa fa-instagram"></i></a>}
+                    </div>
+
                 </div>
             </div>
         </div>
@@ -162,7 +180,8 @@ export default class Florist extends Component {
                 <div className="grid-bg">
                     <Grid>
                         <Row className="show-grid florist-nav">
-                            <Col xs={12} className="nav-margin">
+                            <Col xs={2} className="nav-margin"></Col>
+                            <Col xs={10} className="nav-margin">
                                 <ul>
                                     <li className="selected"><div className="nav-text">{strings.designs}</div></li>
                                     <li onClick={() => this.setState({onTab: 1}, () => {window.scrollTo(0, 0);})}><div className="nav-text">{strings.about}</div></li>
@@ -183,7 +202,8 @@ export default class Florist extends Component {
                 <Grid>
                     <Row className="show-grid florist-nav">
 
-                        <Col xs={12} className="nav-margin">
+                        <Col xs={2} className="nav-margin"></Col>
+                        <Col xs={10} className="nav-margin">
                             <ul>
                                 <li onClick={() => this.setState({onTab: 0}, () => {window.scrollTo(0, 0);})}><div className="nav-text">{strings.designs}</div></li>
                                 <li className="selected"><div className="nav-text">{strings.about}</div></li>
@@ -195,7 +215,8 @@ export default class Florist extends Component {
             </div>
             <Grid>
                 <Row>
-                    <Col xs={12}>
+                    <Col xs={2}></Col>
+                    <Col xs={10}>
                         <div className="sub-content">{this.state.floristDescription}</div>
                     </Col>
                 </Row>
@@ -209,10 +230,10 @@ export default class Florist extends Component {
                 <div className="grid-bg">
                     <Grid>
                         <Row className="show-grid florist-nav">
-        
-                            <Col xs={12} className="nav-margin">
+                            <Col xs={2} className="nav-margin"></Col>
+                            <Col xs={10} className="nav-margin">
                                 <ul>
-                                    <li onClick={() => this.setState({onTab: 0}, () => {window.scrollTo(0, 0);})}><div className="nav-text">{strings.desings}</div></li>
+                                    <li onClick={() => this.setState({onTab: 0}, () => {window.scrollTo(0, 0);})}><div className="nav-text">{strings.designs}</div></li>
                                     <li onClick={() => this.setState({onTab: 1}, () => {window.scrollTo(0, 0);})}><div className="nav-text">{strings.about}</div></li>
                                     <li className="selected"><div className="nav-text">{strings.reviews}</div></li>
                                 </ul>

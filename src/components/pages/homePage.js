@@ -89,7 +89,7 @@ let strings = new LocalizedStrings({
       artist: '獨立花藝師',
       artistText: '如果您是預早下單，可以考慮獨立花藝師們獨特風格的藝術花卉。',
 
-      trustAndConvenience: '信任與方便',
+      trustAndConvenience: '方便安心',
       trustAndConvenienceText: '我們對花店和花藝師們有極高的顧客服務和藝術上的要求; 詳盡購買記錄和快速下單功能令您的購物體驗更暢快。',
 
 

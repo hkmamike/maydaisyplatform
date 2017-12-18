@@ -1,14 +1,3 @@
-.small-screen-hide {
-    @media (max-width: 768px) {
-        display: none !important;
-    }
-}
-
-.large-screen-hide {
-    @media (min-width: 769px) {
-        display: none !important;
-    }
-}
 
 .fa-check {
     opacity: 0;

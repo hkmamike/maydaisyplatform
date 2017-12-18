@@ -82,6 +82,9 @@ let strings = new LocalizedStrings({
 
     chooseButton: 'Choose',
     shopProfile: 'Image:',
+
+    facebook: 'Facebook:',
+    instagram: 'Instagram:',
   },
   ch: {
     ordersDashboard1: ' ',
@@ -156,6 +159,9 @@ let strings = new LocalizedStrings({
 
     chooseButton: '選擇',
     shopProfile: '店舖標誌:',
+
+    facebook: 'Facebook:',
+    instagram: 'Instagram:',
   }
 });
 
@@ -684,14 +690,22 @@ export default class ShopInfo extends Component {
   handleLeadTimeChange = (e) => {
     this.setState({ leadTime: e.target.value });
   }
+  handleFacebookChange = (e) => {
+    this.setState({ facebook: e.target.value });
+  }
 
-  handleAccountUpdate = (address, description, leadTime, croppedImg) => {
+  handleInstagramChange = (e) => {
+    this.setState({ instagram: e.target.value });
+  }
+  handleAccountUpdate = (address, description, leadTime, croppedImg, facebook , instagram) => {
     base.update(`florists/${this.props.designerCode}`, {
       data: {
           address: address,
           description: description,
           deliveryLeadTime: leadTime,
           profilePic: croppedImg,
+          facebook: facebook,
+          instagram: instagram,
       }
     }).then(() => {
         this.setState({ InfoMessage: `${strings.shopInfoUpdated}`});
@@ -709,6 +723,8 @@ export default class ShopInfo extends Component {
     var description = this.state.description;
     var leadTime = this.state.leadTime;
     var croppedImg = this.state.croppedImg;
+    var facebook = this.state.facebook;
+    var instagram = this.state.instagram;
 
     let content = null;
     if (loadingState) {
@@ -814,6 +830,28 @@ export default class ShopInfo extends Component {
                 <FormGroup>
                   <Col sm={1} md={2}></Col>
                   <Col sm={3} md={2}>
+                    <div><strong>{strings.facebook}</strong></div>
+                  </Col>
+                  <Col sm={7}>
+                    <FormControl className="data-field-update" type="text" value={facebook} onChange={this.handleFacebookChange}/>
+                  </Col>
+                </FormGroup>
+              </Row>
+              <Row className="show-grid">
+                <FormGroup>
+                  <Col sm={1} md={2}></Col>
+                  <Col sm={3} md={2}>
+                    <div><strong>{strings.instagram}</strong></div>
+                  </Col>
+                  <Col sm={7}>
+                    <FormControl className="data-field-update" type="text" value={instagram} onChange={this.handleInstagramChange}/>
+                  </Col>
+                </FormGroup>
+              </Row>
+              <Row className="show-grid">
+                <FormGroup>
+                  <Col sm={1} md={2}></Col>
+                  <Col sm={3} md={2}>
                     <div><strong>{strings.deliveryRegions}</strong></div>
                   </Col>
                   <Col sm={7}>
@@ -840,7 +878,7 @@ export default class ShopInfo extends Component {
               <Row className="show-grid">
                 <FormGroup>
                   <Col xs={10} xsPush={2} smPush={5} mdPush={6}>
-                    <Button bsStyle="" className="button" onClick={() => this.handleAccountUpdate(address, description, leadTime, croppedImg)}>{strings.updateButton}</Button>
+                    <Button bsStyle="" className="button" onClick={() => this.handleAccountUpdate(address, description, leadTime, croppedImg, facebook, instagram)}>{strings.updateButton}</Button>
                   </Col>
                 </FormGroup>
               </Row>

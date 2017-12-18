@@ -20,6 +20,114 @@ textarea.data-field-update {
     font-size: 95% !important;
 }
 
+.order-login-page {
+    .login-title {
+        text-align: left;
+    }
+    .login-error {
+        text-align: center;
+        border-radius: 0;
+        font-size: 75%;
+        margin-bottom: 0 !important;
+        padding: 5px !important;
+    }
+    .login-form-field {
+        background-color: $white !important;
+        border-radius: 0 !important;
+        height: 55px !important;
+        padding: 8px !important;
+    }
+    .order-tips {
+        margin-top: 5px;
+        font-size: 85%;
+        @media (max-width: 768px) {
+            font-size: 75%;
+        }
+    }
+    .button {
+        // margin: 5px !important;
+        height: 50px !important;
+        width: 100% !important;
+        border-color: $pink !important;
+        background-color: $pink !important;
+        font-weight: bold !important;
+        color: $white !important;
+        &:hover {
+            background-color: $pinkhover !important;
+        }
+    }
+    .login-link-group {
+        display: block;
+        font-size: 75%;
+        @media (max-width: 768px) {
+            margin-top: 5px;
+        }
+        .link-forgot-pw {
+            float: left;
+            color: $black !important;
+        }
+        .link-create-account {
+            float: right;
+            color: $black !important;
+        }
+    }
+    .login-link-group-register {
+        display: block;
+        text-align: center;
+        font-size: 75%;
+        @media (max-width: 768px) {
+            margin-top: 5px;
+        }
+        .link-login {
+            color: $black !important;
+        }
+    }
+    .link-group-register {
+        padding-top: 15px;
+        padding-bottom: 0;
+        text-align: center;
+        display: block;
+        font-size: 80%;
+        .link-login {
+            color: $black !important;
+        }
+    }
+    .vertical-line {
+        height: 500px;
+        position: absolute;
+        z-index: -1;
+        top: 0;
+        bottom: 0;
+        left: 50%;
+        transform: translate(-50%);
+        border-right: 1px solid $grey;
+    }
+    .login-form {
+        float: left;
+        width: 275px;
+        #login-button {
+            margin-left: 0 !important;
+        }
+        @media (max-width: 768px) {
+            float: none;
+            margin: auto
+        }
+    }
+    .guest-check-out-form {
+        float: right;
+        width: 275px;
+        #login-button {
+            margin-left: 0 !important;
+        }
+        @media (max-width: 768px) {
+            float: none;
+            margin: auto;
+            padding-bottom: 15px;
+            border-bottom: 1px solid $grey;
+        }
+    }
+}
+
 .modal-content {
     .selected-import-address {
         @media (max-width: 768px) {
@@ -288,6 +396,9 @@ textarea.data-field-update {
                 @media (max-width: 768px) {
                     font-size: 75%;
                 }
+                a {
+                    color: $darkpink;
+                }
             }
             .cardMessage {
                 width: 100% !important;
@@ -466,7 +577,7 @@ textarea.data-field-update {
         }
     }
 
-    .order-details, .address-details, .account-details, .ordersdashboard-details, .shop-info-details, .design-details, .review-order, .order-succeed {
+    .order-details, .address-details, .account-details, .ordersdashboard-details, .shop-info-details, .design-details, .review-order, .order-succeed-section {
 
         #shop-link {
             color: $darkpink !important;
@@ -553,4 +664,5 @@ textarea.data-field-update {
         text-align: center;
         color: $teal;
     }
+
 }
