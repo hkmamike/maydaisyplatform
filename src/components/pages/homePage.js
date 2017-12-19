@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
-import { Grid, Row, Col, Glyphicon, DropdownButton, MenuItem } from 'react-bootstrap';
+import { Grid, Row, Col, DropdownButton, MenuItem } from 'react-bootstrap';
 import { Button } from 'react-bootstrap';
-import { Route, Link } from 'react-router-dom';
+import { Route } from 'react-router-dom';
 import LocalizedStrings from 'react-localization';
 
 let strings = new LocalizedStrings({
@@ -104,9 +104,9 @@ const ButtonToMarket = ({ title, history, marketRegion }) => (
   <Button bsStyle="" className="button" onClick={() => history.push(`/arrangements/${marketRegion}`)}>{strings.go}</Button>
 );
 
-const ButtonToScrollUp = ({ title, history }) => (
-  <Button bsStyle="" className="button" onClick={() => window.scrollTo(0, 0)}>{strings.signUp}</Button>
-);
+// const ButtonToScrollUp = ({ title, history }) => (
+//   <Button bsStyle="" className="button" onClick={() => window.scrollTo(0, 0)}>{strings.signUp}</Button>
+// );
 
 export default class Homepage extends Component {
 

@@ -5,6 +5,7 @@ import LocalizedStrings from 'react-localization';
 import * as firebase from 'firebase';
 import { SingleDatePicker } from 'react-dates';
 import moment from 'moment';
+import Lightbox from 'react-images';
 
 let strings = new LocalizedStrings({
     en:{
@@ -110,6 +111,7 @@ export default class Arrangement extends Component {
             descriptionActive: true,
             deliveryActive: false,
             arrangementsList: [],
+            lightboxIsOpen: false,
         };
     }
 
@@ -171,6 +173,10 @@ export default class Arrangement extends Component {
         else {
             this.setState({orderButtonPressed: true});
         }
+    }
+
+    closeLightbox = () => {
+        this.setState({lightboxIsOpen: false});
     }
 
     checkFloristCalendar(day) {
@@ -285,6 +291,7 @@ export default class Arrangement extends Component {
     var loadingState = this.state.loading;
     var marketRegion = this.props.marketRegion;
     let content = null;
+    var arrangementImage = this.state.arrangementImage;
 
     var listOfArrangements = this.state.arrangementsList.map(arrangement => 
         <Col xs={6} sm={4} key={arrangement.id} className="list-item">

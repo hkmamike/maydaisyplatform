@@ -374,6 +374,8 @@ class ColorType extends React.Component {
       case 'yellow': 
         this.setState({yellow: eventKey});
         break
+      default:
+        break
     }
   }
   componentWillMount () {
@@ -731,6 +733,8 @@ class FlowerType extends React.Component {
         break
       case 'carnations': 
         this.setState({carnations: eventKey});
+        break
+      default:
         break
     }
   }
@@ -1876,7 +1880,7 @@ export default class Designs extends Component {
             </Row>
           </Grid>
           {designsHeader}
-          {designs}
+          {designs.reverse()}
           <div className="new-design-button-box">
             <i className="fa fa-plus-circle fa-6x" aria-hidden="true" onClick={() => this.setState({designsDetailsStatus: 2, infoMessage: null, errorMessage: null}, () => {window.scrollTo(0, 0);})}></i>
           </div>

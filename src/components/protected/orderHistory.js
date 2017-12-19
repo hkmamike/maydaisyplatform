@@ -239,7 +239,6 @@ class OrderDetails extends React.Component {
     }
 
   render() {
-    var stripeTxnID = this.props.stripeTxnID;
     var orderDetails = this.state.orderDetails;
     var loadingState = this.state.loading;
     var cardMessage = this.state.cardMessage;
@@ -505,7 +504,7 @@ export default class OrderHistory extends Component {
             </Row>
           </Grid>
           {ordersHeader}
-          {orders}
+          {orders.reverse()}
         </div>
       )
     } else if (orderDetailsStatus===1) {

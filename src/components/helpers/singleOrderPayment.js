@@ -62,7 +62,6 @@ export default class PlaceOrder extends React.Component {
         var arrangementImage = this.props.arrangementImage;
         var currency = this.props.currency;
         var price = this.props.price;
-        var selectLocationType = this.props.selectLocationType;
         var selectDeliveryType = this.props.selectDeliveryType;
         var languageChanged = this.props.languageChanged;
         var senderName = this.props.sender;
@@ -145,7 +144,6 @@ export default class PlaceOrder extends React.Component {
                                 arrangementImage: arrangementImage,
                                 arrangementCode: arrangementCode,
                                 deliveryDate: deliveryDate,
-                                selectLocationType: selectLocationType,
                                 senderName: senderName,
                                 senderNum: senderNum,
                                 senderEmail: senderEmail,
@@ -168,6 +166,8 @@ export default class PlaceOrder extends React.Component {
                                 languageChanged: languageChanged,
                                 deliveryInstruction: deliveryInstruction,
                                 orderRoute: orderRoute,
+                                orderReceivedEmailSent: 'false',
+                                orderFulfilledEmailSent: 'false',
                             }
                         });
                         if (orderRoute === 'login') {
@@ -185,7 +185,6 @@ export default class PlaceOrder extends React.Component {
                                     arrangementImage: arrangementImage,
                                     arrangementCode: arrangementCode,
                                     deliveryDate: deliveryDate,
-                                    selectLocationType: selectLocationType,
                                     senderName: senderName,
                                     senderNum: senderNum,
                                     senderEmail: senderEmail,
@@ -224,7 +223,6 @@ export default class PlaceOrder extends React.Component {
                                         city: 'HK',
                                         uid: uid,
                                         referenceCode: referenceCode,
-                                        selectLocationType: selectLocationType,
                                         recipient: recipient,
                                         recipientNum: recipientNum,
                                         company: company,
@@ -249,7 +247,6 @@ export default class PlaceOrder extends React.Component {
                                     arrangementImage: arrangementImage,
                                     arrangementCode: arrangementCode,
                                     deliveryDate: deliveryDate,
-                                    selectLocationType: selectLocationType,
                                     senderName: senderName,
                                     senderNum: senderNum,
                                     senderEmail: senderEmail,

@@ -51,7 +51,6 @@ export default class Florist extends Component {
                     floristWebsite: snapshotVal.website,
                     floristAddress: snapshotVal.address,
                     floristFacebook: snapshotVal.facebook,
-                    floristInstagram: snapshotVal.instagram,
                 });
             });
         })
@@ -110,11 +109,12 @@ export default class Florist extends Component {
 
     var reviews = this.state.reviews.map(review => {
         var spaceIndex = review.sender.indexOf(' ');
+        var senderFirstName;
         if (spaceIndex !== -1) {
-            var senderFirstName = review.sender.substring(0,spaceIndex);
+            senderFirstName = review.sender.substring(0,spaceIndex);
             var senderInitial = review.sender.substring(spaceIndex+1, spaceIndex+2) + '. ';
         } else {
-            var senderFirstName = review.sender
+            senderFirstName = review.sender
         }
 
         return (

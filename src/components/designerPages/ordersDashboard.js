@@ -895,7 +895,7 @@ export default class OrdersDashboard extends Component {
             </Row>
           </Grid>
           {ordersHeader}
-          {orders}
+          {orders.reverse()}
         </div>
       )
     } else if (this.state.isDesigner==="y" && orderDetailsStatus===1) {

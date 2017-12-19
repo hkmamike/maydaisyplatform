@@ -438,7 +438,7 @@ export default class AddressBook extends Component {
             </Row>
           </Grid>
           {addressHeader}
-          {addresses}
+          {addresses.reverse()}
         </div>
       )
     } else if (addressDetailsStatus===1) {

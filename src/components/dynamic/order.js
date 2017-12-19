@@ -34,6 +34,7 @@ let strings = new LocalizedStrings({
     recipientAddress: 'Address:',
     recipientAddressPlaceholder: 'delivery address',
     saveThis: 'save this to my address book.',
+    arrangementName: 'Arrangement',
     deliveryInstruction: "Delivery Instruction:",
     deliveryInstructionPlaceholder: "Florists will try their best to accommodate. Please reference selected florist's delivery policy.",
     senderNum: "Sender's number:",
@@ -52,10 +53,7 @@ let strings = new LocalizedStrings({
     stripeTxnID: 'Stripe ID:',
     subIDTip: '*This is the transaction ID issued by our payment processor - Stripe.',
     orderHistoryButton: 'Order History',
-    locationType: 'Location Type:',
-    location_office: 'Office ',
-    location_home: 'Home',
-    location_cemetery: 'Cemetery',
+
     orderSucceed: 'Success! You have placed an order.',
     deliveryType: 'Gift? :',
     delivery_self: 'For Myself',
@@ -129,6 +127,7 @@ let strings = new LocalizedStrings({
     recipientAddress: '地址:',
     saveThis: '儲存這地址到我的地址記錄。',
     recipientAddressPlaceholder: '配送用',
+    arrangementName: '貨品:',
     deliveryInstruction: "送貨指示:",
     deliveryInstructionPlaceholder: "你的花匠會盡力跟指示安排，送貨詳情以花店的送貨規則為準，請參閱。",
     senderNum: "送花人電話:",
@@ -165,8 +164,6 @@ let strings = new LocalizedStrings({
     selectButton: '選擇',
 
     noRecord: '沒有記錄',
-
-    proceedAsGuestButton: '結帳',
 
     orderLoginGuestTitle: '訪客結帳',
     orderLoginSignIn: "登入結帳",
@@ -313,7 +310,6 @@ export default class Order extends Component {
             cardMessage: '',
             sender: '',
             address: '',
-            selectLocationType: 'location_office',
             selectDeliveryType: 'delivery_gift',
             recipient: '',
             recipientNum: '',
@@ -393,10 +389,6 @@ export default class Order extends Component {
     handleLoading() {
         this.setState({loading: true});
     }
-
-    handleLocationTypeSelect = (eventKey) => {
-        this.setState({selectLocationType: eventKey});
-    }
     handleDeliveryTypeSelect = (eventKey) => {
         this.setState({selectDeliveryType: eventKey});
     }
@@ -435,7 +427,6 @@ export default class Order extends Component {
                 company: snapshotVal.company,
                 address: snapshotVal.address,
                 deliveryinstruction: snapshotVal.deliveryInstruction,
-                selectLocationType: snapshotVal.selectLocationType,
                 deliveryInstruction: snapshotVal.deliveryInstruction,
             });
         });
@@ -517,7 +508,6 @@ export default class Order extends Component {
     var loadingState = this.state.loading;
     var orderStep = this.state.orderStep;
     var marketRegion = this.props.marketRegion;
-    var selectLocationType = this.state.selectLocationType;
     var selectDeliveryType = this.state.selectDeliveryType;
 
     let content = null;
@@ -741,7 +731,6 @@ export default class Order extends Component {
                             }
                         </FormGroup>
                     </Row>
-                    {this.state.selectLocationType==='location_office' && this.state.selectDeliveryType === 'delivery_gift' &&
                     <Row className="show-grid">
                         <FormGroup>
                             <Col sm={2}></Col>
@@ -754,21 +743,7 @@ export default class Order extends Component {
                                 </FormGroup>
                             </Col>
                         </FormGroup>
-                    </Row>}
-                    {this.state.selectLocationType==='location_home' && this.state.selectDeliveryType === 'delivery_gift' &&
-                    <Row className="show-grid">
-                        <FormGroup>
-                            <Col sm={2}></Col>
-                            <Col sm={3}>
-                                <ControlLabel>{strings.recipientNum}</ControlLabel>
-                            </Col>
-                            <Col sm={6}>
-                                <FormGroup>
-                                    <FormControl value={this.state.recipientNum} type="text" placeholder={strings.recipientNumPlaceholder} onChange={this.handleRecipientNum}/>
-                                </FormGroup>
-                            </Col>
-                        </FormGroup>
-                    </Row>}
+                    </Row>
                     <Row className="show-grid">
                         <FormGroup>
                             <Col sm={2}></Col>
@@ -872,7 +847,7 @@ export default class Order extends Component {
                             </Col>
                         </FormGroup>
                     </Row>
-                    {this.state.selectLocationType==='location_home' && <Row className="show-grid">
+                    <Row className="show-grid">
                         <FormGroup>
                             <Col sm={2}></Col>
                             <Col sm={3}>
@@ -882,18 +857,7 @@ export default class Order extends Component {
                                 <div>{this.state.recipientNum}</div>
                             </Col>
                         </FormGroup>
-                    </Row>}
-                    {this.state.selectLocationType==='location_office' && <Row className="show-grid">
-                        <FormGroup>
-                            <Col sm={2}></Col>
-                            <Col sm={3}>
-                                <div><strong>{strings.recipientNum}</strong></div>
-                            </Col>
-                            <Col sm={6}>
-                                <div>{this.state.recipientNum}</div>
-                            </Col>
-                        </FormGroup>
-                    </Row>}
+                    </Row>
                     <Row className="show-grid">
                         <FormGroup>
                             <Col sm={2}></Col>
@@ -913,6 +877,17 @@ export default class Order extends Component {
                             </Col>
                             <Col sm={6}>
                                 <div>{this.state.address}</div>
+                            </Col>
+                        </FormGroup>
+                    </Row>
+                    <Row className="show-grid">
+                        <FormGroup>
+                            <Col sm={2}></Col>
+                            <Col sm={3}>
+                                <div><strong>{strings.arrangementName}</strong></div>
+                            </Col>
+                            <Col sm={6}>
+                                <div>{this.state.arrangementName}</div>
                             </Col>
                         </FormGroup>
                     </Row>
@@ -1080,7 +1055,6 @@ export default class Order extends Component {
                                     arrangement={this.state.arrangement}
                                     currency={this.state.arrangementCurrency}
                                     marketRegion={marketRegion}
-                                    selectLocationType={this.state.selectLocationType}
                                     sender={this.state.sender}
                                     senderNum={this.state.senderNum}
                                     recipient={this.state.recipient}

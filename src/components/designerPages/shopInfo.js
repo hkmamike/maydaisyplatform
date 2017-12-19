@@ -294,6 +294,8 @@ class OpenDays extends React.Component {
       case 7: 
         this.setState({sundayFlag: eventKey});
         break
+      default: 
+        break
     }
   }
   componentWillMount () {

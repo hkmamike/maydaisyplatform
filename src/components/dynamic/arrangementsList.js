@@ -3,28 +3,21 @@ import ReactDOM from 'react-dom'
 import { Col } from 'react-bootstrap';
 import { Link, Route } from 'react-router-dom';
 import LocalizedStrings from 'react-localization';
-import { Popover, Button, OverlayTrigger, Overlay, ButtonToolbar, DropdownButton, MenuItem, Modal } from 'react-bootstrap';
+import { Button, Overlay, ButtonToolbar, DropdownButton, MenuItem, Modal } from 'react-bootstrap';
 
 import Slider, { Range } from 'rc-slider';
-import Tooltip from 'rc-tooltip';
+// import Tooltip from 'rc-tooltip';
 import 'rc-slider/assets/index.css';
 
 import {
     InstantSearch, 
-    Hits, 
-    SearchBox, 
-    RefinementList, 
+    Hits,
     Pagination,
-    Panel, 
-    HierarchicalMenu, 
-    RangeSlider,
     Configure,
     ClearAll,
-    Menu
 } from 'react-instantsearch/dom';
 import {
     connectRefinementList,
-    connectHits,
     connectMenu,
     connectRange,
     connectSearchBox
