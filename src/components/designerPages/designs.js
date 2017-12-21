@@ -1064,10 +1064,10 @@ class DesignDetails extends React.Component {
                       loading: false, 
                       name: data.name, 
                       price: data.price, 
-                      description: data.description, 
+                      description: data.description,
                       color: data.color, 
                       flower: data.flower,
-                      croppedImg: data.image
+                      croppedImg: data.image,
                   });
               }
           });
@@ -1111,11 +1111,13 @@ class DesignDetails extends React.Component {
         });
   }
   handleDelete = () => {
-    console.log('designerCode:', this.props.designerCode);
-    console.log('design ID:', this.state.designDetails.id);
     base.remove(`florists/${this.props.designerCode}/arrangements/${this.state.designDetails.id}`).then(() => {
         base.remove(`arrangementsList/${this.state.designDetails.id}`);
         this.props.onDesignDeleteSuccess();
+    }).then(() => {
+        var storageRef = firebase.storage().ref();
+        var deleteRef = storageRef.child(`${this.state.designDetails.id}.jpg`);
+        deleteRef.delete();
     }).catch(error => {
         //handle error
         console.log('an error occured when deleting record.');
@@ -1687,7 +1689,7 @@ export default class Designs extends Component {
     var designerCode = this.props.designerCode;
     var storageRef = firebase.storage().ref();
 
-    base.fetch(`florists/${designerCode}/`, {
+    base.fetch(`florists/${designerCode}/`,{
       context: this,
       then(data) {
         if (data.uid === this.state.userID) {
