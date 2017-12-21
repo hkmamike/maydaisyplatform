@@ -63,7 +63,7 @@ let strings = new LocalizedStrings({
     flower: 'Flower:',
 
     designNameTip: "The new design's name should be at least 2 characters long.",
-    designDescriptionTip: 'The description should be at least 20 characters long.',
+    designDescriptionTip: 'Suggested content: flower type, bloom count, style, dimension. If a vase is in the pictures, please indicate whether it will be included. The description should be at least 20 characters long.',
     priceTip: 'Price should be an integer value greater or equal to 40.',
 
     settingButton: 'Setting',
@@ -96,10 +96,19 @@ let strings = new LocalizedStrings({
     hampers: 'Hampers',
     arrangements: 'Arrangements',
     congratulatoryStand: 'Congratulatory Stand',
-    flowerBoxes: 'Flower Boxes',
+    flowerBox: 'Flower Boxes',
+    driedPreserved: 'Dried / Preserved',
 
     dropdownSelectItem: 'Select',
+    creating: 'Creating...',
 
+    occasions: 'Occasion:',
+    birthday: 'Birthday',
+    christmas: 'Christmas',
+    romance: 'Romance',
+    congrats: 'Congrats',
+    thankyou: 'Thankyou',
+    decoration: 'Decoration',
   },
   ch: {
     ordersDashboard1: ' ',
@@ -155,7 +164,7 @@ let strings = new LocalizedStrings({
     flower: '花種:',
     
     designNameTip: "新設計的名稱最短應為兩個字。",
-    designDescriptionTip: '描述最短應為二十個字。',
+    designDescriptionTip: '建議內容：設計花種、花朵數量、風格、大小尺寸。如相片有花瓶，請注明花瓶包括與否。描述最短應為二十個字。',
     priceTip: '價格應為最少是四十的整數。',
 
     settingButton: '設定',
@@ -189,8 +198,19 @@ let strings = new LocalizedStrings({
     hampers: '禮品花籃',
     arrangements: '插花',
     congratulatoryStand: '祝賀花牌',
+    flowerBox: '花盒',
+    driedPreserved: '乾花、保鮮花',
 
     dropdownSelectItem: '選擇',
+    creating: '新增中...',
+
+    occasions: '主要場合題材:',
+    birthday: '生日',
+    christmas: '聖誕',
+    romance: '浪漫',
+    congrats: '祝賀',
+    thankyou: '感謝',
+    decoration: '佈置',
   }
 });
 
@@ -1073,6 +1093,46 @@ class DesignDetails extends React.Component {
           });
       });
   }
+
+  validatePrice = () => {
+    const length = this.state.price.length;
+    const price = this.state.price;
+    const priceInt = parseInt(price);
+    var positive = false;
+    var integer = false;
+
+    if (priceInt >= 40) {
+      positive = true;
+    }
+    if (typeof price === 'string') {
+      if (!(price.indexOf('.') >= 0)) {
+        integer = true;
+      }
+    } else if (typeof price === 'number') {
+      if (Number.isInteger(price)) {
+        integer = true;
+      }
+    }
+    if (positive && integer){
+      return 'success';
+    } else if (length > 0) {
+      return 'error';
+    } else {
+      return null;
+    }
+  }
+
+  validateDescription = () => {
+    const length = this.state.description.length;
+    if (length > 20){
+      return 'success';
+    }  else if (length > 0) {
+      return 'warning';
+    } else {
+      return null;
+    }
+  }
+
   componentWillUnmount () {
       //returns the unsubscribe function
       this.fireBaseListenerForDesignDetails && this.fireBaseListenerForDesignDetails();
@@ -1217,27 +1277,44 @@ class DesignDetails extends React.Component {
                     </Col>
                     </FormGroup>
                 </Row>
+                <Row className="show-grid">
+                    <FormGroup>
+                    <Col sm={1} md={2}></Col>
+                    <Col sm={3} md={2}>
+                        <div><strong>{strings.occasions}</strong></div>
+                    </Col>
+                    <Col sm={8}  md={5}>
+                        <div>{strings[designDetails.occasions]}</div>
+                    </Col>
+                    </FormGroup>
+                </Row>
               <Row className="show-grid">
-                <FormGroup>
                   <Col sm={1} md={2}></Col>
                   <Col sm={3} md={2}>
                       <div><strong>{strings.price}</strong></div>
                   </Col>
                   <Col sm={8} md={5}>
-                    <FormControl className="data-field-update" type="text" value={price} onChange={this.handlePriceChange}/>
+                    <FormGroup
+                      validationState={this.validatePrice()}
+                    >
+                      <FormControl className="data-field-update" type="text" value={price} onChange={this.handlePriceChange}/>
+                      <HelpBlock>{strings.priceTip}</HelpBlock>
+                    </FormGroup>
                   </Col>
-                </FormGroup>
               </Row>
               <Row className="show-grid">
-                <FormGroup>
                   <Col sm={1} md={2}></Col>
                   <Col sm={3} md={2}>
                       <div><strong>{strings.designDescription}</strong></div>
                   </Col>
                   <Col sm={8} md={5}>
-                    <FormControl className="card-text-area data-field-update" componentClass="textarea" value={description} onChange={this.handleDescriptionChange}/>
+                    <FormGroup
+                      validationState={this.validateDescription()}
+                    >
+                      <FormControl className="card-text-area data-field-description" componentClass="textarea" value={description} onChange={this.handleDescriptionChange}/>
+                      <HelpBlock>{strings.designDescriptionTip}</HelpBlock>
+                    </FormGroup>
                   </Col>
-                </FormGroup>
               </Row>
               <Row className="show-grid">
                 <FormGroup>
@@ -1306,7 +1383,9 @@ class NewDesign extends React.Component {
           croppedImg: null,
           colorsArray: [],
           flowersArray: [],
-          category: 'dropdownSelectItem'
+          category: 'dropdownSelectItem',
+          creating: false,
+          occasions: 'dropdownSelectItem',
       }
   }
 
@@ -1324,9 +1403,10 @@ class NewDesign extends React.Component {
       this.props.onHandleBack();
   }
 
-  handleNewDesign = (name, price, description, colorsArray, flowersArray, croppedImg, category) => {
-      if (this.validateName() ==='success' && this.validatePrice() ==='success' && this.validateDescription() ==='success' && this.validatePic() ==='success' && this.validateCategory() ==='success') {
-        this.props.onHandleNewDesign(name, price, description, colorsArray, flowersArray, croppedImg, category);
+  handleNewDesign = (name, price, description, colorsArray, flowersArray, croppedImg, category, occasions) => {
+      if (this.validateName() ==='success' && this.validatePrice() ==='success' && this.validateDescription() ==='success' && this.validatePic() ==='success' && this.validateCategory() ==='success' && this.validateOccasions() ==='success') {
+        this.setState({creating: true});
+        this.props.onHandleNewDesign(name, price, description, colorsArray, flowersArray, croppedImg, category, occasions);
       } else {
         this.props.onNewDesignIncomplete();
       }
@@ -1337,6 +1417,9 @@ class NewDesign extends React.Component {
   }
   handleCategoryChange = (eventKey) => {
     this.setState({ category: eventKey });
+  }
+  handleOccasionsChange = (eventKey) => {
+    this.setState({ occasions: eventKey });
   }
   handlePriceChange = (e) => {
       this.setState({ price: e.target.value });
@@ -1398,6 +1481,14 @@ class NewDesign extends React.Component {
       return null;
     }
   }
+  validateOccasions = () => {
+    const occasions = this.state.occasions;
+    if (occasions !== 'dropdownSelectItem'){
+      return 'success';
+    } else {
+      return null;
+    }
+  }
   validateDescription = () => {
     const length = this.state.description.length;
     if (length > 20){
@@ -1418,8 +1509,10 @@ class NewDesign extends React.Component {
     if (priceInt >= 40) {
       positive = true;
     }
-    if (!(price.indexOf('.') >= 0)) {
-      integer = true;
+    if (typeof price === 'string') {
+      if (!(price.indexOf('.') >= 0)) {
+        integer = true;
+      }
     }
 
     if (positive && integer){
@@ -1430,6 +1523,7 @@ class NewDesign extends React.Component {
       return null;
     }
   }
+
   render() {
     var loadingState = this.state.loading;
     var name = this.state.name;
@@ -1439,6 +1533,7 @@ class NewDesign extends React.Component {
     var colorsArray = this.state.colorsArray;
     var flowersArray = this.state.flowersArray;
     var category = this.state.category;
+    var occasions = this.state.occasions;
     let content = null;
 
     if (loadingState) {
@@ -1514,9 +1609,33 @@ class NewDesign extends React.Component {
                           <MenuItem eventKey="hampers">{strings.hampers}</MenuItem>
                           <MenuItem eventKey="arrangements">{strings.arrangements}</MenuItem>
                           <MenuItem eventKey="congratulatoryStand">{strings.congratulatoryStand}</MenuItem>
+                          <MenuItem eventKey="flowerBox">{strings.flowerBox}</MenuItem>
+                          <MenuItem eventKey="driedPreserved">{strings.driedPreserved}</MenuItem>
                         </DropdownButton>
                         <FormControl.Feedback/>
                         <HelpBlock>{strings.designCategoryTip}</HelpBlock>
+                      </FormGroup>
+                  </Col>
+                  </FormGroup>
+              </Row>
+              <Row className="show-grid">
+                  <FormGroup>
+                  <Col sm={1} md={2}></Col>
+                  <Col sm={3} md={2}>
+                      <div><strong>{strings.occasions}</strong></div>
+                  </Col>
+                  <Col sm={8} md={5}>
+                      <FormGroup validationState={this.validateOccasions()}>
+                        <DropdownButton title={strings[occasions]} id='new-design-occasion' onSelect={(eventKey)=>this.handleOccasionsChange(eventKey)}>
+                          <MenuItem eventKey="birthday">{strings.birthday}</MenuItem>
+                          <MenuItem eventKey="christmas">{strings.christmas}</MenuItem>
+                          <MenuItem eventKey="congrats">{strings.congrats}</MenuItem>
+                          <MenuItem eventKey="romance">{strings.romance}</MenuItem>
+                          <MenuItem eventKey="thankyou">{strings.thankyou}</MenuItem>
+                          <MenuItem eventKey="decoration">{strings.decoration}</MenuItem>
+                        </DropdownButton>
+                        <FormControl.Feedback/>
+                        <HelpBlock>{strings.designOccasionsTip}</HelpBlock>
                       </FormGroup>
                   </Col>
                   </FormGroup>
@@ -1531,7 +1650,7 @@ class NewDesign extends React.Component {
                     <FormGroup
                       validationState={this.validateDescription()}
                     >
-                      <FormControl className="card-text-area data-field-update" componentClass="textarea" value={description} onChange={this.handleDescriptionChange}/>
+                      <FormControl className="card-text-area data-field-description" componentClass="textarea" value={description} onChange={this.handleDescriptionChange}/>
                       <FormControl.Feedback/>
                       <HelpBlock>{strings.designDescriptionTip}</HelpBlock>
                     </FormGroup>
@@ -1593,7 +1712,12 @@ class NewDesign extends React.Component {
                   </Col>
                   <Col sm={4}>
                     <Button bsStyle="" className="button button-back" onClick={() => this.handleBack()}>{strings.backButton}</Button>
-                    <Button bsStyle="" className="button button-update" onClick={() => this.handleNewDesign(name, price, description, colorsArray, flowersArray, croppedImg, category)}>{strings.createButton}</Button>
+                    {!this.state.creating &&
+                    <Button bsStyle="" className="button button-update" onClick={() => this.handleNewDesign(name, price, description, colorsArray, flowersArray, croppedImg, category, occasions)}>{strings.createButton}</Button>
+                    }
+                    {this.state.creating && 
+                    <Button bsStyle="" className="button button-update disabled" >{strings.creating}</Button>
+                    }
                   </Col>
                 </FormGroup>
               </Row>
@@ -1685,7 +1809,7 @@ export default class Designs extends Component {
     this.setState({errorMessage: strings.errorIncomplete});
   }
 
-  handleNewDesign = (name, price, description, colorsArray, flowersArray, croppedImg, category) => {
+  handleNewDesign = (name, price, description, colorsArray, flowersArray, croppedImg, category, occasions) => {
     var designerCode = this.props.designerCode;
     var storageRef = firebase.storage().ref();
 
@@ -1706,12 +1830,13 @@ export default class Designs extends Component {
                 floristUserID: data.uid,
                 flower: flowersArray,
                 name: name,
-                price: price,
+                price:Number(price),
                 seasonality: 'all',
                 city: data.city,
                 featured: 'false',
                 floristType: data.floristType,
                 category: category,
+                occasions: occasions,
                 phone: data.phone,
 
             }
@@ -1769,7 +1894,7 @@ export default class Designs extends Component {
         base.update(`arrangementsList/${selectedDesign}`, {
           data: {
               name: name,
-              price: price,
+              price: Number(price),
               description: description,
               color: color,
               flower: flower,
@@ -1786,7 +1911,7 @@ export default class Designs extends Component {
       base.update(`arrangementsList/${selectedDesign}`, {
         data: {
             name: name,
-            price: price,
+            price: Number(price),
             description: description,
             color: color,
             flower: flower,
