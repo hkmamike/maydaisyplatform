@@ -3,7 +3,7 @@ import ReactDOM from 'react-dom';
 import { firebaseAuth } from '../config/constants';
 import { Link, Route } from 'react-router-dom';
 import { base } from '../config/constants';
-import { Grid, Row, Col, FormGroup, FormControl, Button, Glyphicon, Modal, DropdownButton, MenuItem } from 'react-bootstrap';
+import { Grid, Row, Col, FormGroup, FormControl, Button, Glyphicon, Modal, DropdownButton, MenuItem, HelpBlock} from 'react-bootstrap';
 import LocalizedStrings from 'react-localization';
 import AvatarCropper from 'react-avatar-cropper';
 
@@ -85,6 +85,8 @@ let strings = new LocalizedStrings({
 
     facebook: 'Facebook:',
     instagram: 'Instagram:',
+
+    leadTimeTip: '*Put ""1" if next day delivery is available, "0" if sameday delivery is available, so on. For sameday delivery, platform wise cutoff time is 1p.m. HKT.'
   },
   ch: {
     ordersDashboard1: ' ',
@@ -162,6 +164,8 @@ let strings = new LocalizedStrings({
 
     facebook: 'Facebook:',
     instagram: 'Instagram:',
+
+    leadTimeTip: '*如果最快交貨時間為下一天，請填"1"，如此類推。如您的店提供即日送貨，請填"0"。 所有五月菊的即日送貨的標準訂單截止時間為香港時間下午1時。'
   }
 });
 
@@ -322,7 +326,7 @@ class OpenDays extends React.Component {
     if (this.state.saturdayFlag === 'close') {
       blockedDaysArray.push(6);
     }
-    if (this.state.fridayFlag === 'close') {
+    if (this.state.sundayFlag === 'close') {
       blockedDaysArray.push(7);
     }
     base.post(`florists/${this.props.designerCode}/deliveryBlockedDays`, {
@@ -624,6 +628,8 @@ export default class ShopInfo extends Component {
       img: null,
       croppedImg: null,
       cropperOpen: false,
+      instagram: '',
+      facebook: '',
     }
   }
 
@@ -825,6 +831,7 @@ export default class ShopInfo extends Component {
                   </Col>
                   <Col sm={7}>
                     <FormControl className="data-field-update" type="text" value={leadTime} onChange={this.handleLeadTimeChange}/>
+                    <HelpBlock>{strings.leadTimeTip}</HelpBlock>
                   </Col>
                 </FormGroup>
               </Row>

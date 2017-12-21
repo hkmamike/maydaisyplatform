@@ -460,7 +460,7 @@ textarea.data-field-update {
                 background: #CCC;
                 height: 2px;
             }
-            .order-list-titles, .address-list-titles, .ordersdashboard-list-titles, .designs-list-titles, .import-list-titles {
+            .order-list-titles, .address-list-titles, .ordersdashboard-list-titles, .designs-list-titles, .import-list-titles, .registration-list-titles {
                 background-color: $pink;
                 color: white;
                 padding: 10px;
@@ -469,7 +469,7 @@ textarea.data-field-update {
                     font-size: 70%;
                 }
             }
-            .order-list-item, .address-list-item, .ordersdashboard-list-item, .design-list-item, .import-list-item {
+            .order-list-item, .address-list-item, .ordersdashboard-list-item, .design-list-item, .import-list-item, .registration-list-item {
                 border-bottom: 1px solid;
                 border-color: $darkGrey;
                 padding: 10px 10px 10px 10px;
@@ -577,7 +577,7 @@ textarea.data-field-update {
         }
     }
 
-    .order-details, .address-details, .account-details, .ordersdashboard-details, .shop-info-details, .design-details, .review-order, .order-succeed-section {
+    .order-details, .address-details, .account-details, .ordersdashboard-details, .shop-info-details, .design-details, .review-order, .order-succeed-section, .registration-details {
 
         #shop-link {
             color: $darkpink !important;

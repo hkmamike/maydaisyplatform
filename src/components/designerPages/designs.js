@@ -1644,6 +1644,11 @@ export default class Designs extends Component {
                       loading: false, 
                       userID: user.uid
                   });
+              } else {
+                  thisRef.setState({
+                    loading: false, 
+                    userID: user.uid
+                });
               }
           });
         });
@@ -1772,7 +1777,7 @@ export default class Designs extends Component {
               this.setState({ infoMessage: strings.designUpdated}, () => window.scrollTo(0, 0))
           ).catch(err => {
               console.log('An error occured when updating design.');
-              this.setState({ errorMessage: strings.errorOccured});
+              this.setState({ errorMessage: strings.errorOccured}, () => window.scrollTo(0, 0));
           });
       })
     } else {
@@ -1880,7 +1885,7 @@ export default class Designs extends Component {
             </Row>
           </Grid>
           {designsHeader}
-          {designs.reverse()}
+          {designs}
           <div className="new-design-button-box">
             <i className="fa fa-plus-circle fa-6x" aria-hidden="true" onClick={() => this.setState({designsDetailsStatus: 2, infoMessage: null, errorMessage: null}, () => {window.scrollTo(0, 0);})}></i>
           </div>

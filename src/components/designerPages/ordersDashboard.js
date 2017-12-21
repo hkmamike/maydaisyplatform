@@ -695,7 +695,7 @@ export default class OrdersDashboard extends Component {
         state: 'isDesigner'
       });
 
-      this.setState({userID: user.uid});
+      this.setState({userID: user.uid, userEmail: user.email});
     });
   }
   componentWillUnmount () {
@@ -767,7 +767,7 @@ export default class OrdersDashboard extends Component {
   }
   submitSignUp = (firstName, lastName, shopName, shopWeb, floristSource, floristPhone) => {
     base.update(`floristRegistration/${this.state.userID}`, {
-      data: {firstName: firstName, lastName: lastName, shopName: shopName, shopWeb: shopWeb, source: floristSource, phone: floristPhone, date: new Date(), floristRegistrationStep: 1}
+      data: {firstName: firstName, lastName: lastName, shopName: shopName, shopWeb: shopWeb, source: floristSource, phone: floristPhone, status: 'submitted', email: this.state.userEmail, user: this.state.userID, date: new Date(), floristRegistrationStep: 1}
     });
     base.update(`users/${this.state.userID}/info`, {
       data: {firstName: firstName, lastName: lastName, shopName: shopName, shopWebOnRegistration: shopWeb, source: floristSource, phone: floristPhone, floristRegistrationStep: 1}
@@ -777,12 +777,12 @@ export default class OrdersDashboard extends Component {
   handleSubmit = (e) => {
     e.preventDefault();
     if (
-      this.getFirstNameValidationState() && 
-      this.getLastNameValidationState() && 
-      this.getPhoneValidationState() && 
-      this.getSelectValidationState() && 
-      this.getShopNameValidationState() && 
-      this.getShopWebValidationState()
+      this.getFirstNameValidationState() === 'success' && 
+      this.getLastNameValidationState() === 'success' && 
+      this.getPhoneValidationState() === 'success' && 
+      this.getSelectValidationState() === 'success' && 
+      this.getShopNameValidationState() === 'success' && 
+      this.getShopWebValidationState() === 'success' 
     ) {
       this.submitSignUp(this.state.firstName, this.state.lastName, this.state.shopName, this.state.shopWeb, this.state.floristSource, this.state.floristPhone);
       this.setState({formIncompleteMessage: null});
@@ -895,7 +895,8 @@ export default class OrdersDashboard extends Component {
             </Row>
           </Grid>
           {ordersHeader}
-          {orders.reverse()}
+          {orders.reverse && orders.reverse()}
+          {!orders.reverse && orders}
         </div>
       )
     } else if (this.state.isDesigner==="y" && orderDetailsStatus===1) {

@@ -504,7 +504,8 @@ export default class OrderHistory extends Component {
             </Row>
           </Grid>
           {ordersHeader}
-          {orders.reverse()}
+          {orders.reverse && orders.reverse()}
+          {!orders.reverse && orders}
         </div>
       )
     } else if (orderDetailsStatus===1) {

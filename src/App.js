@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import { BrowserRouter, Route, Redirect, Switch } from 'react-router-dom';
 import { base } from './components/config/constants';
+
 //auth
 import Login from './components/pages/login';
 import Register from './components/pages/register';
@@ -36,6 +37,9 @@ import OrdersDashboard from './components/designerPages/ordersDashboard';
 import Designs from './components/designerPages/designs';
 import ShopInfo from './components/designerPages/shopInfo';
 
+//admin pages
+import FloristRegistration from './components/admin/floristRegistration';
+
 //compressed css
 import './assets/css/default.min.css';
 
@@ -43,6 +47,23 @@ import './assets/css/default.min.css';
 import 'react-dates/lib/css/_datepicker.css';
 import 'react-dates/initialize';
 
+function AdminRoute ({component: Component, authed, languageChanged, ...rest}) {
+  return (
+    <Route {...rest} render={(props) => authed === false? 
+        <Component {...props} languageChanged={languageChanged}/>
+        : <Redirect to='/admin-registration' />}
+    />
+  )
+}
+
+function AdminPage ({component: Component, authed, ...rest}) {
+  return (
+    <Route {...rest} render={(props) => authed === true? 
+        <Component {...props}/>
+        : <Redirect to='/admin-login'/>}
+    />
+  )
+}
 
 function PrivateRoute ({component: Component, authed, languageChanged, designerCode, ...rest}) {
   return (
@@ -143,6 +164,7 @@ export default class App extends Component {
 
   componentDidMount () {
     this.removeListener = firebaseAuth().onAuthStateChanged((user) => {
+      console.log('user is', user);
       if (user) {
         base.fetch(`users/${user.uid}/info/`, {
           context: this,
@@ -194,12 +216,14 @@ export default class App extends Component {
           <Switch>
             <Route path='/' exact render={(props) => (<Homepage {...props} marketRegion={marketRegion} onMarketRegionSelect={this.handleMarketRegionSelect} languageChanged={this.state.languageChanged}/>)}/>
           
-            
             <PublicRoute authed={this.state.authed} isDesigner={this.state.isDesigner} path='/login' component={Login} languageChanged={this.state.languageChanged}/>
             <PublicRoute authed={this.state.authed} isDesigner={this.state.isDesigner} path='/register' component={Register} languageChanged={this.state.languageChanged}/>
 
             <FloristRegisterRoute authed={this.state.authed} path='/artist-registration-login' component={Login} languageChanged={this.state.languageChanged}/>
             <FloristRegisterRoute authed={this.state.authed} path='/artist-registration-register' component={Register} languageChanged={this.state.languageChanged}/>
+
+            <AdminRoute authed={this.state.authed} path='/admin-login' component={Login} languageChanged={this.state.languageChanged}/>
+            <AdminPage authed={this.state.authed} path='/admin-registration' component ={FloristRegistration}/>
 
             <Route path='/arrangements/:marketRegion?' exact render={(props) => (<ArrangementsList {...props} 
               languageChanged={this.state.languageChanged}

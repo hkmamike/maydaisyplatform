@@ -99,7 +99,7 @@ exports.EmailOnTxn = functions.database.ref('/allTransactions/{FloristID}/{TxnRe
        email = snapshot.val();
     }).then(() => {
         return sendEmailFloristOnTxn(floristEmail, arrangementCode, arrangementName, deliveryDate, referenceCode) 
-            && sendEmailCustomerOnTxn(email, );
+            && sendEmailCustomerOnTxn(email, arrangementCode, arrangementName, deliveryDate, referenceCode);
     })
 });
 
