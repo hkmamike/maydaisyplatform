@@ -27,6 +27,9 @@ let strings = new LocalizedStrings({
     deleteText1: "To Proceed deleting this record, click the 'delete' button below",
     design: 'Design',
     price: 'Price(HKD):',
+    price2: 'Price2(HKD):',
+    price3: 'Price3(HKD):',
+
     newDesign: 'New Design',
     category: 'Category:',
     designCategoryTip: 'We only accept design listings that fit these categories, but more categories will open soon. Please contact us to suggest a new category.',
@@ -65,6 +68,8 @@ let strings = new LocalizedStrings({
     designNameTip: "The new design's name should be at least 2 characters long.",
     designDescriptionTip: 'Suggested content: flower type, bloom count, style, dimension. If a vase is in the pictures, please indicate whether it will be included. The description should be at least 20 characters long.',
     priceTip: 'Price should be an integer value greater or equal to 40.',
+    price2Tip: "For customers who enter your shop's promo-code #2. Leave this field blank if you do not wish to use the promo-code feature. You can set promo-code in your shop's info page.",
+    price3Tip: "For customers who enter your shop's promo-code #3. Leave this field blank if you do not wish to use the promo-code feature. You can set promo-code in your shop's info page.",
 
     settingButton: 'Setting',
 
@@ -128,6 +133,8 @@ let strings = new LocalizedStrings({
     deleteText1: "如要繼續刪取這個地址，請按下'刪除'鈕扣。",
     design: '設計名稱',
     price: '價格(HKD):',
+    price2: '價格2(HKD):',
+    price3: '價格3(HKD):',
     category: '貨品種類:',
     newDesign: '新增設計',
     designCategoryTip: '只接受已開通種類的新增設計，其他的種類將陸續開通。如您有對新貨品種類的建議，請聯絡我們。',
@@ -166,6 +173,8 @@ let strings = new LocalizedStrings({
     designNameTip: "新設計的名稱最短應為兩個字。",
     designDescriptionTip: '建議內容：設計花種、花朵數量、風格、大小尺寸。如相片有花瓶，請注明花瓶包括與否。描述最短應為二十個字。',
     priceTip: '價格應為最少是四十的整數。',
+    price2Tip: "客人輸入你的折扣碼＃2後可享有的價格。如果您不想開啟折扣碼功能，可留空。您可在'店舖資料'中設定折扣碼。",
+    price3Tip: "客人輸入你的折扣碼＃3後可享有的價格。如果您不想開啟折扣碼功能，可留空。您可在'店舖資料'中設定折扣碼。",
 
     settingButton: '設定',
 
@@ -594,7 +603,7 @@ class ColorType extends React.Component {
                   </div>
                   <Modal.Footer>
                   <Button bsStyle="" className="button button-back" onClick={this.close}>{strings.backButton}</Button>
-                  <Button bsStyle="" className="button" onClick={this.handleColorUpdate}>{strings.saveButton}</Button>
+                  <Button bsStyle="" className="button" onClick={this.handleColorUpdate}>{strings.updateButton}</Button>
                   </Modal.Footer>
               </Modal>
           </div>
@@ -1079,14 +1088,45 @@ class DesignDetails extends React.Component {
           base.fetch(`arrangementsList/${this.props.selectedDesign}`, {
               context: this,
               then(data) {
+
+                  var price2Mod;
+                  var price3Mod;
+                  var colorMod;
+                  var flowerMod;
+
+                  if (data.price2 === -1) {
+                    price2Mod = '';
+                  } else {
+                    price2Mod = data.price2.toString();
+                  }
+
+                  if (data.price3 === -1) {
+                    price3Mod = '';
+                  } else {
+                    price3Mod = data.price3.toString();
+                  }
+
+                  if (typeof data.flower === 'undefined') {
+                    flowerMod = [];
+                  } else {
+                    flowerMod = data.flower;
+                  }
+                  if (typeof data.color === 'undefined') {
+                    colorMod = [];
+                  } else {
+                    colorMod = data.color;
+                  }
+
                   this.setState({
                       designDetails: data, 
                       loading: false, 
                       name: data.name, 
-                      price: data.price, 
+                      price: data.price,
+                      price2: price2Mod,
+                      price3: price3Mod,
                       description: data.description,
-                      color: data.color, 
-                      flower: data.flower,
+                      color: colorMod, 
+                      flower: flowerMod,
                       croppedImg: data.image,
                   });
               }
@@ -1097,6 +1137,62 @@ class DesignDetails extends React.Component {
   validatePrice = () => {
     const length = this.state.price.length;
     const price = this.state.price;
+    const priceInt = parseInt(price);
+    var positive = false;
+    var integer = false;
+
+    if (priceInt >= 40) {
+      positive = true;
+    }
+    if (typeof price === 'string') {
+      if (!(price.indexOf('.') >= 0)) {
+        integer = true;
+      }
+    } else if (typeof price === 'number') {
+      if (Number.isInteger(price)) {
+        integer = true;
+      }
+    }
+    if (positive && integer){
+      return 'success';
+    } else if (length > 0) {
+      return 'error';
+    } else {
+      return null;
+    }
+  }
+
+  validatePrice2 = () => {
+    const length = this.state.price2.length;
+    const price = this.state.price2;
+    const priceInt = parseInt(price);
+    var positive = false;
+    var integer = false;
+
+    if (priceInt >= 40) {
+      positive = true;
+    }
+    if (typeof price === 'string') {
+      if (!(price.indexOf('.') >= 0)) {
+        integer = true;
+      }
+    } else if (typeof price === 'number') {
+      if (Number.isInteger(price)) {
+        integer = true;
+      }
+    }
+    if (positive && integer){
+      return 'success';
+    } else if (length > 0) {
+      return 'error';
+    } else {
+      return null;
+    }
+  }
+
+  validatePrice3 = () => {
+    const length = this.state.price3.length;
+    const price = this.state.price3;
     const priceInt = parseInt(price);
     var positive = false;
     var integer = false;
@@ -1141,12 +1237,18 @@ class DesignDetails extends React.Component {
   handleBack = () => {
       this.props.onHandleBack();
   }
-  handleDesignUpdate = (name, price, description, color, flower, croppedImg, newImageFlag) => {
-      this.props.onHandleDesignUpdate(this.props.selectedDesign, name, price, description, color, flower, croppedImg, newImageFlag);
+  handleDesignUpdate = (name, price, description, color, flower, croppedImg, newImageFlag, price2, price3) => {
+      this.props.onHandleDesignUpdate(this.props.selectedDesign, name, price, description, color, flower, croppedImg, newImageFlag, price2, price3);
   }
   handlePriceChange = (e) => {
       this.setState({ price: e.target.value });
   }
+  handlePrice2Change = (e) => {
+    this.setState({ price2: e.target.value });
+}
+handlePrice3Change = (e) => {
+  this.setState({ price3: e.target.value });
+}
   handleDescriptionChange = (e) => {
       this.setState({ description: e.target.value });
   }
@@ -1189,6 +1291,8 @@ class DesignDetails extends React.Component {
     var loadingState = this.state.loading;
     var name = this.state.name;
     var price = this.state.price;
+    var price2 = this.state.price2;
+    var price3 = this.state.price3;
     var color = this.state.color;
     var flower = this.state.flower;
     var description = this.state.description;
@@ -1305,6 +1409,34 @@ class DesignDetails extends React.Component {
               <Row className="show-grid">
                   <Col sm={1} md={2}></Col>
                   <Col sm={3} md={2}>
+                      <div><strong>{strings.price2}</strong></div>
+                  </Col>
+                  <Col sm={8} md={5}>
+                    <FormGroup
+                      validationState={this.validatePrice2()}
+                    >
+                      <FormControl className="data-field-update" type="text" value={price2} onChange={this.handlePrice2Change}/>
+                      <HelpBlock>{strings.price2Tip}</HelpBlock>
+                    </FormGroup>
+                  </Col>
+              </Row>
+              <Row className="show-grid">
+                  <Col sm={1} md={2}></Col>
+                  <Col sm={3} md={2}>
+                      <div><strong>{strings.price3}</strong></div>
+                  </Col>
+                  <Col sm={8} md={5}>
+                    <FormGroup
+                      validationState={this.validatePrice3()}
+                    >
+                      <FormControl className="data-field-update" type="text" value={price3} onChange={this.handlePrice3Change}/>
+                      <HelpBlock>{strings.price3Tip}</HelpBlock>
+                    </FormGroup>
+                  </Col>
+              </Row>
+              <Row className="show-grid">
+                  <Col sm={1} md={2}></Col>
+                  <Col sm={3} md={2}>
                       <div><strong>{strings.designDescription}</strong></div>
                   </Col>
                   <Col sm={8} md={5}>
@@ -1352,7 +1484,7 @@ class DesignDetails extends React.Component {
                   </Col>
                   <Col sm={4}>
                     <Button bsStyle="" className="button button-back" onClick={() => this.handleBack()}>{strings.backButton}</Button>
-                    <Button bsStyle="" className="button button-update" onClick={() => this.handleDesignUpdate(name, price, description, color, flower, croppedImg, newImageFlag)}>{strings.updateButton}</Button>
+                    <Button bsStyle="" className="button button-update" onClick={() => this.handleDesignUpdate(name, price, description, color, flower, croppedImg, newImageFlag, price2, price3)}>{strings.updateButton}</Button>
                   </Col>
                 </FormGroup>
               </Row>
@@ -1379,6 +1511,8 @@ class NewDesign extends React.Component {
           img: null,
           name: '',
           price: '',
+          price2: '',
+          price3: '',
           description: '',
           croppedImg: null,
           colorsArray: [],
@@ -1403,10 +1537,18 @@ class NewDesign extends React.Component {
       this.props.onHandleBack();
   }
 
-  handleNewDesign = (name, price, description, colorsArray, flowersArray, croppedImg, category, occasions) => {
-      if (this.validateName() ==='success' && this.validatePrice() ==='success' && this.validateDescription() ==='success' && this.validatePic() ==='success' && this.validateCategory() ==='success' && this.validateOccasions() ==='success') {
+  handleNewDesign = (name, price, description, colorsArray, flowersArray, croppedImg, category, occasions, price2, price3) => {
+      if (this.validateName() ==='success' 
+        && this.validatePrice() ==='success'
+        && this.validateDescription() ==='success' 
+        && this.validatePic() ==='success' 
+        && this.validateCategory() ==='success' 
+        && this.validateOccasions() ==='success' 
+        && (this.validatePrice2() === 'success' || this.validatePrice2() === null)
+        && (this.validatePrice3() === 'success' || this.validatePrice3() === null)
+      ) {
         this.setState({creating: true});
-        this.props.onHandleNewDesign(name, price, description, colorsArray, flowersArray, croppedImg, category, occasions);
+        this.props.onHandleNewDesign(name, price, description, colorsArray, flowersArray, croppedImg, category, occasions, price2, price3);
       } else {
         this.props.onNewDesignIncomplete();
       }
@@ -1423,6 +1565,12 @@ class NewDesign extends React.Component {
   }
   handlePriceChange = (e) => {
       this.setState({ price: e.target.value });
+  }
+  handlePrice2Change = (e) => {
+    this.setState({ price2: e.target.value });
+  }
+  handlePrice3Change = (e) => {
+    this.setState({ price3: e.target.value });
   }
   handleDescriptionChange = (e) => {
       this.setState({ description: e.target.value });
@@ -1523,11 +1671,61 @@ class NewDesign extends React.Component {
       return null;
     }
   }
+  validatePrice2 = () => {
+    const length = this.state.price2.length;
+    const price = this.state.price2;
+    const priceInt = parseInt(price);
+    var positive = false;
+    var integer = false;
+
+    if (priceInt >= 40) {
+      positive = true;
+    }
+    if (typeof price === 'string') {
+      if (!(price.indexOf('.') >= 0)) {
+        integer = true;
+      }
+    }
+
+    if (positive && integer){
+      return 'success';
+    } else if (length > 0) {
+      return 'error';
+    } else {
+      return null;
+    }
+  }
+  validatePrice3 = () => {
+    const length = this.state.price3.length;
+    const price = this.state.price3;
+    const priceInt = parseInt(price);
+    var positive = false;
+    var integer = false;
+
+    if (priceInt >= 40) {
+      positive = true;
+    }
+    if (typeof price === 'string') {
+      if (!(price.indexOf('.') >= 0)) {
+        integer = true;
+      }
+    }
+
+    if (positive && integer){
+      return 'success';
+    } else if (length > 0) {
+      return 'error';
+    } else {
+      return null;
+    }
+  }
 
   render() {
     var loadingState = this.state.loading;
     var name = this.state.name;
     var price = this.state.price;
+    var price2 = this.state.price2;
+    var price3 = this.state.price3;
     var description = this.state.description;
     var croppedImg = this.state.croppedImg;
     var colorsArray = this.state.colorsArray;
@@ -1674,6 +1872,41 @@ class NewDesign extends React.Component {
                   </Col>
                 </FormGroup>
               </Row>
+
+              <Row className="show-grid">
+                <FormGroup>
+                  <Col sm={1} md={2}></Col>
+                  <Col sm={3} md={2}>
+                      <div><strong>{strings.price2}</strong></div>
+                  </Col>
+                  <Col sm={8} md={5}>
+                    <FormGroup
+                      validationState={this.validatePrice2()}
+                    >
+                      <FormControl className="data-field-update" type="text" value={price2} onChange={this.handlePrice2Change}/>
+                      <HelpBlock>{strings.price2Tip}</HelpBlock>
+                    </FormGroup>
+                  </Col>
+                </FormGroup>
+              </Row>
+
+              <Row className="show-grid">
+                <FormGroup>
+                  <Col sm={1} md={2}></Col>
+                  <Col sm={3} md={2}>
+                      <div><strong>{strings.price3}</strong></div>
+                  </Col>
+                  <Col sm={8} md={5}>
+                    <FormGroup
+                      validationState={this.validatePrice3()}
+                    >
+                      <FormControl className="data-field-update" type="text" value={price3} onChange={this.handlePrice3Change}/>
+                      <HelpBlock>{strings.price3Tip}</HelpBlock>
+                    </FormGroup>
+                  </Col>
+                </FormGroup>
+              </Row>
+
               <Row className="show-grid">
                 <FormGroup>
                   <Col sm={1} md={2}></Col>
@@ -1713,7 +1946,7 @@ class NewDesign extends React.Component {
                   <Col sm={4}>
                     <Button bsStyle="" className="button button-back" onClick={() => this.handleBack()}>{strings.backButton}</Button>
                     {!this.state.creating &&
-                    <Button bsStyle="" className="button button-update" onClick={() => this.handleNewDesign(name, price, description, colorsArray, flowersArray, croppedImg, category, occasions)}>{strings.createButton}</Button>
+                    <Button bsStyle="" className="button button-update" onClick={() => this.handleNewDesign(name, price, description, colorsArray, flowersArray, croppedImg, category, occasions, price2, price3)}>{strings.createButton}</Button>
                     }
                     {this.state.creating && 
                     <Button bsStyle="" className="button button-update disabled" >{strings.creating}</Button>
@@ -1809,9 +2042,22 @@ export default class Designs extends Component {
     this.setState({errorMessage: strings.errorIncomplete});
   }
 
-  handleNewDesign = (name, price, description, colorsArray, flowersArray, croppedImg, category, occasions) => {
+  handleNewDesign = (name, price, description, colorsArray, flowersArray, croppedImg, category, occasions, price2, price3) => {
     var designerCode = this.props.designerCode;
     var storageRef = firebase.storage().ref();
+    var price2Mod;
+    var price3Mod;
+
+    if (price2.length === 0) {
+      price2Mod = '-1';
+    } else {
+      price2Mod = price2.toString();
+    }
+    if (price3.length === 0) {
+      price3Mod = '-1';
+    } else {
+      price3Mod = price3.toString();
+    }
 
     base.fetch(`florists/${designerCode}/`,{
       context: this,
@@ -1830,7 +2076,9 @@ export default class Designs extends Component {
                 floristUserID: data.uid,
                 flower: flowersArray,
                 name: name,
-                price:Number(price),
+                price: Number(price),
+                price2: Number(price2Mod),
+                price3: Number(price3Mod),
                 seasonality: 'all',
                 city: data.city,
                 featured: 'false',
@@ -1879,7 +2127,21 @@ export default class Designs extends Component {
     })
   }
 
-  handleDesignUpdate = (selectedDesign, name, price, description, color, flower, croppedImg, newImageFlag) => {
+  handleDesignUpdate = (selectedDesign, name, price, description, color, flower, croppedImg, newImageFlag, price2, price3) => {
+
+    var price2Mod;
+    var price3Mod;
+
+    if (price2.length === 0) {
+      price2Mod = -1;
+    } else {
+      price2Mod = Number(price2);
+    }
+    if (price3.length === 0) {
+      price3Mod = -1;
+    } else {
+      price3Mod = Number(price3);
+    }
 
     if (newImageFlag) {
       var storageRef = firebase.storage().ref();
@@ -1895,6 +2157,8 @@ export default class Designs extends Component {
           data: {
               name: name,
               price: Number(price),
+              price2: price2Mod,
+              price3: price3Mod,
               description: description,
               color: color,
               flower: flower,
@@ -1912,6 +2176,8 @@ export default class Designs extends Component {
         data: {
             name: name,
             price: Number(price),
+            price2: price2Mod,
+            price3: price3Mod,
             description: description,
             color: color,
             flower: flower,
