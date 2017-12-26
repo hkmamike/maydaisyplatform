@@ -31,8 +31,9 @@ let strings = new LocalizedStrings({
 
         buttonToMarket: 'Back to market',
 
-        descriptionTab: 'DESCRIPTION',
-        deliveryInfoTab: 'DELIVERY INFO',
+        descriptionTab: 'Description',
+        deliveryInfoTab: 'Delivery',
+        substitutionTab: 'Substitution',
         deliveryFeeTip: 'Florists specified delivery fee for this region.',
         deliverTo: 'Deliver to:',
         selectDate: 'Select date:',
@@ -53,6 +54,8 @@ let strings = new LocalizedStrings({
         applyButton: 'Apply',
         promoCodeApplied: 'Success! promo code applied.',
         promoCodeFailed: 'UhOh, this is not a valid promo code.',
+
+        substitutionPolicy: "Sometimes, florists' photo represent an overall theme or look and include a one-of-a-kind vase which cannot be exactly replicated. Although the delivered bouquet may not precisely match the photo, its temperament will. Occasionally, substitutions of flowers or containers happen due to weather, seasonality and market conditions which may affect availability. If this is the case with the gift you've selected, the local florist will ensure that the style, theme and color scheme of your arrangement is preserved and will only substitute items of equal or higher value."
     },
     ch: {
         select_region: '選擇地區',
@@ -99,6 +102,9 @@ let strings = new LocalizedStrings({
         applyButton: '使用',
         promoCodeApplied: '成功！已行使折扣碼。',
         promoCodeFailed: '哎喲，這個折扣碼不正確噢。',
+
+        substitutionTab: '替代品',
+        substitutionPolicy: "花店的照片代表整體的主題或外觀。在某些情況下，花卉和花瓶不能完全複製。雖然真正的花卉可能不完全符合照片，但主題和外觀會。由於天氣，季節和市場條件可能會影響鮮花的供應，有時花匠會選用替代品。如果您選擇的設計屬於這種情況，花店將確保設計的風格，主題和配色方案得以保留，並且只會選用相同或更高價值的替代品。",
     }
 });
 
@@ -125,6 +131,7 @@ export default class Arrangement extends Component {
             loading: true,
             descriptionActive: true,
             deliveryActive: false,
+            substitutionActive: false,
             arrangementsList: [],
             lightboxIsOpen: false,
             promoCodeMessage: null,
@@ -135,9 +142,11 @@ export default class Arrangement extends Component {
 
     toggleContent(tab) {
         if (tab===0) {
-            this.setState({descriptionActive: true, deliveryActive: false});
+            this.setState({descriptionActive: true, deliveryActive: false, substitutionActive: false});
         } else if (tab===1) {
-            this.setState({descriptionActive: false, deliveryActive: true});
+            this.setState({descriptionActive: false, deliveryActive: true, substitutionActive: false});
+        } else if (tab===2) {
+            this.setState({descriptionActive: false, deliveryActive: false, substitutionActive: true});
         }
     }
 
@@ -370,12 +379,16 @@ export default class Arrangement extends Component {
                     <ul className="arrangement-details-toggle">
                         <li className={this.state.descriptionActive ? 'toggle-active': null} onClick={() => this.toggleContent(0)} >{strings.descriptionTab}</li>
                         <li className={this.state.deliveryActive ? 'toggle-active': null} onClick={() => this.toggleContent(1)} >{strings.deliveryInfoTab}</li>
+                        <li className={this.state.substitutionActive ? 'toggle-active': null} onClick={() => this.toggleContent(2)} >{strings.substitutionTab}</li>
                     </ul>
                     { this.state.descriptionActive &&
                         <div className="arrangement-info">{this.state.arrangementDescription}</div>
                     }
                     { this.state.deliveryActive &&
                         <div className="arrangement-info">{this.state.arrangementDeliveryInfo}</div>
+                    }
+                    { this.state.substitutionActive &&
+                        <div className="arrangement-info">{strings.substitutionPolicy}</div>
                     }
 
                     <div className="delivery-inline">
