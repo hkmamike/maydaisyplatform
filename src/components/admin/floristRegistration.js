@@ -304,6 +304,7 @@ export default class FloristRegistration extends Component {
             floristType: floristType,
             promoCodeA: '',
             promoCodeB: '',
+            deliveryInfo: '',
           }
         }).then(() => 
         this.setState({ InfoMessage: 'Approved'}, () => setTimeout(() => { 

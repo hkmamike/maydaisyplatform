@@ -90,6 +90,9 @@ let strings = new LocalizedStrings({
     facebook: 'Facebook:',
     instagram: 'Instagram:',
 
+    deliveryInfo: 'Delivery Policy:',
+    deliveryInfoTip: 'A copy of this will be shown on the "Delivery Info" tab on each of your arrangement page. If you do not specify a delivery policy, the standard MayDaisy delivery policy will be displayed.',
+
     leadTimeTip: '*Put ""1" if next day delivery is available, "0" if sameday delivery is available, so on. For sameday delivery, platform wise cutoff time is 1p.m. HKT.'
   },
   ch: {
@@ -172,6 +175,9 @@ let strings = new LocalizedStrings({
 
     facebook: 'Facebook:',
     instagram: 'Instagram:',
+
+    deliveryInfo: '送貨詳情:',
+    deliveryInfoTip: '送貨詳情會在貨品頁中顯示給客人。如果您未有選寫送貨詳情，系統將會顯示五月菊的標準送貨政策。',
 
     leadTimeTip: '*如果最快交貨時間為下一天，請填"1"，如此類推。如您的店提供即日送貨，請填"0"。 所有五月菊的即日送貨的標準訂單截止時間為香港時間下午1時。'
   }
@@ -654,6 +660,7 @@ export default class ShopInfo extends Component {
             name: data.name,
             address: data.address,
             description: data.description,
+            deliveryInfo: data.deliveryInfo,
             facebook: data.facebook,
             instagram: data.instagram,
             profilePic: data.profilePic,
@@ -703,6 +710,9 @@ export default class ShopInfo extends Component {
   handleDescriptionChange = (e) => {
     this.setState({ description: e.target.value });
   }
+  handleDeliveryInfoChange = (e) => {
+    this.setState({ deliveryInfo: e.target.value });
+  }
   handleLeadTimeChange = (e) => {
     this.setState({ leadTime: e.target.value });
   }
@@ -718,7 +728,7 @@ export default class ShopInfo extends Component {
   handleInstagramChange = (e) => {
     this.setState({ instagram: e.target.value });
   }
-  handleAccountUpdate = (address, description, leadTime, croppedImg, facebook , instagram, promoCodeA, promoCodeB) => {
+  handleAccountUpdate = (address, description, leadTime, croppedImg, facebook , instagram, promoCodeA, promoCodeB, deliveryInfo) => {
     base.update(`florists/${this.props.designerCode}`, {
       data: {
           address: address,
@@ -729,6 +739,7 @@ export default class ShopInfo extends Component {
           instagram: instagram,
           promoCodeA: promoCodeA,
           promoCodeB, promoCodeB,
+          deliveryInfo: deliveryInfo,
       }
     }).then(() => {
         this.setState({ InfoMessage: `${strings.shopInfoUpdated}`});
@@ -750,6 +761,7 @@ export default class ShopInfo extends Component {
     var instagram = this.state.instagram;
     var promoCodeA = this.state.promoCodeA;
     var promoCodeB = this.state.promoCodeB;
+    var deliveryInfo = this.state.deliveryInfo;
 
     let content = null;
     if (loadingState) {
@@ -844,6 +856,18 @@ export default class ShopInfo extends Component {
                 <FormGroup>
                   <Col sm={1} md={2}></Col>
                   <Col sm={3} md={2}>
+                    <div><strong>{strings.deliveryInfo}</strong></div>
+                  </Col>
+                  <Col sm={7}>
+                    <FormControl componentClass='textarea' className="data-field-update" type="text" value={deliveryInfo} onChange={this.handleDeliveryInfoChange}/>
+                    <HelpBlock>{strings.deliveryInfoTip}</HelpBlock>
+                  </Col>
+                </FormGroup>
+              </Row>
+              <Row className="show-grid">
+                <FormGroup>
+                  <Col sm={1} md={2}></Col>
+                  <Col sm={3} md={2}>
                     <div><strong>{strings.leadTime}</strong></div>
                   </Col>
                   <Col sm={7}>
@@ -928,7 +952,7 @@ export default class ShopInfo extends Component {
               <Row className="show-grid">
                 <FormGroup>
                   <Col xs={10} xsPush={2} smPush={5} mdPush={6}>
-                    <Button bsStyle="" className="button" onClick={() => this.handleAccountUpdate(address, description, leadTime, croppedImg, facebook, instagram, promoCodeA, promoCodeB)}>{strings.updateButton}</Button>
+                    <Button bsStyle="" className="button" onClick={() => this.handleAccountUpdate(address, description, leadTime, croppedImg, facebook, instagram, promoCodeA, promoCodeB, deliveryInfo)}>{strings.updateButton}</Button>
                   </Col>
                 </FormGroup>
               </Row>

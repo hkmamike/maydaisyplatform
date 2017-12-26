@@ -830,6 +830,13 @@ export default class ArrangementsList extends Component {
 
     render() {
         var marketRegion = this.props.match.params.marketRegion;
+        var marketRegionMod;
+
+        if (marketRegion ==='select_region') {
+            marketRegionMod = '';
+        } else {
+            marketRegionMod = marketRegion;
+        }
 
         return (
             <div className="no-padding">
@@ -877,7 +884,7 @@ export default class ArrangementsList extends Component {
 
                     <VirtualMenu 
                         attributeName="deliveryAreas" 
-                        defaultRefinement={marketRegion}
+                        defaultRefinement={marketRegionMod}
                     />
                     <VirtualRefinementList 
                         attributeName="flower"
