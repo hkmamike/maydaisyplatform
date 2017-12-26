@@ -9,6 +9,12 @@
 @import "_orderHistory.scss";
 @import "_photoUpload.scss";
 
+.admin-message {
+    background-color: black;
+    color: white;
+    padding: 5px;
+}
+
 .small-screen-hide {
     @media (max-width: 768px) {
         display: none !important;

@@ -93,12 +93,12 @@
             color: #878787;
             display: inline-block;
             letter-spacing: .1em;
-            font-size: 10px;
+            font-size: 14px;
             min-width: 100px;
             margin: 0 10px 0 0;
             padding: 10px;
             @media (max-width: 768px) {
-                font-size: 9px;
+                font-size: 11px;
             }
             &:hover {
                 cursor: pointer;
@@ -189,6 +189,51 @@
                 font-family: 'Quicksand', sans-serif;
             }
         }
+        .price-block-original {
+            display: inline-block;
+            margin-left: 15px;
+            .arrangement-price {
+                color: $darkGrey;
+                text-decoration: line-through;
+                font-size: 170%;
+                line-height: 120%;
+                @media (max-width: 768px) {
+                    font-size: 140%;
+                    line-height: 100%;
+                }
+                font-weight: 600;
+                font-family: 'Quicksand', sans-serif;
+            }
+            .arrangement-price-tip {
+                color: $grey;
+                font-size: 75%;
+                font-weight: lighter;
+                margin: 0 0 5px;
+                font-family: 'Quicksand', sans-serif;
+            }
+        }
+        .price-block-discounted {
+            display: inline-block;
+            margin-left: 15px;
+            .arrangement-price {
+                color: green;
+                font-size: 170%;
+                line-height: 120%;
+                @media (max-width: 768px) {
+                    font-size: 140%;
+                    line-height: 100%;
+                }
+                font-weight: 600;
+                font-family: 'Quicksand', sans-serif;
+            }
+            .arrangement-price-tip {
+                color: green;
+                font-size: 75%;
+                font-weight: lighter;
+                margin: 0 0 5px;
+                font-family: 'Quicksand', sans-serif;
+            }
+        }
         .delivery-fee-block {
             display: inline-block;
             margin-left: 15px;
@@ -213,9 +258,12 @@
         }
     }
 
+    .button-box {
+        margin-left: 15px;
+    }
+
     .button-to-order, .button-to-search {
         width: 100%;
-        margin: 10px auto;
         background-color: $teal;
         color: white;
         font-size: 100%;
@@ -241,6 +289,63 @@
         @media (max-width: 768px) {
             font-size: 100%;
             margin: 10px;
+        }
+    }
+
+    .promo-code-button {
+        margin-left: 15px;
+        background-color: $teal;
+        color: white;
+        font-size: 14px;
+        font-weight: 500;
+        border-radius: 0;
+        &:hover {
+            background-color: $shadowteal;
+        }
+    }
+    .promo-code-collaspsible{
+        margin-left: 15px;
+        border-width: 0;
+        box-shadow: none !important;
+        .panel-body {
+            padding: 0 !important;
+        }
+        .promo-code-inline {
+            .form-group {
+                display: inline-block;
+                margin-bottom: 0;
+                .form-control {
+                    border-radius: 0;
+                    height: inherit !important;
+                    width: 225px;
+                    @media (max-width: 768px) {
+                        width: 170px;
+                    }
+                }
+            }
+            button {
+                @include translateY(-2px);
+                display: inline-block;
+                border-radius: 0;
+                background-color: $pink;
+                color: white;
+                height: inherit !important;
+                font-size: 18px !important;
+                font-weight: 500;
+                &:hover {
+                    background-color: $pinkhover;
+                    
+                }
+            }
+        }
+        .promo-update-message {
+            text-align: center;
+            width: 100%;
+            border-radius: 0;
+            font-size: 75%;
+            margin: auto;
+            margin-bottom: 0 !important;
+            padding: 5px !important;
         }
     }
 }

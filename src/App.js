@@ -8,6 +8,7 @@ import Register from './components/pages/register';
 import { firebaseAuth } from './components/config/constants';
 
 //content components
+import AdminMessage from './components/headerComponents/adminMessage';
 import Header from './components/headerComponents/header';
 import Footer from './components/footerComponents/footer';
 import Homepage from './components/pages/homePage';
@@ -164,7 +165,6 @@ export default class App extends Component {
 
   componentDidMount () {
     this.removeListener = firebaseAuth().onAuthStateChanged((user) => {
-      console.log('user is', user);
       if (user) {
         base.fetch(`users/${user.uid}/info/`, {
           context: this,
@@ -210,8 +210,8 @@ export default class App extends Component {
     return (
       <BrowserRouter>
         <div className="App">
-
-          <Header authed={this.state.authed} onLanguageToggle={this.handleLanguageToggle}/>
+          <AdminMessage languageChanged={this.state.languageChanged}/>
+          <Header authed={this.state.authed} languageChanged={this.state.languageChanged} onLanguageToggle={this.handleLanguageToggle}/>
 
           <Switch>
             <Route path='/' exact render={(props) => (<Homepage {...props} marketRegion={marketRegion} onMarketRegionSelect={this.handleMarketRegionSelect} languageChanged={this.state.languageChanged}/>)}/>

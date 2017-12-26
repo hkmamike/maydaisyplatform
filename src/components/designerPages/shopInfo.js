@@ -22,6 +22,10 @@ let strings = new LocalizedStrings({
     address: 'Address:',
     description: 'Description:',
     leadTime: 'Lead Time (days):',
+    promoCodeA: 'Promo-Code A:',
+    promoCodeATip: 'Best promo-codes are 4-10 alphanumeric characters, case insensitive. When customers enter this code, they will be offered PriceA for the designs according to your setting. Leave blank to disable to this feature.',
+    promoCodeB: 'Promo-Code B:',
+    promoCodeBTip: 'Best promo-codes are 4-10 alphanumeric characters, case insensitive. When customers enter this code, they will be offered PriceB for the designs according to your setting. Leave blank to disable this feature.',
     deliveryRegions: 'Delivery Regions:',
     openDays: 'Open on:',
 
@@ -64,7 +68,7 @@ let strings = new LocalizedStrings({
 
     openDaysSettingsTitle: 'Opening Days Settings',
     openDaysSettingsText1: 'MayDaisy is a hobbyist and independent artists friendly community. We understand that you have other responsibilities in life and may not want to open shop on everyday.',
-    openDaysSettingsText2: 'Here, you can choose which days to allow customers to place orders on. ',
+    openDaysSettingsText2: 'Here, you can choose which days to allow customers to place orders on.',
 
     shopInfoUpdated: 'shop information has been updated',
     errorOccured: 'An error occured when updating shop information',
@@ -101,6 +105,10 @@ let strings = new LocalizedStrings({
     address: '地址:',
     description: '店舖簡介:',
     leadTime: '最快交貨(日):',
+    promoCodeA: '折扣碼A:',
+    promoCodeATip: '折扣碼建議為4-10個英文字母或數字，大小寫無分。客人可以用這個折扣碼解鎖貨品的價格A。如要關閉折扣碼功能請留空。',
+    promoCodeB: '折扣碼B:',
+    promoCodeBTip: '折扣碼建議為4-10個英文字母或數字，大小寫無分。客人可以用這個折扣碼解鎖貨品的價格B。如要關閉折扣碼功能請留空。',
     deliveryRegions: '送貨區域:',
     openDays: '辦公日:',
 
@@ -635,17 +643,7 @@ export default class ShopInfo extends Component {
 
   componentWillMount() {
     strings.setLanguage(this.props.languageChanged);
-  }
 
-  componentWillReceiveProps (nextProps) {
-      if (nextProps.languageChanged==='ch') {
-          strings.setLanguage('ch');
-      } else if (nextProps.languageChanged==='en') {
-          strings.setLanguage('en');
-      }
-  }
-
-  componentDidMount () {
     firebaseAuth().onAuthStateChanged((user) => {
       base.fetch(`florists/${this.props.designerCode}`, {
         context: this,
@@ -663,10 +661,20 @@ export default class ShopInfo extends Component {
             website: data.website,
             leadTime: data.deliveryLeadTime,
             croppedImg: data.profilePic,
+            promoCodeA: data.promoCodeA,
+            promoCodeB: data.promoCodeB,
           });
         }
       });
     });
+  }
+
+  componentWillReceiveProps (nextProps) {
+      if (nextProps.languageChanged==='ch') {
+          strings.setLanguage('ch');
+      } else if (nextProps.languageChanged==='en') {
+          strings.setLanguage('en');
+      }
   }
 
   handleFileChange = (dataURL) => {
@@ -698,14 +706,19 @@ export default class ShopInfo extends Component {
   handleLeadTimeChange = (e) => {
     this.setState({ leadTime: e.target.value });
   }
+  handlePromoCodeAChange = (e) => {
+    this.setState({ promoCodeA: e.target.value });
+  }
+  handlePromoCodeBChange = (e) => {
+    this.setState({ promoCodeB: e.target.value });
+  }
   handleFacebookChange = (e) => {
     this.setState({ facebook: e.target.value });
   }
-
   handleInstagramChange = (e) => {
     this.setState({ instagram: e.target.value });
   }
-  handleAccountUpdate = (address, description, leadTime, croppedImg, facebook , instagram) => {
+  handleAccountUpdate = (address, description, leadTime, croppedImg, facebook , instagram, promoCodeA, promoCodeB) => {
     base.update(`florists/${this.props.designerCode}`, {
       data: {
           address: address,
@@ -714,6 +727,8 @@ export default class ShopInfo extends Component {
           profilePic: croppedImg,
           facebook: facebook,
           instagram: instagram,
+          promoCodeA: promoCodeA,
+          promoCodeB, promoCodeB,
       }
     }).then(() => {
         this.setState({ InfoMessage: `${strings.shopInfoUpdated}`});
@@ -733,6 +748,8 @@ export default class ShopInfo extends Component {
     var croppedImg = this.state.croppedImg;
     var facebook = this.state.facebook;
     var instagram = this.state.instagram;
+    var promoCodeA = this.state.promoCodeA;
+    var promoCodeB = this.state.promoCodeB;
 
     let content = null;
     if (loadingState) {
@@ -839,6 +856,30 @@ export default class ShopInfo extends Component {
                 <FormGroup>
                   <Col sm={1} md={2}></Col>
                   <Col sm={3} md={2}>
+                    <div><strong>{strings.promoCodeA}</strong></div>
+                  </Col>
+                  <Col sm={7}>
+                    <FormControl className="data-field-update" type="text" value={promoCodeA} onChange={this.handlePromoCodeAChange}/>
+                    <HelpBlock>{strings.promoCodeATip}</HelpBlock>
+                  </Col>
+                </FormGroup>
+              </Row>
+              <Row className="show-grid">
+                <FormGroup>
+                  <Col sm={1} md={2}></Col>
+                  <Col sm={3} md={2}>
+                    <div><strong>{strings.promoCodeB}</strong></div>
+                  </Col>
+                  <Col sm={7}>
+                    <FormControl className="data-field-update" type="text" value={promoCodeB} onChange={this.handlePromoCodeBChange}/>
+                    <HelpBlock>{strings.promoCodeBTip}</HelpBlock>
+                  </Col>
+                </FormGroup>
+              </Row>
+              <Row className="show-grid">
+                <FormGroup>
+                  <Col sm={1} md={2}></Col>
+                  <Col sm={3} md={2}>
                     <div><strong>{strings.facebook}</strong></div>
                   </Col>
                   <Col sm={7}>
@@ -887,7 +928,7 @@ export default class ShopInfo extends Component {
               <Row className="show-grid">
                 <FormGroup>
                   <Col xs={10} xsPush={2} smPush={5} mdPush={6}>
-                    <Button bsStyle="" className="button" onClick={() => this.handleAccountUpdate(address, description, leadTime, croppedImg, facebook, instagram)}>{strings.updateButton}</Button>
+                    <Button bsStyle="" className="button" onClick={() => this.handleAccountUpdate(address, description, leadTime, croppedImg, facebook, instagram, promoCodeA, promoCodeB)}>{strings.updateButton}</Button>
                   </Col>
                 </FormGroup>
               </Row>

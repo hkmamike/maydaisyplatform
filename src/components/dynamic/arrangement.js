@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { Grid, Row, Col, Button, DropdownButton, MenuItem, Tooltip, OverlayTrigger } from 'react-bootstrap';
+import { Grid, Row, Col, Button, DropdownButton, MenuItem, Glyphicon, Tooltip, OverlayTrigger, Panel, FormGroup, FormControl } from 'react-bootstrap';
 import { Link, Route } from 'react-router-dom';
 import LocalizedStrings from 'react-localization';
 import * as firebase from 'firebase';
@@ -39,12 +39,19 @@ let strings = new LocalizedStrings({
         noCoverageTip1: 'Oh no! This florist does not deliver to ',
         noCoverageTip2: ". Let's go back to the market to find one that does.",
         excludingDelivery: 'Excluding delivery',
+        originalPriceTip: 'Original Price',
+        discountedPriceTip: 'Promo-code Applied',
         deliveryFee: 'Delivery fee',
 
         dateRequired: '*Please select a delivery date.',
         orderNow: 'Order Now',
         otherDesigns1: 'Other Designs by ',
         otherDesigns2: ':',
+
+        promoCodeButton: 'Promo-code ',
+        applyButton: 'Apply',
+        promoCodeApplied: 'Success! promo code applied.',
+        promoCodeFailed: 'UhOh, this is not a valid promo code.',
     },
     ch: {
         select_region: '選擇地區',
@@ -77,6 +84,8 @@ let strings = new LocalizedStrings({
         noCoverageTip1: '這位花匠暫時不送貨到',
         noCoverageTip2: "。我們返回市集再選購吧！",
         excludingDelivery: '不包括送貨費',
+        originalPriceTip: '原價',
+        discountedPriceTip: '折扣後',
         deliveryFee: '送貨費',
 
         dateRequired: '*請選擇送貨日期。',
@@ -84,6 +93,10 @@ let strings = new LocalizedStrings({
         otherDesigns1: ' ',
         otherDesigns2: '的其他設計:',
 
+        promoCodeButton: '折扣碼 ',
+        applyButton: '使用',
+        promoCodeApplied: '成功！已行使折扣碼。',
+        promoCodeFailed: '哎喲，這個折扣碼不正確噢。',
     }
 });
 
@@ -112,6 +125,9 @@ export default class Arrangement extends Component {
             deliveryActive: false,
             arrangementsList: [],
             lightboxIsOpen: false,
+            promoCodeMessage: null,
+            promoCodeError: null,
+            promoCode: '',
         };
     }
 
@@ -158,6 +174,10 @@ export default class Arrangement extends Component {
         });
     }
 
+    handlePromoCodeChange = (e) => {
+        this.setState({ promoCode: e.target.value });
+    }
+
     handleSelectRegion = (eventKey) => {
         this.props.onMarketRegionSelect(eventKey);
     }
@@ -172,6 +192,29 @@ export default class Arrangement extends Component {
         }
         else {
             this.setState({orderButtonPressed: true});
+        }
+    }
+
+    applyPromoCode = () => {
+        if (this.state.promoCode === this.state.promoCodeA) {
+            this.setState({
+                arrangementPrice: this.state.arrangementPrice2,
+                promoCodeMessage: strings.promoCodeApplied,
+                promoCodeError: null,
+                promoCodeApplied: true,
+            });
+        } else if (this.state.promoCode === this.state.promoCodeB) {
+            this.setState({
+                arrangementPrice: this.state.arrangementPrice3,
+                promoCodeMessage: strings.promoCodeApplied,
+                promoCodeError: null,
+                promoCodeApplied: true,
+            });
+        } else {
+            this.setState({
+                promoCodeError: strings.promoCodeFailed,
+                promoCodeMessage: null,
+            });
         }
     }
 
@@ -214,6 +257,8 @@ export default class Arrangement extends Component {
                     loading: false,
                     arrangementDescription: snapshotVal.description,
                     arrangementPrice: snapshotVal.price,
+                    arrangementPrice2: snapshotVal.price2,
+                    arrangementPrice3: snapshotVal.price3,
                     arrangementCurrency: snapshotVal.currency,
                     arrangementSeasonality: snapshotVal.seasonality,
                     arrangementID: snapshotVal.id,
@@ -221,6 +266,7 @@ export default class Arrangement extends Component {
                     arrangementName: snapshotVal.name,
                     arrangementFlorist: snapshotVal.florist,
                     arrangementFloristName: snapshotVal.floristName,
+                    arrangementOriginalPrice: snapshotVal.price,
                 });
             });
             firebase.database().ref('arrangementsList')
@@ -236,29 +282,16 @@ export default class Arrangement extends Component {
                 });
                 thisRef.setState({arrangementsList: arrangementsList});
             });
-            firebase.database().ref(`florists/${floristID}/deliveryFee`).once('value', function(snapshot) {
-                var snapshotVal = snapshot.val()
+
+            firebase.database().ref(`florists/${floristID}`).once('value', function(snapshot) {
+                var snapshotVal = snapshot.val();
                 thisRef.setState({
-                    arrangementDeliveryFee: snapshotVal[marketRegion],
-                    arrangementDeliveryCurrency: snapshotVal.currency,
-                });
-            });
-            firebase.database().ref(`florists/${floristID}/deliveryBlockedDays`).once('value', function(snapshot) {
-                var snapshotVal = snapshot.val()
-                thisRef.setState({
-                    arrangementDeliveryBlockedDays: snapshotVal
-                });
-            });
-            firebase.database().ref(`florists/${floristID}/deliveryLeadTime`).once('value', function(snapshot) {
-                var snapshotVal = snapshot.val()
-                thisRef.setState({
-                    arrangementDeliveryLeadTime: snapshotVal
-                });
-            });
-            firebase.database().ref(`florists/${floristID}/deliveryInfo`).once('value', function(snapshot) {
-                var snapshotVal = snapshot.val()
-                thisRef.setState({
-                    arrangementDeliveryInfo: snapshotVal
+                    promoCodeA: snapshotVal.promoCodeA,
+                    promoCodeB: snapshotVal.promoCodeB,
+                    arrangementDeliveryInfo: snapshotVal.deliveryInfo,
+                    arrangementDeliveryLeadTime: snapshotVal.arrangementDeliveryLeadTime,
+                    arrangementDeliveryBlockedDays: snapshotVal.deliveryBlockedDays,
+                    arrangementDeliveryFee: snapshotVal.deliveryFee[marketRegion],
                 });
             });
         });
@@ -392,10 +425,18 @@ export default class Arrangement extends Component {
                     }
 
                     <div className="price-inline">
-                        <div className="price-block">
+                        {!this.state.promoCodeApplied && <div className="price-block">
                             <div className="arrangement-price">${this.state.arrangementPrice}</div>
                             <div className="arrangement-price-tip">{strings.excludingDelivery}</div>
-                        </div>
+                        </div>}
+                        {this.state.promoCodeApplied && <div className="price-block-original">
+                            <div className="arrangement-price">${this.state.arrangementOriginalPrice}</div>
+                            <div className="arrangement-price-tip">{strings.originalPriceTip}</div>
+                        </div>}
+                        {this.state.promoCodeApplied && <div className="price-block-discounted">
+                            <div className="arrangement-price">${this.state.arrangementPrice}</div>
+                            <div className="arrangement-price-tip">{strings.discountedPriceTip}</div>
+                        </div>}
 
                         { this.state.arrangementDeliveryFee!== -1 &&
                             <div className="delivery-fee-block">
@@ -410,6 +451,30 @@ export default class Arrangement extends Component {
                         }
                     </div>
 
+                    <Button bsStyle="" onClick={() => this.setState({ promoCodeOpen: !this.state.promoCodeOpen })} className="promo-code-button">
+                        {strings.promoCodeButton}
+                        {!this.state.promoCodeOpen && <i className="fa fa-caret-down" aria-hidden="true"></i>}
+                        {this.state.promoCodeOpen && <i className="fa fa-caret-up" aria-hidden="true"></i>}
+                    </Button>
+                    <Panel collapsible expanded={this.state.promoCodeOpen} className="promo-code-collaspsible">
+                        <div className="promo-code-inline">
+                            <FormGroup>
+                                <FormControl className="data-field-update" type="text" value={this.state.promoCode} onChange={this.handlePromoCodeChange} />
+                            </FormGroup>
+                            <Button bsStyle="" onClick={this.applyPromoCode} className="promo-code-apply">{strings.applyButton}</Button>
+                            { this.state.promoCodeMessage &&
+                                <div className="alert alert-success promo-update-message" role="alert">
+                                    <Glyphicon glyph="exclamation-sign" className="icons"/>&nbsp;{this.state.promoCodeMessage} 
+                                </div>
+                            }
+                            { this.state.promoCodeError &&
+                                <div className="alert alert-danger promo-update-message" role="alert">
+                                    <Glyphicon glyph="exclamation-sign" className="icons"/>&nbsp;{this.state.promoCodeError} 
+                                </div>
+                            }
+                        </div>
+                    </Panel>
+
                     { (!this.props.deliveryDate && this.state.orderButtonPressed) &&
                         <div>
                             <div className="error-message">{strings.dateRequired}</div>
@@ -417,7 +482,7 @@ export default class Arrangement extends Component {
                     }
 
                     { this.state.arrangementDeliveryFee=== -1 &&
-                        <div>
+                        <div className="button-box">
                             <Route path="/" render={(props) => <ButtonToSearch {...props}/>} />
                         </div>
                     }

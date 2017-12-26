@@ -50,13 +50,13 @@ export default class Header extends Component {
     }
 
     componentWillMount() {
-        strings.setLanguage('ch');
+        strings.setLanguage(this.props.languageChanged);
     }
 
     render() {
         return (
         <header>
-        
+
             <div className="logo">
                 <Link to="/">{strings.companyTitle}</Link>
             </div>

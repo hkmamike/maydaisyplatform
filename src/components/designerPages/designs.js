@@ -27,8 +27,8 @@ let strings = new LocalizedStrings({
     deleteText1: "To Proceed deleting this record, click the 'delete' button below",
     design: 'Design',
     price: 'Price(HKD):',
-    price2: 'Price2(HKD):',
-    price3: 'Price3(HKD):',
+    price2: 'PriceA(HKD):',
+    price3: 'PriceB(HKD):',
 
     newDesign: 'New Design',
     category: 'Category:',
@@ -68,8 +68,8 @@ let strings = new LocalizedStrings({
     designNameTip: "The new design's name should be at least 2 characters long.",
     designDescriptionTip: 'Suggested content: flower type, bloom count, style, dimension. If a vase is in the pictures, please indicate whether it will be included. The description should be at least 20 characters long.',
     priceTip: 'Price should be an integer value greater or equal to 40.',
-    price2Tip: "For customers who enter your shop's promo-code #2. Leave this field blank if you do not wish to use the promo-code feature. You can set promo-code in your shop's info page.",
-    price3Tip: "For customers who enter your shop's promo-code #3. Leave this field blank if you do not wish to use the promo-code feature. You can set promo-code in your shop's info page.",
+    price2Tip: "For customers who enter your shop's promo-code A. Leave this field blank if you do not wish to use the promo-code feature. You can set promo-code in your shop's info page.",
+    price3Tip: "For customers who enter your shop's promo-code B. Leave this field blank if you do not wish to use the promo-code feature. You can set promo-code in your shop's info page.",
 
     settingButton: 'Setting',
 
@@ -133,8 +133,8 @@ let strings = new LocalizedStrings({
     deleteText1: "如要繼續刪取這個地址，請按下'刪除'鈕扣。",
     design: '設計名稱',
     price: '價格(HKD):',
-    price2: '價格2(HKD):',
-    price3: '價格3(HKD):',
+    price2: '價格A(HKD):',
+    price3: '價格B(HKD):',
     category: '貨品種類:',
     newDesign: '新增設計',
     designCategoryTip: '只接受已開通種類的新增設計，其他的種類將陸續開通。如您有對新貨品種類的建議，請聯絡我們。',
@@ -173,8 +173,8 @@ let strings = new LocalizedStrings({
     designNameTip: "新設計的名稱最短應為兩個字。",
     designDescriptionTip: '建議內容：設計花種、花朵數量、風格、大小尺寸。如相片有花瓶，請注明花瓶包括與否。描述最短應為二十個字。',
     priceTip: '價格應為最少是四十的整數。',
-    price2Tip: "客人輸入你的折扣碼＃2後可享有的價格。如果您不想開啟折扣碼功能，可留空。您可在'店舖資料'中設定折扣碼。",
-    price3Tip: "客人輸入你的折扣碼＃3後可享有的價格。如果您不想開啟折扣碼功能，可留空。您可在'店舖資料'中設定折扣碼。",
+    price2Tip: '客人輸入你的折扣碼A後可享有的價格。如果您不想開啟折扣碼功能，可留空。您可在"店舖資料"中設定折扣碼。',
+    price3Tip: '客人輸入你的折扣碼B後可享有的價格。如果您不想開啟折扣碼功能，可留空。您可在"店舖資料"中設定折扣碼。',
 
     settingButton: '設定',
 
@@ -1245,10 +1245,10 @@ class DesignDetails extends React.Component {
   }
   handlePrice2Change = (e) => {
     this.setState({ price2: e.target.value });
-}
-handlePrice3Change = (e) => {
-  this.setState({ price3: e.target.value });
-}
+  }
+  handlePrice3Change = (e) => {
+    this.setState({ price3: e.target.value });
+  }
   handleDescriptionChange = (e) => {
       this.setState({ description: e.target.value });
   }

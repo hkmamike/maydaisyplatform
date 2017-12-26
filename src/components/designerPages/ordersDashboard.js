@@ -81,7 +81,7 @@ let strings = new LocalizedStrings({
     floristRegistrationSubtitle: "You don't currently have a shop set up. If you are a florist with distinctive styles, get in touch! We can help you reach a broader customer base and connect you with a community that shares your passion.",
     
     floristRegistrationStep1Title: 'We received your registration!',
-    floristRegistrationStep1Subtitle: "To ensure florists on our platform receive a meaningful volume of orders, we invite new florists to join as our customer base grows. In any case, we will contact you within 7 days to get in touch. If you don't hear from us by then, please feel free to reach out.",
+    floristRegistrationStep1Subtitle: "To ensure florists on our platform receive a meaningful volume of orders, we invite new florists to join as our customer base grows. In any case, we will contact you within 7 days to get in touch. If you don't hear from us by then, please feel free to reach out to us at contact@maydaisy.com",
     
     registrationFormTitle: 'Get in touch',
     floristSource: "How did you hear about us?",
@@ -193,7 +193,7 @@ let strings = new LocalizedStrings({
     floristRegistrationSubtitle: "您目前在五月菊沒有花店。如果您是一個有獨特風格的花藝師，可以考慮加入五月菊。我們可以將您的藝術帶到更多客人的面前，您亦可以在五月菊的圈子找到跟您一樣熱衷於花藝的朋友。",
     
     floristRegistrationStep1Title: '我們已收到您的登記!',
-    floristRegistrationStep1Subtitle: "為了令已註冊的五月菊花匠可以收到足夠的定單，我們會隨著平台的發展邀請新的花匠加入。但無論我們可否立即給您發出邀請，我們會在收到登記之後的7天之內聯繫您，如果介時您還沒收到任何聯絡，請給我們發一個電郵。",
+    floristRegistrationStep1Subtitle: "為了令已註冊的五月菊花匠可以收到足夠的定單，我們會隨著平台的發展邀請新的花匠加入。但無論我們可否給您發出邀請，我們會在收到登記之後的7天之內聯繫您，如果介時您還沒收到任何聯絡，請給我們發一個電郵(contact@maydaisy.com)。",
     
     registrationFormTitle: '登記',
     floristSource: "您是從何聽說五月菊的?",
