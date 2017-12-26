@@ -94,6 +94,7 @@ let strings = new LocalizedStrings({
     floristPhone: "Florist's Phone:",
 
     shopPage: 'shop page',
+    afterDiscount: 'Discounted:',
     
   },
   ch: {
@@ -183,7 +184,7 @@ let strings = new LocalizedStrings({
     floristPhone: "花匠聯絡電話:",
 
     shopPage: '店舖主頁',
-    
+    afterDiscount: '折扣後:',
   }
 });
 
@@ -438,6 +439,7 @@ export default class Order extends Component {
         window.scrollTo(0, 0);
         var thisRef = this;
         var marketRegion = this.props.marketRegion;
+        var promoCode = this.props.match.params.promoCode;
         var floristID = this.props.match.params.floristID;
         if (firebase.auth().currentUser !== null) {
             this.setState({orderStep:1});
@@ -451,6 +453,9 @@ export default class Order extends Component {
                     arrangementApproval: snapshotVal.approval,
                     arrangementDescription: snapshotVal.description,
                     arrangementPrice: Number(snapshotVal.price),
+                    arrangementPrice2: Number(snapshotVal.price2),
+                    arrangementPrice3: Number(snapshotVal.price3),
+                    arrangementOriginalPrice: Number(snapshotVal.price),
                     arrangementCurrency: snapshotVal.currency,
                     arrangementSeasonality: snapshotVal.seasonality,
                     arrangementID: snapshotVal.id,
@@ -459,22 +464,40 @@ export default class Order extends Component {
                     arrangementFlorist: snapshotVal.florist,
                     arrangementFloristName: snapshotVal.floristName,
                     arrangementContact: snapshotVal.phone,
-                });
-            });
-            firebase.database().ref(`florists/${floristID}/deliveryFee`).once('value', function(snapshot) {
-                var snapshotVal = snapshot.val();
-                thisRef.setState({
-                    arrangementDeliveryFee: Number(snapshotVal[marketRegion]),
-                    arrangementDeliveryCurrency: snapshotVal.currency,
+                }, () => {
+                    firebase.database().ref(`florists/${floristID}/deliveryFee`).once('value', function(snapshot) {
+                        var snapshotVal = snapshot.val();
+                        thisRef.setState({
+                            arrangementDeliveryFee: Number(snapshotVal[marketRegion]),
+                            arrangementDeliveryCurrency: snapshotVal.currency,
+                        });
+                    });
+                    firebase.database().ref(`florists/${floristID}`).once('value', function(snapshot) {
+                        var snapshotVal = snapshot.val();
+                        thisRef.setState({
+                            promoCodeA: snapshotVal.promoCodeA,
+                            promoCodeB: snapshotVal.promoCodeB,
+                        }, () => {
+                            if (thisRef.state.promoCodeA === promoCode) {
+                                thisRef.setState({
+                                    arrangementPrice: thisRef.state.arrangementPrice2,
+                                    promoCodeApplied: true,
+                                });
+                            } else if (thisRef.state.promoCodeB === promoCode) {
+                                thisRef.setState({
+                                    arrangementPrice: thisRef.state.arrangementPrice3,
+                                    promoCodeApplied: true,
+                                });
+                            }
+                        });
+                    });
                 });
             });
         });
     }
     componentWillMount () {
-
         strings.setLanguage(this.props.languageChanged);
         var thisRef = this;
-
         this.fireBaseListenerForUserData = firebaseAuth().onAuthStateChanged((user) => {
             if (user !== null) {
                 firebase.database().ref(`users/${user.uid}/info`).once('value', function(snapshot) {
@@ -1001,6 +1024,31 @@ export default class Order extends Component {
                         </Row>
                     </Grid>
                     <Grid className="review-order">
+                        {this.state.promoCodeApplied &&
+                        <Row className="show-grid">
+                            <FormGroup>
+                                <Col sm={2}></Col>
+                                <Col sm={3}>
+                                    <div><strong>{strings.arrangementPrice}</strong></div>
+                                </Col>
+                                <Col sm={6}>
+                                    <div className="original-price">{this.state.arrangementCurrency}{this.state.arrangementOriginalPrice}</div>
+                                </Col>
+                            </FormGroup>
+                        </Row>}
+                        {this.state.promoCodeApplied &&
+                        <Row className="show-grid">
+                            <FormGroup>
+                                <Col sm={2}></Col>
+                                <Col sm={3}>
+                                    <div><strong>{strings.afterDiscount}</strong></div>
+                                </Col>
+                                <Col sm={6}>
+                                    <div className="discounted-price">{this.state.arrangementCurrency}{this.state.arrangementPrice}</div>
+                                </Col>
+                            </FormGroup>
+                        </Row>}
+                        {!this.state.promoCodeApplied &&
                         <Row className="show-grid">
                             <FormGroup>
                                 <Col sm={2}></Col>
@@ -1011,7 +1059,7 @@ export default class Order extends Component {
                                     <div>{this.state.arrangementCurrency}{this.state.arrangementPrice}</div>
                                 </Col>
                             </FormGroup>
-                        </Row>
+                        </Row>}
                         <Row className="show-grid">
                             <FormGroup>
                                 <Col sm={2}></Col>
@@ -1072,9 +1120,13 @@ export default class Order extends Component {
                                     arrangementName={this.state.arrangementName}
                                     arrangementImage={this.state.arrangementImage}
                                     deliveryDate={this.props.deliveryDate}
+                                    deliveryFee={this.state.arrangementDeliveryFee}
                                     addressBookChecked={this.state.addressBookChecked}
                                     email={this.state.email}
                                     orderRoute={this.state.orderRoute}
+                                    arrangementPrice={this.state.arrangementPrice}
+                                    arrangementOriginalPrice={this.state.arrangementOriginalPrice}
+                                    promoCodeApplied={this.state.promoCodeApplied}
                                 />
                                 <Button bsStyle="" className="button-new-sub button-back" onClick={() => this.setState({orderStep: 3}, () => {window.scrollTo(0, 0);})}>{strings.backButton}</Button>
                             </Col>

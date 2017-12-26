@@ -120,6 +120,11 @@ let strings = new LocalizedStrings({
     expectation4_1: " Depending on marketing cost of the season, you keep 80-90% of the revenue, but no less than 80%. We invest it to help you reach a broader customer base and make the whole transaction process as smooth as possible, so you can focus on your art.",
     expectation5: 'Your customers:',
     expectation5_1: " Build your reputation with customers with our review system.",
+
+    totalPrice: 'Total Price:',
+    originalPrice: 'Original Price:',
+    arrangementPrice: 'Discounted:',
+    deliveryFee: 'Delivery Fee:',
   },
   ch: {
     ordersDashboard1: ' ',
@@ -233,6 +238,11 @@ let strings = new LocalizedStrings({
     expectation4_1: " 視乎當季的市場推廣成本，您將會收到最多90％，不少於80％的收益。收取的交易費將投資在市場推廣、支付處理、和五月菊平台的發展。",
     expectation5: '您的客人:',
     expectation5_1: " 在五月菊發展您的花藝事業，利用我們的評論平台建立您的聲望。",
+
+    totalPrice: '總價:',
+    originalPrice: '設計原價:',
+    arrangementPrice: '設計折後價:',
+    deliveryFee: '運送費:',
   }
 });
 
@@ -500,6 +510,50 @@ class OrderDetails extends React.Component {
               </Row>
               <Row className="show-grid">
                 <FormGroup>
+                <Col sm={1} md={2}></Col>
+                <Col sm={3} md={2}>
+                    <div><strong>{strings.totalPrice}</strong></div>
+                </Col>
+                <Col sm={8}>
+                  <div>{orderDetails.currency}{orderDetails.price/100}</div>
+                </Col>
+                </FormGroup>
+              </Row>
+              <Row className="show-grid">
+                <FormGroup>
+                  <Col sm={1} md={2}></Col>
+                  <Col sm={3} md={2}>
+                      <div><strong>{strings.originalPrice}</strong></div>
+                  </Col>
+                  <Col sm={8}>
+                    <div>{orderDetails.currency}{orderDetails.arrangementOriginalPrice}</div>
+                  </Col>
+                </FormGroup>
+              </Row>
+              {orderDetails.promoCodeApplied === true && <Row className="show-grid">
+                <FormGroup>
+                  <Col sm={1} md={2}></Col>
+                  <Col sm={3} md={2}>
+                      <div><strong>{strings.arrangementPrice}</strong></div>
+                  </Col>
+                  <Col sm={8}>
+                    <div>{orderDetails.currency}{orderDetails.arrangementPrice}</div>
+                  </Col>
+                </FormGroup>
+              </Row>}
+              <Row className="show-grid">
+                <FormGroup>
+                  <Col sm={1} md={2}></Col>
+                  <Col sm={3} md={2}>
+                      <div><strong>{strings.deliveryFee}</strong></div>
+                  </Col>
+                  <Col sm={8}>
+                    <div>{orderDetails.currency}{orderDetails.deliveryFee}</div>
+                  </Col>
+                </FormGroup>
+              </Row>
+              <Row className="show-grid">
+                <FormGroup>
                   <Col sm={1} md={2}></Col>
                   <Col sm={3} md={2}>
                       <div><strong>{strings.deliveryType}</strong></div>
@@ -531,17 +585,6 @@ class OrderDetails extends React.Component {
                   </Col>
                 </FormGroup>
               </Row> }
-              <Row className="show-grid">
-                <FormGroup>
-                  <Col sm={1} md={2}></Col>
-                  <Col sm={3} md={2}>
-                      <div><strong>{strings.locationType}</strong></div>
-                  </Col>
-                  <Col sm={8}>
-                    <div>{strings[orderDetails.selectLocationType]}</div>
-                  </Col>
-                </FormGroup>
-              </Row>
               <Row className="show-grid">
                 <FormGroup>
                   <Col sm={1} md={2}></Col>
@@ -683,7 +726,6 @@ export default class OrdersDashboard extends Component {
   componentDidMount () {
     window.scrollTo(0, 0);
     this.removeListener = firebaseAuth().onAuthStateChanged((user) => {
-      console.log(user);
 
       this.setUpStepListener = base.bindToState(`users/${user.uid}/info/floristRegistrationStep`, {
         context: this,

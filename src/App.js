@@ -104,7 +104,7 @@ export default class App extends Component {
       isDesigner: false,
       loading: true,
       languageChanged: 'ch',
-      marketRegion: 'HK_CentralWestern',
+      marketRegion: 'select_region',
       // deliveryDate: 1
     }
   }
@@ -232,17 +232,21 @@ export default class App extends Component {
             />
 
             <Route path='/florist/:floristID' exact render={(props) => (<Florist {...props} languageChanged={this.state.languageChanged}/>)}/>
+
             <Route path='/florist/:floristID/:arrangement' exact render={(props) => (<Arrangement {...props} 
               languageChanged={this.state.languageChanged}
               onDeliveryDateSelect={this.handleDeliveryDateSelect}
               deliveryDate={this.state.deliveryDate}
-              marketRegion={this.state.marketRegion} 
-              onMarketRegionSelect={this.handleMarketRegionSelect}/>)}
+              marketRegion={this.state.marketRegion}
+              onMarketRegionSelect={this.handleMarketRegionSelect}
+              />)}
             />
-            <Route path='/order/:floristID/:arrangement' exact render={(props) => (<Order {...props} 
+
+            <Route path='/order/:floristID/:arrangement/:promoCode?' exact render={(props) => (<Order {...props} 
               languageChanged={this.state.languageChanged}
               deliveryDate={this.state.deliveryDate}
-              marketRegion={this.state.marketRegion}/>)}
+              marketRegion={this.state.marketRegion}
+              />)}
             />
 
             <Route path='/privacy-policy' exact render={(props) => (<PrivacyPolicy {...props} languageChanged={this.state.languageChanged}/>)}/>

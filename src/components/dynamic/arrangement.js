@@ -44,6 +44,7 @@ let strings = new LocalizedStrings({
         deliveryFee: 'Delivery fee',
 
         dateRequired: '*Please select a delivery date.',
+        marketRegionRequired: '*Please select a delivery region.',
         orderNow: 'Order Now',
         otherDesigns1: 'Other Designs by ',
         otherDesigns2: ':',
@@ -89,6 +90,7 @@ let strings = new LocalizedStrings({
         deliveryFee: '送貨費',
 
         dateRequired: '*請選擇送貨日期。',
+        marketRegionRequired: '*請選擇送貨地區',
         orderNow: '現在下單',
         otherDesigns1: ' ',
         otherDesigns2: '的其他設計:',
@@ -104,8 +106,8 @@ const ButtonToMarket = ({ history }) => (
     <Button bsStyle="" className="button-to-market" onClick={() => history.push('/arrangements')}>{strings.buttonToMarket}</Button>
 );
 
-const ButtonToSearch = ({ history }) => (
-    <Button bsStyle="" className="button-to-search" onClick={() => history.push(`/arrangements/${this.props.marketRegion}`)}>{strings.buttonToMarket}</Button>
+const ButtonToSearch = ({ history, props, marketRegion }) => (
+    <Button bsStyle="" className="button-to-search" onClick={() => history.push(`/arrangements/${marketRegion}`)}>{strings.buttonToMarket}</Button>
 );
 
 const deliveryTooltip = (
@@ -186,9 +188,13 @@ export default class Arrangement extends Component {
         this.props.onDeliveryDateSelect(date);
     }
 
-    handleOrder = (floristID, arrangement) => {
-        if (this.props.deliveryDate) {
-            this.props.history.push(`/order/${floristID}/${arrangement}`);
+    handleOrder = (floristID, arrangement, promoCode) => {
+        if (this.props.deliveryDate && this.props.marketRegion !== 'select_region') {
+            if (promoCode.length>0) {
+                this.props.history.push(`/order/${floristID}/${arrangement}/${promoCode}`);
+            } else {
+                this.props.history.push(`/order/${floristID}/${arrangement}`);
+            }
         }
         else {
             this.setState({orderButtonPressed: true});
@@ -438,7 +444,7 @@ export default class Arrangement extends Component {
                             <div className="arrangement-price-tip">{strings.discountedPriceTip}</div>
                         </div>}
 
-                        { this.state.arrangementDeliveryFee!== -1 &&
+                        { this.state.arrangementDeliveryFee!== -1 && this.props.marketRegion!=='select_region' &&
                             <div className="delivery-fee-block">
                                 <div className="arrangement-delivery-fee">${this.state.arrangementDeliveryFee}</div>
                                 <div className="arrangement-delivery-fee-tip">
@@ -480,16 +486,21 @@ export default class Arrangement extends Component {
                             <div className="error-message">{strings.dateRequired}</div>
                         </div>
                     }
+                    { (this.props.deliveryDate && this.state.orderButtonPressed && this.props.marketRegion==='select_region') &&
+                        <div>
+                            <div className="error-message">{strings.marketRegionRequired}</div>
+                        </div>
+                    }
 
                     { this.state.arrangementDeliveryFee=== -1 &&
                         <div className="button-box">
-                            <Route path="/" render={(props) => <ButtonToSearch {...props}/>} />
+                            <Route path="/" render={(props) => <ButtonToSearch marketRegion={marketRegion} {...props}/>} />
                         </div>
                     }
 
                     { this.state.arrangementDeliveryFee!== -1 &&
                         <div className="button-box">
-                            <Route path="/" render={() => <Button bsStyle="" className="button-to-order" onClick={() => this.handleOrder(this.state.floristID, this.state.arrangement)}>{strings.orderNow}</Button>}/>
+                            <Route path="/" render={() => <Button bsStyle="" className="button-to-order" onClick={() => this.handleOrder(this.state.floristID, this.state.arrangement, this.state.promoCode)}>{strings.orderNow}</Button>}/>
                         </div>
                     }
 

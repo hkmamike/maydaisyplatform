@@ -44,7 +44,8 @@ let strings = new LocalizedStrings({
     order_received: 'Acknowledged',
     order_fulfilled: 'Fulfilled',
     buttonToShop: 'My Shop',
-    buttonToAccount: 'My Account'
+    buttonToAccount: 'My Account',
+    price: 'Price:',
   },
   ch: {
     orderHistory1: ' ',
@@ -83,7 +84,8 @@ let strings = new LocalizedStrings({
     buttonToShop: '我的花店',
     buttonToAccount: '我的帳戶',
 
-    noRecord: '您目前並沒有地址記錄。'
+    noRecord: '您目前並沒有地址記錄。',
+    price: '價格:',
   }
 });
 
@@ -307,6 +309,16 @@ class OrderDetails extends React.Component {
                   </Col>
                   <Col md={5}>
                     <div className="order-history-arrangement-name"><Link to={`/florist/${orderDetails.florist}/${orderDetails.arrangementCode}`}>{orderDetails.arrangementName}</Link></div>
+                  </Col>
+                  <Col md={1}></Col>
+              </Row>
+              <Row className="show-grid">
+                  <Col md={4}></Col>
+                  <Col md={2}>
+                      <div><strong>{strings.price}</strong></div>
+                  </Col>
+                  <Col md={5}>
+                    <div>{orderDetails.currency}{orderDetails.price/100}</div>
                   </Col>
                   <Col md={1}></Col>
               </Row>

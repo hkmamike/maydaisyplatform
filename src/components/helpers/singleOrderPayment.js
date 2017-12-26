@@ -62,6 +62,10 @@ export default class PlaceOrder extends React.Component {
         var arrangementImage = this.props.arrangementImage;
         var currency = this.props.currency;
         var price = this.props.price;
+        var arrangementPrice = this.props.arrangementPrice;
+        var arrangementOriginalPrice = this.props.arrangementOriginalPrice;
+        var promoCodeApplied = this.props.promoCodeApplied;
+        var deliveryFee = this.props.deliveryFee;
         var selectDeliveryType = this.props.selectDeliveryType;
         var languageChanged = this.props.languageChanged;
         var senderName = this.props.sender;
@@ -140,6 +144,10 @@ export default class PlaceOrder extends React.Component {
                                 uid: uid,
                                 price: price,
                                 currency: currency,
+                                arrangementPrice: arrangementPrice,
+                                arrangementOriginalPrice: arrangementOriginalPrice,
+                                promoCodeApplied: promoCodeApplied,
+                                deliveryFee: deliveryFee,
                                 arrangementName: arrangementName,
                                 arrangementImage: arrangementImage,
                                 arrangementCode: arrangementCode,
@@ -181,6 +189,10 @@ export default class PlaceOrder extends React.Component {
                                     uid: uid,
                                     price: price,
                                     currency: currency,
+                                    arrangementPrice: arrangementPrice,
+                                    arrangementOriginalPrice: arrangementOriginalPrice,
+                                    promoCodeApplied: promoCodeApplied,
+                                    deliveryFee: deliveryFee,
                                     arrangementName: arrangementName,
                                     arrangementImage: arrangementImage,
                                     arrangementCode: arrangementCode,
@@ -243,6 +255,10 @@ export default class PlaceOrder extends React.Component {
                                     floristName: floristName,
                                     price: price,
                                     currency: currency,
+                                    arrangementPrice: arrangementPrice,
+                                    arrangementOriginalPrice: arrangementOriginalPrice,
+                                    promoCodeApplied: promoCodeApplied,
+                                    deliveryFee: deliveryFee,
                                     arrangementName: arrangementName,
                                     arrangementImage: arrangementImage,
                                     arrangementCode: arrangementCode,
