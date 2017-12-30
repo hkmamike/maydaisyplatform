@@ -7,6 +7,27 @@ import LocalizedStrings from 'react-localization';
 
 let strings = new LocalizedStrings({
   en:{
+
+    HK_CentralWestern: 'Central & Western',
+    HK_Eastern: 'Eastern',
+    HK_Southern: 'Southern',
+    HK_WanChai: 'Wan Chai',
+    KL_KowloonCity: 'Kowloon City',
+    KL_KwunTong: 'Kwun Tong',
+    KL_ShamShuiPo: 'Sham Shui Po',
+    KL_WongTaiSin: 'Wong Tai Sin',
+    KL_YauTsimMong: 'Yau Tsim Mong',
+    NT_Islands: 'Outlying Islands',
+    NT_KwaiTsing: 'Kwai Tsing',
+    NT_North: 'Northern Region',
+    NT_SaiKung: 'Sai Kung',
+    NT_ShaTin: 'Sha Tin',
+    NT_TaiPo: 'Tai Po',
+    NT_TsuenWan: 'Tsuen Wan',
+    NT_TuenMun: 'Tuen Mun',
+    NT_YuenLong: 'Yuen Long',
+    specialPickUpLocation: 'Self Pick Up',
+
     ordersDashboard1: 'Orders',
     ordersDashboard2: 'Dashboard',
     designs1: "Shop's",
@@ -44,7 +65,7 @@ let strings = new LocalizedStrings({
     deliveryInstruction: 'Instruction:',
     sender: 'Sender:',
     senderNum: "Sender's #: ",
-    senderEmail: "Sender's email",
+    senderEmail: "Email:",
 
     backButton: 'Back',
     updateButton: 'Update',
@@ -125,8 +146,33 @@ let strings = new LocalizedStrings({
     originalPrice: 'Original Price:',
     arrangementPrice: 'Discounted:',
     deliveryFee: 'Delivery Fee:',
+    deliveryRegion: 'Region:',
+
+    floristRevenueMin: 'Min Revenue:',
+    orderMonth: 'Month:',
   },
   ch: {
+
+    HK_CentralWestern: '中西區',
+    HK_Eastern: '東區',
+    HK_Southern: '南區',
+    HK_WanChai: '灣仔區',
+    KL_KowloonCity: '九龍城區',
+    KL_KwunTong: '觀塘區',
+    KL_ShamShuiPo: '深水埗區',
+    KL_WongTaiSin: '黃大仙區',
+    KL_YauTsimMong: '油尖旺區',
+    NT_Islands: '離島區',
+    NT_KwaiTsing: '葵青區',
+    NT_North: '北區',
+    NT_SaiKung: '西貢區',
+    NT_ShaTin: '沙田區',
+    NT_TaiPo: '大埔區',
+    NT_TsuenWan: '荃灣區',
+    NT_TuenMun: '屯門區',
+    NT_YuenLong: '元朗區',
+    specialPickUpLocation: '免費自取',
+
     ordersDashboard1: ' ',
     ordersDashboard2: '定單列表',
     designs1: " ",
@@ -242,7 +288,11 @@ let strings = new LocalizedStrings({
     totalPrice: '總價:',
     originalPrice: '設計原價:',
     arrangementPrice: '設計折後價:',
-    deliveryFee: '運送費:',
+    deliveryFee: '送貨費:',
+    deliveryRegion: '送貨區域:',
+
+    floristRevenueMin: '最低收益:',
+    orderMonth: '結算月:',
   }
 });
 
@@ -541,6 +591,17 @@ class OrderDetails extends React.Component {
                   </Col>
                 </FormGroup>
               </Row>}
+              <Row className="show-grid">
+                <FormGroup>
+                  <Col sm={1} md={2}></Col>
+                  <Col sm={3} md={2}>
+                      <div><strong>{strings.deliveryRegion}</strong></div>
+                  </Col>
+                  <Col sm={8}>
+                    <div>{strings[orderDetails.marketRegion]}</div>
+                  </Col>
+                </FormGroup>
+              </Row>
               <Row className="show-grid">
                 <FormGroup>
                   <Col sm={1} md={2}></Col>
@@ -858,9 +919,11 @@ export default class OrdersDashboard extends Component {
       ordersHeader = (
         <Grid>
           <Row className="ordersdashboard-list-titles">
-            <Col xs={4}>{strings.referenceCode}</Col>
-            <Col xs={4}>{strings.deliveryDay}</Col>
-            <Col xs={4}>{strings.orderStatus}</Col>
+            <Col xs={4} sm={3} md={3}>{strings.sender}</Col>
+            <Col xs={4} sm={3} md={3}>{strings.deliveryDay}</Col>
+            <Col xs={4} sm={3} md={2}>{strings.orderStatus}</Col>
+            <Col xsHidden sm={3} md={2}>{strings.floristRevenueMin}</Col>
+            <Col xsHidden smHidden md={2}>{strings.orderMonth}</Col>
           </Row>
         </Grid>
       );
@@ -871,14 +934,20 @@ export default class OrdersDashboard extends Component {
             <Grid>
               <div className="ordersdashboard-list-item">
                 <Row className="show-grid">
-                    <Col xs={4}>
-                      <div>{data[key].referenceCode}</div>
+                    <Col xs={4} sm={3} md={3}>
+                      <div>{data[key].senderName}</div>
                     </Col>
-                    <Col xs={4}>
+                    <Col xs={4} sm={3} md={3}>
                       <div>{data[key].deliveryDate}</div>
                     </Col>
-                    <Col xs={4}>
+                    <Col xs={4} sm={3} md={2}>
                       <div>{strings[data[key].status]}</div>
+                    </Col>
+                    <Col xsHidden sm={3} md={2}>
+                      <div>{data[key].floristRevenueMin}</div>
+                    </Col>
+                    <Col xsHidden smHidden md={2}>
+                      <div>{data[key].orderMonth}</div>
                     </Col>
                 </Row>
               </div>

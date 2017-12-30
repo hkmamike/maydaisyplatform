@@ -28,6 +28,7 @@ let strings = new LocalizedStrings({
         NT_TsuenWan: 'Tsuen Wan',
         NT_TuenMun: 'Tuen Mun',
         NT_YuenLong: 'Yuen Long',
+        specialPickUpLocation: 'Self Pick Up',
 
         buttonToMarket: 'Back to market',
 
@@ -38,11 +39,12 @@ let strings = new LocalizedStrings({
         deliverTo: 'Deliver to:',
         selectDate: 'Select date:',
         noCoverageTip1: 'Oh no! This florist does not deliver to ',
-        noCoverageTip2: ". Let's go back to the market to find one that does.",
+        noCoverageTip2: ". Let's go back to the market to find one that does.", 
         excludingDelivery: 'Excluding delivery',
         originalPriceTip: 'Original Price',
         discountedPriceTip: 'Promo-code Applied',
         deliveryFee: 'Delivery fee',
+        specialPickUpTitle: "Florist's policy on self-pickup:",
 
         dateRequired: '*Please select a delivery date.',
         marketRegionRequired: '*Please select a delivery region.',
@@ -78,6 +80,7 @@ let strings = new LocalizedStrings({
         NT_TsuenWan: '荃灣區',
         NT_TuenMun: '屯門區',
         NT_YuenLong: '元朗區',
+        specialPickUpLocation: '免費自取',
 
         buttonToMarket: '返回市集',
         descriptionTab: '貨品描述',
@@ -92,6 +95,7 @@ let strings = new LocalizedStrings({
         originalPriceTip: '原價',
         discountedPriceTip: '折扣後',
         deliveryFee: '送貨費',
+        specialPickUpTitle: "花匠設定的免費自取地點和條款:",
 
         dateRequired: '*請選擇送貨日期。',
         marketRegionRequired: '*請選擇送貨地區',
@@ -110,13 +114,41 @@ let strings = new LocalizedStrings({
     }
 });
 
-const ButtonToMarket = ({ history }) => (
-    <Button bsStyle="" className="button-to-market" onClick={() => history.push('/arrangements')}>{strings.buttonToMarket}</Button>
-);
+class ButtonToMarket extends React.Component {
+    render() {
+       return( 
+            <Button bsStyle="" className="button-to-market" 
+                onClick={() => {
+                    if (this.props.marketRegion === 'specialPickUpLocation') {
+                        this.props.handleMarketRegionSelect('select_region');
+                    }
+                    this.props.history.push('/arrangements');
+                }}
+            >
+                {strings.buttonToMarket}
+            </Button>
+        )
+    }
+}
 
-const ButtonToSearch = ({ history, props, marketRegion }) => (
-    <Button bsStyle="" className="button-to-search" onClick={() => history.push(`/arrangements/${marketRegion}`)}>{strings.buttonToMarket}</Button>
-);
+class ButtonToSearch extends React.Component {
+    render() {
+        return( 
+             <Button bsStyle="" className="button-to-search" 
+                onClick={() => {
+                    if (this.props.marketRegion === 'specialPickUpLocation') {
+                        this.props.handleMarketRegionSelect('select_region');
+                        this.props.history.push(`/arrangements/`);
+                    } else {
+                        this.props.history.push(`/arrangements/${this.props.marketRegion}`);
+                    }
+                 }}
+             >
+                 {strings.buttonToMarket}
+             </Button>
+         )
+     }
+}
 
 const deliveryTooltip = (
     <Tooltip id="deliveryTooltip">{strings.deliveryFeeTip}</Tooltip>
@@ -332,6 +364,8 @@ export default class Arrangement extends Component {
                     arrangementDeliveryLeadTime: snapshotVal.arrangementDeliveryLeadTime,
                     arrangementDeliveryBlockedDays: snapshotVal.deliveryBlockedDays,
                     arrangementDeliveryFee: snapshotVal.deliveryFee[marketRegion],
+                    specialPickUp: snapshotVal.specialPickUp,
+                    specialPickUpFlag: snapshotVal.deliveryFee['specialPickUpLocation'],
                 });
             });
         });
@@ -387,6 +421,7 @@ export default class Arrangement extends Component {
         </div>
       )
     } else {
+    
       content = (
         <Grid className="arrangement-container">
             <Row className="main-row">
@@ -398,7 +433,7 @@ export default class Arrangement extends Component {
                 <Col xs={12} sm={6}>
                     <div className="arrangement-inline">
                         <div className="arrangement-name">{this.state.arrangementName}</div>
-                        <Route path="/" render={(props) => <ButtonToMarket {...props}/>} />
+                        <Route path="/" render={(props) => <ButtonToMarket {...props} marketRegion={this.props.marketRegion} handleMarketRegionSelect={this.props.onMarketRegionSelect}/>} />
                     </div>
                     <div className="arrangement-florist-name">by <Link to={`/florist/${this.state.arrangementFlorist}`} >{this.state.arrangementFloristName}</Link></div>
                     <ul className="arrangement-details-toggle">
@@ -443,6 +478,7 @@ export default class Arrangement extends Component {
                                 <MenuItem eventKey="NT_TsuenWan">{strings.NT_TsuenWan}</MenuItem>
                                 <MenuItem eventKey="NT_TuenMun">{strings.NT_TuenMun}</MenuItem>
                                 <MenuItem eventKey="NT_YuenLong">{strings.NT_YuenLong}</MenuItem>
+                                {this.state.specialPickUpFlag !== -1 && <MenuItem eventKey="specialPickUpLocation">{strings.specialPickUpLocation}</MenuItem>}
                             </DropdownButton>
                         </div>
 
@@ -465,6 +501,13 @@ export default class Arrangement extends Component {
                     { this.state.arrangementDeliveryFee=== -1 &&
                         <div>
                             <div className="error-message">{strings.noCoverageTip1}{strings[marketRegion]}{strings.noCoverageTip2}</div>
+                        </div>
+                    }
+
+                    {marketRegion === 'specialPickUpLocation' &&
+                        <div>
+                            <div className="special-pickup-info-title"><strong>{strings.specialPickUpTitle}</strong></div>
+                            <div className="special-pickup-info">{this.state.specialPickUp}</div>
                         </div>
                     }
 
@@ -530,7 +573,7 @@ export default class Arrangement extends Component {
                     </Panel>
                     { this.state.arrangementDeliveryFee=== -1 &&
                         <div className="button-box">
-                            <Route path="/" render={(props) => <ButtonToSearch marketRegion={marketRegion} {...props}/>} />
+                            <Route path="/" render={(props) => <ButtonToSearch marketRegion={this.props.marketRegion} handleMarketRegionSelect={this.props.onMarketRegionSelect} {...props}/>} />
                         </div>
                     }
 

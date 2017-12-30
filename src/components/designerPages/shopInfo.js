@@ -54,6 +54,7 @@ let strings = new LocalizedStrings({
     NT_TsuenWan: 'Tsuen Wan',
     NT_TuenMun: 'Tuen Mun',
     NT_YuenLong: 'Yuen Long',
+    specialPickUpLocation: 'Pick Up Spot',
 
     n: 'not delivering',
     free: 'free delivery',
@@ -93,6 +94,9 @@ let strings = new LocalizedStrings({
 
     deliveryInfo: 'Delivery Policy:',
     deliveryInfoTip: 'A copy of this will be shown on the "Delivery Info" tab on each of your arrangement page. If you do not specify a delivery policy, the standard MayDaisy delivery policy will be displayed.',
+
+    specialPickUp: 'Pickup Location:',
+    specialPickUpTip: 'If you offer free pickup at special locations, display location here and specify pickup policy.',
 
     leadTimeTip: '*Put ""1" if next day delivery is available, "0" if sameday delivery is available, so on. For sameday delivery, platform wise cutoff time is 1p.m. HKT.'
   },
@@ -140,6 +144,7 @@ let strings = new LocalizedStrings({
     NT_TsuenWan: '荃灣區',
     NT_TuenMun: '屯門區',
     NT_YuenLong: '元朗區',
+    specialPickUpLocation: '自取點',
 
     n: '不覆蓋',
     free: '免費送貨',
@@ -179,6 +184,9 @@ let strings = new LocalizedStrings({
 
     deliveryInfo: '送貨詳情:',
     deliveryInfoTip: '送貨詳情會在貨品頁中顯示給客人。如果您未有選寫送貨詳情，系統將會顯示五月菊的標準送貨政策。',
+
+    specialPickUp: '自取地點:',
+    specialPickUpTip: '如果您在特定地點給客人免費自取，請列出地點，並注明自取條款。',
 
     leadTimeTip: '*如果最快交貨時間為下一天，請填"1"，如此類推。如您的店提供即日送貨，請填"0"。 所有五月菊的即日送貨的標準訂單截止時間為香港時間下午1時。'
   }
@@ -556,7 +564,6 @@ class DeliverySettings extends React.Component {
         });
       });
       this.close();
-
     }).catch(err => {
       console.log('An error occured when updating account information.');
     });
@@ -610,9 +617,9 @@ class DeliverySettings extends React.Component {
                       <DropdownButton title={strings[refKey]} id="subscriptioin-planTypeSelect-dropdown" onSelect={(eventKey)=>this.handleSettingChange(key,eventKey)}>
                         <MenuItem eventKey="n">{strings.n}</MenuItem>
                         <MenuItem eventKey="free">{strings.free}</MenuItem>
-                        <MenuItem eventKey="fifty">{strings.fifty}</MenuItem>
-                        <MenuItem eventKey="hundred">{strings.hundred}</MenuItem>
-                        <MenuItem eventKey="hundredfifty">{strings.hundredfifty}</MenuItem>
+                        {key !== 'specialPickUpLocation' && <MenuItem eventKey="fifty">{strings.fifty}</MenuItem>}
+                        {key !== 'specialPickUpLocation' && <MenuItem eventKey="hundred">{strings.hundred}</MenuItem>}
+                        {key !== 'specialPickUpLocation' && <MenuItem eventKey="hundredfifty">{strings.hundredfifty}</MenuItem>}
                       </DropdownButton>
                     </Col>
                   </FormGroup>
@@ -661,8 +668,6 @@ export default class ShopInfo extends Component {
       img: null,
       croppedImg: null,
       cropperOpen: false,
-      instagram: '',
-      facebook: '',
     }
   }
 
@@ -689,6 +694,7 @@ export default class ShopInfo extends Component {
             croppedImg: data.profilePic,
             promoCodeA: data.promoCodeA,
             promoCodeB: data.promoCodeB,
+            specialPickUp: data.specialPickUp,
           });
         }
       });
@@ -732,6 +738,9 @@ export default class ShopInfo extends Component {
   handleDeliveryInfoChange = (e) => {
     this.setState({ deliveryInfo: e.target.value });
   }
+  handleSpecialPickUpChange = (e) => {
+    this.setState({ specialPickUp: e.target.value });
+  }
   handleLeadTimeChange = (e) => {
     this.setState({ leadTime: e.target.value });
   }
@@ -747,7 +756,7 @@ export default class ShopInfo extends Component {
   handleInstagramChange = (e) => {
     this.setState({ instagram: e.target.value });
   }
-  handleAccountUpdate = (address, description, leadTime, croppedImg, facebook , instagram, promoCodeA, promoCodeB, deliveryInfo) => {
+  handleAccountUpdate = (address, description, leadTime, croppedImg, facebook , instagram, promoCodeA, promoCodeB, deliveryInfo, specialPickUp) => {
     base.update(`florists/${this.props.designerCode}`, {
       data: {
           address: address,
@@ -759,6 +768,7 @@ export default class ShopInfo extends Component {
           promoCodeA: promoCodeA,
           promoCodeB, promoCodeB,
           deliveryInfo: deliveryInfo,
+          specialPickUp: specialPickUp,
       }
     }).then(() => {
         this.setState({ InfoMessage: `${strings.shopInfoUpdated}`});
@@ -781,6 +791,7 @@ export default class ShopInfo extends Component {
     var promoCodeA = this.state.promoCodeA;
     var promoCodeB = this.state.promoCodeB;
     var deliveryInfo = this.state.deliveryInfo;
+    var specialPickUp = this.state.specialPickUp;
 
     let content = null;
     if (loadingState) {
@@ -887,6 +898,18 @@ export default class ShopInfo extends Component {
                 <FormGroup>
                   <Col sm={1} md={2}></Col>
                   <Col sm={3} md={2}>
+                    <div><strong>{strings.specialPickUp}</strong></div>
+                  </Col>
+                  <Col sm={7}>
+                    <FormControl componentClass='textarea' className="data-field-update" type="text" value={specialPickUp} onChange={this.handleSpecialPickUpChange}/>
+                    <HelpBlock>{strings.specialPickUpTip}</HelpBlock>
+                  </Col>
+                </FormGroup>
+              </Row>
+              <Row className="show-grid">
+                <FormGroup>
+                  <Col sm={1} md={2}></Col>
+                  <Col sm={3} md={2}>
                     <div><strong>{strings.leadTime}</strong></div>
                   </Col>
                   <Col sm={7}>
@@ -971,7 +994,7 @@ export default class ShopInfo extends Component {
               <Row className="show-grid">
                 <FormGroup>
                   <Col xs={10} xsPush={2} smPush={5} mdPush={6}>
-                    <Button bsStyle="" className="button" onClick={() => this.handleAccountUpdate(address, description, leadTime, croppedImg, facebook, instagram, promoCodeA, promoCodeB, deliveryInfo)}>{strings.updateButton}</Button>
+                    <Button bsStyle="" className="button" onClick={() => this.handleAccountUpdate(address, description, leadTime, croppedImg, facebook, instagram, promoCodeA, promoCodeB, deliveryInfo, specialPickUp)}>{strings.updateButton}</Button>
                   </Col>
                 </FormGroup>
               </Row>

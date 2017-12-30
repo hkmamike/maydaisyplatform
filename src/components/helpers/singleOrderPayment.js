@@ -56,6 +56,7 @@ export default class PlaceOrder extends React.Component {
 
     onToken = (token) => {
         var floristID = this.props.floristID;
+        var marketRegion = this.props.marketRegion;
         var floristName = this.props.floristName;
         var arrangementCode = this.props.arrangement;
         var arrangementName = this.props.arrangementName;
@@ -87,11 +88,16 @@ export default class PlaceOrder extends React.Component {
         var cardExpMonth;
         var referenceRan = Math.floor(Math.random()*(999 - 100) + 100);
         var dateNow = new Date().getTime();
+        var monthNow = new Date().getMonth();
         var referenceCode = "" + dateNow + referenceRan;
         var orderRoute = this.props.orderRoute;
         var senderEmailOnReg = this.props.email;
         var uid = '';
         var addressBookChecked = false;
+        var floristRevenueMin = (this.props.arrangementPrice * 0.8) + (this.props.deliveryFee * 0.96);
+        var floristRevenue85 = (this.props.arrangementPrice * 0.85) + (this.props.deliveryFee * 0.96);
+        var floristRevenue90 = (this.props.arrangementPrice * 0.9) + (this.props.deliveryFee * 0.96);
+        var floristRevenueBase = this.props.arrangementPrice + this.props.deliveryFee;
 
         if (orderRoute === 'login') {
             addressBookChecked = this.props.addressBookChecked;
@@ -142,12 +148,18 @@ export default class PlaceOrder extends React.Component {
                                 florist: floristID,
                                 floristName: floristName,
                                 uid: uid,
+                                marketRegion: marketRegion,
                                 price: price,
+                                orderMonth: monthNow,
                                 currency: currency,
                                 arrangementPrice: arrangementPrice,
                                 arrangementOriginalPrice: arrangementOriginalPrice,
                                 promoCodeApplied: promoCodeApplied,
                                 deliveryFee: deliveryFee,
+                                floristRevenueBase: floristRevenueBase,
+                                floristRevenue85: floristRevenue85,
+                                floristRevenue90: floristRevenue90,
+                                floristRevenueMin: floristRevenueMin,
                                 arrangementName: arrangementName,
                                 arrangementImage: arrangementImage,
                                 arrangementCode: arrangementCode,
@@ -187,7 +199,9 @@ export default class PlaceOrder extends React.Component {
                                     florist: floristID,
                                     floristName: floristName,
                                     uid: uid,
+                                    marketRegion: marketRegion,
                                     price: price,
+                                    orderMonth: monthNow,
                                     currency: currency,
                                     arrangementPrice: arrangementPrice,
                                     arrangementOriginalPrice: arrangementOriginalPrice,
@@ -254,10 +268,16 @@ export default class PlaceOrder extends React.Component {
                                     florist: floristID,
                                     floristName: floristName,
                                     price: price,
+                                    orderMonth: monthNow,
+                                    marketRegion: marketRegion,
                                     currency: currency,
                                     arrangementPrice: arrangementPrice,
                                     arrangementOriginalPrice: arrangementOriginalPrice,
                                     promoCodeApplied: promoCodeApplied,
+                                    floristRevenueBase: floristRevenueBase,
+                                    floristRevenue85: floristRevenue85,
+                                    floristRevenue90: floristRevenue90,
+                                    floristRevenueMin: floristRevenueMin,
                                     deliveryFee: deliveryFee,
                                     arrangementName: arrangementName,
                                     arrangementImage: arrangementImage,

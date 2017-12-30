@@ -124,6 +124,25 @@
         }
     }
 
+    .special-pickup-info-title {
+        color: green;
+        margin: 0 0 2px 15px;
+        font-size: 85%;
+        @media (max-width: 768px) {
+            font-size: 75%;
+        }
+    }
+
+    .special-pickup-info {
+        color: green;
+        min-height: 50px;
+        margin: 0 0 10px 15px;
+        font-size: 85%;
+        @media (max-width: 768px) {
+            font-size: 75%;
+        }
+    }
+
     .delivery-inline {
         margin: 15px 0;
         .select-delivery-block {
