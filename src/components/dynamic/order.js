@@ -479,15 +479,19 @@ export default class Order extends Component {
                             promoCodeB: snapshotVal.promoCodeB,
                         }, () => {
                             if (thisRef.state.promoCodeA === promoCode) {
-                                thisRef.setState({
-                                    arrangementPrice: thisRef.state.arrangementPrice2,
-                                    promoCodeApplied: true,
-                                });
+                                if (thisRef.state.arrangementPrice2 >= 40) {
+                                    thisRef.setState({
+                                        arrangementPrice: thisRef.state.arrangementPrice2,
+                                        promoCodeApplied: true,
+                                    });
+                                }
                             } else if (thisRef.state.promoCodeB === promoCode) {
-                                thisRef.setState({
-                                    arrangementPrice: thisRef.state.arrangementPrice3,
-                                    promoCodeApplied: true,
-                                });
+                                if (thisRef.state.arrangementPrice3 >= 40) {
+                                    thisRef.setState({
+                                        arrangementPrice: thisRef.state.arrangementPrice3,
+                                        promoCodeApplied: true,
+                                    });
+                                }
                             }
                         });
                     });
@@ -495,6 +499,7 @@ export default class Order extends Component {
             });
         });
     }
+    
     componentWillMount () {
         strings.setLanguage(this.props.languageChanged);
         var thisRef = this;

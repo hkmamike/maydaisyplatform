@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import ReactDOM from 'react-dom';
+import * as firebase from 'firebase';
 import { firebaseAuth } from '../config/constants';
 import { Link, Route } from 'react-router-dom';
 import { base } from '../config/constants';
@@ -492,7 +493,6 @@ class DeliverySettings extends React.Component {
   
   close() {
     this.setState({showModal: false});
-
     //force states to update since it does not dismount on close. It cases content to flash if placed on open()
     base.fetch(`florists/${this.props.designerCode}/deliveryFee`, {
       context: this,
@@ -500,11 +500,12 @@ class DeliverySettings extends React.Component {
           this.setState({deliveryDetails: data});
       }
     });
-    
   }
+
   open() {
     this.setState({showModal: true});
   }
+
   handleSettingChange = (key, eventKey) => {
     console.log('eventkey is ', eventKey);
     var newSetting = this.state.deliveryDetails;
@@ -537,7 +538,25 @@ class DeliverySettings extends React.Component {
     }).then(() =>base.post(`florists/${this.props.designerCode}/deliveryAreas`, {
       data: availableRegions
     })).then(() => {
+      var updates = {};
+
+      firebase.database().ref('arrangementsList')
+      .orderByChild('florist')
+      .equalTo(this.props.designerCode)
+      .once('value', function(snapshot) {
+        snapshot.forEach(function(childSnapshot) {
+            updates[childSnapshot.val().id + '/deliveryAreas'] = availableRegions;
+        });
+        firebase.database().ref('arrangementsList').update(updates, function(error) {
+          if (error) {
+            console.log('Error on updating deliveryArea nodes of arrangements:', error);
+          } else {
+            console.log('Owner ID updated successfully!');
+          }
+        });
+      });
       this.close();
+
     }).catch(err => {
       console.log('An error occured when updating account information.');
     });

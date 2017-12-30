@@ -29,6 +29,8 @@ let strings = new LocalizedStrings({
     price: 'Price(HKD):',
     price2: 'PriceA(HKD):',
     price3: 'PriceB(HKD):',
+    discountedPrice: 'Price(-15%):',
+    discountedPriceTip: 'We might offer customers up to 15% discount without notifying you, but you will still receive revenue base on the original price.',
 
     newDesign: 'New Design',
     category: 'Category:',
@@ -135,6 +137,9 @@ let strings = new LocalizedStrings({
     price: '價格(HKD):',
     price2: '價格A(HKD):',
     price3: '價格B(HKD):',
+    discountedPrice: '價格(-15%):',
+    discountedPriceTip: '五月菊可能會提供不多於15%的季節性推廣優惠，但您的收入會以原價計算。',
+
     category: '貨品種類:',
     newDesign: '新增設計',
     designCategoryTip: '只接受已開通種類的新增設計，其他的種類將陸續開通。如您有對新貨品種類的建議，請聯絡我們。',
@@ -1406,6 +1411,19 @@ class DesignDetails extends React.Component {
                     </FormGroup>
                   </Col>
               </Row>
+
+              <Row className="show-grid">
+                  <Col sm={1} md={2}></Col>
+                  <Col sm={3} md={2}>
+                      <div><strong>{strings.discountedPrice}</strong></div>
+                  </Col>
+                  <Col sm={8} md={5}>
+                      <div>{Math.floor(Number(price)*0.85)}</div>
+                      <HelpBlock>{strings.discountedPriceTip}</HelpBlock>
+                  </Col>
+              </Row>
+
+
               <Row className="show-grid">
                   <Col sm={1} md={2}></Col>
                   <Col sm={3} md={2}>
@@ -1874,6 +1892,17 @@ class NewDesign extends React.Component {
               </Row>
 
               <Row className="show-grid">
+                  <Col sm={1} md={2}></Col>
+                  <Col sm={3} md={2}>
+                      <div><strong>{strings.discountedPrice}</strong></div>
+                  </Col>
+                  <Col sm={8} md={5}>
+                      <div>{Math.floor(Number(price)*0.85)}</div>
+                      <HelpBlock>{strings.discountedPriceTip}</HelpBlock>
+                  </Col>
+              </Row>
+
+              <Row className="show-grid">
                 <FormGroup>
                   <Col sm={1} md={2}></Col>
                   <Col sm={3} md={2}>
@@ -2077,6 +2106,9 @@ export default class Designs extends Component {
                 flower: flowersArray,
                 name: name,
                 price: Number(price),
+                price5Off: Math.floor(Number(price)*0.95),
+                price10Off: Math.floor(Number(price)*0.90),
+                price15Off: Math.floor(Number(price)*0.85),
                 price2: Number(price2Mod),
                 price3: Number(price3Mod),
                 seasonality: 'all',
@@ -2094,7 +2126,7 @@ export default class Designs extends Component {
               var newRef = storageRef.child(`${newLocationKey}.jpg`);
               var downloadURL;
 
-              //update florist nodex
+              //update florist node
               base.post(`florists/${designerCode}/arrangements/${newLocationKey}`, {
                 data: {
                   id: newLocationKey,
@@ -2157,6 +2189,9 @@ export default class Designs extends Component {
           data: {
               name: name,
               price: Number(price),
+              price5Off: Math.floor(Number(price)*0.95),
+              price10Off: Math.floor(Number(price)*0.90),
+              price15Off: Math.floor(Number(price)*0.85),
               price2: price2Mod,
               price3: price3Mod,
               description: description,
@@ -2176,6 +2211,9 @@ export default class Designs extends Component {
         data: {
             name: name,
             price: Number(price),
+            price5Off: Math.floor(Number(price)*0.95),
+            price10Off: Math.floor(Number(price)*0.90),
+            price15Off: Math.floor(Number(price)*0.85),
             price2: price2Mod,
             price3: price3Mod,
             description: description,

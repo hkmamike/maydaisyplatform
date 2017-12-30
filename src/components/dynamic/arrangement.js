@@ -54,6 +54,7 @@ let strings = new LocalizedStrings({
         applyButton: 'Apply',
         promoCodeApplied: 'Success! promo code applied.',
         promoCodeFailed: 'UhOh, this is not a valid promo code.',
+        promoCodeNotApplicable: 'This florist did not specify a discount price for this promo code.',
 
         substitutionPolicy: "Sometimes, florists' photo represent an overall theme or look and include a one-of-a-kind vase which cannot be exactly replicated. Although the delivered bouquet may not precisely match the photo, its temperament will. Occasionally, substitutions of flowers or containers happen due to weather, seasonality and market conditions which may affect availability. If this is the case with the gift you've selected, the local florist will ensure that the style, theme and color scheme of your arrangement is preserved and will only substitute items of equal or higher value."
     },
@@ -102,6 +103,7 @@ let strings = new LocalizedStrings({
         applyButton: '使用',
         promoCodeApplied: '成功！已行使折扣碼。',
         promoCodeFailed: '哎喲，這個折扣碼不正確噢。',
+        promoCodeNotApplicable: '花匠沒有為這個設計定立折扣價噢。',
 
         substitutionTab: '替代品',
         substitutionPolicy: "花店的照片代表整體的主題或外觀。在某些情況下，花卉和花瓶不能完全複製。雖然真正的花卉可能不完全符合照片，但主題和外觀會。由於天氣，季節和市場條件可能會影響鮮花的供應，有時花匠會選用替代品。如果您選擇的設計屬於這種情況，花店將確保設計的風格，主題和配色方案得以保留，並且只會選用相同或更高價值的替代品。",
@@ -160,6 +162,9 @@ export default class Arrangement extends Component {
                     loading: false,
                     arrangementDescription: snapshot.val().description,
                     arrangementPrice: snapshot.val().price,
+                    arrangementPrice2: snapshot.val().price2,
+                    arrangementPrice3: snapshot.val().price3,
+                    arrangementOriginalPrice: snapshot.val().price,
                     arrangementCurrency: snapshot.val().currency,
                     arrangementSeasonality: snapshot.val().seasonality,
                     arrangementID: snapshot.val().id,
@@ -167,6 +172,10 @@ export default class Arrangement extends Component {
                     arrangementName: snapshot.val().name,
                     arrangementFlorist: snapshot.val().florist,
                     arrangementFloristName: snapshot.val().floristName,
+                    promoCode: '',
+                    promoCodeApplied: false,
+                    promoCodeMessage: null,
+                    promoCodeError: null,
                 });
             });
             firebase.database().ref('arrangementsList')
@@ -211,20 +220,36 @@ export default class Arrangement extends Component {
     }
 
     applyPromoCode = () => {
-        if (this.state.promoCode === this.state.promoCodeA) {
-            this.setState({
-                arrangementPrice: this.state.arrangementPrice2,
-                promoCodeMessage: strings.promoCodeApplied,
-                promoCodeError: null,
-                promoCodeApplied: true,
-            });
-        } else if (this.state.promoCode === this.state.promoCodeB) {
-            this.setState({
-                arrangementPrice: this.state.arrangementPrice3,
-                promoCodeMessage: strings.promoCodeApplied,
-                promoCodeError: null,
-                promoCodeApplied: true,
-            });
+        var promoCode = this.state.promoCode;
+
+        if (promoCode === this.state.promoCodeA) {
+            if (this.state.arrangementPrice2 >= 40) {
+                this.setState({
+                    arrangementPrice: this.state.arrangementPrice2,
+                    promoCodeMessage: strings.promoCodeApplied,
+                    promoCodeError: null,
+                    promoCodeApplied: true,
+                });
+            } else {
+                this.setState({
+                    promoCodeMessage: null,
+                    promoCodeError: strings.promoCodeNotApplicable,
+                });
+            }
+        } else if (promoCode === this.state.promoCodeB) {
+            if (this.state.arrangementPrice2 >= 40) {
+                this.setState({
+                    arrangementPrice: this.state.arrangementPrice3,
+                    promoCodeMessage: strings.promoCodeApplied,
+                    promoCodeError: null,
+                    promoCodeApplied: true,
+                });
+            } else {
+                this.setState({
+                    promoCodeMessage: null,
+                    promoCodeError: strings.promoCodeNotApplicable,
+                });
+            }
         } else {
             this.setState({
                 promoCodeError: strings.promoCodeFailed,
@@ -244,7 +269,7 @@ export default class Arrangement extends Component {
         var leadTimeFail = false;
         var diff = day.diff(moment(), 'days');
 
-        if (arrangementDeliveryBlockedDays!==null) {
+        if (typeof arrangementDeliveryBlockedDays!== 'undefined') {
             if (arrangementDeliveryBlockedDays.indexOf(day.day()) > -1) {
                 blockedDayFail = true;
             }
@@ -492,19 +517,17 @@ export default class Arrangement extends Component {
                                 </div>
                             }
                         </div>
+                        { (!this.props.deliveryDate && this.state.orderButtonPressed) &&
+                            <div>
+                                <div className="error-message">{strings.dateRequired}</div>
+                            </div>
+                        }
+                        { (this.props.deliveryDate && this.state.orderButtonPressed && this.props.marketRegion==='select_region') &&
+                            <div>
+                                <div className="error-message">{strings.marketRegionRequired}</div>
+                            </div>
+                        }
                     </Panel>
-
-                    { (!this.props.deliveryDate && this.state.orderButtonPressed) &&
-                        <div>
-                            <div className="error-message">{strings.dateRequired}</div>
-                        </div>
-                    }
-                    { (this.props.deliveryDate && this.state.orderButtonPressed && this.props.marketRegion==='select_region') &&
-                        <div>
-                            <div className="error-message">{strings.marketRegionRequired}</div>
-                        </div>
-                    }
-
                     { this.state.arrangementDeliveryFee=== -1 &&
                         <div className="button-box">
                             <Route path="/" render={(props) => <ButtonToSearch marketRegion={marketRegion} {...props}/>} />
@@ -516,7 +539,6 @@ export default class Arrangement extends Component {
                             <Route path="/" render={() => <Button bsStyle="" className="button-to-order" onClick={() => this.handleOrder(this.state.floristID, this.state.arrangement, this.state.promoCode)}>{strings.orderNow}</Button>}/>
                         </div>
                     }
-
                 </Col>
             </Row>
             <Row>
