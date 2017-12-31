@@ -8,6 +8,8 @@ admin.initializeApp(functions.config().firebase);
 //initialize algolia
 const algoliasearch = require('algoliasearch');
 const dotenv = require('dotenv');
+dotenv.load();
+
 const algolia = algoliasearch(process.env.ALGOLIA_APP_ID,process.env.ALGOLIA_API_KEY);
 const index = algolia.initIndex(process.env.ALGOLIA_INDEX_NAME);
 
@@ -279,7 +281,7 @@ exports.algoliaUpdate = functions.database.ref('/arrangementsList/{arrangementID
 
 exports.algoliaDelete = functions.database.ref('/arrangementsList/{arrangementID}').onDelete(event => {
     var arrangementID = event.params.arrangementID;
-    
+
     return index.deleteObjects('myID', (err) => {
         if (err) throw err
         console.log('Arrangement deleted in Algolia Index', arrangementID);
