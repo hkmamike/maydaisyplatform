@@ -7,11 +7,9 @@ admin.initializeApp(functions.config().firebase);
 
 //initialize algolia
 const algoliasearch = require('algoliasearch');
-const dotenv = require('dotenv');
-dotenv.load();
 
-const algolia = algoliasearch(process.env.ALGOLIA_APP_ID,process.env.ALGOLIA_API_KEY);
-const index = algolia.initIndex(process.env.ALGOLIA_INDEX_NAME);
+const algolia = algoliasearch(functions.config().algolia.appid, functions.config().algolia.adminkey);
+const index = algolia.initIndex('arrangementsList');
 
 //create email transporter
 const nodemailer = require('nodemailer');
