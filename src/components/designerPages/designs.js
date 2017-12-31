@@ -1142,7 +1142,7 @@ class DesignDetails extends React.Component {
   validatePrice = () => {
     const length = this.state.price.length;
     const price = this.state.price;
-    const priceInt = parseInt(price);
+    const priceInt = parseInt(price, 10);
     var positive = false;
     var integer = false;
 
@@ -1170,7 +1170,7 @@ class DesignDetails extends React.Component {
   validatePrice2 = () => {
     const length = this.state.price2.length;
     const price = this.state.price2;
-    const priceInt = parseInt(price);
+    const priceInt = parseInt(price, 10);
     var positive = false;
     var integer = false;
 
@@ -1198,7 +1198,7 @@ class DesignDetails extends React.Component {
   validatePrice3 = () => {
     const length = this.state.price3.length;
     const price = this.state.price3;
-    const priceInt = parseInt(price);
+    const priceInt = parseInt(price, 10);
     var positive = false;
     var integer = false;
 
@@ -1668,7 +1668,7 @@ class NewDesign extends React.Component {
   validatePrice = () => {
     const length = this.state.price.length;
     const price = this.state.price;
-    const priceInt = parseInt(price);
+    const priceInt = parseInt(price, 10);
     var positive = false;
     var integer = false;
 
@@ -1692,7 +1692,7 @@ class NewDesign extends React.Component {
   validatePrice2 = () => {
     const length = this.state.price2.length;
     const price = this.state.price2;
-    const priceInt = parseInt(price);
+    const priceInt = parseInt(price, 10);
     var positive = false;
     var integer = false;
 
@@ -1716,7 +1716,7 @@ class NewDesign extends React.Component {
   validatePrice3 = () => {
     const length = this.state.price3.length;
     const price = this.state.price3;
-    const priceInt = parseInt(price);
+    const priceInt = parseInt(price, 10);
     var positive = false;
     var integer = false;
 
@@ -2093,7 +2093,7 @@ export default class Designs extends Component {
       then(data) {
         if (data.uid === this.state.userID) {
 
-          var immediatelyAvailableReference = base.push(`arrangementsList`, {
+          base.push(`arrangementsList`, {
             data: {
                 approval: 'approved',
                 color: colorsArray,

@@ -766,7 +766,7 @@ export default class ShopInfo extends Component {
           facebook: facebook,
           instagram: instagram,
           promoCodeA: promoCodeA,
-          promoCodeB, promoCodeB,
+          promoCodeB: promoCodeB,
           deliveryInfo: deliveryInfo,
           specialPickUp: specialPickUp,
       }

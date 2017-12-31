@@ -1,9 +1,7 @@
 import React, { Component } from 'react'
 import { firebaseAuth } from '../config/constants';
-import { Link, Route } from 'react-router-dom';
-import { FormGroup, FormControl, Grid, Row, Col, Button, Glyphicon, Modal } from 'react-bootstrap';
+import { FormGroup, FormControl, Grid, Row, Col, Button, Glyphicon} from 'react-bootstrap';
 import { base } from '../config/constants';
-import LocalizedStrings from 'react-localization';
 
 class RegistrationDetails extends React.Component {
   

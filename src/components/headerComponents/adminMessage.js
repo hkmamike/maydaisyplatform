@@ -1,7 +1,4 @@
 import React, { Component } from 'react';
-import { Route, Link } from 'react-router-dom';
-import { logout } from '../helpers/auth';
-import { Button } from 'react-bootstrap';
 import LocalizedStrings from 'react-localization';
 
 let strings = new LocalizedStrings({
