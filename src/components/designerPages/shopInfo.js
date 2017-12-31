@@ -95,8 +95,8 @@ let strings = new LocalizedStrings({
     deliveryInfo: 'Delivery Policy:',
     deliveryInfoTip: 'A copy of this will be shown on the "Delivery Info" tab on each of your arrangement page. If you do not specify a delivery policy, the standard MayDaisy delivery policy will be displayed.',
 
-    specialPickUp: 'Pickup Location:',
-    specialPickUpTip: 'If you offer free pickup at special locations, display location here and specify pickup policy.',
+    specialPickUp: 'Self-PickUp Policy:',
+    specialPickUpTip: "If you offer free pickup at special locations, display location here and specify pickup policy. You would also need to enable 'Pick Up Spot' under 'Delivery Settings'.",
 
     leadTimeTip: '*Put ""1" if next day delivery is available, "0" if sameday delivery is available, so on. For sameday delivery, platform wise cutoff time is 1p.m. HKT.'
   },
@@ -144,7 +144,7 @@ let strings = new LocalizedStrings({
     NT_TsuenWan: '荃灣區',
     NT_TuenMun: '屯門區',
     NT_YuenLong: '元朗區',
-    specialPickUpLocation: '自取點',
+    specialPickUpLocation: '自取地點',
 
     n: '不覆蓋',
     free: '免費送貨',
@@ -185,8 +185,8 @@ let strings = new LocalizedStrings({
     deliveryInfo: '送貨詳情:',
     deliveryInfoTip: '送貨詳情會在貨品頁中顯示給客人。如果您未有選寫送貨詳情，系統將會顯示五月菊的標準送貨政策。',
 
-    specialPickUp: '自取地點:',
-    specialPickUpTip: '如果您在特定地點給客人免費自取，請列出地點，並注明自取條款。',
+    specialPickUp: '自取條款:',
+    specialPickUpTip: '如果您在特定地點給客人免費自取，請列出地點，並注明自取條款。不要忘記在區域送貨開啟自取地點噢。',
 
     leadTimeTip: '*如果最快交貨時間為下一天，請填"1"，如此類推。如您的店提供即日送貨，請填"0"。 所有五月菊的即日送貨的標準訂單截止時間為香港時間下午1時。'
   }

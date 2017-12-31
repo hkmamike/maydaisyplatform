@@ -5,6 +5,7 @@ import LocalizedStrings from 'react-localization';
 import * as firebase from 'firebase';
 import { SingleDatePicker } from 'react-dates';
 import moment from 'moment';
+import 'moment-timezone';
 import Lightbox from 'react-images';
 
 let strings = new LocalizedStrings({
@@ -306,9 +307,18 @@ export default class Arrangement extends Component {
                 blockedDayFail = true;
             }
         }
+
         if (diff - arrangementDeliveryLeadTime < 0 ) {
             leadTimeFail = true;
+        } else if (diff - arrangementDeliveryLeadTime === 0) {
+            if (arrangementDeliveryLeadTime === '0') {
+                var hour = moment().tz('Asia/Hong_Kong').get('hour');
+                if (hour > 12) {
+                    leadTimeFail = true;
+                }
+            }
         }
+
         if (leadTimeFail || blockedDayFail) {
             return true
         } else {
@@ -361,7 +371,7 @@ export default class Arrangement extends Component {
                     promoCodeA: snapshotVal.promoCodeA,
                     promoCodeB: snapshotVal.promoCodeB,
                     arrangementDeliveryInfo: snapshotVal.deliveryInfo,
-                    arrangementDeliveryLeadTime: snapshotVal.arrangementDeliveryLeadTime,
+                    arrangementDeliveryLeadTime: snapshotVal.deliveryLeadTime,
                     arrangementDeliveryBlockedDays: snapshotVal.deliveryBlockedDays,
                     arrangementDeliveryFee: snapshotVal.deliveryFee[marketRegion],
                     specialPickUp: snapshotVal.specialPickUp,
