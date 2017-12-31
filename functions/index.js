@@ -1,12 +1,15 @@
 'use strict';
 
+//initialize firebase functions
 const functions = require('firebase-functions');
 const admin = require('firebase-admin');
 admin.initializeApp(functions.config().firebase);
 
+//initialize algolia
 const algoliasearch = require('algoliasearch');
 const dotenv = require('dotenv');
-const firebase = require('firebase');
+const algolia = algoliasearch(process.env.ALGOLIA_APP_ID,process.env.ALGOLIA_API_KEY);
+const index = algolia.initIndex(process.env.ALGOLIA_INDEX_NAME);
 
 //create email transporter
 const nodemailer = require('nodemailer');
@@ -20,7 +23,7 @@ const mailTransport = nodemailer.createTransport({
     }
   });
 
-  //////////
+//////////
 function sendWelcomeEmail(email, displayName) {
     const mailOptions = {
       from: `MayDaisy <mike@maydaisy.com>`,
@@ -262,13 +265,25 @@ exports.EmailCustomerOnUpdate = functions.database.ref('/allTransactions/{Floris
 
 /////////
 
-// exports.algoliaUpdate = functions.database.ref('/arrangementsList/{arrangementID}').onUpdate(event => {
-//     var arrangementID = event.params.arrangementID;
-// });
+exports.algoliaUpdate = functions.database.ref('/arrangementsList/{arrangementID}').onUpdate(event => {
+    var arrangementID = event.params.arrangementID;
+    const data = event.data.val();
+    data['objectID'] = arrangementID;
+
+    return index.saveObjects(data, (err, content) => {
+        if (err) throw err
+        console.log('Arrangement updated in Algolia Index', data.objectID);
+    })
+});
 
 
-// exports.algoliaDelete = functions.database.ref('/arrangementsList/{arrangementID}').onDelete(event => {
-//     var arrangementID = event.params.arrangementID;
-// });
+exports.algoliaDelete = functions.database.ref('/arrangementsList/{arrangementID}').onDelete(event => {
+    var arrangementID = event.params.arrangementID;
+    
+    return index.deleteObjects('myID', (err) => {
+        if (err) throw err
+        console.log('Arrangement deleted in Algolia Index', arrangementID);
+    })
+});
 
 /////////
