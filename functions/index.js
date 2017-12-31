@@ -4,6 +4,10 @@ const functions = require('firebase-functions');
 const admin = require('firebase-admin');
 admin.initializeApp(functions.config().firebase);
 
+const algoliasearch = require('algoliasearch');
+const dotenv = require('dotenv');
+const firebase = require('firebase');
+
 //create email transporter
 const nodemailer = require('nodemailer');
 const gmailEmail = functions.config().gmail.email;
@@ -255,5 +259,16 @@ exports.EmailCustomerOnUpdate = functions.database.ref('/allTransactions/{Floris
         return sendEmailCustomerOnFulfilled(email, arrangementCode, arrangementName, deliveryDate, referenceCode, status, floristName, floristCode, language);
     }
 });
+
+/////////
+
+// exports.algoliaUpdate = functions.database.ref('/arrangementsList/{arrangementID}').onUpdate(event => {
+//     var arrangementID = event.params.arrangementID;
+// });
+
+
+// exports.algoliaDelete = functions.database.ref('/arrangementsList/{arrangementID}').onDelete(event => {
+//     var arrangementID = event.params.arrangementID;
+// });
 
 /////////
