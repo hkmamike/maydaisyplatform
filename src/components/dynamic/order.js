@@ -324,6 +324,7 @@ export default class Order extends Component {
             loginMessage: null,
             registerError: null,
             deliveryInstruction: '',
+            promoCodeApplied: false,
         }
     }
 

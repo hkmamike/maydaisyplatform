@@ -9,7 +9,6 @@ admin.initializeApp(functions.config().firebase);
 const algoliasearch = require('algoliasearch');
 
 const algolia = algoliasearch(functions.config().algolia.appid, functions.config().algolia.adminkey);
-const index = algolia.initIndex('arrangementsList');
 
 //create email transporter
 const nodemailer = require('nodemailer');
@@ -266,11 +265,14 @@ exports.EmailCustomerOnUpdate = functions.database.ref('/allTransactions/{Floris
 /////////
 
 exports.algoliaUpdate = functions.database.ref('/arrangementsList/{arrangementID}').onUpdate(event => {
-    var arrangementID = event.params.arrangementID;
+    const arrangementID = event.params.arrangementID;
     const data = event.data.val();
+    const index = algolia.initIndex('arrangementsList');
     data['objectID'] = arrangementID;
 
-    return index.saveObjects(data, (err, content) => {
+    console.log(data);
+
+    return index.saveObject(data, (err, content) => {
         if (err) throw err
         console.log('Arrangement updated in Algolia Index', data.objectID);
     })
@@ -278,9 +280,10 @@ exports.algoliaUpdate = functions.database.ref('/arrangementsList/{arrangementID
 
 
 exports.algoliaDelete = functions.database.ref('/arrangementsList/{arrangementID}').onDelete(event => {
-    var arrangementID = event.params.arrangementID;
+    const arrangementID = event.params.arrangementID;
+    const index = algolia.initIndex('arrangementsList');
 
-    return index.deleteObjects('myID', (err) => {
+    return index.deleteObject(arrangementID, (err) => {
         if (err) throw err
         console.log('Arrangement deleted in Algolia Index', arrangementID);
     })
