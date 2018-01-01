@@ -56,8 +56,10 @@ exports.WelcomeEmail = functions.auth.user().onCreate(event => {
 
 function sendEmailFloristOnTxn (email, arrangementCode, arrangementName, deliveryDate, referenceCode, language) {
 
+    var mailOptions;
+
     if (language === 'en') {
-        const mailOptions = {
+        mailOptions = {
             from: `MayDaisy Update <noreply@maydaisy.com>`, 
             to: email
         };
@@ -72,7 +74,7 @@ function sendEmailFloristOnTxn (email, arrangementCode, arrangementName, deliver
         <p>Please <a href="https://maydaisy.com/login">login</a> to check details on your orders dashboard.</p>`
         );
     } else if (language === 'ch') {
-        const mailOptions = {
+        mailOptions = {
             from: `五月菊通知 <noreply@maydaisy.com>`, 
             to: email
         };
@@ -88,15 +90,17 @@ function sendEmailFloristOnTxn (email, arrangementCode, arrangementName, deliver
         );
     }
 
-
     return mailTransport.sendMail(mailOptions).then(() => {
       console.log('new order alert email sent to:', email);
     });
 }
 
 function sendEmailCustomerOnTxn (email, arrangementCode, arrangementName, deliveryDate, referenceCode, language) {
+
+    var mailOptions;
+
     if (language === 'en') {
-        const mailOptions = {
+        mailOptions = {
             from: `MayDaisy Update <noreply@maydaisy.com>`, 
             to: email
         };
@@ -111,7 +115,7 @@ function sendEmailCustomerOnTxn (email, arrangementCode, arrangementName, delive
             <p>Please <a href="https://maydaisy.com/login">login</a> to check details on your orders dashboard.</p>`
         );
     } else if (language === 'ch') {
-        const mailOptions = {
+        mailOptions = {
             from: `五月菊通知 <noreply@maydaisy.com>`, 
             to: email
         };
@@ -152,8 +156,10 @@ exports.EmailOnTxn = functions.database.ref('/allTransactions/{FloristID}/{TxnRe
 /////////
 
 function sendEmailCustomerOnReceived (email, arrangementCode, arrangementName, deliveryDate, referenceCode, status, floristName, floristCode, language) {
+    var mailOptions;
+    
     if (language === 'en') {
-        const mailOptions = {
+        mailOptions = {
             from: `MayDaisy Update <noreply@maydaisy.com>`, 
             to: email
         };
@@ -170,7 +176,7 @@ function sendEmailCustomerOnReceived (email, arrangementCode, arrangementName, d
         <p>For more details, please <a href="https://maydaisy.com/login">login</a> to access your order history.</p>`
         );
     } else if (language === 'ch') {
-        const mailOptions = {
+        mailOptions = {
             from: `五月菊通知 <noreply@maydaisy.com>`, 
             to: email
         };
@@ -196,8 +202,11 @@ function sendEmailCustomerOnReceived (email, arrangementCode, arrangementName, d
 }
 
 function sendEmailCustomerOnFulfilled (email, arrangementCode, arrangementName, deliveryDate, referenceCode, status, floristName, floristCode, language) {
+    
+    var mailOptions;
+
     if (language ==='en') {
-        const mailOptions = {
+        mailOptions = {
             from: `MayDaisy Update <noreply@maydaisy.com>`, 
             to: email
         };
@@ -213,8 +222,8 @@ function sendEmailCustomerOnFulfilled (email, arrangementCode, arrangementName, 
         <p>Delivery Date: ${deliveryDate}</p>
         <p>For more details, please <a href="https://maydaisy.com/login">login</a>  to access your order history.</p>`
         );
-    } else if (langauge ==='ch') {
-        const mailOptions = {
+    } else if (language ==='ch') {
+        mailOptions = {
             from: `五月菊通知 <noreply@maydaisy.com>`, 
             to: email
         };
