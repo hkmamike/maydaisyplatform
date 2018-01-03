@@ -11,12 +11,16 @@ let strings = new LocalizedStrings({
         about: 'About',
         reviews: 'Reviews',
         verifiedPurchase: 'verified purchase',
+        artist: 'Independent Artist',
+        shop: 'Boutique Shop'
     },
     ch: {
         designs: '設計',
         about: '關於花店',
         reviews: '評論',
         verifiedPurchase: '已驗證',
+        artist: '獨立花藝師',
+        shop: '精品花店',
     }
   });
 
@@ -47,6 +51,7 @@ export default class Florist extends Component {
                     floristID: snapshotVal.id,
                     floristInstagram: snapshotVal.instagram,
                     floristName: snapshotVal.name,
+                    floristType: snapshotVal.floristType,
                     floristProfilePic: snapshotVal.profilePic,
                     floristWebsite: snapshotVal.website,
                     floristAddress: snapshotVal.address,
@@ -90,12 +95,13 @@ export default class Florist extends Component {
 
     var loadingState = this.state.loading;
     var onTab = this.state.onTab;
+    var floristID = this.props.match.params.floristID;
     let content = null;
     let header = null;
 
     var listOfArrangements = this.state.arrangementsList.map(arrangement => 
         <Col xs={6} sm={4} key={arrangement.id} className="list-item">
-            <Link to={`/florist/${this.state.floristID}/${arrangement.id}`}>
+            <Link to={`/florist/${floristID}/${arrangement.id}`}>
                 <div className="list-pic" style={{ backgroundImage: 'url(' + arrangement.image + ')'}}></div>
                 <div className="text-box">
                     <div className="text-line">
@@ -148,6 +154,7 @@ export default class Florist extends Component {
                         </div>
                         <div className="florist-info-container">
                             <div className="florist-name">{this.state.floristName}</div>
+                            <div className="florist-type">{strings[this.state.floristType]}</div>
                             <div className="florist-address">{this.state.floristAddress}</div>
                             <div className="florist-website"><a href={this.state.floristWebsite}>{this.state.floristWebsite}</a></div>
                             <div className="florist-info-small-screen-social-container large-screen-hide">
@@ -202,8 +209,8 @@ export default class Florist extends Component {
                 <Grid>
                     <Row className="show-grid florist-nav">
 
-                        <Col xs={2} className="nav-margin"></Col>
-                        <Col xs={10} className="nav-margin">
+                        <Col xs={1} sm={2} className="nav-margin"></Col>
+                        <Col xs={11} sm={10} className="nav-margin">
                             <ul>
                                 <li onClick={() => this.setState({onTab: 0}, () => {window.scrollTo(0, 0);})}><div className="nav-text">{strings.designs}</div></li>
                                 <li className="selected"><div className="nav-text">{strings.about}</div></li>
@@ -215,8 +222,8 @@ export default class Florist extends Component {
             </div>
             <Grid>
                 <Row>
-                    <Col xs={2}></Col>
-                    <Col xs={10}>
+                    <Col xsHidden md={2}></Col>
+                    <Col xs={12} md={10}>
                         <div className="sub-content">{this.state.floristDescription}</div>
                     </Col>
                 </Row>
@@ -230,8 +237,8 @@ export default class Florist extends Component {
                 <div className="grid-bg">
                     <Grid>
                         <Row className="show-grid florist-nav">
-                            <Col xs={2} className="nav-margin"></Col>
-                            <Col xs={10} className="nav-margin">
+                            <Col xs={1} sm={2} className="nav-margin"></Col>
+                            <Col xs={11} sm={10} className="nav-margin">
                                 <ul>
                                     <li onClick={() => this.setState({onTab: 0}, () => {window.scrollTo(0, 0);})}><div className="nav-text">{strings.designs}</div></li>
                                     <li onClick={() => this.setState({onTab: 1}, () => {window.scrollTo(0, 0);})}><div className="nav-text">{strings.about}</div></li>

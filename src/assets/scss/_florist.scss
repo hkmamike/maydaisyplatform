@@ -54,12 +54,17 @@
             margin-left: 15px;
             text-align: left;
             display: inline-block;
-            @media (max-width: 340px) {
+            @media (max-width: 415px) {
                 text-align: center;
                 margin-left: 0 !important;
             }
             .florist-name {
                 font-size: 120%;
+                color: white;
+                min-width: 250px;
+            }
+            .florist-type {
+                font-size: 80%;
                 color: white;
             }
             .florist-address {

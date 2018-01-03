@@ -58,9 +58,18 @@ let strings = new LocalizedStrings({
 
     n: 'not delivering',
     free: 'free delivery',
-    fifty: '$50',
+    forty: '$40',
+    sixty: '$60',
+    eighty: '$80',
     hundred: '$100',
-    hundredfifty: '$150',
+    hundredtwenty: '$120',
+    hundredforty: '$140',
+    hundredsixty: '$160',
+    hundredeighty: '$180',
+    twohundred: '$200',
+    twohundredtwenty: '$220',
+    twohundredforty: '$240',
+    twohundredsixty: '$260',
 
     backButton: 'Back',
     updateButton: 'Update',
@@ -148,9 +157,18 @@ let strings = new LocalizedStrings({
 
     n: '不覆蓋',
     free: '免費送貨',
-    fifty: '$50',
+    forty: '$40',
+    sixty: '$60',
+    eighty: '$80',
     hundred: '$100',
-    hundredfifty: '$150',
+    hundredtwenty: '$120',
+    hundredforty: '$140',
+    hundredsixty: '$160',
+    hundredeighty: '$180',
+    twohundred: '$200',
+    twohundredtwenty: '$220',
+    twohundredforty: '$240',
+    twohundredsixty: '$260',
 
     backButton: '返回',
     updateButton: '更新',
@@ -518,17 +536,51 @@ class DeliverySettings extends React.Component {
     console.log('eventkey is ', eventKey);
     var newSetting = this.state.deliveryDetails;
     var feeValue;
-    if (eventKey === 'n')  {
-      feeValue=-1;
-    } else if (eventKey === 'free') {
-      feeValue=0;
-    } else if (eventKey === 'fifty') {
-      feeValue=50;
-    } else if (eventKey === 'hundred') {
-      feeValue=100;
-    } else if (eventKey === 'hundredfifty') {
-      feeValue=150;
+
+    switch (eventKey) {
+      case 'free':
+        feeValue = 0;
+        break;
+      case 'forty':
+        feeValue = 40;
+        break;
+      case 'sixty':
+        feeValue = 60;
+        break;
+      case 'eighty':
+        feeValue = 80;
+        break;
+      case 'hundred':
+        feeValue = 100;
+        break;
+      case 'hundredtwenty':
+        feeValue = 120;
+        break;
+      case 'hundredforty':
+        feeValue = 140;
+        break;
+      case 'hundredsixty':
+        feeValue = 160;
+        break;
+      case 'hundredeighty':
+        feeValue = 180;
+        break;
+      case 'twohundred':
+        feeValue = 200;
+        break;
+      case 'twohundredtwenty':
+        feeValue = 220;
+        break;
+      case 'twohundredforty':
+        feeValue = 240;
+        break;
+      case 'twohundredsixty':
+        feeValue = 260;
+        break;
+      default: 
+        feeValue = -1;
     }
+
     newSetting[key] = feeValue;
     this.setState({deliveryDetails: newSetting});
   }
@@ -592,16 +644,48 @@ class DeliverySettings extends React.Component {
       deliverySettings = Object.keys(data).map(function(key) {
         var fee = this.state.deliveryDetails[key];
         var refKey;
-        if (fee === -1)  {
-          refKey="n"
-        } else if (fee === 0) {
-          refKey="free"
-        } else if (fee === 50) {
-          refKey="fifty"
-        } else if (fee === 100) {
-          refKey="hundred"
-        } else if (fee === 150) {
-          refKey="hundredfifty"
+        switch (fee) {
+          case 0:
+            refKey="free"
+            break;
+          case 40:
+            refKey="forty"
+            break;
+          case 60:
+            refKey="sixty"
+            break;
+          case 80:
+            refKey="eighty"
+            break;
+          case 100:
+            refKey="hundred"
+            break;
+          case 120:
+            refKey="hundredtwenty"
+            break;
+          case 140:
+            refKey="hundredforty"
+            break;
+          case 160:
+            refKey="hundredsixty"
+            break;
+          case 180:
+            refKey="hundredeighty"
+            break;
+          case 200:
+            refKey="twohundred"
+            break;
+          case 220:
+            refKey="twohundredtwenty"
+            break;
+          case 240:
+            refKey="twohundredforty"
+            break;
+          case 260:
+            refKey="twohundredsixty"
+            break;
+          default:
+            refKey="n"
         }
 
         return (
@@ -617,9 +701,18 @@ class DeliverySettings extends React.Component {
                       <DropdownButton title={strings[refKey]} id="subscriptioin-planTypeSelect-dropdown" onSelect={(eventKey)=>this.handleSettingChange(key,eventKey)}>
                         <MenuItem eventKey="n">{strings.n}</MenuItem>
                         <MenuItem eventKey="free">{strings.free}</MenuItem>
-                        {key !== 'specialPickUpLocation' && <MenuItem eventKey="fifty">{strings.fifty}</MenuItem>}
+                        {key !== 'specialPickUpLocation' && <MenuItem eventKey="forty">{strings.forty}</MenuItem>}
+                        {key !== 'specialPickUpLocation' && <MenuItem eventKey="sixty">{strings.sixty}</MenuItem>}
+                        {key !== 'specialPickUpLocation' && <MenuItem eventKey="eighty">{strings.eighty}</MenuItem>}
                         {key !== 'specialPickUpLocation' && <MenuItem eventKey="hundred">{strings.hundred}</MenuItem>}
-                        {key !== 'specialPickUpLocation' && <MenuItem eventKey="hundredfifty">{strings.hundredfifty}</MenuItem>}
+                        {key !== 'specialPickUpLocation' && <MenuItem eventKey="hundredtwenty">{strings.hundredtwenty}</MenuItem>}
+                        {key !== 'specialPickUpLocation' && <MenuItem eventKey="hundredforty">{strings.hundredforty}</MenuItem>}
+                        {key !== 'specialPickUpLocation' && <MenuItem eventKey="hundredsixty">{strings.hundredsixty}</MenuItem>}
+                        {key !== 'specialPickUpLocation' && <MenuItem eventKey="hundredeighty">{strings.hundredeighty}</MenuItem>}
+                        {key !== 'specialPickUpLocation' && <MenuItem eventKey="twohundred">{strings.twohundred}</MenuItem>}
+                        {key !== 'specialPickUpLocation' && <MenuItem eventKey="twohundredtwenty">{strings.twohundredtwenty}</MenuItem>}
+                        {key !== 'specialPickUpLocation' && <MenuItem eventKey="twohundredforty">{strings.twohundredforty}</MenuItem>}
+                        {key !== 'specialPickUpLocation' && <MenuItem eventKey="twohundredsixty">{strings.twohundredsixty}</MenuItem>}
                       </DropdownButton>
                     </Col>
                   </FormGroup>

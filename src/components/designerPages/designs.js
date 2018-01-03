@@ -45,11 +45,11 @@ let strings = new LocalizedStrings({
 
     colorSettingsTitle: 'Color Type Setting',
     colorSettingsText1: 'This helps customers search for designs.',
-    colorSettingsText2: 'Which of these frequently searched for colors does your design contain?',
+    colorSettingsText2: 'Please pick one or two colors of the main theme.',
     
     flowerSettingsTitle: 'Flower Type Setting',
     flowerSettingsText1: 'This helps customers search for designs.',
-    flowerSettingsText2: 'Which of these frequently searched for flowers does your design contain?',
+    flowerSettingsText2: 'Please select only the main flowers',
 
     noDesign: 'You do not have any design listed.',
     errorOccured: 'An error occured, please try again later.',
@@ -153,11 +153,11 @@ let strings = new LocalizedStrings({
 
     colorSettingsTitle: '顏色類型設定',
     colorSettingsText1: '顏色類型設定可以幫客人更快的尋找適合的設計。',
-    colorSettingsText2: '您新增的設計符合以下哪些顏色類型?',
+    colorSettingsText2: '選擇新增的設計的主題顏色(請限制在1-3種顏色)。',
 
     flowerSettingsTitle: '花種類型設定',
     flowerSettingsText1: '花種類型設定可以幫客人更快的尋找適合的設計。',
-    flowerSettingsText2: '您新增的設計符合以下哪些花種類型?',
+    flowerSettingsText2: '選擇新增的設計的主題花種(請限制在1-3種花)。',
     
     noDesign: '您的商店目前並沒有貨品。',
     errorOccured: '系統錯誤，請稍後再試。',
@@ -1356,8 +1356,8 @@ class DesignDetails extends React.Component {
                             cropperOpen={this.state.cropperOpen}
                             onCrop={this.handleCrop}
                             image={this.state.img}
-                            width={400}
-                            height={400}
+                            width={550}
+                            height={550}
                         />
                         }
                     </div>
@@ -2233,11 +2233,11 @@ export default class Designs extends Component {
     var designer = this.props.designerCode;
     var thisRef = this;
         firebase.database().ref(`arrangementsList`).orderByChild('florist').equalTo(designer).once('value', function(snapshot) {
+            thisRef.setState({designsDetailsStatus: 0});
             var snapshotVal = snapshot.val();
             if (snapshotVal) {
                 thisRef.setState({
                     designsData: snapshotVal,
-                    designsDetailsStatus: 0,
                 });
             }
         });
