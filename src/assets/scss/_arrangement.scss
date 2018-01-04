@@ -117,8 +117,9 @@
 
     .arrangement-info {
         min-height: 100px;
-        margin: 0 0 10px 15px;
+        margin: 0 1px 10px 15px;
         font-size: 85%;
+        white-space: pre-line;
         @media (max-width: 768px) {
             font-size: 75%;
         }

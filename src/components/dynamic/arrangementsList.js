@@ -532,7 +532,7 @@ const CustomSearchBox = ({currentRefinement, refine}) => (
     <div className="search-box small-screen-hide">
         <input 
             className="search-field"
-            placeholder='e.g. Floritale by JKo'
+            placeholder='e.g. Gigiflorist'
             type="text"
             value={currentRefinement}
             onChange={e => refine(e.target.value)}

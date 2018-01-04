@@ -7,6 +7,7 @@ import { base } from '../config/constants';
 import { Grid, Row, Col, FormGroup, FormControl, Button, Glyphicon, Modal, DropdownButton, MenuItem, HelpBlock} from 'react-bootstrap';
 import LocalizedStrings from 'react-localization';
 import AvatarCropper from 'react-avatar-cropper';
+import { DayPickerRangeController } from 'react-dates';
 
 let strings = new LocalizedStrings({
   en:{
@@ -761,6 +762,9 @@ export default class ShopInfo extends Component {
       img: null,
       croppedImg: null,
       cropperOpen: false,
+      startDate: null,
+      endDate: null,
+      focusedInput: 'startDate',
     }
   }
 
@@ -1084,6 +1088,31 @@ export default class ShopInfo extends Component {
                   </Col>
                 </FormGroup>
               </Row>
+              {/* <Row className="show-grid">
+                <FormGroup>
+                  <Col sm={1} md={2}></Col>
+                  <Col sm={3} md={2}>
+                    <div><strong>{strings.vacation}</strong></div>
+                  </Col>
+                  <Col sm={7}>
+                    <DayPickerRangeController
+                      numberOfMonths={1}
+                      onDatesChange={
+                        (startDate,endDate) => {
+                          this.setState({
+                            startDate: startDate,
+                            endDate: endDate,
+                          });
+                        }
+                      }
+                      onFocusChange={({ focusedInput }) => this.setState({ focusedInput: focusedInput || 'startDate' })}
+                      focusedInput={this.state.focusedInput}
+                      startDate={this.state.startDate}
+                      endDate={this.state.endDate}
+                    />
+                  </Col>
+                </FormGroup>
+              </Row> */}
               <Row className="show-grid">
                 <FormGroup>
                   <Col xs={10} xsPush={2} smPush={5} mdPush={6}>

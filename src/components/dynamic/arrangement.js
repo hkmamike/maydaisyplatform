@@ -468,6 +468,7 @@ export default class Arrangement extends Component {
                                 id="bg-nested-dropdown" 
                                 onSelect={this.handleSelectRegion}
                             >
+                            {this.state.specialPickUpFlag !== -1 && <MenuItem eventKey="specialPickUpLocation">{strings.specialPickUpLocation}</MenuItem>}
                                 <MenuItem eventKey="HK_CentralWestern">{strings.HK_CentralWestern}</MenuItem>
                                 <MenuItem eventKey="HK_Eastern">{strings.HK_Eastern}</MenuItem>
                                 <MenuItem eventKey="HK_Southern">{strings.HK_Southern}</MenuItem>
@@ -486,7 +487,6 @@ export default class Arrangement extends Component {
                                 <MenuItem eventKey="NT_TsuenWan">{strings.NT_TsuenWan}</MenuItem>
                                 <MenuItem eventKey="NT_TuenMun">{strings.NT_TuenMun}</MenuItem>
                                 <MenuItem eventKey="NT_YuenLong">{strings.NT_YuenLong}</MenuItem>
-                                {this.state.specialPickUpFlag !== -1 && <MenuItem eventKey="specialPickUpLocation">{strings.specialPickUpLocation}</MenuItem>}
                             </DropdownButton>
                         </div>
 
