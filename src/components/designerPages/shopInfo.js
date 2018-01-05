@@ -762,8 +762,6 @@ export default class ShopInfo extends Component {
       img: null,
       croppedImg: null,
       cropperOpen: false,
-      startDate: null,
-      endDate: null,
       focusedInput: 'startDate',
     }
   }
@@ -1088,7 +1086,7 @@ export default class ShopInfo extends Component {
                   </Col>
                 </FormGroup>
               </Row>
-              {/* <Row className="show-grid">
+              <Row className="show-grid">
                 <FormGroup>
                   <Col sm={1} md={2}></Col>
                   <Col sm={3} md={2}>
@@ -1097,22 +1095,22 @@ export default class ShopInfo extends Component {
                   <Col sm={7}>
                     <DayPickerRangeController
                       numberOfMonths={1}
-                      onDatesChange={
-                        (startDate,endDate) => {
+                      onDatesChange={({startDate,endDate}) => {
+                          console.log ('startDate:', startDate);
+                          console.log ('endDate:', endDate);
                           this.setState({
-                            startDate: startDate,
-                            endDate: endDate,
+                            startDate, endDate
                           });
-                        }
-                      }
-                      onFocusChange={({ focusedInput }) => this.setState({ focusedInput: focusedInput || 'startDate' })}
+                      }}
+                      onFocusChange={(focusedInput) => {
+                        console.log ('focusedInput is:', focusedInput);
+                        this.setState({ focusedInput: !focusedInput ? 'startDate' : focusedInput, })
+                      }}
                       focusedInput={this.state.focusedInput}
-                      startDate={this.state.startDate}
-                      endDate={this.state.endDate}
                     />
                   </Col>
                 </FormGroup>
-              </Row> */}
+              </Row>
               <Row className="show-grid">
                 <FormGroup>
                   <Col xs={10} xsPush={2} smPush={5} mdPush={6}>

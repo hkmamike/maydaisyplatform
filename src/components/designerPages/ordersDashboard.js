@@ -228,6 +228,7 @@ let strings = new LocalizedStrings({
 
     noOrder: '您目前並沒有定單記錄。',
     errorOccured: '系統錯誤，請稍後再試。',
+    reviewSubmitted: '您的評論已發出。',
 
     buttonToShop: '我的花店',
     buttonToAccount: '我的帳戶',
