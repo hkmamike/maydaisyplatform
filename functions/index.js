@@ -135,6 +135,31 @@ function sendEmailCustomerOnTxn (email, arrangementCode, arrangementName, delive
     });
 }
 
+function sendEmailAdminOnTxn (FloristID, arrangementCode, arrangementName, deliveryDate, referenceCode) {
+    
+        var mailOptions;
+    
+        mailOptions = {
+            from: `MayDaisy Update <noreply@maydaisy.com>`, 
+            to: 'mike@maydaisy.com'
+        };
+        mailOptions.subject = `New Txn`;
+        mailOptions.text = `We have got a new Txn! WooHoo~~~`;
+        mailOptions.html = (
+            `<h3>We have got a new Txn! WooHoo~~~</h3>
+            <p>Florist: ${FloristID}</p> 
+            <p>Reference Code: ${referenceCode}</p> 
+            <p>Arrangement: ${arrangementName}</p>
+            <p>Arrangement ID: ${arrangementCode}</p>
+            <p>Delivery Date: ${deliveryDate}</p>
+            <p>Please <a href="https://maydaisy.com/login">login</a> to check details.</p>`
+        );
+       
+        return mailTransport.sendMail(mailOptions).then(() => {
+          console.log('new order alert email sent to:', email);
+        });
+    }
+
 exports.EmailOnTxn = functions.database.ref('/allTransactions/{FloristID}/{TxnRef}').onCreate(event => {
     var FloristID = event.params.FloristID;
     var floristEmail;
@@ -149,7 +174,8 @@ exports.EmailOnTxn = functions.database.ref('/allTransactions/{FloristID}/{TxnRe
        floristEmail = snapshot.val();
     }).then(() => {
         return sendEmailFloristOnTxn(floristEmail, arrangementCode, arrangementName, deliveryDate, referenceCode, language) 
-            && sendEmailCustomerOnTxn(senderEmail, arrangementCode, arrangementName, deliveryDate, referenceCode, language);
+            && sendEmailCustomerOnTxn(senderEmail, arrangementCode, arrangementName, deliveryDate, referenceCode, language)
+            && sendEmailAdminOnTxn(FloristID, arrangementCode, arrangementName, deliveryDate, referenceCode);
     })
 });
 

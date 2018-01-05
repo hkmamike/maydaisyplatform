@@ -102,6 +102,8 @@ let strings = new LocalizedStrings({
     facebook: 'Facebook:',
     instagram: 'Instagram:',
 
+    blockedDay: 'Close shop on:',
+
     deliveryInfo: 'Delivery Policy:',
     deliveryInfoTip: 'A copy of this will be shown on the "Delivery Info" tab on each of your arrangement page. If you do not specify a delivery policy, the standard MayDaisy delivery policy will be displayed.',
 
@@ -200,6 +202,8 @@ let strings = new LocalizedStrings({
 
     facebook: 'Facebook:',
     instagram: 'Instagram:',
+
+    blockedDay: '休息｜已滿:',
 
     deliveryInfo: '送貨詳情:',
     deliveryInfoTip: '送貨詳情會在貨品頁中顯示給客人。如果您未有選寫送貨詳情，系統將會顯示五月菊的標準送貨政策。',
@@ -1090,7 +1094,7 @@ export default class ShopInfo extends Component {
                 <FormGroup>
                   <Col sm={1} md={2}></Col>
                   <Col sm={3} md={2}>
-                    <div><strong>{strings.vacation}</strong></div>
+                    <div><strong>{strings.blockedDay}</strong></div>
                   </Col>
                   <Col sm={7}>
                     <DayPickerRangeController
