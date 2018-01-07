@@ -8,6 +8,7 @@ import { Grid, Row, Col, FormGroup, FormControl, Button, Glyphicon, Modal, Dropd
 import LocalizedStrings from 'react-localization';
 import AvatarCropper from 'react-avatar-cropper';
 import { DayPickerRangeController } from 'react-dates';
+import moment from 'moment';
 
 let strings = new LocalizedStrings({
   en:{
@@ -82,6 +83,12 @@ let strings = new LocalizedStrings({
     openDaysSettingsText1: 'MayDaisy is a hobbyist and independent artists friendly community. We understand that you have other responsibilities in life and may not want to open shop on everyday.',
     openDaysSettingsText2: 'Here, you can choose which days to allow customers to place orders on.',
 
+    closeDaysSettingsTitle: 'Rest/Full Days Settings',
+    closeDaysSettingsText1: 'If you already have many orders on specific days or if you are going on vacation, you might not want to take on orders.',
+    closeDaysSettingsText2: 'Here, you can choose specific days to close your shop. The highlighted days are already set to close.',
+    openShop: 'Open Shop',
+    closeShop: 'Close Shop',
+
     shopInfoUpdated: 'shop information has been updated',
     errorOccured: 'An error occured when updating shop information',
 
@@ -109,8 +116,7 @@ let strings = new LocalizedStrings({
 
     specialPickUp: 'Self-PickUp Policy:',
     specialPickUpTip: "If you offer free pickup at special locations, display location here and specify pickup policy. You would also need to enable 'Pick Up Spot' under 'Delivery Settings'.",
-
-    leadTimeTip: '*Put ""1" if next day delivery is available, "0" if sameday delivery is available, so on. For sameday delivery, platform wise cutoff time is 1p.m. HKT.'
+    leadTimeTip: '*Put ""1" if next day delivery is available, "0" if sameday delivery is available, so on. For sameday delivery, platform wise cutoff time is 1p.m. HKT.',
   },
   ch: {
     ordersDashboard1: ' ',
@@ -180,8 +186,14 @@ let strings = new LocalizedStrings({
     close: '休息',
 
     openDaysSettingsTitle: '營業日設定',
-    openDaysSettingsText1: '五月菊是一個為花店和獨立藝術家以設的平台。',
+    openDaysSettingsText1: ' ',
     openDaysSettingsText2: '如果您不想每天開店，可以在這裡設定營業時間。',
+
+    closeDaysSettingsTitle: '假期/休息設定',
+    closeDaysSettingsText1: ' ',
+    closeDaysSettingsText2: '如果您會放假或定單已滿，可以在這裡設定營業時間。亮起的日期已設定為休息日。',
+    openShop: '開店',
+    closeShop: '關店',
 
     shopInfoUpdated: '店舖資料已更新。',
     errorOccured: '系統錯誤，請稍後再試。',
@@ -243,6 +255,200 @@ class FileUpload extends React.Component {
           <label>{strings.chooseButton}<input ref="in"type="file" accept="image/*" onChange={this.handleFile}/></label>
         </div>
       );
+  }
+}
+
+class ClosedDays extends React.Component {
+  constructor() {
+    super();
+    this.open = this.open.bind(this);
+    this.close = this.close.bind(this);
+    this.state = {
+      showModal: false,
+      startDate: null,
+      endDate: null,
+      focusedInput: 'startDate',
+    }
+  }
+
+  fetchData = () => {
+    var thisRef = this;
+    firebase.database().ref(`florists/${this.props.designerCode}/closedDays`).once('value', function(snapshot) {
+      var snapshotVal = snapshot.val();
+      thisRef.setState({
+        closedDays: snapshotVal,
+      });
+    });
+  }
+
+  handleClosedDaysOpen = () => {
+    var endDate;
+    if (this.state.startDate) {
+    var startDate = this.state.startDate;
+    } else { return }
+    if (this.state.endDate) {
+      endDate = this.state.endDate;
+    } else {
+      endDate = moment(startDate).add(1, 'hours');
+    }
+
+    var diff = endDate.diff(startDate, 'days');
+    var closedDays;
+
+    if (this.state.closedDays) {
+      closedDays = this.state.closedDays;
+      var length = closedDays.length;
+    } else {
+      closedDays = [];
+    }
+
+    for (var i=0; i < diff+1 ; i++) {
+      var newClose = moment(startDate).add(i, 'days');
+      var newCloseString = newClose.format("YYYY-MM-DD");
+
+      //reopen days if previously closed
+      for (var j=length-1; j>-1; j--) {
+        var checkDay = closedDays[j];
+        if (checkDay === newCloseString) {
+          closedDays.splice(j,1);
+        }
+      }
+
+    }
+
+    base.post(`florists/${this.props.designerCode}/closedDays`, {
+      data: closedDays
+    }).then(() => {
+      this.close();
+    }).catch(err => {
+      console.log("An error occured when updating shop's closed days.");
+    });
+
+  }
+
+  handleClosedDaysClose = () => {
+    var endDate;
+    if (this.state.startDate) {
+      var startDate = this.state.startDate;
+    } else { return }
+    if (this.state.endDate) {
+      endDate = this.state.endDate;
+    } else {
+      endDate = moment(startDate).add(1, 'hours');
+    }
+
+    var diff = endDate.diff(startDate, 'days');
+    var closedDays;
+
+    if (this.state.closedDays) {
+      closedDays = this.state.closedDays;
+      var length = closedDays.length;
+      //removing past days
+      for (var i=length-1; i > -1; i--) {
+        var checkDay = moment(closedDays[i]);
+        var diffNow = checkDay.diff(moment(), 'days');
+        if (diffNow < 0) {
+          closedDays.splice(i,1);
+        }
+      }
+    } else {
+      closedDays = [];
+    }
+
+    for (var j=0; j < diff+1 ; j++) {
+      var newClose = moment(startDate).add(j, 'days');
+      closedDays.push(newClose.format("YYYY-MM-DD"));
+    }
+
+    base.post(`florists/${this.props.designerCode}/closedDays`, {
+      data: closedDays
+    }).then(() => {
+      this.close();
+    }).catch(err => {
+      console.log("An error occured when updating shop's closed days.");
+    });
+
+  }
+
+  isDayClosed = (day) => {
+    //check if shop owner closed shop on each day
+    var closedDays = this.state.closedDays;
+    var dayBlocked = false;
+    if (closedDays) {
+      var closedDaysCount = closedDays.length;
+      for (var i=0; i<closedDaysCount; i++) {
+        var checkDay = moment(closedDays[i]);
+        var diff = day.diff(checkDay, 'hours');
+        if ( 0 <= diff && diff < 23) {
+          dayBlocked = true;
+        }
+      }
+    }
+    if (dayBlocked) {
+      return true
+    } else {
+      return false
+    }
+  }
+
+  close() {
+    this.setState({showModal: false});
+    //force states to update since it does not dismount on close. It cases content to flash if placed on open()
+    this.fetchData();
+  }
+  open() {
+    this.setState({showModal: true, startDate: null, endDate: null, focusedInput: 'startDate'});
+  }
+  componentWillMount () {
+    this.fetchData();
+  }
+
+  render() {
+    var startDate = this.state.startDate;
+    var endDate = this.state.endDate;
+    var focusedInput = this.state.focusedInput;
+
+    return (
+        <div>
+            <Button bsStyle="" className="shop-settings-button" onClick={this.open}>{strings.setting}</Button>
+            <Modal show={this.state.showModal} onHide={this.close}>
+
+                <div>
+                    <Modal.Header closeButton>
+                    <Modal.Title><strong>{strings.closeDaysSettingsTitle}</strong></Modal.Title>
+                    </Modal.Header>
+                    <Modal.Body>
+                        <p>{strings.closeDaysSettingsText1}</p>
+                        <p>{strings.closeDaysSettingsText2}</p>
+                        <div className="modal-calendar">
+                          <DayPickerRangeController
+                            minimumNights={0}
+                            numberOfMonths={1}
+                            onDatesChange={({startDate, endDate}) => {
+                                this.setState({
+                                  startDate, endDate
+                                });
+                            }}
+                            onFocusChange={focusedInput => {
+                              this.setState({ focusedInput: !focusedInput ? 'startDate' : focusedInput})
+                            }}
+                            focusedInput={focusedInput}
+                            startDate={startDate}
+                            endDate={endDate}
+                            isDayHighlighted={this.isDayClosed}
+                            isOutsideRange={(day) => day.isBefore(moment())}
+                          />
+                        </div>
+                    </Modal.Body>
+                </div>
+                <Modal.Footer>
+                <Button bsStyle="" className="button button-back" onClick={this.close}>{strings.backButton}</Button>
+                <Button bsStyle="" className="button" onClick={this.handleClosedDaysOpen}>{strings.openShop}</Button>
+                <Button bsStyle="" className="button" onClick={this.handleClosedDaysClose}>{strings.closeShop}</Button>
+                </Modal.Footer>
+            </Modal>
+        </div>
+    )
   }
 }
 
@@ -766,7 +972,6 @@ export default class ShopInfo extends Component {
       img: null,
       croppedImg: null,
       cropperOpen: false,
-      focusedInput: 'startDate',
     }
   }
 
@@ -1097,20 +1302,8 @@ export default class ShopInfo extends Component {
                     <div><strong>{strings.blockedDay}</strong></div>
                   </Col>
                   <Col sm={7}>
-                    <DayPickerRangeController
-                      numberOfMonths={1}
-                      onDatesChange={({startDate,endDate}) => {
-                          console.log ('startDate:', startDate);
-                          console.log ('endDate:', endDate);
-                          this.setState({
-                            startDate, endDate
-                          });
-                      }}
-                      onFocusChange={(focusedInput) => {
-                        console.log ('focusedInput is:', focusedInput);
-                        this.setState({ focusedInput: !focusedInput ? 'startDate' : focusedInput, })
-                      }}
-                      focusedInput={this.state.focusedInput}
+                    <ClosedDays
+                      designerCode={this.props.designerCode}
                     />
                   </Col>
                 </FormGroup>

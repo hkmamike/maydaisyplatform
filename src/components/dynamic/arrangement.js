@@ -297,19 +297,22 @@ export default class Arrangement extends Component {
     checkFloristCalendar(day) {
         var arrangementDeliveryBlockedDays = this.state.arrangementDeliveryBlockedDays;
         var arrangementDeliveryLeadTime = this.state.arrangementDeliveryLeadTime;
+        var arrangementDeliveryClosedDays = this.state.arrangementDeliveryClosedDays;
         var blockedDayFail = false;
         var leadTimeFail = false;
-        var diff = day.diff(moment(), 'days');
+        var closeDaysFail = false;
 
+        //check again shop's open days
         if (typeof arrangementDeliveryBlockedDays!== 'undefined') {
             if (arrangementDeliveryBlockedDays.indexOf(day.day()) > -1) {
                 blockedDayFail = true;
             }
         }
 
-        if (diff - arrangementDeliveryLeadTime < 0 ) {
+        //check if day has past and check for same day cutoff
+        if (day.isBefore(moment())) {
             leadTimeFail = true;
-        } else if (diff - arrangementDeliveryLeadTime === 0) {
+        } else if (day.isSame(moment())) {
             if (arrangementDeliveryLeadTime === '0') {
                 var hour = moment().tz('Asia/Hong_Kong').get('hour');
                 if (hour > 12) {
@@ -318,7 +321,18 @@ export default class Arrangement extends Component {
             }
         }
 
-        if (leadTimeFail || blockedDayFail) {
+        if (arrangementDeliveryClosedDays) {
+            var closedDaysCount = arrangementDeliveryClosedDays.length;
+            for (var i=0; i<closedDaysCount; i++) {
+                var checkDay = moment(arrangementDeliveryClosedDays[i]);
+                var diff = day.diff(checkDay, 'hours');
+                if ( 0 <= diff && diff < 23) {
+                closeDaysFail = true;
+                }
+            }
+        }
+
+        if (leadTimeFail || blockedDayFail || closeDaysFail) {
             return true
         } else {
             return false
@@ -372,6 +386,7 @@ export default class Arrangement extends Component {
                     arrangementDeliveryInfo: snapshotVal.deliveryInfo,
                     arrangementDeliveryLeadTime: snapshotVal.deliveryLeadTime,
                     arrangementDeliveryBlockedDays: snapshotVal.deliveryBlockedDays,
+                    arrangementDeliveryClosedDays: snapshotVal.closedDays,
                     arrangementDeliveryFee: snapshotVal.deliveryFee[marketRegion],
                     specialPickUp: snapshotVal.specialPickUp,
                     specialPickUpFlag: snapshotVal.deliveryFee['specialPickUpLocation'],
