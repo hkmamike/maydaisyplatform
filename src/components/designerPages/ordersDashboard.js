@@ -479,13 +479,7 @@ class OrderDetails extends React.Component {
     handleBack = () => {
         this.props.onHandleBack();
     }
-    handleNumChange(e) {
-        this.setState({ recipientNum: e.target.value });
-    }
-    handleMessageChange(e) {
-        this.setState({ cardMessage: e.target.value });
-    }
-
+    
   render() {
     var orderDetails = this.state.orderDetails;
     var loadingState = this.state.loading;

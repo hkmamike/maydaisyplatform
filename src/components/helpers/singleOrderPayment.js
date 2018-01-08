@@ -260,7 +260,7 @@ export default class PlaceOrder extends React.Component {
                                 });
                             }
                         } else if (orderRoute === 'guest') {
-                            base.push(`guestTransactions/${referenceCode}`, {
+                            base.post(`guestTransactions/${referenceCode}`, {
                                 data: {
                                     city: 'HK',
                                     reviewed: false,

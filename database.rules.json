@@ -1,6 +1,60 @@
 {
-    "rules": {
-      ".read": true,
-      ".write": true
+  "rules": {
+
+    "allTransactions": {
+      "$florist" : {
+        "$txn" : {
+          ".write": "!data.exists() && auth != null",
+          ".read" : "root.child('users/'+ auth.uid + '/info/shop').val() === $florist",
+          "status" : {
+            ".write" : "root.child('users/'+ auth.uid + '/info/shop').val() === $florist"
+          }
+        }
+      }
+    },
+
+    "arrangementsList": {
+      "$arrangement" : {
+        ".write": "(!data.exists() && auth != null) || (data.child('floristUserID').val() === auth.uid)",
+        ".read" : true
+      }
+    },
+
+    "cityRegions": {
+      "$city" : {
+        ".read" : true
+      }
+    },
+
+    "floristRegistration": {
+      "$registration" : {
+        ".write" : "(!data.exists() && auth != null) || (auth.uid === hVEu6IAgBUPuU3MCPWMG1xiqvUB3)",
+        ".read" : "auth.uid === hVEu6IAgBUPuU3MCPWMG1xiqvUB3"
+      }
+    },
+
+    "florists": {
+      "$florist" : {
+        ".write" : "(!data.exists() && auth.uid === hVEu6IAgBUPuU3MCPWMG1xiqvUB3) || (data.child('uid').val() === auth.uid)",
+        ".read" : true,
+        "reviews" : {
+          ".write" : true
+        }
+      }
+    },
+
+    "guestTransactions": {
+      "$txn" : {
+        ".write" : "!data.exists()",
+        ".read" : "auth.uid === hVEu6IAgBUPuU3MCPWMG1xiqvUB3"
+      }
+    },
+
+    "users": {
+      "$uid" : {
+        ".read": "$uid === auth.uid",
+        ".write": "$uid === auth.uid"
+      }
     }
   }
+}
