@@ -40,6 +40,7 @@ import ShopInfo from './components/designerPages/shopInfo';
 
 //admin pages
 import FloristRegistration from './components/admin/floristRegistration';
+import FloristsDashboard from './components/admin/floristsDashboard';
 
 //compressed css
 import './assets/css/default.min.css';
@@ -52,7 +53,7 @@ function AdminRoute ({component: Component, authed, languageChanged, ...rest}) {
   return (
     <Route {...rest} render={(props) => authed === false? 
         <Component {...props} languageChanged={languageChanged}/>
-        : <Redirect to='/admin-registration' />}
+        : <Redirect to='/admin-florists' />}
     />
   )
 }
@@ -224,6 +225,7 @@ export default class App extends Component {
 
             <AdminRoute authed={this.state.authed} path='/admin-login' component={Login} languageChanged={this.state.languageChanged}/>
             <AdminPage authed={this.state.authed} path='/admin-registration' component ={FloristRegistration}/>
+            <AdminPage authed={this.state.authed} path='/admin-florists' component ={FloristsDashboard}/>
 
             <Route path='/arrangements/:marketRegion?' exact render={(props) => (<ArrangementsList {...props} 
               languageChanged={this.state.languageChanged}

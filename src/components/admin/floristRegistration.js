@@ -1,5 +1,6 @@
 import React, { Component } from 'react'
 import { firebaseAuth } from '../config/constants';
+import { Link } from 'react-router-dom';
 import { FormGroup, FormControl, Grid, Row, Col, Button, Glyphicon} from 'react-bootstrap';
 import { base } from '../config/constants';
 
@@ -268,6 +269,7 @@ export default class FloristRegistration extends Component {
           data: {
             city: 'HK',
             currency: 'HKD',
+            id: approvedShopCode,
             deliveryAreas : ['HK_CentralWestern'],
             deliveryFee: {
               HK_CentralWestern: -1,
@@ -424,12 +426,30 @@ export default class FloristRegistration extends Component {
             </div>
           )
         }
+
+        var header = (
+          <Row className="show-grid loggedin-nav">
+            <Col xs={4} className="loggedin-nav-button">
+            <Link to="/admin-registration" className="nav-selected">
+                <i className="fa fa-book fa-lg nav-icon"></i>
+                <div className="nav-icon-title">Registration</div>
+            </Link>
+            </Col>
+            <Col xs={4} className="loggedin-nav-button">
+            <Link to="/admin-florists">
+                <i className="fa fa-star fa-lg nav-icon"></i>
+                <div className="nav-icon-title">Dashboard</div>
+            </Link>
+            </Col>
+          </Row>
+        )
     
         return (
           <div className="loggedin-background">
             <Grid>
               <Row className="show-grid loggedin-margin-box">
                 <Col className="loggedin-content">
+                  {header}
                   {content}
                 </Col>
               </Row>

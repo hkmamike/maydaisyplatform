@@ -775,15 +775,6 @@ export default class OrdersDashboard extends Component {
             this.setState({orderData: data, loading: false});
         }
     });
-    base.fetch(`allTransactions/${this.props.designerCode}`, {
-      context: this,
-      queries: {
-          orderByChild: 'referenceCode'
-      },
-      then(data) {
-          this.setState({orderData: data, loading: false});
-      }
-    });
   }
   componentDidMount () {
     window.scrollTo(0, 0);
