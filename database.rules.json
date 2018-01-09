@@ -3,40 +3,41 @@
 
     "allTransactions": {
       "$florist" : {
+        ".read" : "root.child('users/'+ auth.uid + '/info/shop').val() === $florist",
         "$txn" : {
           ".write": "!data.exists() && auth != null",
-          ".read" : "root.child('users/'+ auth.uid + '/info/shop').val() === $florist",
           "status" : {
             ".write" : "root.child('users/'+ auth.uid + '/info/shop').val() === $florist"
+          },
+          "reviewed" : {
+            ".write" : "auth != null"
           }
         }
       }
     },
 
     "arrangementsList": {
+      ".read" : true,
       "$arrangement" : {
-        ".write": "(!data.exists() && auth != null) || (data.child('floristUserID').val() === auth.uid)",
-        ".read" : true
+        ".write": "!data.exists() && auth != null || data.child('floristUserID').val() === auth.uid"
       }
     },
 
     "cityRegions": {
-      "$city" : {
-        ".read" : true
-      }
+      ".read" : true
     },
 
     "floristRegistration": {
-      "$registration" : {
-        ".write" : "(!data.exists() && auth != null) || (auth.uid === hVEu6IAgBUPuU3MCPWMG1xiqvUB3)",
-        ".read" : "auth.uid === hVEu6IAgBUPuU3MCPWMG1xiqvUB3"
+      ".read" : "auth.uid === 'hVEu6IAgBUPuU3MCPWMG1xiqvUB3'",
+      "registration" : {
+        ".write" : "!data.exists() && auth != null || auth.uid === 'hVEu6IAgBUPuU3MCPWMG1xiqvUB3'"
       }
     },
 
     "florists": {
+      ".read" : true,
       "$florist" : {
-        ".write" : "(!data.exists() && auth.uid === hVEu6IAgBUPuU3MCPWMG1xiqvUB3) || (data.child('uid').val() === auth.uid)",
-        ".read" : true,
+        ".write" : "!data.exists() && auth.token.admin === true  || root.child('users/'+ auth.uid + '/info/shop').val() === $florist",
         "reviews" : {
           ".write" : true
         }
@@ -44,16 +45,21 @@
     },
 
     "guestTransactions": {
+      ".read" : "auth.uid === 'hVEu6IAgBUPuU3MCPWMG1xiqvUB3'",
       "$txn" : {
-        ".write" : "!data.exists()",
-        ".read" : "auth.uid === hVEu6IAgBUPuU3MCPWMG1xiqvUB3"
+        ".write" : "!data.exists()"
       }
     },
 
     "users": {
       "$uid" : {
         ".read": "$uid === auth.uid",
-        ".write": "$uid === auth.uid"
+        ".write": "$uid === auth.uid",
+        "transactions" : {
+          "$txn" : {
+            ".write" : "root.child('users/'+ auth.uid + '/info/shop').val() === data.child('florist').val()"
+          }
+        }
       }
     }
   }

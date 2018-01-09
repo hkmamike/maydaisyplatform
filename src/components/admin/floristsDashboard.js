@@ -1,7 +1,8 @@
 import React, { Component } from 'react'
+import * as firebase from 'firebase';
 import { firebaseAuth } from '../config/constants';
 import { Link } from 'react-router-dom';
-import { FormGroup, FormControl, Grid, Row, Col, Button, Glyphicon} from 'react-bootstrap';
+import { FormGroup, Grid, Row, Col, Button} from 'react-bootstrap';
 import { base } from '../config/constants';
 import LocalizedStrings from 'react-localization';
 
@@ -576,6 +577,7 @@ export default class FloristsDashboard extends Component {
       componentDidMount () {
         window.scrollTo(0, 0);
         this.fireBaseListenerForFlorists = firebaseAuth().onAuthStateChanged((user) => {
+          console.log('auth', firebase.auth());
           this.updateList();
         });
       }

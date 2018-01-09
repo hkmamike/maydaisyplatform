@@ -2057,14 +2057,29 @@ export default class Designs extends Component {
   handleBack() {
     this.setState({designsDetailsStatus: 0}, () => window.scrollTo(0, 0));
     var designer = this.props.designerCode;
-
+    var thisRef = this;
     // reloading data since a review might have been posted
-    base.fetch(`florists/${designer}`, {
-        context: this,
-        queries: {
-            orderByChild: 'florist',
-            equalTo: designer
-        },
+    // base.fetch(`florists/${designer}`, {
+    //     context: this,
+    //     queries: {
+    //         orderByChild: 'florist',
+    //         equalTo: designer
+    //     },
+    // });
+
+    //reloading arrangements
+    firebase.database().ref(`arrangementsList`).orderByChild('florist').equalTo(designer).once('value', function(snapshot) {
+      var snapshotVal = snapshot.val();
+      if (snapshotVal) {
+          thisRef.setState({
+              designsData: snapshotVal, 
+              loading: false,
+          });
+      } else {
+          thisRef.setState({
+            loading: false,
+        });
+      }
     });
   }
   newDesignIncomplete = () => {

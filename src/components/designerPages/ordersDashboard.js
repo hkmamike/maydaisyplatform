@@ -760,15 +760,6 @@ export default class OrdersDashboard extends Component {
   }
   componentWillMount() {
     strings.setLanguage(this.props.languageChanged);
-    base.fetch(`allTransactions/${this.props.designerCode}`, {
-        context: this,
-        queries: {
-            orderByChild: 'referenceCode'
-        },
-        then(data) {
-            this.setState({orderData: data, loading: false});
-        }
-    });
   }
   componentDidMount () {
     window.scrollTo(0, 0);
@@ -784,14 +775,29 @@ export default class OrdersDashboard extends Component {
         state: 'isDesigner'
       });
 
-      this.setState({userID: user.uid, userEmail: user.email});
+      this.setState({userID: user.uid, userEmail: user.email, loading: false}, () => {
+        if (this.state.isDesigner === 'y') {
+          this.handleLoadOrder();
+        }
+      });
     });
   }
   componentWillUnmount () {
     this.removeListener && this.removeListener();
     base.removeBinding(this.setUpStepListener);
   }
-  handleChooseOrder= (chosenKey) => {
+  handleLoadOrder = () => {
+    base.fetch(`allTransactions/${this.props.designerCode}`, {
+      context: this,
+      queries: {
+          orderByChild: 'referenceCode'
+      },
+      then(data) {
+          this.setState({orderData: data});
+      }
+    });
+  }
+  handleChooseOrder = (chosenKey) => {
     this.setState({orderDetailsStatus: 1, selectedOrder: chosenKey}, () => window.scrollTo(0, 0));
   }
   handleBack = () => {

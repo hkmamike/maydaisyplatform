@@ -88,7 +88,7 @@ export default class PlaceOrder extends React.Component {
         var cardExpMonth;
         var referenceRan = Math.floor(Math.random()*(999 - 100) + 100);
         var dateNow = new Date().getTime();
-        var monthNow = new Date().getMonth();
+        var monthNow = new Date().getMonth() + 1;
         var referenceCode = "" + dateNow + referenceRan;
         var orderRoute = this.props.orderRoute;
         var senderEmailOnReg = this.props.email;
