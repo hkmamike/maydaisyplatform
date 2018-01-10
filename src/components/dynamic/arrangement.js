@@ -159,7 +159,6 @@ export default class Arrangement extends Component {
     constructor() {
         super();
         this.toggleContent = this.toggleContent.bind(this);
-        this.handleOrder = this.handleOrder.bind(this);
         this.checkFloristCalendar = this.checkFloristCalendar.bind(this);
         this.state = {
             loading: true,
@@ -239,6 +238,8 @@ export default class Arrangement extends Component {
     }
 
     handleOrder = (floristID, arrangement, promoCode) => {
+        console.log('marketRegion is ', this.props.marketRegion);
+        console.log('deliveryDate is ', this.props.deliveryDate);
         if (this.props.deliveryDate && this.props.marketRegion !== 'select_region') {
             if (promoCode.length>0) {
                 this.props.history.push(`/order/${floristID}/${arrangement}/${promoCode}`);
@@ -583,23 +584,24 @@ export default class Arrangement extends Component {
                                 </div>
                             }
                         </div>
-                        { (!this.props.deliveryDate && this.state.orderButtonPressed) &&
-                            <div>
-                                <div className="error-message">{strings.dateRequired}</div>
-                            </div>
-                        }
-                        { (this.props.deliveryDate && this.state.orderButtonPressed && this.props.marketRegion==='select_region') &&
-                            <div>
-                                <div className="error-message">{strings.marketRegionRequired}</div>
-                            </div>
-                        }
                     </Panel>
+
+                    { (typeof this.props.deliveryDate === 'undefined' && this.state.orderButtonPressed) &&
+                        <div>
+                            <div className="error-message">{strings.dateRequired}</div>
+                        </div>
+                    }
+                    { (typeof this.props.deliveryDate !== 'undefined' && this.state.orderButtonPressed && this.props.marketRegion==='select_region') &&
+                        <div>
+                            <div className="error-message">{strings.marketRegionRequired}</div>
+                        </div>
+                    }
+
                     { this.state.arrangementDeliveryFee=== -1 &&
                         <div className="button-box">
                             <Route path="/" render={(props) => <ButtonToSearch marketRegion={this.props.marketRegion} handleMarketRegionSelect={this.props.onMarketRegionSelect} {...props}/>} />
                         </div>
                     }
-
                     { this.state.arrangementDeliveryFee!== -1 &&
                         <div className="button-box">
                             <Route path="/" render={() => <Button bsStyle="" className="button-to-order" onClick={() => this.handleOrder(this.state.floristID, this.state.arrangement, this.state.promoCode)}>{strings.orderNow}</Button>}/>

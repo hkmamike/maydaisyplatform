@@ -787,7 +787,6 @@ export default class OrdersDashboard extends Component {
     base.removeBinding(this.setUpStepListener);
   }
   handleLoadOrder = () => {
-    console.log('designerCode is ', this.props.designerCode);
     base.fetch(`allTransactions/${this.props.designerCode}`, {
       context: this,
       queries: {

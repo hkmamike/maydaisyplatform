@@ -33,6 +33,9 @@ let strings = new LocalizedStrings({
     recipientCompanyPlaceholder: "recipient's company or location name",
     recipientAddress: 'Address:',
     recipientAddressPlaceholder: 'delivery address',
+
+    selfPickUp: "You have selected self-pickup as the delivery method. Your florist will give you a call to schedule the pick-up once he/she receives your order. Below is your florist's self-pickup policy:",
+
     saveThis: 'save this to my address book.',
     arrangementName: 'Arrangement',
     deliveryInstruction: "Delivery Instruction:",
@@ -95,10 +98,30 @@ let strings = new LocalizedStrings({
 
     shopPage: 'shop page',
     afterDiscount: 'Discounted:',
-    
+
+    deliverTo: 'Deliver to:',
+    HK_CentralWestern: 'Central & Western',
+    HK_Eastern: 'Eastern',
+    HK_Southern: 'Southern',
+    HK_WanChai: 'Wan Chai',
+    KL_KowloonCity: 'Kowloon City',
+    KL_KwunTong: 'Kwun Tong',
+    KL_ShamShuiPo: 'Sham Shui Po',
+    KL_WongTaiSin: 'Wong Tai Sin',
+    KL_YauTsimMong: 'Yau Tsim Mong',
+    NT_Islands: 'Outlying Islands',
+    NT_KwaiTsing: 'Kwai Tsing',
+    NT_North: 'Northern Region',
+    NT_SaiKung: 'Sai Kung',
+    NT_ShaTin: 'Sha Tin',
+    NT_TaiPo: 'Tai Po',
+    NT_TsuenWan: 'Tsuen Wan',
+    NT_TuenMun: 'Tuen Mun',
+    NT_YuenLong: 'Yuen Long',
+    specialPickUpLocation: 'Self Pick Up',
+
   },
   ch: {
-
     navLogin: '登入',
     navCard: '心意卡',
     navDelivery: '配送資料',
@@ -128,6 +151,9 @@ let strings = new LocalizedStrings({
     recipientAddress: '地址:',
     saveThis: '儲存這地址到我的地址記錄。',
     recipientAddressPlaceholder: '配送用',
+
+    selfPickUp: '您選擇了免費自取為送貨方式，您的花匠會用電話聯絡您。以下為已選花匠的免費自取款:',
+
     arrangementName: '貨品:',
     deliveryInstruction: "送貨指示:",
     deliveryInstructionPlaceholder: "你的花匠會盡力跟指示安排，送貨詳情以花店的送貨規則為準，請參閱。",
@@ -185,6 +211,27 @@ let strings = new LocalizedStrings({
 
     shopPage: '店舖主頁',
     afterDiscount: '折扣後:',
+
+    deliverTo: '送往:',
+    HK_CentralWestern: '中西區',
+    HK_Eastern: '東區',
+    HK_Southern: '南區',
+    HK_WanChai: '灣仔區',
+    KL_KowloonCity: '九龍城區',
+    KL_KwunTong: '觀塘區',
+    KL_ShamShuiPo: '深水埗區',
+    KL_WongTaiSin: '黃大仙區',
+    KL_YauTsimMong: '油尖旺區',
+    NT_Islands: '離島區',
+    NT_KwaiTsing: '葵青區',
+    NT_North: '北區',
+    NT_SaiKung: '西貢區',
+    NT_ShaTin: '沙田區',
+    NT_TaiPo: '大埔區',
+    NT_TsuenWan: '荃灣區',
+    NT_TuenMun: '屯門區',
+    NT_YuenLong: '元朗區',
+    specialPickUpLocation: '免費自取',
   }
 });
 
@@ -478,6 +525,7 @@ export default class Order extends Component {
                         thisRef.setState({
                             promoCodeA: snapshotVal.promoCodeA,
                             promoCodeB: snapshotVal.promoCodeB,
+                            specialPickUp: snapshotVal.specialPickUp,
                         }, () => {
                             if (thisRef.state.promoCodeA === promoCode) {
                                 if (thisRef.state.arrangementPrice2 >= 40) {
@@ -730,96 +778,125 @@ export default class Order extends Component {
                 </Grid>
                 
                 <Grid>
-                    <Row className="show-grid">
-                        <FormGroup>
-                            <Col sm={2}></Col>
-                            <Col sm={3}>
-                                <ControlLabel>{strings.recipientName}</ControlLabel>
-                            </Col>
-                            {this.state.orderRoute === 'guest' &&
-                                <Col sm={6}>
-                                    <FormGroup>
-                                        <FormControl value={this.state.recipient} type="text" onChange={this.handleRecipient} placeholder={strings.recipientNamePlaceholder}/>
-                                    </FormGroup>
-                                </Col>
-                            }
-                            {this.state.orderRoute === 'login' &&
-                                <Col sm={4}>
-                                    <FormGroup>
-                                        <FormControl value={this.state.recipient} type="text" onChange={this.handleRecipient} placeholder={strings.recipientNamePlaceholder}/>
-                                    </FormGroup>
-                                </Col>
-                            }
-                            {this.state.orderRoute === 'login' &&
-                            <Col sm={2}>
-                                <ImportAddressModal
-                                    uid={this.state.uid}
-                                    onImportAddress={this.handleImportAddress}
-                                />
-                            </Col>
-                            }
-                        </FormGroup>
-                    </Row>
-                    <Row className="show-grid">
-                        <FormGroup>
-                            <Col sm={2}></Col>
-                            <Col sm={3}>
-                                <ControlLabel>{strings.recipientNum}</ControlLabel>
-                            </Col>
-                            <Col sm={6}>
+                    { marketRegion !== 'specialPickUpLocation' &&
+                        <div>
+                            <Row className="show-grid">
                                 <FormGroup>
-                                    <FormControl value={this.state.recipientNum} type="text" placeholder={strings.recipientNumPlaceholder} onChange={this.handleRecipientNum}/>
-                                </FormGroup>
-                            </Col>
-                        </FormGroup>
-                    </Row>
-                    <Row className="show-grid">
-                        <FormGroup>
-                            <Col sm={2}></Col>
-                            <Col sm={3}>
-                                <ControlLabel>{strings.recipientCompany}</ControlLabel>
-                            </Col>
-                            <Col sm={6}>
-                                <FormGroup>
-                                    <FormControl value={this.state.company} type="text" placeholder={strings.recipientCompanyPlaceholder} onChange={this.handleCompany}/>
-                                </FormGroup>
-                            </Col>
-                        </FormGroup>
-                    </Row>
-                    <Row className="show-grid">
-                        <FormGroup>
-                            <Col sm={2}></Col>
-                            <Col sm={3}>
-                                <ControlLabel>{strings.recipientAddress}</ControlLabel>
-                            </Col>
-                            <Col sm={6}>
-                                <FormGroup>
-                                    <FormControl value={this.state.address} componentClass="textarea" className="recipientAddress" onChange={this.handleAddress} placeholder={strings.recipientAddressPlaceholder}/>
+                                    <Col sm={2}></Col>
+                                    <Col sm={3}>
+                                        <ControlLabel>{strings.recipientName}</ControlLabel>
+                                    </Col>
+                                    {this.state.orderRoute === 'guest' &&
+                                        <Col sm={6}>
+                                            <FormGroup>
+                                                <FormControl value={this.state.recipient} type="text" onChange={this.handleRecipient} placeholder={strings.recipientNamePlaceholder}/>
+                                            </FormGroup>
+                                        </Col>
+                                    }
                                     {this.state.orderRoute === 'login' &&
-                                        <Checkbox 
-                                            onChange={this.addressBookOption}
-                                            checked={this.state.addressBookChecked}
-                                        >
-                                            {strings.saveThis}
-                                        </Checkbox>
+                                        <Col sm={4}>
+                                            <FormGroup>
+                                                <FormControl value={this.state.recipient} type="text" onChange={this.handleRecipient} placeholder={strings.recipientNamePlaceholder}/>
+                                            </FormGroup>
+                                        </Col>
+                                    }
+                                    {this.state.orderRoute === 'login' &&
+                                    <Col sm={2}>
+                                        <ImportAddressModal
+                                            uid={this.state.uid}
+                                            onImportAddress={this.handleImportAddress}
+                                        />
+                                    </Col>
                                     }
                                 </FormGroup>
-                            </Col>
-                        </FormGroup>
-                    </Row>
-                    <Row className="show-grid">
-                        <FormGroup>
-                            <Col sm={2}></Col>
-                            <Col sm={3}>
-                                <ControlLabel>{strings.deliveryInstruction}</ControlLabel>
-                            </Col>
-                            <Col sm={6}>
+                            </Row>
+                            <Row className="show-grid">
                                 <FormGroup>
-                                    <FormControl value={this.state.deliveryInstruction} componentClass="textarea" className="deliveryInstruction" onChange={this.handleDeliveryInstruction} placeholder={strings.deliveryInstructionPlaceholder}/>
+                                    <Col sm={2}></Col>
+                                    <Col sm={3}>
+                                        <ControlLabel>{strings.recipientNum}</ControlLabel>
+                                    </Col>
+                                    <Col sm={6}>
+                                        <FormGroup>
+                                            <FormControl value={this.state.recipientNum} type="text" placeholder={strings.recipientNumPlaceholder} onChange={this.handleRecipientNum}/>
+                                        </FormGroup>
+                                    </Col>
                                 </FormGroup>
-                            </Col>
-                        </FormGroup>
-                    </Row>
+                            </Row>
+                            <Row className="show-grid">
+                                <FormGroup>
+                                    <Col sm={2}></Col>
+                                    <Col sm={3}>
+                                        <ControlLabel>{strings.recipientCompany}</ControlLabel>
+                                    </Col>
+                                    <Col sm={6}>
+                                        <FormGroup>
+                                            <FormControl value={this.state.company} type="text" placeholder={strings.recipientCompanyPlaceholder} onChange={this.handleCompany}/>
+                                        </FormGroup>
+                                    </Col>
+                                </FormGroup>
+                            </Row>
+                            <Row className="show-grid">
+                                <FormGroup>
+                                    <Col sm={2}></Col>
+                                    <Col sm={3}>
+                                        <ControlLabel>{strings.recipientAddress}</ControlLabel>
+                                    </Col>
+                                    <Col sm={6}>
+                                        <FormGroup>
+                                            <FormControl value={this.state.address} componentClass="textarea" className="recipientAddress" onChange={this.handleAddress} placeholder={strings.recipientAddressPlaceholder}/>
+                                            {this.state.orderRoute === 'login' &&
+                                                <Checkbox 
+                                                    onChange={this.addressBookOption}
+                                                    checked={this.state.addressBookChecked}
+                                                >
+                                                    {strings.saveThis}
+                                                </Checkbox>
+                                            }
+                                        </FormGroup>
+                                    </Col>
+                                </FormGroup>
+                            </Row>
+                            <Row className="show-grid">
+                                <FormGroup>
+                                    <Col sm={2}></Col>
+                                    <Col sm={3}>
+                                        <ControlLabel>{strings.deliveryInstruction}</ControlLabel>
+                                    </Col>
+                                    <Col sm={6}>
+                                        <FormGroup>
+                                            <FormControl value={this.state.deliveryInstruction} componentClass="textarea" className="deliveryInstruction" onChange={this.handleDeliveryInstruction} placeholder={strings.deliveryInstructionPlaceholder}/>
+                                        </FormGroup>
+                                    </Col>
+                                </FormGroup>
+                            </Row>
+                        </div>
+                    }
+                    { marketRegion === 'specialPickUpLocation' &&
+                        <div>
+                            <Row className="show-grid">
+                                <FormGroup>
+                                    <Col sm={2}></Col>
+                                    <Col sm={3}>
+                                        <ControlLabel>{strings.recipientCompany}</ControlLabel>
+                                    </Col>
+                                    <Col sm={6}>
+                                        <div>{strings.selfPickUp}</div>
+                                    </Col>
+                                </FormGroup>
+                            </Row>
+                            <Row className="show-grid">
+                                <FormGroup>
+                                    <Col sm={2}></Col>
+                                    <Col sm={3}>
+                                    </Col>
+                                    <Col className="top-bottom-text-margin" sm={6}>
+                                        <div>{this.state.specialPickUp}</div>
+                                    </Col>
+                                </FormGroup>
+                            </Row>
+                        </div>
+                    }
                     <Row className="show-grid">
                         <FormGroup>
                             <Col sm={2}></Col>
@@ -865,50 +942,89 @@ export default class Order extends Component {
                     </Row>
                 </Grid>
                 <Grid className="review-order">
+                    { marketRegion !== 'specialPickUpLocation' &&
+                        <div>
+                            <Row className="show-grid">
+                                <FormGroup>
+                                    <Col sm={2}></Col>
+                                    <Col sm={3}>
+                                        <div><strong>{strings.recipientName}</strong></div>
+                                    </Col>
+                                    <Col sm={6}>
+                                        <div>{this.state.recipient}</div>
+                                    </Col>
+                                </FormGroup>
+                            </Row>
+                            <Row className="show-grid">
+                                <FormGroup>
+                                    <Col sm={2}></Col>
+                                    <Col sm={3}>
+                                        <div><strong>{strings.recipientNum}</strong></div>
+                                    </Col>
+                                    <Col sm={6}>
+                                        <div>{this.state.recipientNum}</div>
+                                    </Col>
+                                </FormGroup>
+                            </Row>
+                            <Row className="show-grid">
+                                <FormGroup>
+                                    <Col sm={2}></Col>
+                                    <Col sm={3}>
+                                        <div><strong>{strings.deliverTo}</strong></div>
+                                    </Col>
+                                    <Col sm={6}>
+                                        <div>{strings[marketRegion]}</div>
+                                    </Col>
+                                </FormGroup>
+                            </Row>
+                            <Row className="show-grid">
+                                <FormGroup>
+                                    <Col sm={2}></Col>
+                                    <Col sm={3}>
+                                        <div><strong>{strings.recipientCompany}</strong></div>
+                                    </Col>
+                                    <Col sm={6}>
+                                        <div>{this.state.company}</div>
+                                    </Col>
+                                </FormGroup>
+                            </Row>
+                            <Row className="show-grid">
+                                <FormGroup>
+                                    <Col sm={2}></Col>
+                                    <Col sm={3}>
+                                        <div><strong>{strings.recipientAddress}</strong></div>
+                                    </Col>
+                                    <Col sm={6}>
+                                        <div>{this.state.address}</div>
+                                    </Col>
+                                </FormGroup>
+                            </Row>
+                            <Row className="show-grid">
+                                <FormGroup>
+                                    <Col sm={2}></Col>
+                                    <Col sm={3}>
+                                        <div><strong>{strings.deliveryInstruction}</strong></div>
+                                    </Col>
+                                    <Col sm={6}>
+                                        <div>{this.state.deliveryInstruction}</div>
+                                    </Col>
+                                </FormGroup>
+                            </Row>
+                        </div>
+                    }
+                    { marketRegion === 'specialPickUpLocation' &&
                     <Row className="show-grid">
                         <FormGroup>
                             <Col sm={2}></Col>
                             <Col sm={3}>
-                                <div><strong>{strings.recipientName}</strong></div>
+                                <div><strong>{strings.deliverTo}</strong></div>
                             </Col>
                             <Col sm={6}>
-                                <div>{this.state.recipient}</div>
+                                <div>{strings[marketRegion]}</div>
                             </Col>
                         </FormGroup>
                     </Row>
-                    <Row className="show-grid">
-                        <FormGroup>
-                            <Col sm={2}></Col>
-                            <Col sm={3}>
-                                <div><strong>{strings.recipientNum}</strong></div>
-                            </Col>
-                            <Col sm={6}>
-                                <div>{this.state.recipientNum}</div>
-                            </Col>
-                        </FormGroup>
-                    </Row>
-                    <Row className="show-grid">
-                        <FormGroup>
-                            <Col sm={2}></Col>
-                            <Col sm={3}>
-                                <div><strong>{strings.recipientCompany}</strong></div>
-                            </Col>
-                            <Col sm={6}>
-                                <div>{this.state.company}</div>
-                            </Col>
-                        </FormGroup>
-                    </Row>
-                    <Row className="show-grid">
-                        <FormGroup>
-                            <Col sm={2}></Col>
-                            <Col sm={3}>
-                                <div><strong>{strings.recipientAddress}</strong></div>
-                            </Col>
-                            <Col sm={6}>
-                                <div>{this.state.address}</div>
-                            </Col>
-                        </FormGroup>
-                    </Row>
+                    }
                     <Row className="show-grid">
                         <FormGroup>
                             <Col sm={2}></Col>
@@ -917,17 +1033,6 @@ export default class Order extends Component {
                             </Col>
                             <Col sm={6}>
                                 <div>{this.state.arrangementName}</div>
-                            </Col>
-                        </FormGroup>
-                    </Row>
-                    <Row className="show-grid">
-                        <FormGroup>
-                            <Col sm={2}></Col>
-                            <Col sm={3}>
-                                <div><strong>{strings.deliveryInstruction}</strong></div>
-                            </Col>
-                            <Col sm={6}>
-                                <div>{this.state.deliveryInstruction}</div>
                             </Col>
                         </FormGroup>
                     </Row>
