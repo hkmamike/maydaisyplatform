@@ -773,11 +773,11 @@ export default class OrdersDashboard extends Component {
       this.setUpStepListener = base.bindToState(`users/${user.uid}/info/isDesigner`, {
         context: this,
         state: 'isDesigner'
-      });
-
-      this.setState({userID: user.uid, userEmail: user.email, loading: false}, () => {
-        if (this.state.isDesigner === 'y') {
-          this.handleLoadOrder();
+        ,then() {
+          this.setState({userID: user.uid, userEmail: user.email, loading: false});
+          if (this.state.isDesigner === 'y') {
+            this.handleLoadOrder();
+          }
         }
       });
     });
@@ -787,6 +787,7 @@ export default class OrdersDashboard extends Component {
     base.removeBinding(this.setUpStepListener);
   }
   handleLoadOrder = () => {
+    console.log('designerCode is ', this.props.designerCode);
     base.fetch(`allTransactions/${this.props.designerCode}`, {
       context: this,
       queries: {
