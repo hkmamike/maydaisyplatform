@@ -32,7 +32,7 @@ let strings = new LocalizedStrings({
 
         buttonToMarket: 'Back to market',
 
-        descriptionTab: 'Description',
+        descriptionTab: 'Details',
         deliveryInfoTab: 'Delivery',
         substitutionTab: 'Substitution',
         deliveryFeeTip: 'Florists specified delivery fee for this region.',
@@ -238,8 +238,6 @@ export default class Arrangement extends Component {
     }
 
     handleOrder = (floristID, arrangement, promoCode) => {
-        console.log('marketRegion is ', this.props.marketRegion);
-        console.log('deliveryDate is ', this.props.deliveryDate);
         if (this.props.deliveryDate && this.props.marketRegion !== 'select_region') {
             if (promoCode.length>0) {
                 this.props.history.push(`/order/${floristID}/${arrangement}/${promoCode}`);

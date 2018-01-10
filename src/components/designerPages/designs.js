@@ -96,6 +96,11 @@ let strings = new LocalizedStrings({
     sunflowers: 'Sun Flowers:',
     tulips: 'Tulips:',
     carnations: 'Carnations:',
+    lisianthus: 'Lisianthus:',
+    callalilies: 'Calla Lilies:',
+    gardenroses: 'Garden Roses:',
+    lilies: 'lilies:',
+
     deleteSuccess: 'Design has been removed from record.',
     chooseButton: 'Choose',
 
@@ -204,10 +209,13 @@ let strings = new LocalizedStrings({
     sunflowers: '太陽花:',
     tulips: '鬱金香:',
     carnations: '康乃馨:',
+    lisianthus: '洋桔梗:',
+    callalilies: '馬蹄蘭:',
+    gardenroses: '庭園玫瑰:',
+    lilies: '百合:',
+
     deleteSuccess: '設計已刪除。',
-
     chooseButton: '選擇',
-
     wrappedBouquets: '花束',
     hampers: '禮品花籃',
     arrangements: '插花',
@@ -633,7 +641,11 @@ class FlowerType extends React.Component {
       roses: 'n',
       sunflowers: 'n',
       tulips: 'n',
-      carnations: 'n'
+      carnations: 'n',
+      lisianthus: 'n',
+      callalilies: 'n',
+      gardenroses: 'n',
+      lilies: 'n'
     }
   }
 
@@ -651,7 +663,11 @@ class FlowerType extends React.Component {
         roses: 'n',
         sunflowers: 'n',
         tulips: 'n',
-        carnations: 'n'
+        carnations: 'n',
+        lisianthus: 'n',
+        callalilies: 'n',
+        gardenroses: 'n',
+        lilies: 'n'
       });
     } else {
       base.fetch(`arrangementsList/${this.props.selectedDesign}/flower`, {
@@ -668,6 +684,10 @@ class FlowerType extends React.Component {
             var sunflowers = 'n';
             var tulips = 'n';
             var carnations = 'n';
+            var lisianthus = 'n';
+            var callalilies = 'n';
+            var gardenroses = 'n';
+            var lilies = 'n';
 
             if (data.length > 0) {
               if (data.indexOf('dahlias')> -1) {
@@ -703,6 +723,19 @@ class FlowerType extends React.Component {
               if (data.indexOf('carnations')> -1) {
                 carnations='y'
               }
+
+              if (data.indexOf('lisianthus')> -1) {
+                lisianthus='y'
+              }
+              if (data.indexOf('callalilies')> -1) {
+                callalilies='y'
+              }
+              if (data.indexOf('gardenroses')> -1) {
+                gardenroses='y'
+              }
+              if (data.indexOf('lilies')> -1) {
+                lilies='y'
+              }
             }
 
             this.setState({
@@ -716,7 +749,11 @@ class FlowerType extends React.Component {
                 roses: roses,
                 sunflowers: sunflowers,
                 tulips: tulips,
-                carnations: carnations
+                carnations: carnations,
+                lisianthus: lisianthus,
+                callalilies: callalilies,
+                gardenroses: gardenroses,
+                lilies: lilies,
             });
         }
       });
@@ -768,6 +805,18 @@ class FlowerType extends React.Component {
       case 'carnations': 
         this.setState({carnations: eventKey});
         break
+      case 'lisianthus': 
+        this.setState({lisianthus: eventKey});
+        break
+      case 'callalilies': 
+        this.setState({callalilies: eventKey});
+        break
+      case 'gardenroses': 
+        this.setState({gardenroses: eventKey});
+        break
+      case 'lilies': 
+        this.setState({lilies: eventKey});
+        break
       default:
         break
     }
@@ -810,6 +859,18 @@ class FlowerType extends React.Component {
     }
     if (this.state.carnations === 'y') {
       flowersArray.push('carnations');
+    }
+    if (this.state.lisianthus === 'y') {
+      flowersArray.push('lisianthus');
+    }
+    if (this.state.callalilies === 'y') {
+      flowersArray.push('callalilies');
+    }
+    if (this.state.gardenroses === 'y') {
+      flowersArray.push('gardenroses');
+    }
+    if (this.state.lilies === 'y') {
+      flowersArray.push('lilies');
     }
 
     if (this.props.selectedDesign === null) {
@@ -1032,6 +1093,79 @@ class FlowerType extends React.Component {
                                       title={strings[this.state.carnations]} 
                                       className="subscription-select" id="subscriptioin-planTypeSelect-dropdown" 
                                       onSelect={(eventKey)=>this.handleSettingChange('carnations',eventKey)}
+                                    >
+                                      <MenuItem eventKey="y">{strings.y}</MenuItem>
+                                      <MenuItem eventKey="n">{strings.n}</MenuItem>
+                                    </DropdownButton>
+                                  </Col>
+                                </FormGroup>
+                              </Row>
+
+                              <Row className="show-grid">
+                                <FormGroup>
+                                  <Col xs={1}></Col>
+                                  <Col xs={5}>
+                                    {strings.lisianthus}
+                                  </Col>
+                                  <Col xs={5}>
+                                    <DropdownButton 
+                                      title={strings[this.state.lisianthus]} 
+                                      className="subscription-select" id="subscriptioin-planTypeSelect-dropdown" 
+                                      onSelect={(eventKey)=>this.handleSettingChange('lisianthus',eventKey)}
+                                    >
+                                      <MenuItem eventKey="y">{strings.y}</MenuItem>
+                                      <MenuItem eventKey="n">{strings.n}</MenuItem>
+                                    </DropdownButton>
+                                  </Col>
+                                </FormGroup>
+                              </Row>
+                              <Row className="show-grid">
+                                <FormGroup>
+                                  <Col xs={1}></Col>
+                                  <Col xs={5}>
+                                    {strings.callalilies}
+                                  </Col>
+                                  <Col xs={5}>
+                                    <DropdownButton 
+                                      title={strings[this.state.callalilies]} 
+                                      className="subscription-select" id="subscriptioin-planTypeSelect-dropdown" 
+                                      onSelect={(eventKey)=>this.handleSettingChange('callalilies',eventKey)}
+                                    >
+                                      <MenuItem eventKey="y">{strings.y}</MenuItem>
+                                      <MenuItem eventKey="n">{strings.n}</MenuItem>
+                                    </DropdownButton>
+                                  </Col>
+                                </FormGroup>
+                              </Row>
+                              <Row className="show-grid">
+                                <FormGroup>
+                                  <Col xs={1}></Col>
+                                  <Col xs={5}>
+                                    {strings.gardenroses}
+                                  </Col>
+                                  <Col xs={5}>
+                                    <DropdownButton 
+                                      title={strings[this.state.gardenroses]} 
+                                      className="subscription-select" id="subscriptioin-planTypeSelect-dropdown" 
+                                      onSelect={(eventKey)=>this.handleSettingChange('gardenroses',eventKey)}
+                                    >
+                                      <MenuItem eventKey="y">{strings.y}</MenuItem>
+                                      <MenuItem eventKey="n">{strings.n}</MenuItem>
+                                    </DropdownButton>
+                                  </Col>
+                                </FormGroup>
+                              </Row>
+                              <Row className="show-grid">
+                                <FormGroup>
+                                  <Col xs={1}></Col>
+                                  <Col xs={5}>
+                                    {strings.lilies}
+                                  </Col>
+                                  <Col xs={5}>
+                                    <DropdownButton 
+                                      title={strings[this.state.lilies]} 
+                                      className="subscription-select" id="subscriptioin-planTypeSelect-dropdown" 
+                                      onSelect={(eventKey)=>this.handleSettingChange('lilies',eventKey)}
                                     >
                                       <MenuItem eventKey="y">{strings.y}</MenuItem>
                                       <MenuItem eventKey="n">{strings.n}</MenuItem>

@@ -156,7 +156,7 @@ let strings = new LocalizedStrings({
 
     arrangementName: '貨品:',
     deliveryInstruction: "送貨指示:",
-    deliveryInstructionPlaceholder: "你的花匠會盡力跟指示安排，送貨詳情以花店的送貨規則為準，請參閱。",
+    deliveryInstructionPlaceholder: "你的花匠會盡力跟指示安排，送貨詳情以花店的送貨規則為準。",
     senderNum: "送花人電話:",
     senderNumPlaceholder: '您的電話號碼',
     senderNumTip: '*此欄會用作帳戶資訊更新和訂單跟進。',

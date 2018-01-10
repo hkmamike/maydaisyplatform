@@ -72,6 +72,10 @@ let strings = new LocalizedStrings({
         sunflowers: ' Sun Flowers',
         tulips: ' Tulips',
         carnations: ' Carnations',
+        lisianthus: 'Lisianthus:',
+        callalilies: 'Calla Lilies:',
+        gardenroses: 'Garden Roses:',
+        lilies: 'lilies:',
 
         red: 'Red',
         pink: 'Pink',
@@ -131,6 +135,10 @@ let strings = new LocalizedStrings({
         sunflowers: ' 太陽花',
         tulips: ' 鬱金香',
         carnations: ' 康乃馨',
+        lisianthus: '洋桔梗:',
+        callalilies: '馬蹄蘭:',
+        gardenroses: '庭園玫瑰:',
+        lilies: '百合:',
 
         red: '紅色',
         pink: '粉紅色',
