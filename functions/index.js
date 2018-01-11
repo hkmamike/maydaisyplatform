@@ -299,6 +299,39 @@ exports.EmailCustomerOnUpdate = functions.database.ref('/allTransactions/{Floris
 
 /////////
 
+
+exports.ReviewsStats = functions.database.ref('/florists/{FloristID}/reviews/{ReviewID}').onUpdate(event => {
+    var FloristID = event.params.FloristID;
+    var ReviewID = event.params.ReviewID;
+    var score = event.data.child('rating').val();
+    var newAverageRating;
+    var newRatingCount;
+    var updates = {};
+
+    admin.database().ref('/florists/' + FloristID + '/reviewsStats/').once('value', function(snapshot) {
+        var ratingCount = snapshot.hasChild('ratingCount');
+        var averageRating = snapshot.hasChild('averageRating');
+
+        if (ratingCount && averageRating) {
+            newAverageRating = Math.round(((ratingCount*averageRating + score)/(ratingCount + 1)*100)/100)
+        } else {
+            newAverageRating = score;
+        }
+
+        if (snapshot.hasChild('ratingCount')) {
+            newRatingCount = snapshot.child('ratingCount').val() + 1;
+        } else {
+            newRatingCount = 1;
+        }
+     }).then(() => {
+        updates['/florists/' + FloristID + '/reviewsStats/ratingCount'] = newRatingCount;
+        updates['/florists/' + FloristID + '/reviewsStats/averageRating'] = newAverageRating;
+        admin.database().ref().update(updates);
+     })
+});
+
+/////////
+
 exports.algoliaUpdate = functions.database.ref('/arrangementsList/{arrangementID}').onUpdate(event => {
     const arrangementID = event.params.arrangementID;
     const data = event.data.val();
