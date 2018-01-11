@@ -91,7 +91,7 @@ function sendEmailFloristOnTxn (email, arrangementCode, arrangementName, deliver
     }
 
     return mailTransport.sendMail(mailOptions).then(() => {
-      console.log('new order alert email sent to:', email);
+      console.log('new order alert email sent to florist:', email);
     });
 }
 
@@ -131,7 +131,7 @@ function sendEmailCustomerOnTxn (email, arrangementCode, arrangementName, delive
         );
     }
     return mailTransport.sendMail(mailOptions).then(() => {
-      console.log('new order alert email sent to:', email);
+      console.log('new order alert email sent to customer:', email);
     });
 }
 
@@ -301,7 +301,7 @@ exports.EmailCustomerOnUpdate = functions.database.ref('/allTransactions/{Floris
 /////////
 
 
-exports.ReviewsStats = functions.database.ref('/florists/{FloristID}/reviews/{ReviewID}').onUpdate(event => {
+exports.ReviewsStats = functions.database.ref('/florists/{FloristID}/reviews/{ReviewID}').onCreate(event => {
     var FloristID = event.params.FloristID;
     var ReviewID = event.params.ReviewID;
     var score = event.data.child('rating').val();
