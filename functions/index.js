@@ -312,11 +312,15 @@ exports.ReviewsStats = functions.database.ref('/florists/{FloristID}/reviews/{Re
     console.log('hi');
 
     admin.database().ref('/florists/' + FloristID + '/reviewsStats/').once('value', function(snapshot) {
-        var ratingCount = snapshot.hasChild('ratingCount');
-        var averageRating = snapshot.hasChild('averageRating');
+        var ratingCount = snapshot.child('ratingCount').val();
+        var averageRating = snapshot.child('averageRating').val();
 
         if (ratingCount && averageRating) {
-            newAverageRating = Math.round(((ratingCount*averageRating + score)/(ratingCount + 1)*100)/100)
+            console.log('score is: ', score);
+            console.log('averageRating is: ', averageRating);
+            console.log('ratingCount is: ', ratingCount);
+            newAverageRating = Math.round(((ratingCount*averageRating + score)/(ratingCount + 1)*100))/100;
+            console.log('new Average Rating is:', newAverageRating);
         } else {
             newAverageRating = score;
         }
