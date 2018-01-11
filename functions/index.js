@@ -156,7 +156,7 @@ function sendEmailAdminOnTxn (FloristID, arrangementCode, arrangementName, deliv
         );
        
         return mailTransport.sendMail(mailOptions).then(() => {
-          console.log('new order alert email sent to:', email);
+          console.log('new order alert email sent to admin');
         });
     }
 
@@ -278,6 +278,7 @@ exports.EmailCustomerOnUpdate = functions.database.ref('/allTransactions/{Floris
     var TxnID = event.params.TxnID;
     var email = event.data.child('senderEmail').val();
     var status = event.data.child('status').val();
+    var reviewed = event.data.child('reviewed').val();
     var arrangementCode = event.data.child('arrangementCode').val();
     var arrangementName = event.data.child('arrangementName').val();
     var deliveryDate = event.data.child('deliveryDate').val();
@@ -289,10 +290,10 @@ exports.EmailCustomerOnUpdate = functions.database.ref('/allTransactions/{Floris
     var CusID = event.data.child('uid').val();
     var language = event.data.child('languageChanged').val();
         
-    if (status==='order_received' && orderReceivedEmailSent==='false') {
+    if (status==='order_received' && orderReceivedEmailSent==='false' && reviewed==='false') {
         return sendEmailCustomerOnReceived(email, arrangementCode, arrangementName, deliveryDate, referenceCode, status, floristName, floristCode, language);
     }
-    if (status==='order_fulfilled' && orderFulfilledEmailSent==='false') {
+    if (status==='order_fulfilled' && orderFulfilledEmailSent==='false' && reviewed==='false') {
         return sendEmailCustomerOnFulfilled(email, arrangementCode, arrangementName, deliveryDate, referenceCode, status, floristName, floristCode, language);
     }
 });
@@ -307,6 +308,8 @@ exports.ReviewsStats = functions.database.ref('/florists/{FloristID}/reviews/{Re
     var newAverageRating;
     var newRatingCount;
     var updates = {};
+
+    console.log('hi');
 
     admin.database().ref('/florists/' + FloristID + '/reviewsStats/').once('value', function(snapshot) {
         var ratingCount = snapshot.hasChild('ratingCount');

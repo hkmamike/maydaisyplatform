@@ -46,6 +46,27 @@ let strings = new LocalizedStrings({
     buttonToShop: 'My Shop',
     buttonToAccount: 'My Account',
     price: 'Price:',
+
+    deliverTo: 'Deliver to:',
+    HK_CentralWestern: 'Central & Western',
+    HK_Eastern: 'Eastern',
+    HK_Southern: 'Southern',
+    HK_WanChai: 'Wan Chai',
+    KL_KowloonCity: 'Kowloon City',
+    KL_KwunTong: 'Kwun Tong',
+    KL_ShamShuiPo: 'Sham Shui Po',
+    KL_WongTaiSin: 'Wong Tai Sin',
+    KL_YauTsimMong: 'Yau Tsim Mong',
+    NT_Islands: 'Outlying Islands',
+    NT_KwaiTsing: 'Kwai Tsing',
+    NT_North: 'Northern Region',
+    NT_SaiKung: 'Sai Kung',
+    NT_ShaTin: 'Sha Tin',
+    NT_TaiPo: 'Tai Po',
+    NT_TsuenWan: 'Tsuen Wan',
+    NT_TuenMun: 'Tuen Mun',
+    NT_YuenLong: 'Yuen Long',
+    specialPickUpLocation: 'Self Pick Up',
   },
   ch: {
     orderHistory1: ' ',
@@ -83,9 +104,29 @@ let strings = new LocalizedStrings({
     order_fulfilled: '花店已送花',
     buttonToShop: '我的花店',
     buttonToAccount: '我的帳戶',
-
     noRecord: '您目前並沒有地址記錄。',
     price: '價格:',
+
+    deliverTo: '送往:',
+    HK_CentralWestern: '中西區',
+    HK_Eastern: '東區',
+    HK_Southern: '南區',
+    HK_WanChai: '灣仔區',
+    KL_KowloonCity: '九龍城區',
+    KL_KwunTong: '觀塘區',
+    KL_ShamShuiPo: '深水埗區',
+    KL_WongTaiSin: '黃大仙區',
+    KL_YauTsimMong: '油尖旺區',
+    NT_Islands: '離島區',
+    NT_KwaiTsing: '葵青區',
+    NT_North: '北區',
+    NT_SaiKung: '西貢區',
+    NT_ShaTin: '沙田區',
+    NT_TaiPo: '大埔區',
+    NT_TsuenWan: '荃灣區',
+    NT_TuenMun: '屯門區',
+    NT_YuenLong: '元朗區',
+    specialPickUpLocation: '免費自取',
   }
 });
 
@@ -339,6 +380,16 @@ class OrderDetails extends React.Component {
                   </Col>
                   <Col md={5}>
                     <div>{orderDetails.recipient}</div>
+                  </Col>
+                  <Col md={1}></Col>
+              </Row>
+              <Row className="show-grid">
+                  <Col md={4}></Col>
+                  <Col md={2}>
+                      <div><strong>{strings.deliverTo}</strong></div>
+                  </Col>
+                  <Col md={5}>
+                    <div>{strings[orderDetails.marketRegion]}</div>
                   </Col>
                   <Col md={1}></Col>
               </Row>
