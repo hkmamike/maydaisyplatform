@@ -7,12 +7,13 @@ import StarRatingComponent from 'react-star-rating-component';
 
 let strings = new LocalizedStrings({
     en:{
-        designs: 'Designs',
-        about: 'About',
-        reviews: 'Reviews',
+        designs: 'designs',
+        about: 'about',
+        reviews: 'reviews',
         verifiedPurchase: 'verified purchase',
         artist: 'Independent Artist',
-        shop: 'Boutique Shop'
+        shop: 'Boutique Shop',
+        rating: 'Ave. Rating:'
     },
     ch: {
         designs: '設計',
@@ -21,6 +22,7 @@ let strings = new LocalizedStrings({
         verifiedPurchase: '已驗證',
         artist: '獨立花藝師',
         shop: '精品花店',
+        rating: '平均評分:'
     }
   });
 
@@ -76,6 +78,16 @@ export default class Florist extends Component {
                 reviews.push(childData);
             });
             thisRef.setState({reviews: reviews});
+        });
+        firebase.database().ref(`florists/${this.props.match.params.floristID}/reviewsStats`)
+        .once('value', function(snapshot) {
+            var snapshotVal = snapshot.val();
+            if (snapshotVal) {
+                thisRef.setState({
+                    averageRating: snapshotVal.averageRating,
+                    ratingCount: snapshotVal.ratingCount,
+                });
+            }
         });
     }
     
@@ -136,7 +148,7 @@ export default class Florist extends Component {
                             value={review.rating}
                     />
                 </div>
-                <div className='review-date'>{review.reviewDate}{strings.verifiedPurchase}</div>
+                <div className='review-date'>{review.reviewDate}{' '}{strings.verifiedPurchase}</div>
                 <div className='review-message'>{review.reviewMessage}</div>
             </Col>
         )
@@ -155,7 +167,10 @@ export default class Florist extends Component {
                         <div className="florist-info-container">
                             <div className="florist-name">{this.state.floristName}</div>
                             <div className="florist-type">{strings[this.state.floristType]}</div>
-                            <div className="florist-address">{this.state.floristAddress}</div>
+                            {this.state.averageRating && 
+                                <div className="florist-type">{strings.rating}{' '}{this.state.averageRating} / 5</div>
+                            }
+                            {/* <div className="florist-address">{this.state.floristAddress}</div> */}
                             <div className="florist-website"><a href={this.state.floristWebsite}>{this.state.floristWebsite}</a></div>
                             <div className="florist-info-small-screen-social-container large-screen-hide">
                                 {this.state.floristFacebook && <a href={this.state.floristFacebook} target="_blank"><i className="fa fa-facebook-official"></i></a>}
@@ -187,12 +202,12 @@ export default class Florist extends Component {
                 <div className="grid-bg">
                     <Grid>
                         <Row className="show-grid florist-nav">
-                            <Col xs={2} className="nav-margin"></Col>
-                            <Col xs={10} className="nav-margin">
+                            <Col xs={1} sm={2} className="nav-margin"></Col>
+                            <Col xs={11} sm={10} className="nav-margin">
                                 <ul>
                                     <li className="selected"><div className="nav-text">{strings.designs}</div></li>
-                                    <li onClick={() => this.setState({onTab: 1}, () => {window.scrollTo(0, 0);})}><div className="nav-text">{strings.about}</div></li>
-                                    <li onClick={() => this.setState({onTab: 2}, () => {window.scrollTo(0, 0);})}><div className="nav-text">{strings.reviews}</div></li>
+                                    <li onClick={() => this.setState({onTab: 1}, () => {window.scrollTo(0, 350);})}><div className="nav-text">{strings.about}</div></li>
+                                    <li onClick={() => this.setState({onTab: 2}, () => {window.scrollTo(0, 350);})}><div className="nav-text">{strings.reviews}{this.state.ratingCount && <span>{' '}({this.state.ratingCount})</span>}</div></li>
                                 </ul>
                             </Col>
                         </Row>
@@ -212,9 +227,9 @@ export default class Florist extends Component {
                         <Col xs={1} sm={2} className="nav-margin"></Col>
                         <Col xs={11} sm={10} className="nav-margin">
                             <ul>
-                                <li onClick={() => this.setState({onTab: 0}, () => {window.scrollTo(0, 0);})}><div className="nav-text">{strings.designs}</div></li>
+                                <li onClick={() => this.setState({onTab: 0}, () => {window.scrollTo(0, 350);})}><div className="nav-text">{strings.designs}</div></li>
                                 <li className="selected"><div className="nav-text">{strings.about}</div></li>
-                                <li onClick={() => this.setState({onTab: 2}, () => {window.scrollTo(0, 0);})}><div className="nav-text">{strings.reviews}</div></li>
+                                <li onClick={() => this.setState({onTab: 2}, () => {window.scrollTo(0, 350);})}><div className="nav-text">{strings.reviews}{this.state.ratingCount && <span>{' '}({this.state.ratingCount})</span>}</div></li>
                             </ul>
                         </Col>
                     </Row>
@@ -240,9 +255,9 @@ export default class Florist extends Component {
                             <Col xs={1} sm={2} className="nav-margin"></Col>
                             <Col xs={11} sm={10} className="nav-margin">
                                 <ul>
-                                    <li onClick={() => this.setState({onTab: 0}, () => {window.scrollTo(0, 0);})}><div className="nav-text">{strings.designs}</div></li>
-                                    <li onClick={() => this.setState({onTab: 1}, () => {window.scrollTo(0, 0);})}><div className="nav-text">{strings.about}</div></li>
-                                    <li className="selected"><div className="nav-text">{strings.reviews}</div></li>
+                                    <li onClick={() => this.setState({onTab: 0}, () => {window.scrollTo(0, 350);})}><div className="nav-text">{strings.designs}</div></li>
+                                    <li onClick={() => this.setState({onTab: 1}, () => {window.scrollTo(0, 350);})}><div className="nav-text">{strings.about}</div></li>
+                                    <li className="selected"><div className="nav-text">{strings.reviews}{this.state.ratingCount && <span>{' '}({this.state.ratingCount})</span>}</div></li>
                                 </ul>
                             </Col>
                         </Row>

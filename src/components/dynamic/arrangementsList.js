@@ -49,7 +49,7 @@ let strings = new LocalizedStrings({
         findDesignsButton: 'Find Designs',
 
         deliveringTo: 'Delivering To:',
-        clearAllButton: 'Clear Filters',
+        clearAllButton: 'Clear',
 
         flower: 'Flower',
         flowerFilter: 'Flower Filter',
