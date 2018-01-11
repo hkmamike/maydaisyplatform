@@ -135,9 +135,9 @@ let strings = new LocalizedStrings({
         sunflowers: ' 太陽花',
         tulips: ' 鬱金香',
         carnations: ' 康乃馨',
-        lisianthus: '洋桔梗:',
-        callalilies: '馬蹄蘭:',
-        gardenroses: '庭園玫瑰:',
+        lisianthus: ' 洋桔梗',
+        callalilies: ' 馬蹄蘭',
+        gardenroses: ' 庭園玫瑰',
         lilies: '百合:',
 
         red: '紅色',
