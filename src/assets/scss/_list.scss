@@ -97,6 +97,7 @@
 
     .category-menu-bar {
         width: 100%;
+        min-height: 45px;
         margin: 0 auto 10px auto;
         padding: 10px 0 10px 0;
         background-color: $darkGrey;
@@ -104,6 +105,7 @@
         justify-content: center;
         @media (max-width: 600px) {
             padding: 5px 0 5px 0;
+            min-height: 35px;
         }
         .facet-category.checked {
             color: white;
