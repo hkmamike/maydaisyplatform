@@ -290,10 +290,10 @@ exports.EmailCustomerOnUpdate = functions.database.ref('/allTransactions/{Floris
     var CusID = event.data.child('uid').val();
     var language = event.data.child('languageChanged').val();
         
-    if (status==='order_received' && orderReceivedEmailSent==='false' && reviewed==='false') {
+    if (status==='order_received' && orderReceivedEmailSent==='false') {
         return sendEmailCustomerOnReceived(email, arrangementCode, arrangementName, deliveryDate, referenceCode, status, floristName, floristCode, language);
     }
-    if (status==='order_fulfilled' && orderFulfilledEmailSent==='false' && reviewed==='false') {
+    if (status==='order_fulfilled' && orderFulfilledEmailSent==='false') {
         return sendEmailCustomerOnFulfilled(email, arrangementCode, arrangementName, deliveryDate, referenceCode, status, floristName, floristCode, language);
     }
 });
