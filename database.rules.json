@@ -29,7 +29,7 @@
 
     "floristRegistration": {
       ".read" : "auth.uid === 'hVEu6IAgBUPuU3MCPWMG1xiqvUB3'",
-      "registration" : {
+      "$registration" : {
         ".write" : "!data.exists() && auth != null || auth.uid === 'hVEu6IAgBUPuU3MCPWMG1xiqvUB3'"
       }
     },
@@ -37,7 +37,7 @@
     "florists": {
       ".read" : true,
       "$florist" : {
-        ".write" : "!data.exists() && auth.token.admin === true  || root.child('users/'+ auth.uid + '/info/shop').val() === $florist",
+        ".write" : "!data.exists() && auth.uid === 'hVEu6IAgBUPuU3MCPWMG1xiqvUB3' || root.child('users/'+ auth.uid + '/info/shop').val() === $florist",
         "reviews" : {
           ".write" : true
         }
@@ -53,8 +53,8 @@
 
     "users": {
       "$uid" : {
-        ".read": "$uid === auth.uid",
-        ".write": "$uid === auth.uid",
+        ".read": "$uid === auth.uid || auth.uid === 'hVEu6IAgBUPuU3MCPWMG1xiqvUB3'",
+        ".write": "$uid === auth.uid || auth.uid === 'hVEu6IAgBUPuU3MCPWMG1xiqvUB3'",
         "transactions" : {
           "$txn" : {
             ".write" : "root.child('users/'+ auth.uid + '/info/shop').val() === data.child('florist').val()"

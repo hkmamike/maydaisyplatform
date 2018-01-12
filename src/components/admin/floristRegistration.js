@@ -14,12 +14,12 @@ class RegistrationDetails extends React.Component {
       registrationDetails: {},
       approvedShopName: '',
       approvedShopCode: '',
+      floristType: ''
       }
   }
 
   componentWillMount () {
       this.fireBaseListenerForRegistrationDetails = firebaseAuth().onAuthStateChanged((user) => {
-          console.log (this.props.selectedRegistration);
           base.fetch(`floristRegistration/${this.props.selectedRegistration}`, {
               context: this,
               then(data) {
@@ -207,7 +207,7 @@ class RegistrationDetails extends React.Component {
                   <Col xs={10} sm={4}>
                     <Button bsStyle="" className="button button-back" onClick={() => this.handleBack()}>Back</Button>
                     {this.state.registrationDetails.status === 'submitted' && 
-                      <Button bsStyle="" className="button button-update" onClick={() => this.handleApprove()}>Aprrove</Button>
+                      <Button bsStyle="" className="button button-update" onClick={() => this.handleApprove()}>Aprove</Button>
                     }
                   </Col>
                 </FormGroup>

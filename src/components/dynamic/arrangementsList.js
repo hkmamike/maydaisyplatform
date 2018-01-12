@@ -14,6 +14,7 @@ import {
     Hits,
     Pagination,
     Configure,
+    Menu,
     ClearAll,
 } from 'react-instantsearch/dom';
 import {
@@ -50,17 +51,13 @@ let strings = new LocalizedStrings({
 
         deliveringTo: 'Delivering To:',
         clearAllButton: 'Clear',
-
         flower: 'Flower',
         flowerFilter: 'Flower Filter',
         color: 'Color',
         colorFilter: 'Color Filter',
-        
         searchPlaceholder: 'design, designer',
-
         priceFilter: 'Price Filter:',
         priceButton: 'Price',
-
         dahlias: ' Dahlias',
         delphinium: ' Delphinium',
         daisies: ' Daisies',
@@ -86,6 +83,12 @@ let strings = new LocalizedStrings({
         yellow: 'Yellow',
         lavender: 'Lavender',
         blue: 'Blue',
+
+        wrappedBouquets: 'Bouquet',
+        arrangements: 'Arrangement',
+        hampers: 'Hamper',
+        driedPreserved: 'Dried',
+        flowerBox: 'Box'
     },
     ch: {
         seeDesignsButton: '確定',
@@ -113,17 +116,13 @@ let strings = new LocalizedStrings({
 
         deliveringTo: '送往:',
         clearAllButton: '重設篩選',
-
         flower: '花種',
         flowerFilter: '花種篩選',
         color: '顏色',
         colorFilter: '顏色篩選',
-
         searchPlaceholder: '設計 / 花藝師',
-
         priceFilter: '價格篩選:',
         priceButton: '價格',
-
         dahlias: ' 大麗花',
         delphinium: ' 翠雀',
         daisies: ' 菊花',
@@ -139,7 +138,6 @@ let strings = new LocalizedStrings({
         callalilies: ' 馬蹄蘭',
         gardenroses: ' 庭園玫瑰',
         lilies: '百合:',
-
         red: '紅色',
         pink: '粉紅色',
         green: '綠色',
@@ -150,6 +148,11 @@ let strings = new LocalizedStrings({
         lavender: '薰衣草色',
         blue: '藍色',
 
+        wrappedBouquets: '花束',
+        arrangements: '插花',
+        hampers: '花籃',
+        driedPreserved: '乾花/保鮮花',
+        flowerBox: '花盒'
     }
 });
 
@@ -172,9 +175,9 @@ const FlowerItem = ({ item, createURL, refine }) => {
         { strings[flower]} ({count})
       </a>
     );
-  };
+};
   
-  const CustomFlowerRefinementList = ({ items, refine, createURL }) =>
+const CustomFlowerRefinementList = ({ items, refine, createURL }) =>
     items.length > 0 ? (
       <div>
         {items.map(item => (
@@ -203,20 +206,53 @@ const ColorItem = ({ item, createURL, refine }) => {
         <i className="fa fa-check" aria-hidden="true"></i>
       </a>
     );
-  };
+};
   
-  const CustomColorRefinementList = ({ items, refine, createURL }) =>
+const CustomColorRefinementList = ({ items, refine, createURL }) =>
     items.length > 0 ? (
-      <div>
+        <div>
         {items.map(item => (
-          <ColorItem
+            <ColorItem
             key={item.label}
             item={item}
             refine={refine}
             createURL={createURL}
-          />
+            />
         ))}
-      </div>
+        </div>
+    ) : null;
+
+const CategoryItem = ({ item, createURL, refine }) => {
+    const active = item.isRefined ? 'checked' : '';
+    const category = item.label;
+    const count = item.count;
+    return (
+        <a
+        className={`${active} facet-category`}
+        href={createURL(item.value)}
+        onClick={e => {
+            e.preventDefault();
+            refine(item.value);
+        }}
+        data-facet-value={item.label}
+        >
+        { strings[category]}
+        </a>
+    );
+};
+
+const CustomCategoriesList = ({ items, refine, createURL }) =>
+    items.length > 0 ? (
+        <div>
+        {items.map(item => (
+            <CategoryItem
+            key={item.label}
+            item={item}
+            refine={refine}
+            createURL={createURL}
+            />
+        ))}
+        </div>
     ) : null;
 
 class PopoverFlower extends Component {
@@ -590,6 +626,12 @@ class Facets extends Component {
         var props = this.props;
         return (
             <div>
+                <div className="category-menu-bar">
+                    <ConnectedCategoriesMenu
+                        attributeName="category"
+                        defaultRefinement="wrappedBouquets"
+                    />
+                </div>
                 <section className="facet-wrapper">
                     <ButtonToolbar className="filter-toolbar">
                         <ClearAll
@@ -904,14 +946,9 @@ export default class ArrangementsList extends Component {
                         operator="or"
                         limitMin={10}
                     />
-
                     <VirtualRange
                         attributeName="price"
                     />
-{/* 
-                    <Menu
-                        attributeName="category"
-                    /> */}
 
                     <div className="content-wrapper">
                         <Facets 
@@ -951,6 +988,7 @@ const VirtualMenu = connectMenu(() => null);
 const VirtualRefinementList = connectRefinementList(() => null);
 const VirtualRange = connectRange(() => null);
 const ConnectedRange = connectRange(PriceRange);
+const ConnectedCategoriesMenu = connectMenu(CustomCategoriesList);
 const ConnectedSearchBox = connectSearchBox(CustomSearchBox);
 const ConnectedSearchBoxSmall = connectSearchBox(CustomSearchBoxSmall);
 const ConnectedColorRefinementList = connectRefinementList(CustomColorRefinementList);

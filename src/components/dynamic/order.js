@@ -632,7 +632,7 @@ export default class Order extends Component {
                                     <ControlLabel>{strings.email}</ControlLabel>
                                     <FormControl className="login-form-field" type="text" value={this.state.email} placeholder={strings.email} onChange={this.handleEmailChange}/>
                                 </FormGroup>
-                                <Button bsStyle="" type="submit" id="login-button" className="button">{strings.proceedAsGuestButton}</Button>
+                                <Button bsStyle="" type="submit" id="guest-order" className="button">{strings.proceedAsGuestButton}</Button>
                                 <div className="order-tips">{strings.proceedAsGuestTip}</div>
                             </form>
                         </Col>

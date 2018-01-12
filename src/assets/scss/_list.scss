@@ -94,6 +94,28 @@
 
 .content-wrapper {
     position: relative;
+
+    .category-menu-bar {
+        width: 100%;
+        margin: 0 auto 10px auto;
+        padding: 10px 0 10px 0;
+        background-color: $darkGrey;
+        display: flex;
+        justify-content: center;
+        .facet-category.checked {
+            color: white;
+        }
+        .facet-category {
+            margin-left: 20px;
+            color: $grey;
+            font-size: 90%;
+            font-weight: bold;
+            @media (max-width: 600px) {
+                margin-left: 8px;
+            }
+        }
+    }
+
     .filter-popup {
         min-height: 100px;
         min-width: 300px;
@@ -181,7 +203,7 @@
 
 .facet-wrapper {
     max-width: 850px;
-    margin: 15px auto 15px auto;
+    margin: 0 auto 10px auto;
     @media (max-width: 768px) {
         margin: 10px auto 5px auto;
     }
@@ -191,6 +213,7 @@
     }
 
     .filter-toolbar {
+        margin-top: 10px;
         margin-left: 10px;
 
         .ais-ClearAll__root {
