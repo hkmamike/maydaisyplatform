@@ -10,9 +10,12 @@
 @import "_photoUpload.scss";
 
 .admin-message {
-    background-color: black;
+    background-color: $darkGrey;
     color: white;
     padding: 5px;
+    @media (max-width: 600px) {
+        font-size: 80%;
+    }
 }
 
 .small-screen-hide {
