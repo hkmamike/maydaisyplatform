@@ -101,7 +101,7 @@ let strings = new LocalizedStrings({
         marketRegionRequired: '*請選擇送貨地區',
         orderNow: '現在下單',
         otherDesigns1: ' ',
-        otherDesigns2: '的其他設計:',
+        otherDesigns2: ' 的其他設計:',
 
         promoCodeButton: '折扣碼 ',
         applyButton: '使用',

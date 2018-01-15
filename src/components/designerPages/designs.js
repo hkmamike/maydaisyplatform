@@ -2263,6 +2263,7 @@ export default class Designs extends Component {
                 seasonality: 'all',
                 city: data.city,
                 featured: 'false',
+                surface: 1,
                 floristType: data.floristType,
                 category: category,
                 occasions: occasions,
