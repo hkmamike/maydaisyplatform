@@ -342,10 +342,11 @@ exports.algoliaUpdate = functions.database.ref('/arrangementsList/{arrangementID
     var updates = {};
     data['objectID'] = arrangementID;
 
-    console.log(data);
+    console.log('current data is:', event.data.current.val());
 
-    updates['/arrangementsList/' + arrangementID + '/random'] = Math.floor(Math.random() * 999) + 1;
-    admin.database().ref().update(updates);
+    //shuffle arrangements, to be effective next time
+    // updates['/arrangementsList/' + arrangementID + '/random'] = Math.floor(Math.random() * 999) + 1;
+    // admin.database().ref().update(updates);
 
     return index.saveObject(data, (err, content) => {
         if (err) throw err
