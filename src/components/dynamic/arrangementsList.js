@@ -149,7 +149,7 @@ let strings = new LocalizedStrings({
         blue: '藍色',
 
         wrappedBouquets: '花束',
-        arrangements: '插花',
+        arrangements: '插花/擺設',
         hampers: '花籃',
         driedPreserved: '乾花/保鮮花',
         flowerBox: '花盒'
@@ -535,7 +535,7 @@ class PriceFilterModal extends React.Component {
                 <Modal.Header closeButton>
                     <Modal.Title><strong>{strings.priceFilter}</strong></Modal.Title>
                 </Modal.Header>
-                <Modal.Body>
+                <Modal.Body className="price-body">
                     <InstantSearch
                         appId="IWC5275GW4"
                         apiKey="24a14549af086c57dc295ac4bc6f5cc5"

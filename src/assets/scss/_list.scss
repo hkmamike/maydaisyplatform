@@ -397,6 +397,9 @@
 
 .modal-content {
     min-height: 120px;
+    .price-body {
+        padding: 30px;
+    }
     .ais-RefinementList__item {
         color: black;
         .ais-RefinementList__itemCount {

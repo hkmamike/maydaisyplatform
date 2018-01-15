@@ -218,7 +218,7 @@ let strings = new LocalizedStrings({
     chooseButton: '選擇',
     wrappedBouquets: '花束',
     hampers: '禮品花籃',
-    arrangements: '插花',
+    arrangements: '插花/擺設',
     congratulatoryStand: '祝賀花牌',
     flowerBox: '花盒',
     driedPreserved: '乾花、保鮮花',

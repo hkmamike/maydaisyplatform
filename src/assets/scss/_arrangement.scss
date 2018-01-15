@@ -139,6 +139,7 @@
         min-height: 50px;
         margin: 0 0 10px 15px;
         font-size: 85%;
+        white-space: pre-wrap;
         @media (max-width: 768px) {
             font-size: 75%;
         }
