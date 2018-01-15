@@ -150,7 +150,7 @@ let strings = new LocalizedStrings({
 
         wrappedBouquets: '花束',
         arrangements: '插花/擺設',
-        hampers: '花籃',
+        hampers: '禮品花籃',
         driedPreserved: '乾花/保鮮花',
         flowerBox: '花盒'
     }

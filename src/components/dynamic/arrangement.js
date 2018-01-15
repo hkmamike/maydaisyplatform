@@ -58,7 +58,9 @@ let strings = new LocalizedStrings({
         promoCodeFailed: 'UhOh, this is not a valid promo code.',
         promoCodeNotApplicable: 'This florist did not specify a discount price for this promo code.',
 
-        substitutionPolicy: "Sometimes, florists' photo represent an overall theme or look and include a one-of-a-kind vase which cannot be exactly replicated. Although the delivered bouquet may not precisely match the photo, its temperament will. Occasionally, substitutions of flowers or containers happen due to weather, seasonality and market conditions which may affect availability. If this is the case with the gift you've selected, the local florist will ensure that the style, theme and color scheme of your arrangement is preserved and will only substitute items of equal or higher value."
+        substitutionPolicy: "Sometimes, florists' photo represent an overall theme or look and include a one-of-a-kind vase which cannot be exactly replicated. Although the delivered bouquet may not precisely match the photo, its temperament will. Occasionally, substitutions of flowers or containers happen due to weather, seasonality and market conditions which may affect availability. If this is the case with the gift you've selected, the local florist will ensure that the style, theme and color scheme of your arrangement is preserved and will only substitute items of equal or higher value.",
+        standardDeliveryPolicy: "Every gift ordered through MayDaisy is personally hand-delivered by the local florist. Each local florist sets their own delivery area, and fee.\n\n Some florists offer same-day hand delivery, and the platform wide cut-off time for same-day delivery is 1 p.m local time at the destination city. Orders received after that time may be delivered the following day.\n\n To request a specific delivery time, please type it into the Delivery Instructions field during checkout. We will do our best to accommodate your preferences. Before major holidays and festive seasons, we recommend that you place your orders at least five days in advance.\n\n",
+        standardDeliveryPolicyPlus: "The following is your florist's own delivery policy:\n\n",
     },
     ch: {
         select_region: '選擇地區',
@@ -110,7 +112,9 @@ let strings = new LocalizedStrings({
         promoCodeNotApplicable: '花匠沒有為這個設計定立折扣價噢。',
 
         substitutionTab: '替代品',
-        substitutionPolicy: "花店的照片代表整體的主題或外觀。在某些情況下，花卉和花瓶不能完全複製。雖然真正的花卉可能不完全符合照片，但主題和外觀會。由於天氣，季節和市場條件可能會影響鮮花的供應，有時花匠會選用替代品。如果您選擇的設計屬於這種情況，花店將確保設計的風格，主題和配色方案得以保留，並且只會選用相同或更高價值的替代品。",
+        substitutionPolicy: "花藝師的照片代表整體的主題或外觀。在某些情況下，花卉或花瓶不能被完全複製。雖然真正的花卉可能不完全符合照片，但它們的主題和外觀會。由於天氣，季節和市場條件可能會影響鮮花的供應，有時花匠會選用替代品。如果您選擇的定購遇到這種情況，花店將確保設計的風格，主題和配色方案得以保留，並且只會選用相同或更高價值的替代品。",
+        standardDeliveryPolicy: "每一件設計貨品都是由您所選的當地花店或花藝師創作和親自送貨的。每一個花店和花藝師都有各自的服務區域和送貨收費。\n\n 有一些花店和花藝師提供當天送貨服務，五月菊的當天送貨截止時間為下午一時。下午一時以後收到的訂單有可能會在下一天送貨。\n\n 如果您想指定送貨時間，請在送貨指示中要求，花匠會在可行情況下盡量配合。在主要節日和假期前，我們建議客人在最少五天前下單。\n\n",
+        standardDeliveryPolicyPlus: "以下為所選花店的送貨條款:\n\n",
     }
 });
 
@@ -365,7 +369,7 @@ export default class Arrangement extends Component {
             });
             firebase.database().ref('arrangementsList')
             .orderByChild('florist')
-            .equalTo(floristID)
+            .equalTo(floristID).limitToFirst(6)
             .once('value', function(snapshot) {
                 snapshot.forEach(function(childSnapshot) {
                     var childKey = childSnapshot.key;
@@ -467,7 +471,15 @@ export default class Arrangement extends Component {
                         <div className="arrangement-info">{this.state.arrangementDescription}</div>
                     }
                     { this.state.deliveryActive &&
-                        <div className="arrangement-info">{this.state.arrangementDeliveryInfo}</div>
+                        <div className="arrangement-info">
+                            <div>{strings.standardDeliveryPolicy}</div>
+                            {this.state.arrangementDeliveryInfo && 
+                                <div className="green">
+                                    <div>{strings.standardDeliveryPolicyPlus}</div>
+                                    <div>{this.state.arrangementDeliveryInfo}</div>
+                                </div>
+                            }
+                        </div>
                     }
                     { this.state.substitutionActive &&
                         <div className="arrangement-info">{strings.substitutionPolicy}</div>
