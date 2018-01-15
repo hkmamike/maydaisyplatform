@@ -2268,7 +2268,7 @@ export default class Designs extends Component {
                 category: category,
                 occasions: occasions,
                 phone: data.phone,
-
+                random: Math.floor(Math.random() * 999) + 1,
             }
           }).then((newLocation) => {
 

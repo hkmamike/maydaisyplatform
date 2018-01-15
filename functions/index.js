@@ -339,9 +339,13 @@ exports.algoliaUpdate = functions.database.ref('/arrangementsList/{arrangementID
     const arrangementID = event.params.arrangementID;
     const data = event.data.val();
     const index = algolia.initIndex('arrangementsList');
+    var updates = {};
     data['objectID'] = arrangementID;
 
     console.log(data);
+
+    updates['/arrangementsList/' + arrangementID + '/random'] = Math.floor(Math.random() * 999) + 1;
+    admin.database().ref().update(updates);
 
     return index.saveObject(data, (err, content) => {
         if (err) throw err
