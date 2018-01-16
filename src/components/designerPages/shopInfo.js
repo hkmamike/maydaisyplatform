@@ -75,6 +75,7 @@ let strings = new LocalizedStrings({
 
     backButton: 'Back',
     updateButton: 'Update',
+    updating: 'Updating...',
 
     open: 'open',
     close: 'close',
@@ -181,6 +182,7 @@ let strings = new LocalizedStrings({
 
     backButton: '返回',
     updateButton: '更新',
+    updating: '更新中...',
 
     open: '營業',
     close: '休息',
@@ -972,6 +974,7 @@ export default class ShopInfo extends Component {
       img: null,
       croppedImg: null,
       cropperOpen: false,
+      updating: false,
     }
   }
 
@@ -1061,6 +1064,7 @@ export default class ShopInfo extends Component {
     this.setState({ instagram: e.target.value });
   }
   handleAccountUpdate = (address, description, leadTime, croppedImg, facebook , instagram, promoCodeA, promoCodeB, deliveryInfo, specialPickUp) => {
+    this.setState({updating: true});
     base.update(`florists/${this.props.designerCode}`, {
       data: {
           address: address,
@@ -1075,11 +1079,11 @@ export default class ShopInfo extends Component {
           specialPickUp: specialPickUp,
       }
     }).then(() => {
-        this.setState({ InfoMessage: `${strings.shopInfoUpdated}`});
+        this.setState({ InfoMessage: `${strings.shopInfoUpdated}`, updating: false});
         window.scrollTo(0, 0);
       }).catch(err => {
         console.log('An error occured when updating shop information.');
-        this.setState({ InfoMessage: `${strings.errorOccured}`});
+        this.setState({ InfoMessage: `${strings.errorOccured}`, updating: false});
       });
   };
 
@@ -1311,7 +1315,9 @@ export default class ShopInfo extends Component {
               <Row className="show-grid">
                 <FormGroup>
                   <Col xs={10} xsPush={2} smPush={5} mdPush={6}>
-                    <Button bsStyle="" className="button" onClick={() => this.handleAccountUpdate(address, description, leadTime, croppedImg, facebook, instagram, promoCodeA, promoCodeB, deliveryInfo, specialPickUp)}>{strings.updateButton}</Button>
+                    {!this.state.updating && <Button bsStyle="" className="button" onClick={() => this.handleAccountUpdate(address, description, leadTime, croppedImg, facebook, instagram, promoCodeA, promoCodeB, deliveryInfo, specialPickUp)}>{strings.updateButton}</Button>
+                    }
+                    {this.state.updating && <Button bsStyle="" className="button disabled">{strings.updating}</Button>}
                   </Col>
                 </FormGroup>
               </Row>
