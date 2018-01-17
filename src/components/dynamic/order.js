@@ -1310,7 +1310,7 @@ export default class Order extends Component {
                         <Row className="show-grid">
                             <Col sm={5}></Col>
                             <Col sm={4}>
-                                <Button bsStyle="" className="button-new-sub button-back"><Link to="/orderhistory">{strings.orderHistoryButton}</Link></Button>
+                                <Button bsStyle="" className="button-new-sub button-back"><Link to="/auth/orderhistory">{strings.orderHistoryButton}</Link></Button>
                             </Col>
                         </Row>
                     }

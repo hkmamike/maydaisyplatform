@@ -22,11 +22,11 @@ let strings = new LocalizedStrings({
   });
 
 const ButtonToLogin = ({ title, history }) => (
-    <Button bsStyle="" className="button" onClick={() => history.push('/login')}>{strings.login}</Button>
+    <Button bsStyle="" className="button" onClick={() => history.push('/auth/login')}>{strings.login}</Button>
 );
 
 const ButtonToAccount = ({ title, history }) => (
-    <Button bsStyle="" className="button" onClick={() => history.push('/orderhistory')}>{strings.accountButton}</Button>
+    <Button bsStyle="" className="button" onClick={() => history.push('/auth/orderhistory')}>{strings.accountButton}</Button>
 );
 
 export default class Header extends Component {

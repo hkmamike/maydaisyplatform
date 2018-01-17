@@ -244,9 +244,9 @@ export default class Arrangement extends Component {
     handleOrder = (floristID, arrangement, promoCode) => {
         if (this.props.deliveryDate && this.props.marketRegion !== 'select_region') {
             if (promoCode.length>0) {
-                this.props.history.push(`/order/${floristID}/${arrangement}/${promoCode}`);
+                this.props.history.push(`/auth/order/${floristID}/${arrangement}/${promoCode}`);
             } else {
-                this.props.history.push(`/order/${floristID}/${arrangement}`);
+                this.props.history.push(`/auth/order/${floristID}/${arrangement}`);
             }
         }
         else {

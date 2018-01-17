@@ -298,11 +298,11 @@ let strings = new LocalizedStrings({
 });
 
 const ButtonToShop = ({ title, history }) => (
-  <Button bsStyle="" className="head-button-teal" onClick={() => history.push('/ordersdashboard')}>{strings.buttonToShop}</Button>
+  <Button bsStyle="" className="head-button-teal" onClick={() => history.push('/auth/ordersdashboard')}>{strings.buttonToShop}</Button>
 );
 
 const ButtonToAccount = ({ title, history }) => (
-  <Button bsStyle="" className="head-button-white" onClick={() => history.push('/orderhistory')}>{strings.buttonToAccount}</Button>
+  <Button bsStyle="" className="head-button-white" onClick={() => history.push('/auth/orderhistory')}>{strings.buttonToAccount}</Button>
 );
 
 class SubmitButton extends React.Component {
@@ -954,19 +954,19 @@ export default class OrdersDashboard extends Component {
         <div>
           <Row className="show-grid loggedin-nav">
             <Col xs={4} className="loggedin-nav-button">
-              <Link to="/ordersdashboard" className="nav-selected">
+              <Link to="/auth/ordersdashboard" className="nav-selected">
                 <i className="fa fa-book fa-lg nav-icon"></i>
                 <div className="nav-icon-title">{strings.ordersDashboard1}<br/>{strings.ordersDashboard2}</div>
               </Link>
             </Col>
             <Col xs={4} className="loggedin-nav-button">
-              <Link to="/designs">
+              <Link to="/auth/designs">
                 <i className="fa fa-star fa-lg nav-icon"></i>
                 <div className="nav-icon-title">{strings.designs1}<br/>{strings.designs2}</div>
               </Link>
             </Col>
             <Col xs={4} className="loggedin-nav-button">
-              <Link to="/shopinfo">
+              <Link to="/auth/shopinfo">
                 <i className="fa fa-home fa-lg nav-icon"></i>
                 <div className="nav-icon-title">{strings.shopInformation1}<br/>{strings.shopInformation2}</div>
               </Link>

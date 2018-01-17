@@ -109,7 +109,7 @@ export default class DesignerLogin extends Component {
                   <Button bsStyle="" type="submit" className="button">{strings.loginButton}</Button>
                   <div className="link-group">
                     <a onClick={this.resetPassword} className="alert-link link-forgot-pw">{strings.forgotPW}</a>
-                    <Link to="/register" className="link-create-account">{strings.createAccount}</Link>
+                    <Link to="/auth/register" className="link-create-account">{strings.createAccount}</Link>
                   </div>
                 </form>
 

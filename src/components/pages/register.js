@@ -111,7 +111,7 @@ export default class Register extends Component {
 
                   <Button bsStyle="" type="submit" className="button">{strings.createAccountButton}</Button>
                   <div className="link-group-register">
-                    <Link to="/login" className="link-login">{strings.haveAccount}</Link>
+                    <Link to="/auth/login" className="link-login">{strings.haveAccount}</Link>
                   </div>
                 </form>
             </Col>

@@ -12,7 +12,6 @@ import AdminMessage from './components/headerComponents/adminMessage';
 import Header from './components/headerComponents/header';
 import Footer from './components/footerComponents/footer';
 import Homepage from './components/pages/homePage';
-import SignUps from './components/pages/signUps';
 
 //text pages
 import PrivacyPolicy from './components/textPages/privacyPolicy'
@@ -53,7 +52,7 @@ function AdminRoute ({component: Component, authed, languageChanged, ...rest}) {
   return (
     <Route {...rest} render={(props) => authed === false? 
         <Component {...props} languageChanged={languageChanged}/>
-        : <Redirect to='/admin-florists' />}
+        : <Redirect to='/auth/admin-florists' />}
     />
   )
 }
@@ -62,7 +61,7 @@ function AdminPage ({component: Component, authed, ...rest}) {
   return (
     <Route {...rest} render={(props) => authed === true? 
         <Component {...props}/>
-        : <Redirect to='/admin-login'/>}
+        : <Redirect to='/auth/admin-login'/>}
     />
   )
 }
@@ -71,7 +70,7 @@ function PrivateRoute ({component: Component, authed, languageChanged, designerC
   return (
     <Route {...rest} render={(props) => authed === true? 
         <Component {...props} designerCode={designerCode} languageChanged={languageChanged}/>
-        : <Redirect to={{pathname: '/login', state: {from: props.location}}} />}
+        : <Redirect to={{pathname: '/auth/login', state: {from: props.location}}} />}
     />
   )
 }
@@ -80,7 +79,7 @@ function PublicRoute ({component: Component, isDesigner, authed, languageChanged
   return (
     <Route {...rest} render={(props) => authed === false?
         <Component {...props} languageChanged={languageChanged}/>
-        : (isDesigner? <Redirect to='/ordersdashboard'/> : <Redirect to='/orderhistory'/>) }
+        : (isDesigner? <Redirect to='/auth/ordersdashboard'/> : <Redirect to='/auth/orderhistory'/>) }
     />
   )
 }
@@ -89,7 +88,7 @@ function FloristRegisterRoute ({component: Component, authed, languageChanged, .
   return (
     <Route {...rest} render={(props) => authed === false?
         <Component {...props} languageChanged={languageChanged}/>
-        : <Redirect to='/ordersdashboard'/>}
+        : <Redirect to='/auth/ordersdashboard'/>}
     />
   )
 }
@@ -217,15 +216,15 @@ export default class App extends Component {
           <Switch>
             <Route path='/' exact render={(props) => (<Homepage {...props} marketRegion={marketRegion} onMarketRegionSelect={this.handleMarketRegionSelect} languageChanged={this.state.languageChanged}/>)}/>
           
-            <PublicRoute authed={this.state.authed} isDesigner={this.state.isDesigner} path='/login' component={Login} languageChanged={this.state.languageChanged}/>
-            <PublicRoute authed={this.state.authed} isDesigner={this.state.isDesigner} path='/register' component={Register} languageChanged={this.state.languageChanged}/>
+            <PublicRoute authed={this.state.authed} isDesigner={this.state.isDesigner} path='/auth/login' component={Login} languageChanged={this.state.languageChanged}/>
+            <PublicRoute authed={this.state.authed} isDesigner={this.state.isDesigner} path='/auth/register' component={Register} languageChanged={this.state.languageChanged}/>
 
-            <FloristRegisterRoute authed={this.state.authed} path='/artist-registration-login' component={Login} languageChanged={this.state.languageChanged}/>
-            <FloristRegisterRoute authed={this.state.authed} path='/artist-registration-register' component={Register} languageChanged={this.state.languageChanged}/>
+            <FloristRegisterRoute authed={this.state.authed} path='/auth/artist-registration-login' component={Login} languageChanged={this.state.languageChanged}/>
+            <FloristRegisterRoute authed={this.state.authed} path='/auth/artist-registration-register' component={Register} languageChanged={this.state.languageChanged}/>
 
-            <AdminRoute authed={this.state.authed} path='/admin-login' component={Login} languageChanged={this.state.languageChanged}/>
-            <AdminPage authed={this.state.authed} path='/admin-registration' component ={FloristRegistration}/>
-            <AdminPage authed={this.state.authed} path='/admin-florists' component ={FloristsDashboard}/>
+            <AdminRoute authed={this.state.authed} path='/auth/admin-login' component={Login} languageChanged={this.state.languageChanged}/>
+            <AdminPage authed={this.state.authed} path='/auth/admin-registration' component ={FloristRegistration}/>
+            <AdminPage authed={this.state.authed} path='/auth/admin-florists' component ={FloristsDashboard}/>
 
             <Route path='/arrangements/:marketRegion?' exact render={(props) => (<ArrangementsList {...props} 
               languageChanged={this.state.languageChanged}
@@ -244,7 +243,7 @@ export default class App extends Component {
               />)}
             />
 
-            <Route path='/order/:floristID/:arrangement/:promoCode?' exact render={(props) => (<Order {...props} 
+            <Route path='/auth/order/:floristID/:arrangement/:promoCode?' exact render={(props) => (<Order {...props} 
               languageChanged={this.state.languageChanged}
               deliveryDate={this.state.deliveryDate}
               marketRegion={this.state.marketRegion}
@@ -258,17 +257,13 @@ export default class App extends Component {
             <Route path='/career' exact render={(props) => (<Career {...props} languageChanged={this.state.languageChanged}/>)}/>
             <Route path='/about' exact render={(props) => (<About {...props} languageChanged={this.state.languageChanged}/>)}/>
 
+            <PrivateRoute authed={this.state.authed} path='/auth/orderhistory' component={OrderHistory} languageChanged={this.state.languageChanged}/>
+            <PrivateRoute authed={this.state.authed} path='/auth/addressbook' component={AddressBook} languageChanged={this.state.languageChanged}/>
+            <PrivateRoute authed={this.state.authed} path='/auth/userinfo' component={MarketAccountInfo} languageChanged={this.state.languageChanged}/>
 
-            <Route path='/signups' exact render={(props) => (<SignUps {...props} selectRegion={selectRegion} onRegionSelection={this.handleRegionSelection} languageChanged={this.state.languageChanged}/>)}/>
-
-
-            <PrivateRoute authed={this.state.authed} path='/orderhistory' component={OrderHistory} languageChanged={this.state.languageChanged}/>
-            <PrivateRoute authed={this.state.authed} path='/addressbook' component={AddressBook} languageChanged={this.state.languageChanged}/>
-            <PrivateRoute authed={this.state.authed} path='/userinfo' component={MarketAccountInfo} languageChanged={this.state.languageChanged}/>
-
-            <PrivateRoute authed={this.state.authed} path='/ordersdashboard' component={OrdersDashboard} designerCode={this.state.designerCode} onCreateShop={this.handleCreateShop} languageChanged={this.state.languageChanged}/>
-            <PrivateRoute authed={this.state.authed} path='/designs' component={Designs} designerCode={this.state.designerCode} languageChanged={this.state.languageChanged}/>
-            <PrivateRoute authed={this.state.authed} path='/shopinfo' component={ShopInfo} designerCode={this.state.designerCode} languageChanged={this.state.languageChanged}/>
+            <PrivateRoute authed={this.state.authed} path='/auth/ordersdashboard' component={OrdersDashboard} designerCode={this.state.designerCode} onCreateShop={this.handleCreateShop} languageChanged={this.state.languageChanged}/>
+            <PrivateRoute authed={this.state.authed} path='/auth/designs' component={Designs} designerCode={this.state.designerCode} languageChanged={this.state.languageChanged}/>
+            <PrivateRoute authed={this.state.authed} path='/auth/shopinfo' component={ShopInfo} designerCode={this.state.designerCode} languageChanged={this.state.languageChanged}/>
 
             <Route render={() => <h3>Uhoh...we couldn't find your page</h3>} />
 

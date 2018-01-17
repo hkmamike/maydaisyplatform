@@ -131,11 +131,11 @@ let strings = new LocalizedStrings({
 });
 
 const ButtonToShop = ({ title, history }) => (
-  <Button bsStyle="" className="head-button-white" onClick={() => history.push('/ordersdashboard')}>{strings.buttonToShop}</Button>
+  <Button bsStyle="" className="head-button-white" onClick={() => history.push('/auth/ordersdashboard')}>{strings.buttonToShop}</Button>
 );
 
 const ButtonToAccount = ({ title, history }) => (
-  <Button bsStyle="" className="head-button-teal" onClick={() => history.push('/orderhistory')}>{strings.buttonToAccount}</Button>
+  <Button bsStyle="" className="head-button-teal" onClick={() => history.push('/auth/orderhistory')}>{strings.buttonToAccount}</Button>
 );
 
 const ButtonToMarket = ({ title, history }) => (
@@ -608,19 +608,19 @@ export default class OrderHistory extends Component {
           </Row>
           <Row className="show-grid loggedin-nav">
             <Col xs={4} className="loggedin-nav-button">
-              <Link to="/orderhistory" className="nav-selected">
+              <Link to="/auth/orderhistory" className="nav-selected">
                 <i className="fa fa-tags fa-lg nav-icon"></i>
                 <div className="nav-icon-title">{strings.orderHistory1}<br/>{strings.orderHistory2}</div>
               </Link>
             </Col>
             <Col xs={4} className="loggedin-nav-button">
-              <Link to="/addressbook">
+              <Link to="/auth/addressbook">
                 <i className="fa fa-plus fa-lg nav-icon"></i>
                 <div className="nav-icon-title">{strings.addressBook1}<br/>{strings.addressBook2}</div>
               </Link>
             </Col>
             <Col xs={4} className="loggedin-nav-button">
-              <Link to="/userinfo">
+              <Link to="/auth/userinfo">
                 <i className="fa fa-user-circle fa-lg nav-icon"></i>
                 <div className="nav-icon-title">{strings.accountInformation1}<br/>{strings.accountInformation2}</div>
               </Link>
