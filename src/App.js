@@ -205,7 +205,6 @@ export default class App extends Component {
 
   render() {
     const marketRegion = this.state.marketRegion;
-    const selectRegion = this.state.selectRegion;
 
     return (
       <BrowserRouter>
