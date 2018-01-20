@@ -14,7 +14,6 @@ import {
     Hits,
     Pagination,
     Configure,
-    Menu,
     ClearAll,
 } from 'react-instantsearch/dom';
 import {
@@ -69,10 +68,10 @@ let strings = new LocalizedStrings({
         sunflowers: ' Sun Flowers',
         tulips: ' Tulips',
         carnations: ' Carnations',
-        lisianthus: 'Lisianthus:',
-        callalilies: 'Calla Lilies:',
-        gardenroses: 'Garden Roses:',
-        lilies: 'lilies:',
+        lisianthus: ' Lisianthus:',
+        callalilies: ' Calla Lilies:',
+        gardenroses: ' Garden Roses:',
+        lilies: ' Lilies:',
 
         red: 'Red',
         pink: 'Pink',
@@ -225,7 +224,6 @@ const CustomColorRefinementList = ({ items, refine, createURL }) =>
 const CategoryItem = ({ item, createURL, refine }) => {
     const active = item.isRefined ? 'checked' : '';
     const category = item.label;
-    const count = item.count;
     return (
         <a
         className={`${active} facet-category`}

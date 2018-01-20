@@ -325,7 +325,6 @@ export default class Arrangement extends Component {
         } else {
             if (day.diff(moment(), 'hours') < (arrangementDeliveryLeadTime*24-23)) {
                 leadTimeFail = true;
-                console.log('diff is' , day.diff(moment(), 'days'), ', and day is: ', day);
             }
         }
 
