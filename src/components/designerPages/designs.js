@@ -105,7 +105,7 @@ let strings = new LocalizedStrings({
     chooseButton: 'Choose',
 
     wrappedBouquets: 'Wrapped Bouquets',
-    hampers: 'Hampers',
+    hampers: 'Hamper/Gift',
     arrangements: 'Arrangements',
     congratulatoryStand: 'Congratulatory Stand',
     flowerBox: 'Flower Boxes',
@@ -1959,7 +1959,6 @@ class NewDesign extends React.Component {
                           <MenuItem eventKey="hampers">{strings.hampers}</MenuItem>
                           <MenuItem eventKey="arrangements">{strings.arrangements}</MenuItem>
                           <MenuItem eventKey="congratulatoryStand">{strings.congratulatoryStand}</MenuItem>
-                          <MenuItem eventKey="flowerBox">{strings.flowerBox}</MenuItem>
                           <MenuItem eventKey="driedPreserved">{strings.driedPreserved}</MenuItem>
                         </DropdownButton>
                         <FormControl.Feedback/>

@@ -7,10 +7,10 @@ import LocalizedStrings from 'react-localization';
 
 let strings = new LocalizedStrings({
   en:{
-    subscribeButton: 'Subscribe',
+    subscribeButton: 'Place Order',
     checkOutName: 'MayDaisy',
     checkOutDescription: 'Flower Purchase',
-    checkOutLabel: 'Subscribe'
+    checkOutLabel: 'Place Order'
 
   },
   ch: {

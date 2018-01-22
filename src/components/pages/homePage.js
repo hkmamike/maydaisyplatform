@@ -7,10 +7,9 @@ import LocalizedStrings from 'react-localization';
 let strings = new LocalizedStrings({
     en:{
       signUp: 'Sign Up',
-      homeImgTitle: 'Shop directly from classy flower shops and independent floral artists.',
+      homeImgTitle: 'Shop directly from emerging flower shops and independent floral artists.',
       homeImgSubtitle: 'Where are the flowers going?',
-      go: 'Go',
-
+      go: 'Go to Market',
       select_region: 'Select Region',
       HK_CentralWestern: 'Central & Western',
       HK_Eastern: 'Eastern',
@@ -30,22 +29,16 @@ let strings = new LocalizedStrings({
       NT_TsuenWan: 'Tsuen Wan',
       NT_TuenMun: 'Tuen Mun',
       NT_YuenLong: 'Yuen Long',
-
       howItWorks1: 'Why ',
       howItWorks2: 'MayDaisy?',
       howItWorks3: ' ',
-      howItWorks4: 'FLOWER MARKETPLACE',
-
+      howItWorks4: ' ',
       flowerShop: 'Flower Shops',
       flowerShopText: "Find all the classiest flower shops in our marketplace, reference reviews to see how others' experience went.",
-
       artist: 'Independent Artists',
-      artistText: "If you are not ordering last minute, consider buying from our independent floral artists for their distinctive styles.",
-      
+      artistText: "If planning ahead for special occasions, consider buying from our independent floral artists for their distinctive styles.",
       trustAndConvenience: 'Trust and Convenience',
       trustAndConvenienceText: 'We hold our florists to a high artistic and customer service standard; Shopping with us is convient with our quick checkout features and our detailed purchase log.',
-      
-      
       aboutUs1: 'About',
       aboutUs2: 'MayDaisy',
       aboutUsText: "MayDaisy is a marketplace and community to connect customers with great florists in their city. By bringing the best florists together in one place, we can focus resources on your flowers and spend less on reaching you. MayDaisy also provides a channel for established and emerging independent floral artists to reach a broader audience. Independent artists do not operate a flower shop full time, but they offer dinstinctive styles that cannot be found anywhere else!", 
@@ -57,7 +50,6 @@ let strings = new LocalizedStrings({
       homeImgTitle: '鮮花市集，一網搜盡最潮最優雅的花店和獨立花藝師。',
       homeImgSubtitle: '花卉送往哪裏?',
       go: '去市集',
-
       select_region: '選擇地區',
       HK_CentralWestern: '中西區',
       HK_Eastern: '東區',
@@ -77,22 +69,16 @@ let strings = new LocalizedStrings({
       NT_TsuenWan: '荃灣區',
       NT_TuenMun: '屯門區',
       NT_YuenLong: '元朗區',
-
       howItWorks1: '為什麼用',
       howItWorks2: '五月菊',
       howItWorks3: ' ',
       howItWorks4: '一站式鮮花市集',
-
       flowerShop: '大小花店',
       flowerShopText: '一個市集看盡最潮最優雅的花店。看看評論令您對您的選擇更有信心。',
-
       artist: '獨立花藝師',
       artistText: '如果您是預早下單，可以考慮獨立花藝師們獨特風格的藝術花卉。',
-
       trustAndConvenience: '方便安心',
       trustAndConvenienceText: '我們對花店和花藝師們有極高的顧客服務和藝術上的要求; 詳盡購買記錄和快速下單功能令您的購物體驗更暢快。',
-
-
       aboutUs1: '關於',
       aboutUs2: '五月菊',
       aboutUsText: '五月菊是由花藝師們建立的一站式鮮花市集和花藝社群，我們的目標是為客人找到最好最適合他們的花卉設計。鮮花市集的模式令我們可以減低在市場推廣上花費的時間和資源，更集中的為您創造鮮花經驗。',
@@ -133,6 +119,11 @@ export default class Homepage extends Component {
 
   componentWillMount() {
     strings.setLanguage(this.props.languageChanged);
+    this.props.goHomePage();
+  }
+
+  componentWillUnmount() {
+    this.props.leaveHomePage();
   }
 
   render() {

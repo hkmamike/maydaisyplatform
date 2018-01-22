@@ -105,8 +105,16 @@ export default class App extends Component {
       loading: true,
       languageChanged: 'ch',
       marketRegion: 'select_region',
-      // deliveryDate: 1
+      onHomePage: false,
     }
+  }
+
+  goHomePage = () => {
+    this.setState({onHomePage: true});
+  }
+
+  leaveHomePage = () => {
+    this.setState({onHomePage: false});
   }
 
   handleMarketRegionSelect(region) {
@@ -205,16 +213,30 @@ export default class App extends Component {
 
   render() {
     const marketRegion = this.state.marketRegion;
+    const onHomePage = this.state.onHomePage
+    // var currentPath = window.location.pathname;
+
+    // console.log('this props is : ', currentPath);
+    
+    //for Google to load sitemap, not sure if needed
+    const reload = () => window.location.reload();
 
     return (
       <BrowserRouter>
         <div className="App">
           <AdminMessage languageChanged={this.state.languageChanged}/>
-          <Header authed={this.state.authed} languageChanged={this.state.languageChanged} onLanguageToggle={this.handleLanguageToggle}/>
+          <Header authed={this.state.authed} languageChanged={this.state.languageChanged} onLanguageToggle={this.handleLanguageToggle} onHomePage={onHomePage}/>
 
           <Switch>
-            <Route path='/' exact render={(props) => (<Homepage {...props} marketRegion={marketRegion} onMarketRegionSelect={this.handleMarketRegionSelect} languageChanged={this.state.languageChanged}/>)}/>
-          
+
+            {/*for Google to load sitemap, not sure if needed */}
+            <Route path="/sitemap-0.xml" onEnter={reload} />
+
+            <Redirect exact from='/' to='/home-ch' />
+            <Route path='/home-ch' exact render={(props) => (<Homepage {...props} marketRegion={marketRegion} onMarketRegionSelect={this.handleMarketRegionSelect} languageChanged={'ch'} onHomePage={onHomePage} goHomePage={this.goHomePage} leaveHomePage={this.leaveHomePage}/>)}/>
+            <Route path='/home-en' exact render={(props) => (<Homepage {...props} marketRegion={marketRegion} onMarketRegionSelect={this.handleMarketRegionSelect} languageChanged={'en'} onHomePage={onHomePage} goHomePage={this.goHomePage} leaveHomePage={this.leaveHomePage}/>)}/>
+
+
             <PublicRoute authed={this.state.authed} isDesigner={this.state.isDesigner} path='/auth/login' component={Login} languageChanged={this.state.languageChanged}/>
             <PublicRoute authed={this.state.authed} isDesigner={this.state.isDesigner} path='/auth/register' component={Register} languageChanged={this.state.languageChanged}/>
 

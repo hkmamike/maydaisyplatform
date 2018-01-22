@@ -10,7 +10,7 @@ let strings = new LocalizedStrings({
       pageTitle: 'About MayDaisy',
       lastUpdated: 'Last Updated: December 12, 2017',
       q1: 'What is MayDaisy? :',
-      a1: "MayDaisy is a marketplace and community to connect customers with great florists in their city. By bringing the best florists together in one place, we can focus resources on your flowers and spend less on reaching you. MayDaisy also provides a channel for established and emerging independent floral artists to reach a broader audience. Independent artists do not operate a flower shop full time, but they offer dinstinctive styles that cannot be found anywhere else!",
+      a1: "MayDaisy is a marketplace and community to connect customers with great florists in their city. By bringing the best florists together in one place, we can focus resources on your flowers and spend less on marketing. MayDaisy also provides a channel for established and emerging independent floral artists to reach a broader audience. Independent artists do not operate a flower shop full time, but they offer dinstinctive styles that cannot be found anywhere else!",
     },
     ch: {
       returnHome: '返回主頁',

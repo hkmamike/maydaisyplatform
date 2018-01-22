@@ -15,7 +15,7 @@ let strings = new LocalizedStrings({
         q2: 'You only accept credit card, is it safe?',
         a2: "MayDaisy's payment processing partner is Stripe. Stripe is the world's top payment processing technology company that is trusted by thousands of public companies. We do not save your credit card details on our server.",
         q3: 'Where can my customers write reviews for me?',
-        a3: "Only customers with verified purchases can write reviews. Once an order is placed, the customer can write a review for you in his/her 'Order History' tab after logging in.",
+        a3: "Only customers with verified purchases can write reviews. Once an order is placed, the customer can write a review for you in their 'Order History' tab after logging in.",
         q4: "Is same day delivery possible?",
         a4: "Some flower shops cater for same day delivery. Across the MayDaisy platform, the standard cut off time for sameday delivery is 1 p.m. HKT",
     },

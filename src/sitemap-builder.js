@@ -4,8 +4,8 @@ require('babel-register') ({
 	presets: [ 'es2015', "react" ],
 });
 
-const router = require('./router').default;
-const Sitemap = require('../../node_modules/react-router-sitemap/index.es5.js').default;
+const router = require('./urlStructure').default;
+const Sitemap = require('../node_modules/react-router-sitemap/index.es5.js').default;
 const firebase = require('firebase');
 
 
@@ -88,7 +88,7 @@ database.ref('/florists').once('value', florists => {
 			.applyParams(paramsConfig)
 			.build('https://maydaisy.com', { limitCountPaths: 5000 })
 			// .save('./sitemap.xml', '/static/')
-			.save('./sitemap.xml')
+			.save('../public/sitemap.xml')
 	);	
 
 });

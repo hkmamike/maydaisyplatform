@@ -29,6 +29,14 @@ const ButtonToAccount = ({ title, history }) => (
     <Button bsStyle="" className="button" onClick={() => history.push('/auth/orderhistory')}>{strings.accountButton}</Button>
 );
 
+const ButtonToEn = ({ title, history }) => (
+    <Button bsStyle="" className="button" onClick={() => history.push('/home-en')}>Eng</Button>
+);
+
+const ButtonToCh = ({ title, history }) => (
+    <Button bsStyle="" className="button" onClick={() => history.push('/home-ch')}>中文</Button>
+);
+
 export default class Header extends Component {
 
     constructor() {
@@ -54,6 +62,9 @@ export default class Header extends Component {
     }
 
     render() {
+
+        var currentPath = window.location.pathname;
+
         return (
         <header>
 
@@ -63,9 +74,15 @@ export default class Header extends Component {
 
             <nav>
                 <ul>
-                    <li>
+                    {(this.props.onHomePage && currentPath.includes('home-ch')) && <li>
+                        <Route path="/" render={(props) => <ButtonToEn {...props}/>} />
+                    </li>}
+                    {(this.props.onHomePage && currentPath.includes('home-en')) && <li>
+                        <Route path="/" render={(props) => <ButtonToCh {...props}/>} />
+                    </li>}
+                    {!this.props.onHomePage && <li>
                         <Button bsStyle="" onClick={() => {this.handleLanguageToggle()}} className="button">{strings.languageButton}</Button>
-                    </li>
+                    </li>}
                     <li>
                         {this.props.authed?
                         <span>

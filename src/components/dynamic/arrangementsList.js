@@ -83,9 +83,9 @@ let strings = new LocalizedStrings({
         lavender: 'Lavender',
         blue: 'Blue',
 
-        wrappedBouquets: 'Bouquet',
-        arrangements: 'Arrangement',
-        hampers: 'Hamper',
+        wrappedBouquets: 'Bouquets',
+        arrangements: 'Arrangements',
+        hampers: 'Hampers/Gifts',
         driedPreserved: 'Dried',
         flowerBox: 'Box'
     },
