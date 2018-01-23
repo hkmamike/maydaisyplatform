@@ -124,7 +124,7 @@ let strings = new LocalizedStrings({
     floristRevenueMin: 'Min Revenue:',
     orderMonth: 'Month:',
 
-    termsTip1: '*By clicking "Place Order" below, you confirm that you have viewed and accept our ',
+    termsTip1: '*By clicking "Submit" below, you confirm that you have viewed and accept our ',
     termsTip2: 'Terms of Services',
     termsTip3: '.',
   },
@@ -246,7 +246,7 @@ let strings = new LocalizedStrings({
     floristRevenueMin: '最低收益:',
     orderMonth: '結算月:',
 
-    termsTip1: '*如您繼續並按下"訂購"，您確認您已經閱讀並同意接受我們的',
+    termsTip1: '*如您繼續並按下"遞交"，您確認您已經閱讀並同意接受我們的',
     termsTip2: '服務條款',
     termsTip3: '。',
   }
