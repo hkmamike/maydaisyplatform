@@ -880,7 +880,7 @@ export default class ArrangementsList extends Component {
     render() {
         var chosenCategory;
         
-        if (this.props.match.params.marketRegion) {
+        if (this.props.match.params.chosenCategory) {
             chosenCategory = this.props.match.params.chosenCategory;
         } else {
             chosenCategory = 'wrappedBouquets';

@@ -140,8 +140,8 @@ export default class Homepage extends Component {
         <MetaTags>
           <title>{strings.metaTitle}</title>
           <meta name="description" content={strings.metaDescription} />
-          <link rel="alternate" hreflang="en" href="https://maydaisy.com/home-en"/>
-          <link rel="alternate" hreflang="zh-Hant" href="https://maydaisy.com/home-zh"/>
+          <link rel="alternate" hrefLang="en" href="https://maydaisy.com/home-en"/>
+          <link rel="alternate" hrefLang="zh-Hant" href="https://maydaisy.com/home-zh"/>
         </MetaTags>
         
         <div className="home-image-container">
