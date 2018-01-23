@@ -4,6 +4,7 @@ import { Col } from 'react-bootstrap';
 import { Link, Route } from 'react-router-dom';
 import LocalizedStrings from 'react-localization';
 import { Button, Overlay, ButtonToolbar, DropdownButton, MenuItem, Modal } from 'react-bootstrap';
+import MetaTags from 'react-meta-tags';
 
 import Slider, { Range } from 'rc-slider';
 // import Tooltip from 'rc-tooltip';
@@ -230,6 +231,7 @@ const CategoryItem = ({ item, createURL, refine, marketRegion, props }) => {
             onClick={e => {
                 e.preventDefault();
                 props.history.push(`/arrangements/category/${category}/region/${marketRegion}`);
+                refine(item.value);
             }}
         >
             {strings[category]}
@@ -910,7 +912,7 @@ export default class ArrangementsList extends Component {
         }
         var marketRegion = this.props.match.params.marketRegion;
         var marketRegionMod;
-        if (marketRegion ==='select_region') {
+        if (marketRegion ==='select_region' || typeof marketRegion === 'undefined') {
             marketRegionMod = '';
         } else {
             marketRegionMod = marketRegion;
@@ -918,6 +920,13 @@ export default class ArrangementsList extends Component {
 
         return (
             <div className="no-padding">
+
+                <MetaTags>
+                    <title>{strings.metaTitle}</title>
+                    <meta name="description" content={strings.metaDescription} />
+                    <link rel="alternate" hrefLang="x-default" href="https://maydaisy.com/home-en"/>
+                </MetaTags>
+
                 <div className="list-banner">
                     {(!this.state.showRegionSelect && typeof marketRegion !== 'undefined') &&
                         <span>
@@ -981,7 +990,7 @@ export default class ArrangementsList extends Component {
                     <div className="content-wrapper">
                         <Facets 
                             chosenCategory={chosenCategory}
-                            marketRegion={marketRegion}
+                            marketRegion={marketRegionMod}
                             searchState={this.state.searchState}
                             onSearchStateChange={this.onSearchStateChange}
                             flowerFilterShow={this.state.flowerFilterShow}
