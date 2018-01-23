@@ -221,33 +221,46 @@ const CustomColorRefinementList = ({ items, refine, createURL }) =>
         </div>
     ) : null;
 
-const CategoryItem = ({ item, createURL, refine }) => {
+const CategoryItem = ({ item, createURL, refine, marketRegion, props }) => {
     const active = item.isRefined ? 'checked' : '';
     const category = item.label;
+
     return (
-        <a
-        className={`${active} facet-category`}
-        href={createURL(item.value)}
-        onClick={e => {
-            e.preventDefault();
-            refine(item.value);
-        }}
-        data-facet-value={item.label}
+        <a  className={`${active} facet-category`}
+            onClick={e => {
+                e.preventDefault();
+                props.history.push(`/arrangements/category/${category}/region/${marketRegion}`);
+            }}
         >
-        { strings[category]}
+            {strings[category]}
         </a>
+
+        // old version, leaving here because don't understand, can delete later
+        // <a
+        //     className={`${active} facet-category`}
+        //     href={createURL(item.value)}
+        //     onClick={e => {
+        //         e.preventDefault();
+        //         refine(item.value);
+        //     }}
+        //     data-facet-value={item.label}
+        //     >
+        //     { strings[category]}
+        // </a>
     );
 };
 
-const CustomCategoriesList = ({ items, refine, createURL }) =>
+const CustomCategoriesList = ({ items, refine, createURL, marketRegion, props }) =>
     items.length > 0 ? (
         <div>
         {items.map(item => (
             <CategoryItem
-            key={item.label}
-            item={item}
-            refine={refine}
-            createURL={createURL}
+                key={item.label}
+                item={item}
+                refine={refine}
+                createURL={createURL}
+                marketRegion={marketRegion}
+                props={props}
             />
         ))}
         </div>
@@ -622,13 +635,18 @@ class Facets extends Component {
 
     render() {
         var props = this.props;
-        var chosenCategory = props.chosenCategory
+        var chosenCategory = props.chosenCategory;
+        var marketRegion = props.marketRegion;
         return (
             <div>
                 <div className="category-menu-bar">
-                    <ConnectedCategoriesMenu
-                        attributeName="category"
-                        defaultRefinement={chosenCategory}
+                    <Route path="/" render={(props) => 
+                        <ConnectedCategoriesMenu
+                            attributeName="category"
+                            defaultRefinement={chosenCategory}
+                            marketRegion={marketRegion}
+                            props={props}
+                        />}
                     />
                 </div>
                 <section className="facet-wrapper">
@@ -872,23 +890,26 @@ export default class ArrangementsList extends Component {
 
     navToNewRegion = () => {
         var marketRegion = this.state.tempMarketRegion;
-        this.props.history.push(`/arrangements/${marketRegion}`);
-        this.setState({showRegionSelect: false});
-        this.props.onMarketRegionSelect(marketRegion)
-    }
-
-    render() {
         var chosenCategory;
-        
         if (this.props.match.params.chosenCategory) {
             chosenCategory = this.props.match.params.chosenCategory;
         } else {
             chosenCategory = 'wrappedBouquets';
         }
+        this.props.history.push(`/arrangements/category/${chosenCategory}/region/${marketRegion}`);
+        this.setState({showRegionSelect: false});
+        this.props.onMarketRegionSelect(marketRegion);
+    }
 
+    render() {
+        var chosenCategory;
+        if (this.props.match.params.chosenCategory) {
+            chosenCategory = this.props.match.params.chosenCategory;
+        } else {
+            chosenCategory = 'wrappedBouquets';
+        }
         var marketRegion = this.props.match.params.marketRegion;
         var marketRegionMod;
-
         if (marketRegion ==='select_region') {
             marketRegionMod = '';
         } else {
@@ -959,7 +980,8 @@ export default class ArrangementsList extends Component {
 
                     <div className="content-wrapper">
                         <Facets 
-                            chosenCategory = {chosenCategory}
+                            chosenCategory={chosenCategory}
+                            marketRegion={marketRegion}
                             searchState={this.state.searchState}
                             onSearchStateChange={this.onSearchStateChange}
                             flowerFilterShow={this.state.flowerFilterShow}
