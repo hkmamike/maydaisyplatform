@@ -34,7 +34,7 @@ const ButtonToEn = ({ title, history }) => (
 );
 
 const ButtonToCh = ({ title, history }) => (
-    <Button bsStyle="" className="button" onClick={() => history.push('/home-ch')}>中文</Button>
+    <Button bsStyle="" className="button" onClick={() => history.push('/home-zh')}>中文</Button>
 );
 
 export default class Header extends Component {
@@ -66,8 +66,8 @@ export default class Header extends Component {
         return (
         <header>
 
-            {(this.props.onHomePage && currentPath.includes('home-ch')) && <div className="logo">
-                <Link to="/home-ch">五月菊</Link>
+            {(this.props.onHomePage && currentPath.includes('home-zh')) && <div className="logo">
+                <Link to="/home-zh">五月菊</Link>
             </div>}
             {(this.props.onHomePage && currentPath.includes('home-en')) && <div className="logo">
                 <Link to="/home-en">MayDaisy</Link>
@@ -76,12 +76,12 @@ export default class Header extends Component {
                 <Link to="/home-en">{strings.companyTitle}</Link>
             </div>}
             {(!this.props.onHomePage && this.props.languageChanged === 'ch') && <div className="logo">
-                <Link to="/home-ch">{strings.companyTitle}</Link>
+                <Link to="/home-zh">{strings.companyTitle}</Link>
             </div>}
 
             <nav>
                 <ul>
-                    {(this.props.onHomePage && currentPath.includes('home-ch')) && <li>
+                    {(this.props.onHomePage && currentPath.includes('home-zh')) && <li>
                         <Route path="/" render={(props) => <ButtonToEn {...props}/>} />
                     </li>}
                     {(this.props.onHomePage && currentPath.includes('home-en')) && <li>

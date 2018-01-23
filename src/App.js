@@ -232,8 +232,8 @@ export default class App extends Component {
             {/*for Google to load sitemap, not sure if needed */}
             <Route path="/sitemap-0.xml" onEnter={reload} />
 
-            <Redirect exact from='/' to='/home-ch' />
-            <Route path='/home-ch' exact render={(props) => (<Homepage {...props} marketRegion={marketRegion} onMarketRegionSelect={this.handleMarketRegionSelect} languageChanged={'ch'} onHomePage={onHomePage} goHomePage={this.goHomePage} leaveHomePage={this.leaveHomePage}/>)}/>
+            <Redirect exact from='/' to='/home-zh' />
+            <Route path='/home-zh' exact render={(props) => (<Homepage {...props} marketRegion={marketRegion} onMarketRegionSelect={this.handleMarketRegionSelect} languageChanged={'ch'} onHomePage={onHomePage} goHomePage={this.goHomePage} leaveHomePage={this.leaveHomePage}/>)}/>
             <Route path='/home-en' exact render={(props) => (<Homepage {...props} marketRegion={marketRegion} onMarketRegionSelect={this.handleMarketRegionSelect} languageChanged={'en'} onHomePage={onHomePage} goHomePage={this.goHomePage} leaveHomePage={this.leaveHomePage}/>)}/>
 
 

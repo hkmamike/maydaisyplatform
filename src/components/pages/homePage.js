@@ -1,8 +1,8 @@
 import React, { Component } from 'react';
-import { Grid, Row, Col, DropdownButton, MenuItem } from 'react-bootstrap';
-import { Button } from 'react-bootstrap';
+import { Grid, Row, Col, DropdownButton, MenuItem, Button} from 'react-bootstrap';
 import { Route } from 'react-router-dom';
 import LocalizedStrings from 'react-localization';
+import MetaTags from 'react-meta-tags';
 
 let strings = new LocalizedStrings({
     en:{
@@ -44,6 +44,8 @@ let strings = new LocalizedStrings({
       aboutUsText: "MayDaisy is a marketplace and community to connect customers with great florists in their city. By bringing the best florists together in one place, we can focus resources on your flowers and spend less on reaching you. MayDaisy also provides a channel for established and emerging independent floral artists to reach a broader audience. Independent artists do not operate a flower shop full time, but they offer dinstinctive styles that cannot be found anywhere else!", 
       joinNow: "Join the flower lovers' MayDaisy movement now",
       
+      metaTitle: 'MayDaisy - Flower MarketPlace',
+      metaDescription: 'Flower marketplace and floral art community. Discover emerging artists and flower shops. We curate signature designs of bouquets, hampers, arrangements, dried flowers, and preserved flowers.',
     },
     ch: {
       signUp: '報名',
@@ -72,9 +74,9 @@ let strings = new LocalizedStrings({
       howItWorks1: '為什麼用',
       howItWorks2: '五月菊',
       howItWorks3: ' ',
-      howItWorks4: '一站式鮮花市集',
+      howItWorks4: '一站式花市集',
       flowerShop: '大小花店',
-      flowerShopText: '一個市集看盡最潮最優雅的花店。看看評論令您對您的選擇更有信心。',
+      flowerShopText: '一網搜盡最潮最優雅的花店。看看評論令您對您的選擇更有信心。',
       artist: '獨立花藝師',
       artistText: '如果您是預早下單，可以考慮獨立花藝師們獨特風格的藝術花卉。',
       trustAndConvenience: '方便安心',
@@ -83,6 +85,9 @@ let strings = new LocalizedStrings({
       aboutUs2: '五月菊',
       aboutUsText: '五月菊是由花藝師們建立的一站式鮮花市集和花藝社群，我們的目標是為客人找到最好最適合他們的花卉設計。鮮花市集的模式令我們可以減低在市場推廣上花費的時間和資源，更集中的為您創造鮮花經驗。',
       joinNow: '快來加入愛花之人的五月菊運動 ',
+
+      metaTitle: '五月菊 - 花藝市集',
+      metaDescription: '五月菊是一個花藝市集和花藝師社群，我們發掘最潮最優雅的花店，搜羅花藝師的標誌性作品，範疇包括花束、禮品、花籃、插花、擺設、乾花和保鮮花。',
     }
   });
 
@@ -131,6 +136,13 @@ export default class Homepage extends Component {
 
     return (
       <div className="no-padding">
+
+        <MetaTags>
+          <title>{strings.metaTitle}</title>
+          <meta name="description" content={strings.metaDescription} />
+          <link rel="alternate" hreflang="en" href="https://maydaisy.com/home-en"/>
+          <link rel="alternate" hreflang="zh-Hant" href="https://maydaisy.com/home-zh"/>
+        </MetaTags>
         
         <div className="home-image-container">
           <div className="home-image">

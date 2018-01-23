@@ -30,7 +30,7 @@ export default class AdminMessage extends Component {
 
         return (
             <div>
-                {(this.props.onHomePage && currentPath.includes('home-ch')) && <div className="admin-message">
+                {(this.props.onHomePage && currentPath.includes('home-zh')) && <div className="admin-message">
                     多謝大家的支持和期待！五月菊市集的服務還未正式開啟，我們會在二月初開業。
                 </div>}
                 {(this.props.onHomePage && currentPath.includes('home-en')) && <div className="admin-message">
