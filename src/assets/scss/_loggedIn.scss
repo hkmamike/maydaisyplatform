@@ -119,10 +119,14 @@ textarea.data-field-description {
             margin: auto
         }
     }
+    .error-message {
+        color: red;
+        font-size: 85%;
+    }
     .guest-check-out-form {
         float: right;
         width: 275px;
-        #login-button {
+        #guest-order {
             margin-left: 0 !important;
         }
         @media (max-width: 768px) {

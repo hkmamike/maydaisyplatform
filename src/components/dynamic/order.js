@@ -33,9 +33,7 @@ let strings = new LocalizedStrings({
     recipientCompanyPlaceholder: "recipient's company or location name",
     recipientAddress: 'Address:',
     recipientAddressPlaceholder: 'delivery address',
-
     selfPickUp: "You have selected self-pickup as the delivery method. Your florist will give you a call to schedule the pick-up once he/she receives your order. Below is your florist's self-pickup policy:",
-
     saveThis: 'save this to my address book.',
     arrangementName: 'Arrangement',
     deliveryInstruction: "Delivery Instruction:",
@@ -56,49 +54,41 @@ let strings = new LocalizedStrings({
     stripeTxnID: 'Stripe ID:',
     subIDTip: '*This is the transaction ID issued by our payment processor - Stripe.',
     orderHistoryButton: 'Order History',
-
     orderSucceed: 'Success! You have placed an order.',
     deliveryType: 'Gift? :',
     delivery_self: 'For Myself',
     delivery_gift: 'Gift',
-
-
     loginButton: 'Login',
     forgotPW: 'Forgot Password?',
     createAccount: 'Create Account',
     email: 'Email',
     password: 'Password',
+    passwordConfirm: 'Confirm Password',
+    passwordNotMatch: '*The passwords do not match. Please try again.',
     invalidCredential: 'Invalid username/password.',
     resetSent1_1: 'Password reset email has been sent to ',
     resetSent1_2: '.',
     noAccountFound: 'No account is registered under this email.',
-
     importButton: 'Import',
     importTitle: 'Import Delivery Address',
     selectedAddress: 'Selected Address ID:',
     selectButton: 'Select',
     noRecord: 'You currently have no saved address.',
-
     orderLoginGuestTitle: 'Guest Checkout',
     orderLoginSignIn: "Sign In",
     orderLoginRegister: 'Register Account',
     proceedAsGuestButton: 'Proceed as Guest',
     proceedAsGuestTip: '*Some features such as address book and order history will be disabled.',
-
     emailInUse: 'there already exists an account with the given email address.',
     invalidEmail: 'the email address is not valid.',
     operationNotAllowed: 'an error occured, please try again later.',
     weakPW: 'password is not strong enough.',
-
     createAccountButton: 'Create Account',
     haveAccount: 'Have an account?',
-
     floristName: 'Florist:',
     floristPhone: "Florist's Phone:",
-
     shopPage: 'shop page',
     afterDiscount: 'Discounted:',
-
     deliverTo: 'Deliver to:',
     HK_CentralWestern: 'Central & Western',
     HK_Eastern: 'Eastern',
@@ -127,14 +117,11 @@ let strings = new LocalizedStrings({
     navDelivery: '配送資料',
     navReview: '檢查',
     navPayment: '付款',
-
     nextButton: '繼續',
     backButton: '返回',
-
     deliveryType: '用途:',
     delivery_self: '自用',
     delivery_gift: '禮物',
-
     cardMessage: '信息:',
     cardMessagePlaceholder: '心意卡信息 - 非必要',
     cardMessageTip1_1: '*請在此欄填寫心意卡手寫信息的上下款。',
@@ -151,9 +138,7 @@ let strings = new LocalizedStrings({
     recipientAddress: '地址:',
     saveThis: '儲存這地址到我的地址記錄。',
     recipientAddressPlaceholder: '配送用',
-
     selfPickUp: '您選擇了免費自取為送貨方式，您的花匠會用電話聯絡您。以下為已選花匠的免費自取款:',
-
     arrangementName: '貨品:',
     deliveryInstruction: "送貨指示:",
     deliveryInstructionPlaceholder: "你的花匠會盡力跟指示安排，送貨詳情以花店的送貨規則為準。",
@@ -174,44 +159,37 @@ let strings = new LocalizedStrings({
     subIDTip: '*這是我們的支付平台發出的訂購號碼。',
     orderHistoryButton: '購買記錄',
     orderSucceed: '您已成功新增一個訂購！',
-
     loginButton: '登入',
     forgotPW: '忘記密碼?',
     createAccount: '建立帳戶', 
     email: '電郵',
     password: '密碼',
+    passwordConfirm: '確認密碼',
+    passwordNotMatch: '*密碼不一致，請再嘗試。',
     invalidCredential: '電郵或密碼錯誤。',
     resetSent1_1: '密碼重設方法已寄出:',
     resetSent1_2: ' ',
     noAccountFound: '並沒有以此電郵登記的帳戶。',
-
     importButton: '載入',
     importTitle: '載入送貨地址',
     selectedAddress: '已選地址ID:',
     selectButton: '選擇',
-
     noRecord: '沒有記錄',
-
     orderLoginGuestTitle: '訪客結帳',
     orderLoginSignIn: "登入結帳",
     orderLoginRegister: '登記新帳戶',
     proceedAsGuestButton: '繼續訪客結帳',
     proceedAsGuestTip: '*某些系統功能需要登入後才可使用（例如地址簿）。',
-
     emailInUse: '電郵已被另一個帳戶使用。',
     invalidEmail: '電郵地址格式錯誤。',
     operationNotAllowed: '系統錯誤，請稍後再試。',
     weakPW: '密碼強度不達標準。',
-
     createAccountButton: '建立帳戶',
     haveAccount: '已有帳戶?',
-
     floristName: '花匠:',
     floristPhone: "花匠聯絡電話:",
-
     shopPage: '店舖主頁',
     afterDiscount: '折扣後:',
-
     deliverTo: '送往:',
     HK_CentralWestern: '中西區',
     HK_Eastern: '東區',
@@ -350,6 +328,7 @@ export default class Order extends Component {
         this.handleLoading = this.handleLoading.bind(this);
         this.handleEmailChange = this.handleEmailChange.bind(this);
         this.handlePWChange = this.handlePWChange.bind(this);
+        this.handlePWConfirmChange = this.handlePWConfirmChange.bind(this);
         this.handleOrderStep = this.handleOrderStep.bind(this);
         this.state = {
             loading: true,
@@ -366,6 +345,7 @@ export default class Order extends Component {
             stripeTransactionID: '',
             email: '',
             password: '',
+            passwordConfirm: '',
             addressBookChecked: false,
             loginRegisterToggle: 'login',
             loginMessage: null,
@@ -389,6 +369,10 @@ export default class Order extends Component {
         this.setState({ password: e.target.value });
     }
 
+    handlePWConfirmChange(e) {
+        this.setState({ passwordConfirm: e.target.value });
+    }
+
     handleGuestSubmit = (e) => {
         e.preventDefault();
         this.setState({
@@ -408,19 +392,25 @@ export default class Order extends Component {
 
     handleSubmitRegister = (e) => {
         e.preventDefault();
-        auth(this.state.email, this.state.password).then(() => {
-            this.setState({orderStep:1});
-        }).catch((e) => {
-          if (e.code==="auth/email-already-in-use") {
-            this.setState(setErrorMsgRegister(strings.emailInUse));
-          } else if (e.code==="auth/invalid-email") {
-            this.setState(setErrorMsgRegister(strings.invalidEmail));
-          } else if (e.code==="auth/operation-not-allowed") {
-            this.setState(setErrorMsgRegister(strings.operationNotAllowed));
-          } else if (e.code==="auth/weak-password") {
-            this.setState(setErrorMsgRegister(strings.weakPW));
-          }
-        })
+
+        this.setState({passwordNotMatch: false});
+        if (this.state.password === this.state.passwordConfirm) {
+            auth(this.state.email, this.state.password).then(() => {
+                this.setState({orderStep:1});
+            }).catch((e) => {
+            if (e.code==="auth/email-already-in-use") {
+                this.setState(setErrorMsgRegister(strings.emailInUse));
+            } else if (e.code==="auth/invalid-email") {
+                this.setState(setErrorMsgRegister(strings.invalidEmail));
+            } else if (e.code==="auth/operation-not-allowed") {
+                this.setState(setErrorMsgRegister(strings.operationNotAllowed));
+            } else if (e.code==="auth/weak-password") {
+                this.setState(setErrorMsgRegister(strings.weakPW));
+            }
+            })
+        } else {
+            this.setState({passwordNotMatch: true});
+        }
     }
 
     linkCreateAccount = () => {
@@ -674,6 +664,17 @@ export default class Order extends Component {
                                         <ControlLabel>{strings.password}</ControlLabel>
                                         <FormControl className="login-form-field" type="password" value={this.state.password} placeholder={strings.password} onChange={this.handlePWChange}/>
                                     </FormGroup>
+
+                                    <FormGroup>
+                                        <ControlLabel>{strings.passwordConfirm}</ControlLabel>
+                                        <FormControl className="login-form-field" type="password" value={this.state.passwordConfirm} placeholder={strings.passwordConfirm} onChange={this.handlePWConfirmChange}/>
+                                    </FormGroup>
+
+                                    { this.state.passwordNotMatch &&
+                                        <div>
+                                            <div className="error-message">{strings.passwordNotMatch}</div>
+                                        </div>
+                                    }
                     
                                     <Button bsStyle="" type="submit" id="login-button" className="button">{strings.createAccountButton}</Button>
                                     <div className="login-link-group-register">

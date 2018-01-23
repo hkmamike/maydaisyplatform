@@ -52,6 +52,13 @@
                 margin-bottom: 0 !important;
                 padding: 5px !important;
             }
+            .error-message {
+                color: red;
+                font-size: 85%;
+                margin-left: 15px;
+                margin-top: 5px;
+                margin-bottom: 5px;
+            }
             .login-form-field {
                 background-color: $white !important;
                 border-radius: 0 !important;

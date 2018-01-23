@@ -10,12 +10,14 @@ let strings = new LocalizedStrings({
       registerSubtitle: 'Fill out the form to continue',
       email: 'Email',
       password: 'Password',
+      passwordConfirm: 'Confirm Password',
+      passwordNotMatch: '*The passwords do not match. Please try again.',
       createAccountButton: 'Create Account',
       haveAccount: 'Have an account?',
       emailInUse: 'there already exists an account with the given email address.',
       invalidEmail: 'the email address is not valid.',
       operationNotAllowed: 'an error occured, please try again later.',
-      weakPW: 'password is not strong enough.',
+      weakPW: 'password strength does not meet the minimum standard.',
 
     },
     ch: {
@@ -23,12 +25,14 @@ let strings = new LocalizedStrings({
       registerSubtitle: '請填寫帳戶登記表',
       email: '電郵',
       password: '密碼',
+      passwordConfirm: '確認密碼',
+      passwordNotMatch: '*密碼不一致，請再嘗試。',
       createAccountButton: '建立帳戶',
       haveAccount: '已有帳戶?',
       emailInUse: '電郵已被另一個帳戶使用。',
       invalidEmail: '電郵地址格式錯誤。',
       operationNotAllowed: '系統錯誤，請稍後再試。',
-      weakPW: '密碼強度不達標準。',
+      weakPW: '密碼強度不達最低標準。',
 
     }
   });
@@ -45,9 +49,12 @@ export default class Register extends Component {
     super();
     this.handleEmailChange = this.handleEmailChange.bind(this);
     this.handlePWChange = this.handlePWChange.bind(this);
+    this.handlePWConfirmChange = this.handlePWConfirmChange.bind(this);
     this.state = {
       email: '',
       password: '',
+      passwordConfirm: '',
+      passwordNotMatch: false,
       registerError: null
     }
   }
@@ -74,20 +81,27 @@ export default class Register extends Component {
   handlePWChange(e) {
     this.setState({ password: e.target.value });
   }
+  handlePWConfirmChange(e) {
+    this.setState({ passwordConfirm: e.target.value });
+  }
   handleSubmit = (e) => {
-    e.preventDefault()
-    auth(this.state.email, this.state.password).catch((e) => {
-      if (e.code==="auth/email-already-in-use") {
-        this.setState(setErrorMsg(strings.emailInUse));
-      } else if (e.code==="auth/invalid-email") {
-        this.setState(setErrorMsg(strings.invalidEmail));
-      } else if (e.code==="auth/operation-not-allowed") {
-        this.setState(setErrorMsg(strings.operationNotAllowed));
-      } else if (e.code==="auth/weak-password") {
-        this.setState(setErrorMsg(strings.weakPW));
-      }
-
-    })
+    e.preventDefault();
+    this.setState({passwordNotMatch: false});
+    if (this.state.password === this.state.passwordConfirm) {
+      auth(this.state.email, this.state.password).catch((e) => {
+        if (e.code==="auth/email-already-in-use") {
+          this.setState(setErrorMsg(strings.emailInUse));
+        } else if (e.code==="auth/invalid-email") {
+          this.setState(setErrorMsg(strings.invalidEmail));
+        } else if (e.code==="auth/operation-not-allowed") {
+          this.setState(setErrorMsg(strings.operationNotAllowed));
+        } else if (e.code==="auth/weak-password") {
+          this.setState(setErrorMsg(strings.weakPW));
+        }
+      })
+    } else {
+      this.setState({passwordNotMatch: true});
+    }
   }
   render () {
     return (
@@ -107,7 +121,14 @@ export default class Register extends Component {
                   <FormGroup>
                     <FormControl className="login-form-field" type="text" value={this.state.email} placeholder={strings.email} onChange={this.handleEmailChange}/>
                     <FormControl className="login-form-field" type="password" value={this.state.password} placeholder={strings.password} onChange={this.handlePWChange}/>
+                    <FormControl className="login-form-field" type="password" value={this.state.passwordConfirm} placeholder={strings.passwordConfirm} onChange={this.handlePWConfirmChange}/>
                   </FormGroup>
+
+                  { this.state.passwordNotMatch &&
+                    <div>
+                        <div className="error-message">{strings.passwordNotMatch}</div>
+                    </div>
+                  }
 
                   <Button bsStyle="" type="submit" className="button">{strings.createAccountButton}</Button>
                   <div className="link-group-register">
