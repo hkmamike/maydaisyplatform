@@ -92,7 +92,7 @@ let strings = new LocalizedStrings({
   });
 
 const ButtonToMarket = ({ title, history, marketRegion }) => (
-  <Button bsStyle="" className="button" onClick={() => history.push(`/arrangements/${marketRegion}`)}>{strings.go}</Button>
+  <Button bsStyle="" className="button" onClick={() => history.push(`/arrangements/category/region/${marketRegion}`)}>{strings.go}</Button>
 );
 
 // const ButtonToScrollUp = ({ title, history }) => (

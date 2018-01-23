@@ -622,12 +622,13 @@ class Facets extends Component {
 
     render() {
         var props = this.props;
+        var chosenCategory = props.chosenCategory
         return (
             <div>
                 <div className="category-menu-bar">
                     <ConnectedCategoriesMenu
                         attributeName="category"
-                        defaultRefinement="wrappedBouquets"
+                        defaultRefinement={chosenCategory}
                     />
                 </div>
                 <section className="facet-wrapper">
@@ -877,6 +878,14 @@ export default class ArrangementsList extends Component {
     }
 
     render() {
+        var chosenCategory;
+        
+        if (this.props.match.params.marketRegion) {
+            chosenCategory = this.props.match.params.chosenCategory;
+        } else {
+            chosenCategory = 'wrappedBouquets';
+        }
+
         var marketRegion = this.props.match.params.marketRegion;
         var marketRegionMod;
 
@@ -950,7 +959,8 @@ export default class ArrangementsList extends Component {
 
                     <div className="content-wrapper">
                         <Facets 
-                            searchState={this.state.searchState} 
+                            chosenCategory = {chosenCategory}
+                            searchState={this.state.searchState}
                             onSearchStateChange={this.onSearchStateChange}
                             flowerFilterShow={this.state.flowerFilterShow}
                             onFlowerFilterToggle={this.toggleFlowerFilter}

@@ -247,7 +247,7 @@ export default class App extends Component {
             <AdminPage authed={this.state.authed} path='/auth/admin-registration' component ={FloristRegistration}/>
             <AdminPage authed={this.state.authed} path='/auth/admin-florists' component ={FloristsDashboard}/>
 
-            <Route path='/arrangements/:marketRegion?' exact render={(props) => (<ArrangementsList {...props} 
+            <Route path='/arrangements/category/:chosenCategory?/region/:marketRegion?' exact render={(props) => (<ArrangementsList {...props} 
               languageChanged={this.state.languageChanged}
               onMarketRegionSelect={this.handleMarketRegionSelect}
               marketRegionProp={this.state.marketRegion}/>)}
