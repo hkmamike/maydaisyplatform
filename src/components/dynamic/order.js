@@ -167,7 +167,7 @@ let strings = new LocalizedStrings({
     orderButton: '訂購',
     termsTip1: '*如您繼續並按下"訂購"，您確認您已經閱讀並同意接受我們的',
     termsTip2: '服務條款',
-    termsTip3: '.',
+    termsTip3: '。',
     referenceCode: '參考號碼:',
     referenceCodeTip: '*如要聯絡客戶服務部，請提供這個交易參考號碼。',
     stripeTxnID: 'Stripe 訂購號碼:',

@@ -48,11 +48,9 @@ export default class Header extends Component {
         if (strings.getLanguage()==='ch') {
             strings.setLanguage('en');
             this.props.onLanguageToggle('en');
-            this.setState({language: 'en'});
           } else if (strings.getLanguage()==='en') {
             strings.setLanguage('ch');
             this.props.onLanguageToggle('ch');
-            this.setState({language: 'ch'});
           }
         this.setState({});
     }
@@ -68,9 +66,18 @@ export default class Header extends Component {
         return (
         <header>
 
-            <div className="logo">
-                <Link to="/">{strings.companyTitle}</Link>
-            </div>
+            {(this.props.onHomePage && currentPath.includes('home-ch')) && <div className="logo">
+                <Link to="/home-ch">五月菊</Link>
+            </div>}
+            {(this.props.onHomePage && currentPath.includes('home-en')) && <div className="logo">
+                <Link to="/home-en">MayDaisy</Link>
+            </div>}
+            {(!this.props.onHomePage && this.props.languageChanged === 'en') && <div className="logo">
+                <Link to="/home-en">{strings.companyTitle}</Link>
+            </div>}
+            {(!this.props.onHomePage && this.props.languageChanged === 'ch') && <div className="logo">
+                <Link to="/home-ch">{strings.companyTitle}</Link>
+            </div>}
 
             <nav>
                 <ul>

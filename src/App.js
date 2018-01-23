@@ -224,7 +224,7 @@ export default class App extends Component {
     return (
       <BrowserRouter>
         <div className="App">
-          <AdminMessage languageChanged={this.state.languageChanged}/>
+          <AdminMessage languageChanged={this.state.languageChanged} onHomePage={onHomePage}/>
           <Header authed={this.state.authed} languageChanged={this.state.languageChanged} onLanguageToggle={this.handleLanguageToggle} onHomePage={onHomePage}/>
 
           <Switch>

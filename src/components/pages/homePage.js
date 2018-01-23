@@ -9,7 +9,7 @@ let strings = new LocalizedStrings({
       signUp: 'Sign Up',
       homeImgTitle: 'Shop directly from emerging flower shops and independent floral artists.',
       homeImgSubtitle: 'Where are the flowers going?',
-      go: 'Go to Market',
+      go: 'Go',
       select_region: 'Select Region',
       HK_CentralWestern: 'Central & Western',
       HK_Eastern: 'Eastern',
