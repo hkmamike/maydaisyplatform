@@ -88,7 +88,7 @@ export default class Register extends Component {
     e.preventDefault();
     this.setState({passwordNotMatch: false});
     if (this.state.password === this.state.passwordConfirm) {
-      auth(this.state.email, this.state.password).catch((e) => {
+      auth(this.state.email, this.state.password, this.props.languageChanged).catch((e) => {
         if (e.code==="auth/email-already-in-use") {
           this.setState(setErrorMsg(strings.emailInUse));
         } else if (e.code==="auth/invalid-email") {

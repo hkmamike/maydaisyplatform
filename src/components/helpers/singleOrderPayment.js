@@ -307,6 +307,13 @@ export default class PlaceOrder extends React.Component {
                                     orderRoute: orderRoute,
                                 }
                             });
+                            base.push(`newsLetterList`, {
+                                data: {
+                                    email: senderEmail,
+                                    language: languageChanged,
+                                    dateAdded: dateNow,
+                                }
+                            });
                         }
                         console.log ('subscriptioin processing succeeded.');
                         this.progressOrderStep(referenceCode, stripeTxnID, deliveryDate);
