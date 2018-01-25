@@ -11,7 +11,7 @@ export function auth (email, pw, languageChanged) {
   var newEmail = {email: email, language: languageChanged, dateAdded: currentTime};
   var newPostKey = ref.child(`newsLetterList/${languageChanged}`).push().key;
   var updates = {};
-  updates ['newsLetterList/' + newPostKey] = newEmail;
+  updates['newsLetterList/' + newPostKey] = newEmail;
   ref.update(updates);
 
   //create new account

@@ -35,7 +35,7 @@ let strings = new LocalizedStrings({
     deleteAddress: 'Delete Address',
     deleteSuccess: 'Address has been removed from record',
   },
-  ch: {
+  zh: {
     orderHistory1: ' ',
     orderHistory2: '購買記錄',
     addressBook1: ' ',
@@ -65,12 +65,12 @@ let strings = new LocalizedStrings({
   }
 });
 
-const ButtonToShop = ({ title, history }) => (
-  <Button bsStyle="" className="head-button-white" onClick={() => history.push('/auth/ordersdashboard')}>{strings.buttonToShop}</Button>
+const ButtonToShop = ({ title, history, languageChanged }) => (
+  <Button bsStyle="" className="head-button-white" onClick={() => history.push(`/${languageChanged}/auth/ordersdashboard`)}>{strings.buttonToShop}</Button>
 );
 
-const ButtonToAccount = ({ title, history }) => (
-  <Button bsStyle="" className="head-button-teal" onClick={() => history.push('/auth/orderhistory')}>{strings.buttonToAccount}</Button>
+const ButtonToAccount = ({ title, history, languageChanged }) => (
+  <Button bsStyle="" className="head-button-teal" onClick={() => history.push(`/${languageChanged}/auth/orderhistory`)}>{strings.buttonToAccount}</Button>
 );
 
 class DeleteAddressModal extends React.Component {
@@ -309,8 +309,8 @@ export default class AddressBook extends Component {
   }
 
   componentWillReceiveProps (nextProps) {
-    if (nextProps.languageChanged==='ch') {
-      strings.setLanguage('ch');
+    if (nextProps.languageChanged==='zh') {
+      strings.setLanguage('zh');
     } else if (nextProps.languageChanged==='en') {
       strings.setLanguage('en');
     }
@@ -472,27 +472,27 @@ export default class AddressBook extends Component {
         <Grid>
           <Row className="head-button-inline">
             <div className="head-button-section">            
-              <Route path="/" render={(props) => <ButtonToShop {...props}/>} />
+              <Route path="/" render={(props) => <ButtonToShop {...props} languageChanged={this.props.languageChanged}/>} />
             </div>
             <div className="head-button-section">            
-              <Route path="/" render={(props) => <ButtonToAccount {...props}/>} />
+              <Route path="/" render={(props) => <ButtonToAccount {...props} languageChanged={this.props.languageChanged}/>} />
             </div>
           </Row>
           <Row className="show-grid loggedin-nav">
             <Col xs={4} className="loggedin-nav-button">
-              <Link to="/auth/orderhistory">
+              <Link to={`/${this.props.languageChanged}/auth/orderhistory`}>
                 <i className="fa fa-tags fa-lg nav-icon"></i>
                 <div className="nav-icon-title">{strings.orderHistory1}<br/>{strings.orderHistory2}</div>
               </Link>
             </Col>
             <Col xs={4} className="loggedin-nav-button">
-              <Link to="/auth/addressbook" className="nav-selected">
+              <Link to={`/${this.props.languageChanged}/auth/addressbook`} className="nav-selected">
                 <i className="fa fa-plus fa-lg nav-icon"></i>
                 <div className="nav-icon-title">{strings.addressBook1}<br/>{strings.addressBook2}</div>
               </Link>
             </Col>
             <Col xs={4} className="loggedin-nav-button">
-              <Link to="/auth/userinfo">
+              <Link to={`/${this.props.languageChanged}/auth/userinfo`}>
                 <i className="fa fa-user-circle fa-lg nav-icon"></i>
                 <div className="nav-icon-title">{strings.accountInformation1}<br/>{strings.accountInformation2}</div>
               </Link>

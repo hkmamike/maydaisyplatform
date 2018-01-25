@@ -90,7 +90,7 @@ let strings = new LocalizedStrings({
         driedPreserved: 'Dried',
         flowerBox: 'Box'
     },
-    ch: {
+    zh: {
         seeDesignsButton: '確定',
 
         select_region: '選擇地區',
@@ -150,7 +150,7 @@ let strings = new LocalizedStrings({
 
         wrappedBouquets: '花束',
         arrangements: '插花/擺設',
-        hampers: '禮品花籃',
+        hampers: '禮品/花籃',
         driedPreserved: '乾花/保鮮花',
         flowerBox: '花盒'
     }
@@ -222,7 +222,7 @@ const CustomColorRefinementList = ({ items, refine, createURL }) =>
         </div>
     ) : null;
 
-const CategoryItem = ({ item, createURL, refine, marketRegion, props }) => {
+const CategoryItem = ({ item, createURL, refine, marketRegion, props, language }) => {
     const active = item.isRefined ? 'checked' : '';
     const category = item.label;
 
@@ -230,7 +230,7 @@ const CategoryItem = ({ item, createURL, refine, marketRegion, props }) => {
         <a  className={`${active} facet-category`}
             onClick={e => {
                 e.preventDefault();
-                props.history.push(`/arrangements/category/${category}/region/${marketRegion}`);
+                props.history.push(`/${language}/arrangements/category/${category}/region/${marketRegion}`);
                 refine(item.value);
             }}
         >
@@ -252,7 +252,7 @@ const CategoryItem = ({ item, createURL, refine, marketRegion, props }) => {
     );
 };
 
-const CustomCategoriesList = ({ items, refine, createURL, marketRegion, props }) =>
+const CustomCategoriesList = ({ items, refine, createURL, marketRegion, props, language }) =>
     items.length > 0 ? (
         <div>
         {items.map(item => (
@@ -263,6 +263,7 @@ const CustomCategoriesList = ({ items, refine, createURL, marketRegion, props })
                 createURL={createURL}
                 marketRegion={marketRegion}
                 props={props}
+                language={language}
             />
         ))}
         </div>
@@ -578,7 +579,11 @@ class PriceFilterModal extends React.Component {
 const CustomResult = (props) => {
     return (
         <div className={"no-padding list-container " + ((props.flowerFilterShow || props.colorFilterShow || props.priceFilterShow) ? 'de-focus' : '')}>
-            <Hits hitComponent={Product}/>
+            <Hits 
+                hitComponent={hit => 
+                    <Product hit={hit.hit} language={props.language}/>
+                }
+            />
         </div>
     );
 }
@@ -614,11 +619,10 @@ const CustomSearchBoxSmall = ({currentRefinement, refine}) => (
 ///////////
 
 //////////
-function Product({hit}) {
+const Product = ({hit, language}) => {
     return (
-
         <Col xs={6} sm={4} className="list-item">
-            <Link to={`/florist/${hit.florist}/${hit.id}`}>
+            <Link to={`/${language}/florist/${hit.florist}/${hit.id}`}>
                 <div className="list-pic" style={{ backgroundImage: 'url(' + hit.image + ')'}}></div>
                 <div className="text-box">
                     <div className="text-line">
@@ -637,6 +641,7 @@ class Facets extends Component {
 
     render() {
         var props = this.props;
+        var language = props.language;
         var chosenCategory = props.chosenCategory;
         var marketRegion = props.marketRegion;
         return (
@@ -648,6 +653,7 @@ class Facets extends Component {
                             defaultRefinement={chosenCategory}
                             marketRegion={marketRegion}
                             props={props}
+                            language={language}
                         />}
                     />
                 </div>
@@ -829,8 +835,8 @@ export default class ArrangementsList extends Component {
     }
     
     componentWillReceiveProps (nextProps) {
-        if (nextProps.languageChanged==='ch') {
-            strings.setLanguage('ch');
+        if (nextProps.languageChanged==='zh') {
+            strings.setLanguage('zh');
         } else if (nextProps.languageChanged==='en') {
             strings.setLanguage('en');
         }
@@ -898,13 +904,14 @@ export default class ArrangementsList extends Component {
         } else {
             chosenCategory = 'wrappedBouquets';
         }
-        this.props.history.push(`/arrangements/category/${chosenCategory}/region/${marketRegion}`);
+        this.props.history.push(`/${this.props.languageChanged}/arrangements/category/${chosenCategory}/region/${marketRegion}`);
         this.setState({showRegionSelect: false});
         this.props.onMarketRegionSelect(marketRegion);
     }
 
     render() {
         var chosenCategory;
+        var language = this.props.languageChanged;
         if (this.props.match.params.chosenCategory) {
             chosenCategory = this.props.match.params.chosenCategory;
         } else {
@@ -921,11 +928,11 @@ export default class ArrangementsList extends Component {
         return (
             <div className="no-padding">
 
-                <MetaTags>
-                    <title>{strings.metaTitle}</title>
-                    <meta name="description" content={strings.metaDescription} />
+                {/* <MetaTags>
+                    <title>{strings[chosenCategory]}</title>
+                    <meta name="description" content={strings[]} />
                     <link rel="alternate" hrefLang="x-default" href="https://maydaisy.com/home-en"/>
-                </MetaTags>
+                </MetaTags> */}
 
                 <div className="list-banner">
                     {(!this.state.showRegionSelect && typeof marketRegion !== 'undefined') &&
@@ -991,6 +998,7 @@ export default class ArrangementsList extends Component {
                         <Facets 
                             chosenCategory={chosenCategory}
                             marketRegion={marketRegionMod}
+                            language={language}
                             searchState={this.state.searchState}
                             onSearchStateChange={this.onSearchStateChange}
                             flowerFilterShow={this.state.flowerFilterShow}
@@ -1009,6 +1017,7 @@ export default class ArrangementsList extends Component {
                             flowerFilterShow={this.state.flowerFilterShow}
                             colorFilterShow={this.state.colorFilterShow}
                             priceFilterShow={this.state.priceFilterShow}
+                            language={language}
                         />
                         <div className="pagination-box">
                             <div className="pagination">

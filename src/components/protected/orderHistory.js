@@ -46,7 +46,6 @@ let strings = new LocalizedStrings({
     buttonToShop: 'My Shop',
     buttonToAccount: 'My Account',
     price: 'Price:',
-
     deliverTo: 'Deliver to:',
     HK_CentralWestern: 'Central & Western',
     HK_Eastern: 'Eastern',
@@ -68,7 +67,7 @@ let strings = new LocalizedStrings({
     NT_YuenLong: 'Yuen Long',
     specialPickUpLocation: 'Self Pick Up',
   },
-  ch: {
+  zh: {
     orderHistory1: ' ',
     orderHistory2: '購買記錄',
     addressBook1: ' ',
@@ -106,7 +105,6 @@ let strings = new LocalizedStrings({
     buttonToAccount: '我的帳戶',
     noRecord: '您目前並沒有地址記錄。',
     price: '價格:',
-
     deliverTo: '送往:',
     HK_CentralWestern: '中西區',
     HK_Eastern: '東區',
@@ -130,16 +128,16 @@ let strings = new LocalizedStrings({
   }
 });
 
-const ButtonToShop = ({ title, history }) => (
-  <Button bsStyle="" className="head-button-white" onClick={() => history.push('/auth/ordersdashboard')}>{strings.buttonToShop}</Button>
+const ButtonToShop = ({ title, history, languageChanged }) => (
+  <Button bsStyle="" className="head-button-white" onClick={() => history.push(`/${languageChanged}/auth/ordersdashboard`)}>{strings.buttonToShop}</Button>
 );
 
-const ButtonToAccount = ({ title, history }) => (
-  <Button bsStyle="" className="head-button-teal" onClick={() => history.push('/auth/orderhistory')}>{strings.buttonToAccount}</Button>
+const ButtonToAccount = ({ title, history, languageChanged }) => (
+  <Button bsStyle="" className="head-button-teal" onClick={() => history.push(`/${languageChanged}/auth/orderhistory`)}>{strings.buttonToAccount}</Button>
 );
 
-const ButtonToMarket = ({ title, history }) => (
-  <Button bsStyle="" className="no-order-button" onClick={() => history.push('/arrangements')}>{strings.browseMarket}</Button>
+const ButtonToMarket = ({ title, history, languageChanged }) => (
+  <Button bsStyle="" className="no-order-button" onClick={() => history.push(`/${languageChanged}/arrangements`)}>{strings.browseMarket}</Button>
 );
 
 class SubmitReview extends React.Component {
@@ -349,7 +347,7 @@ class OrderDetails extends React.Component {
                       <div><strong>{strings.arrangement}</strong></div>
                   </Col>
                   <Col md={5}>
-                    <div className="order-history-arrangement-name"><Link to={`/florist/${orderDetails.florist}/${orderDetails.arrangementCode}`}>{orderDetails.arrangementName}</Link></div>
+                    <div className="order-history-arrangement-name"><Link to={`/${this.props.languageChanged}/florist/${orderDetails.florist}/${orderDetails.arrangementCode}`}>{orderDetails.arrangementName}</Link></div>
                   </Col>
                   <Col md={1}></Col>
               </Row>
@@ -369,7 +367,7 @@ class OrderDetails extends React.Component {
                       <div><strong>{strings.florist}</strong></div>
                   </Col>
                   <Col md={5}>
-                    <div className="order-history-florist-name"><Link to={`/florist/${orderDetails.florist}`}>{orderDetails.floristName}</Link></div>
+                    <div className="order-history-florist-name"><Link to={`/${this.props.languageChanged}/florist/${orderDetails.florist}`}>{orderDetails.floristName}</Link></div>
                   </Col>
                   <Col md={1}></Col>
               </Row>
@@ -449,8 +447,8 @@ export default class OrderHistory extends Component {
   }
 
   componentWillReceiveProps (nextProps) {
-    if (nextProps.languageChanged==='ch') {
-      strings.setLanguage('ch');
+    if (nextProps.languageChanged==='zh') {
+      strings.setLanguage('zh');
     } else if (nextProps.languageChanged==='en') {
       strings.setLanguage('en');
     }
@@ -502,7 +500,7 @@ export default class OrderHistory extends Component {
       orders = (
         <div className="no-sub-section">            
           <div className="center-text">{strings.noOrder}</div>
-          <Route path="/" render={(props) => <ButtonToMarket {...props}/>} />
+          <Route path="/" render={(props) => <ButtonToMarket {...props} languageChanged={this.props.languageChanged}/>} />
         </div>
       )
     } else {
@@ -600,27 +598,27 @@ export default class OrderHistory extends Component {
         <Grid>
           <Row className="head-button-inline">
             <div className="head-button-section">            
-              <Route path="/" render={(props) => <ButtonToShop {...props}/>} />
+              <Route path="/" render={(props) => <ButtonToShop {...props} languageChanged={this.props.languageChanged}/>} />
             </div>
             <div className="head-button-section">            
-              <Route path="/" render={(props) => <ButtonToAccount {...props}/>} />
+              <Route path="/" render={(props) => <ButtonToAccount {...props} languageChanged={this.props.languageChanged}/>} />
             </div>
           </Row>
           <Row className="show-grid loggedin-nav">
             <Col xs={4} className="loggedin-nav-button">
-              <Link to="/auth/orderhistory" className="nav-selected">
+              <Link to={`/${this.props.languageChanged}/auth/orderhistory`} className="nav-selected">
                 <i className="fa fa-tags fa-lg nav-icon"></i>
                 <div className="nav-icon-title">{strings.orderHistory1}<br/>{strings.orderHistory2}</div>
               </Link>
             </Col>
             <Col xs={4} className="loggedin-nav-button">
-              <Link to="/auth/addressbook">
+              <Link to={`/${this.props.languageChanged}/auth/addressbook`}>
                 <i className="fa fa-plus fa-lg nav-icon"></i>
                 <div className="nav-icon-title">{strings.addressBook1}<br/>{strings.addressBook2}</div>
               </Link>
             </Col>
             <Col xs={4} className="loggedin-nav-button">
-              <Link to="/auth/userinfo">
+              <Link to={`/${this.props.languageChanged}/auth/userinfo`}>
                 <i className="fa fa-user-circle fa-lg nav-icon"></i>
                 <div className="nav-icon-title">{strings.accountInformation1}<br/>{strings.accountInformation2}</div>
               </Link>

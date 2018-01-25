@@ -19,7 +19,7 @@ let strings = new LocalizedStrings({
         q4: "Is same day delivery possible?",
         a4: "Some flower shops cater for same day delivery. Across the MayDaisy platform, the standard cut off time for sameday delivery is 1 p.m. HKT",
     },
-    ch: {
+    zh: {
         returnHome: '返回主頁',
         pageTitle: '常見問題和答案',
         lastUpdated: '最後更新: 2017年12月12日',
@@ -35,8 +35,8 @@ let strings = new LocalizedStrings({
     }
 });
 
-const ButtonToRegionList = ({ title, history }) => (
-    <Button bsStyle="" className="button" onClick={() => history.push('/')}>{strings.returnHome}</Button>
+const ButtonToRegionList = ({ title, history, languageChanged }) => (
+    <Button bsStyle="" className="button" onClick={() => history.push(`/${languageChanged}/`)}>{strings.returnHome}</Button>
   );
 
 export default class FAQ extends Component {
@@ -46,8 +46,8 @@ export default class FAQ extends Component {
     }
 
     componentWillReceiveProps (nextProps) {
-        if (nextProps.languageChanged==='ch') {
-            strings.setLanguage('ch');
+        if (nextProps.languageChanged==='zh') {
+            strings.setLanguage('zh');
         } else if (nextProps.languageChanged==='en') {
             strings.setLanguage('en');
         }
@@ -80,7 +80,7 @@ export default class FAQ extends Component {
                                 <p className="faq-question">{strings.q5}</p>
                                 <p className="faq-answer">{strings.a5}</p>                          
                                 <div className="text-page-button-div">
-                                    <Route path="/" render={(props) => <ButtonToRegionList {...props}/>} />
+                                    <Route path="/" render={(props) => <ButtonToRegionList {...props} languageChanged={this.props.languageChanged}/>} />
                                 </div>
                             </div>
                             </Col>

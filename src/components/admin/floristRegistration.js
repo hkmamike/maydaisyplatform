@@ -430,13 +430,13 @@ export default class FloristRegistration extends Component {
         var header = (
           <Row className="show-grid loggedin-nav">
             <Col xs={4} className="loggedin-nav-button">
-            <Link to="/auth/admin-registration" className="nav-selected">
+            <Link to="/en/auth/admin-registration" className="nav-selected">
                 <i className="fa fa-book fa-lg nav-icon"></i>
                 <div className="nav-icon-title">Registration</div>
             </Link>
             </Col>
             <Col xs={4} className="loggedin-nav-button">
-            <Link to="/auth/admin-florists">
+            <Link to="/en/auth/admin-florists">
                 <i className="fa fa-star fa-lg nav-icon"></i>
                 <div className="nav-icon-title">Dashboard</div>
             </Link>

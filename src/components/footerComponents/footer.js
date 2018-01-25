@@ -16,7 +16,7 @@ let strings = new LocalizedStrings({
     privacyPolicy: 'Privacy Policy',
     companyName: 'MayDaisy Co.'
   },
-  ch: {
+  zh: {
     company: '公司',
     careers: '職位空缺',
     about: '關於我們',
@@ -36,8 +36,8 @@ export default class Footer extends Component {
   }
 
   componentWillReceiveProps (nextProps) {
-    if (nextProps.languageChanged==='ch') {
-        strings.setLanguage('ch');
+    if (nextProps.languageChanged==='zh') {
+        strings.setLanguage('zh');
     } else if (nextProps.languageChanged==='en') {
         strings.setLanguage('en');
     }
@@ -53,21 +53,21 @@ export default class Footer extends Component {
               <Col xsHidden sm={4}>
                 <div className="footer-title">{strings.company}</div>
                 <ul className="foote-list">
-                  <li><Link to="/about">{strings.about}</Link></li>
+                  <li><Link to={`/${this.props.languageChanged}/about`}>{strings.about}</Link></li>
                 </ul>
               </Col>
               <Col xs={6} sm={4}>
                 <div className="footer-title">{strings.support}</div>
                 <ul className="foote-list">
-                  <li><Link to="/faq">{strings.faq}</Link></li>
-                  <li><Link to="/contact">{strings.contactUs}</Link></li>
+                  <li><Link to={`/${this.props.languageChanged}/faq`}>{strings.faq}</Link></li>
+                  <li><Link to={`/${this.props.languageChanged}/contact`}>{strings.contactUs}</Link></li>
                 </ul>
               </Col>
               <Col xs={6} sm={4}>
                 <div className="footer-title">{strings.terms}</div>
                 <ul className="foote-list">
-                  <li><Link to="/terms">{strings.termsOfStervices}</Link></li>
-                  <li><Link to="/privacy-policy">{strings.privacyPolicy}</Link></li>
+                  <li><Link to={`/${this.props.languageChanged}/terms`}>{strings.termsOfStervices}</Link></li>
+                  <li><Link to={`/${this.props.languageChanged}/privacy-policy`}>{strings.privacyPolicy}</Link></li>
                 </ul>
               </Col>
             </Row>

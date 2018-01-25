@@ -12,7 +12,7 @@ let strings = new LocalizedStrings({
       q1: 'What is MayDaisy? :',
       a1: "MayDaisy is a marketplace and community to connect customers with great florists in their city. By bringing the best florists together in one place, we can focus resources on your flowers and spend less on marketing. MayDaisy also provides a channel for established and emerging independent floral artists to reach a broader audience. Independent artists do not operate a flower shop full time, but they offer dinstinctive styles that cannot be found anywhere else!",
     },
-    ch: {
+    zh: {
       returnHome: '返回主頁',
       pageTitle: '關於五月菊',
       lastUpdated: '最後更新: 2017年12月12日',
@@ -21,8 +21,8 @@ let strings = new LocalizedStrings({
     }
 });
 
-const ButtonToRegionList = ({ title, history }) => (
-    <Button bsStyle="" className="button" onClick={() => history.push('/')}>{strings.returnHome}</Button>
+const ButtonToRegionList = ({ title, history, languageChanged }) => (
+    <Button bsStyle="" className="button" onClick={() => history.push(`/${languageChanged}/`)}>{strings.returnHome}</Button>
   );
 
 export default class About extends Component {
@@ -32,14 +32,16 @@ export default class About extends Component {
     }
 
     componentWillReceiveProps (nextProps) {
-        if (nextProps.languageChanged==='ch') {
-            strings.setLanguage('ch');
+        console.log('will receive props - next language :', nextProps.languageChanged);
+        if (nextProps.languageChanged==='zh') {
+            strings.setLanguage('zh');
         } else if (nextProps.languageChanged==='en') {
             strings.setLanguage('en');
         }
     }
 
     componentWillMount() {
+        console.log('about - language :', this.props.languageChanged);
         strings.setLanguage(this.props.languageChanged);
     }
 
@@ -66,7 +68,7 @@ export default class About extends Component {
                                 <p className="faq-question">{strings.q5}</p>
                                 <p className="faq-answer">{strings.a5}</p>                          
                                 <div className="text-page-button-div">
-                                    <Route path="/" render={(props) => <ButtonToRegionList {...props}/>} />
+                                    <Route path="/" render={(props) => <ButtonToRegionList {...props} languageChanged={this.props.languageChanged}/>} />
                                 </div>
                             </div>
                             </Col>

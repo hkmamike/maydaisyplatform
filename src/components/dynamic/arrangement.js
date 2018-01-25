@@ -29,9 +29,7 @@ let strings = new LocalizedStrings({
         NT_TuenMun: 'Tuen Mun',
         NT_YuenLong: 'Yuen Long',
         specialPickUpLocation: 'Self Pick Up',
-
         buttonToMarket: 'Back to market',
-
         descriptionTab: 'Details',
         deliveryInfoTab: 'Delivery',
         substitutionTab: 'Substitution',
@@ -45,24 +43,21 @@ let strings = new LocalizedStrings({
         discountedPriceTip: 'Promo-code Applied',
         deliveryFee: 'Delivery fee',
         specialPickUpTitle: "Florist's policy on self-pickup:",
-
         dateRequired: '*Please select a delivery date.',
         marketRegionRequired: '*Please select a delivery region.',
         orderNow: 'Order Now',
         otherDesigns1: 'Other Designs by ',
         otherDesigns2: ':',
-
         promoCodeButton: 'Promo-code ',
         applyButton: 'Apply',
         promoCodeApplied: 'Success! promo code applied.',
         promoCodeFailed: 'UhOh, this is not a valid promo code.',
         promoCodeNotApplicable: 'This florist did not specify a discount price for this promo code.',
-
         substitutionPolicy: "Sometimes, florists' photo represent an overall theme or look and include a one-of-a-kind vase which cannot be exactly replicated. Although the delivered bouquet may not precisely match the photo, its temperament will. Occasionally, substitutions of flowers or containers happen due to weather, seasonality and market conditions which may affect availability. If this is the case with the gift you've selected, the local florist will ensure that the style, theme and color scheme of your arrangement is preserved and will only substitute items of equal or higher value.",
         standardDeliveryPolicy: "Every gift ordered through MayDaisy is personally hand-delivered by the local florist. Each local florist sets their own delivery area, and fee.\n\n Some florists offer same-day hand delivery, and the platform wide cut-off time for same-day delivery is 1 p.m local time at the destination city. Orders received after that time may be delivered the following day.\n\n To request a specific delivery time, please type it into the Delivery Instructions field during checkout. We will do our best to accommodate your preferences. Before major holidays and festive seasons, we recommend that you place your orders at least five days in advance.\n\n",
         standardDeliveryPolicyPlus: "The following is your florist's own delivery policy:\n\n",
     },
-    ch: {
+    zh: {
         select_region: '選擇地區',
         HK_CentralWestern: '中西區',
         HK_Eastern: '東區',
@@ -83,11 +78,9 @@ let strings = new LocalizedStrings({
         NT_TuenMun: '屯門區',
         NT_YuenLong: '元朗區',
         specialPickUpLocation: '免費自取',
-
         buttonToMarket: '返回市集',
         descriptionTab: '貨品描述',
         deliveryInfoTab: '送貨詳情',
-
         deliveryFeeTip: '花匠收取的送貨費用。',
         deliverTo: '送往:',
         selectDate: '送花日期:',
@@ -98,19 +91,16 @@ let strings = new LocalizedStrings({
         discountedPriceTip: '折扣後',
         deliveryFee: '送貨費',
         specialPickUpTitle: "花匠設定的免費自取地點和條款:",
-
         dateRequired: '*請選擇送貨日期。',
         marketRegionRequired: '*請選擇送貨地區',
         orderNow: '現在下單',
         otherDesigns1: ' ',
         otherDesigns2: ' 的其他設計:',
-
         promoCodeButton: '折扣碼 ',
         applyButton: '使用',
         promoCodeApplied: '成功！已行使折扣碼。',
         promoCodeFailed: '哎喲，這個折扣碼不正確噢。',
         promoCodeNotApplicable: '花匠沒有為這個設計定立折扣價噢。',
-
         substitutionTab: '替代品',
         substitutionPolicy: "花藝師的照片代表整體的主題或外觀。在某些情況下，花卉或花瓶不能被完全複製。雖然真正的花卉可能不完全符合照片，但它們的主題和外觀會。由於天氣，季節和市場條件可能會影響鮮花的供應，有時花匠會選用替代品。如果您選擇的定購遇到這種情況，花店將確保設計的風格，主題和配色方案得以保留，並且只會選用相同或更高價值的替代品。",
         standardDeliveryPolicy: "每一件設計貨品都是由您所選的當地花店或花藝師創作和親自送貨的。每一個花店和花藝師都有各自的服務區域和送貨收費。\n\n 有一些花店和花藝師提供當天送貨服務，五月菊的當天送貨截止時間為下午一時。下午一時以後收到的訂單有可能會在下一天送貨。\n\n 如果您想指定送貨時間，請在送貨指示中要求，花匠會在可行情況下盡量配合。在主要節日和假期前，我們建議客人在最少五天前下單。\n\n",
@@ -126,7 +116,7 @@ class ButtonToMarket extends React.Component {
                     if (this.props.marketRegion === 'specialPickUpLocation') {
                         this.props.handleMarketRegionSelect('select_region');
                     }
-                    this.props.history.push('/arrangements');
+                    this.props.history.push(`/${this.props.languageChanged}/arrangements/category/region/`);
                 }}
             >
                 {strings.buttonToMarket}
@@ -142,9 +132,9 @@ class ButtonToSearch extends React.Component {
                 onClick={() => {
                     if (this.props.marketRegion === 'specialPickUpLocation') {
                         this.props.handleMarketRegionSelect('select_region');
-                        this.props.history.push(`/arrangements/`);
+                        this.props.history.push(`/${this.props.languageChanged}/arrangements/category/region/`);
                     } else {
-                        this.props.history.push(`/arrangements/${this.props.marketRegion}`);
+                        this.props.history.push(`/${this.props.languageChanged}/arrangements/category/region/${this.props.marketRegion}`);
                     }
                  }}
              >
@@ -244,9 +234,9 @@ export default class Arrangement extends Component {
     handleOrder = (floristID, arrangement, promoCode) => {
         if (this.props.deliveryDate && this.props.marketRegion !== 'select_region') {
             if (promoCode.length>0) {
-                this.props.history.push(`/auth/order/${floristID}/${arrangement}/${promoCode}`);
+                this.props.history.push(`/${this.props.languageChanged}/auth/order/${floristID}/${arrangement}/${promoCode}`);
             } else {
-                this.props.history.push(`/auth/order/${floristID}/${arrangement}`);
+                this.props.history.push(`/${this.props.languageChanged}/auth/order/${floristID}/${arrangement}`);
             }
         }
         else {
@@ -403,8 +393,8 @@ export default class Arrangement extends Component {
     }
     
     componentWillReceiveProps (nextProps) {
-        if (nextProps.languageChanged==='ch') {
-            strings.setLanguage('ch');
+        if (nextProps.languageChanged==='zh') {
+            strings.setLanguage('zh');
         } else if (nextProps.languageChanged==='en') {
             strings.setLanguage('en');
         }
@@ -432,7 +422,7 @@ export default class Arrangement extends Component {
 
     var listOfArrangements = this.state.arrangementsList.map(arrangement => 
         <Col xs={6} sm={4} key={arrangement.id} className="list-item">
-            <Link to={`/florist/${this.state.floristID}/${arrangement.id}`} onClick={() => this.toOtherArrangement(arrangement.id)}>
+            <Link to={`/${this.props.languageChanged}/florist/${this.state.floristID}/${arrangement.id}`} onClick={() => this.toOtherArrangement(arrangement.id)}>
                 <div className="list-pic" style={{ backgroundImage: 'url(' + arrangement.image + ')'}}></div>
                 <div className="text-box">
                     <div className="text-line">
@@ -463,9 +453,9 @@ export default class Arrangement extends Component {
                 <Col xs={12} sm={6}>
                     <div className="arrangement-inline">
                         <div className="arrangement-name">{this.state.arrangementName}</div>
-                        <Route path="/" render={(props) => <ButtonToMarket {...props} marketRegion={this.props.marketRegion} handleMarketRegionSelect={this.props.onMarketRegionSelect}/>} />
+                        <Route path="/" render={(props) => <ButtonToMarket {...props} marketRegion={this.props.marketRegion} handleMarketRegionSelect={this.props.onMarketRegionSelect} languageChanged={this.props.languageChanged}/>} />
                     </div>
-                    <div className="arrangement-florist-name">by <Link to={`/florist/${this.state.arrangementFlorist}`} >{this.state.arrangementFloristName}</Link></div>
+                    <div className="arrangement-florist-name">by <Link to={`/${this.props.languageChanged}/florist/${this.state.arrangementFlorist}`} >{this.state.arrangementFloristName}</Link></div>
                     <ul className="arrangement-details-toggle">
                         <li className={this.state.descriptionActive ? 'toggle-active': null} onClick={() => this.toggleContent(0)} >{strings.descriptionTab}</li>
                         <li className={this.state.deliveryActive ? 'toggle-active': null} onClick={() => this.toggleContent(1)} >{strings.deliveryInfoTab}</li>
@@ -613,7 +603,7 @@ export default class Arrangement extends Component {
 
                     { this.state.arrangementDeliveryFee=== -1 &&
                         <div className="button-box">
-                            <Route path="/" render={(props) => <ButtonToSearch marketRegion={this.props.marketRegion} handleMarketRegionSelect={this.props.onMarketRegionSelect} {...props}/>} />
+                            <Route path="/" render={(props) => <ButtonToSearch marketRegion={this.props.marketRegion} handleMarketRegionSelect={this.props.onMarketRegionSelect} languageChanged={this.props.languageChanged} {...props} />} />
                         </div>
                     }
                     { this.state.arrangementDeliveryFee!== -1 &&

@@ -15,7 +15,7 @@ let strings = new LocalizedStrings({
         shop: 'Boutique Shop',
         rating: 'Ave. Rating:'
     },
-    ch: {
+    zh: {
         designs: '設計',
         about: '關於花店',
         reviews: '評論',
@@ -92,8 +92,8 @@ export default class Florist extends Component {
     }
     
     componentWillReceiveProps (nextProps) {
-        if (nextProps.languageChanged==='ch') {
-            strings.setLanguage('ch');
+        if (nextProps.languageChanged==='zh') {
+            strings.setLanguage('zh');
         } else if (nextProps.languageChanged==='en') {
             strings.setLanguage('en');
         }
@@ -110,10 +110,11 @@ export default class Florist extends Component {
     var floristID = this.props.match.params.floristID;
     let content = null;
     let header = null;
+    var languageChanged = this.props.languageChanged;
 
     var listOfArrangements = this.state.arrangementsList.map(arrangement => 
         <Col xs={6} sm={4} key={arrangement.id} className="list-item">
-            <Link to={`/florist/${floristID}/${arrangement.id}`}>
+            <Link to={`/${languageChanged}/florist/${floristID}/${arrangement.id}`}>
                 <div className="list-pic" style={{ backgroundImage: 'url(' + arrangement.image + ')'}}></div>
                 <div className="text-box">
                     <div className="text-line">

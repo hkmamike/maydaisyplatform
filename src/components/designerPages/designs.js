@@ -18,10 +18,8 @@ let strings = new LocalizedStrings({
     shopInformation2: 'Information',
     allDesigns: 'All Designs',
     designsUpdate: 'Details & Update',
-
     buttonToShop: 'My Shop',
     buttonToAccount: 'My Account',
-
     deleteButton: 'Delete',
     deleteDesign: 'Delete Design',
     deleteText1: "To Proceed deleting this record, click the 'delete' button below",
@@ -31,50 +29,39 @@ let strings = new LocalizedStrings({
     price3: 'PriceB(HKD):',
     discountedPrice: 'Price(-15%):',
     discountedPriceTip: 'We might offer customers up to 15% discount without notifying you, but you will still receive revenue base on the original price.',
-
     newDesign: 'New Design',
     category: 'Category:',
     designCategoryTip: 'We only accept design listings that fit these categories, but more categories will open soon. Please contact us to suggest a new category.',
-
     backButton: 'Back',
     updateButton: 'Update',
     saveButton: 'Save',
     cancelButton: 'Close',
-
     createButton: 'Create',
-
     colorSettingsTitle: 'Color Type Setting',
     colorSettingsText1: 'This helps customers search for designs.',
     colorSettingsText2: 'Please pick one or two colors of the main theme.',
-    
     flowerSettingsTitle: 'Flower Type Setting',
     flowerSettingsText1: 'This helps customers search for designs.',
     flowerSettingsText2: 'Please select only the main flowers',
-
     noDesign: 'You do not have any design listed.',
     errorOccured: 'An error occured, please try again later.',
     designCreated: 'A new design has been created.',
     designUpdated: 'Design has been updated',
     errorIncomplete: 'Please complete all fields to create a new design',
-
     n: 'no',
     y: 'yes',
-
     designImage: 'Image:',
     designName: "Design's name:",
     designID: "Design's ID:",
     designDescription: "Description:",
     color: 'Color:',
     flower: 'Flower:',
-
     designNameTip: "The new design's name should be at least 2 characters long.",
     designDescriptionTip: 'Suggested content: flower type, bloom count, style, dimension. If a vase is in the pictures, please indicate whether it will be included. The description should be at least 20 characters long.',
     priceTip: 'Price should be an integer value greater or equal to 40.',
     price2Tip: "For customers who enter your shop's promo-code A. Leave this field blank if you do not wish to use the promo-code feature. You can set promo-code in your shop's info page.",
     price3Tip: "For customers who enter your shop's promo-code B. Leave this field blank if you do not wish to use the promo-code feature. You can set promo-code in your shop's info page.",
-
     settingButton: 'Setting',
-
     red: 'Red:',
     pink: 'Pink:',
     green: 'Green:',
@@ -84,7 +71,6 @@ let strings = new LocalizedStrings({
     yellow: 'Yellow:',
     lavender: 'Lavender:',
     blue: 'Blue:',
-
     dahlias: 'Dahlias:',
     delphinium: 'Delphinium:',
     daisies: 'Daisies:',
@@ -100,20 +86,16 @@ let strings = new LocalizedStrings({
     callalilies: 'Calla Lilies:',
     gardenroses: 'Garden Roses:',
     lilies: 'lilies:',
-
     deleteSuccess: 'Design has been removed from record.',
     chooseButton: 'Choose',
-
     wrappedBouquets: 'Wrapped Bouquets',
     hampers: 'Hamper/Gift',
     arrangements: 'Arrangements',
     congratulatoryStand: 'Congratulatory Stand',
     flowerBox: 'Flower Boxes',
     driedPreserved: 'Dried / Preserved',
-
     dropdownSelectItem: 'Select',
     creating: 'Creating...',
-
     occasions: 'Occasion:',
     birthday: 'Birthday',
     christmas: 'Christmas',
@@ -122,7 +104,7 @@ let strings = new LocalizedStrings({
     thankyou: 'Thankyou',
     decoration: 'Decoration',
   },
-  ch: {
+  zh: {
     ordersDashboard1: ' ',
     ordersDashboard2: '定單列表',
     designs1: " ",
@@ -131,10 +113,8 @@ let strings = new LocalizedStrings({
     shopInformation2: '店舖資料',
     allDesigns: '所有設計',
     designsUpdate: '詳情+更新',
-
     buttonToShop: '我的花店',
     buttonToAccount: '我的帳戶',
-
     deleteButton: '刪除',
     deleteDesign: '刪除設計',
     deleteText1: "如要繼續刪取這個地址，請按下'刪除'鈕扣。",
@@ -144,50 +124,39 @@ let strings = new LocalizedStrings({
     price3: '價格B(HKD):',
     discountedPrice: '價格(-15%):',
     discountedPriceTip: '五月菊可能會提供不多於15%的季節性推廣優惠，但您的收入會以原價計算。',
-
     category: '貨品種類:',
     newDesign: '新增設計',
     designCategoryTip: '只接受已開通種類的新增設計，其他的種類將陸續開通。如您有對新貨品種類的建議，請聯絡我們。',
-
     backButton: '返回',
     updateButton: '更新',
     saveButton: '儲存',
     cancelButton: '關閉',
-
     createButton: '新增',
-
     colorSettingsTitle: '顏色類型設定',
     colorSettingsText1: '顏色類型設定可以幫客人更快的尋找適合的設計。',
     colorSettingsText2: '選擇新增的設計的主題顏色(請限制在1-3種顏色)。',
-
     flowerSettingsTitle: '花種類型設定',
     flowerSettingsText1: '花種類型設定可以幫客人更快的尋找適合的設計。',
     flowerSettingsText2: '選擇新增的設計的主題花種(請限制在1-3種花)。',
-    
     noDesign: '您的商店目前並沒有貨品。',
     errorOccured: '系統錯誤，請稍後再試。',
     designCreated: '新設計已上架。',
     designUpdated: '設計已更新。',
     errorIncomplete: '資料不完整。請填寫所有設計資料。',
-
     n: 'no',
     y: 'yes',
-
     designImage: '設計照片:',
     designName: "設計名稱:",
     designID: "設計ID:",
     designDescription: "設計描述:",
     color: '顏色:',
     flower: '花種:',
-    
     designNameTip: "新設計的名稱最短應為兩個字。",
     designDescriptionTip: '建議內容：設計花種、花朵數量、風格、大小尺寸。如相片有花瓶，請注明花瓶包括與否。描述最短應為二十個字。',
     priceTip: '價格應為最少是四十的整數。',
     price2Tip: '客人輸入你的折扣碼A後可享有的價格。如果您不想開啟折扣碼功能，可留空。您可在"店舖資料"中設定折扣碼。',
     price3Tip: '客人輸入你的折扣碼B後可享有的價格。如果您不想開啟折扣碼功能，可留空。您可在"店舖資料"中設定折扣碼。',
-
     settingButton: '設定',
-
     red: '紅色:',
     pink: '粉紅色:',
     green: '綠色:',
@@ -197,7 +166,6 @@ let strings = new LocalizedStrings({
     yellow: '黃色:',
     lavender: '薰衣草色:',
     blue: '藍色:',
-
     dahlias: '大麗花:',
     delphinium: '翠雀:',
     daisies: '菊花:',
@@ -213,19 +181,16 @@ let strings = new LocalizedStrings({
     callalilies: '馬蹄蘭:',
     gardenroses: '庭園玫瑰:',
     lilies: '百合:',
-
     deleteSuccess: '設計已刪除。',
     chooseButton: '選擇',
     wrappedBouquets: '花束',
-    hampers: '禮品花籃',
+    hampers: '禮品/花籃',
     arrangements: '插花/擺設',
     congratulatoryStand: '祝賀花牌',
     flowerBox: '花盒',
     driedPreserved: '乾花、保鮮花',
-
     dropdownSelectItem: '選擇',
     creating: '新增中...',
-
     occasions: '主要場合題材:',
     birthday: '生日',
     christmas: '聖誕',
@@ -236,12 +201,12 @@ let strings = new LocalizedStrings({
   }
 });
 
-const ButtonToShop = ({ title, history }) => (
-  <Button bsStyle="" className="head-button-teal" onClick={() => history.push('/auth/ordersdashboard')}>{strings.buttonToShop}</Button>
+const ButtonToShop = ({ title, history, language }) => (
+  <Button bsStyle="" className="head-button-teal" onClick={() => history.push(`/${language}/auth/ordersdashboard`)}>{strings.buttonToShop}</Button>
 );
 
-const ButtonToAccount = ({ title, history }) => (
-  <Button bsStyle="" className="head-button-white" onClick={() => history.push('/auth/orderhistory')}>{strings.buttonToAccount}</Button>
+const ButtonToAccount = ({ title, history, language }) => (
+  <Button bsStyle="" className="head-button-white" onClick={() => history.push(`/${language}/auth/orderhistory`)}>{strings.buttonToAccount}</Button>
 );
 
 class DeleteDesignModal extends React.Component {
@@ -2145,8 +2110,8 @@ export default class Designs extends Component {
     }
   }
   componentWillReceiveProps (nextProps) {
-    if (nextProps.languageChanged==='ch') {
-      strings.setLanguage('ch');
+    if (nextProps.languageChanged==='zh') {
+      strings.setLanguage('zh');
     } else if (nextProps.languageChanged==='en') {
       strings.setLanguage('en');
     }
@@ -2528,27 +2493,27 @@ export default class Designs extends Component {
         <Grid> 
           <Row className="head-button-inline">
             <div className="head-button-section">            
-              <Route path="/" render={(props) => <ButtonToShop {...props}/>} />
+              <Route path="/" render={(props) => <ButtonToShop {...props} language={this.props.languageChanged}/>} />
             </div>
             <div className="head-button-section">            
-              <Route path="/" render={(props) => <ButtonToAccount {...props}/>} />
+              <Route path="/" render={(props) => <ButtonToAccount {...props} language={this.props.languageChanged}/>} />
             </div>
           </Row>
           <Row className="show-grid loggedin-nav">
             <Col xs={4} className="loggedin-nav-button">
-              <Link to="/auth/ordersdashboard">
+              <Link to={`/${this.props.languageChanged}/auth/ordersdashboard`}>
                 <i className="fa fa-book fa-lg nav-icon"></i>
                 <div className="nav-icon-title">{strings.ordersDashboard1}<br/>{strings.ordersDashboard2}</div>
               </Link>
             </Col>
             <Col xs={4} className="loggedin-nav-button">
-              <Link to="/auth/designs" className="nav-selected">
+              <Link to={`/${this.props.languageChanged}/auth/designs`} className="nav-selected">
                 <i className="fa fa-star fa-lg nav-icon"></i>
                 <div className="nav-icon-title">{strings.designs1}<br/>{strings.designs2}</div>
               </Link>
             </Col>
             <Col xs={4} className="loggedin-nav-button">
-              <Link to="/auth/shopinfo">
+              <Link to={`/${this.props.languageChanged}/auth/shopinfo`}>
                 <i className="fa fa-home fa-lg nav-icon"></i>
                 <div className="nav-icon-title">{strings.shopInformation1}<br/>{strings.shopInformation2}</div>
               </Link>

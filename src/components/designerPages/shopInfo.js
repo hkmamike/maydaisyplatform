@@ -18,8 +18,6 @@ let strings = new LocalizedStrings({
     designs2: 'Designs',
     shopInformation1: 'Shop',
     shopInformation2: 'Information',
-
-
     shopName: 'ShopName:',
     shopID: 'shopID:',
     address: 'Address:',
@@ -31,13 +29,10 @@ let strings = new LocalizedStrings({
     promoCodeBTip: 'Best promo-codes are 4-10 alphanumeric characters, case insensitive. When customers enter this code, they will be offered PriceB for the designs according to your setting. Leave blank to disable this feature.',
     deliveryRegions: 'Delivery Regions:',
     openDays: 'Open on:',
-
     setting: 'Setting',
     shopPage: 'shop page',
-
     deliveryRegionSettingsTitle: 'Delivery Setting by Region',
     deliveryRegionSettingsText1: 'You can choose the regions to cover here and specify delivery fee.',
-
     HK_CentralWestern: 'Central & Western',
     HK_Eastern: 'Eastern',
     HK_Southern: 'Southern',
@@ -57,7 +52,6 @@ let strings = new LocalizedStrings({
     NT_TuenMun: 'Tuen Mun',
     NT_YuenLong: 'Yuen Long',
     specialPickUpLocation: 'Pick Up Spot',
-
     n: 'not delivering',
     free: 'free delivery',
     forty: '$40',
@@ -72,30 +66,23 @@ let strings = new LocalizedStrings({
     twohundredtwenty: '$220',
     twohundredforty: '$240',
     twohundredsixty: '$260',
-
     backButton: 'Back',
     updateButton: 'Update',
     updating: 'Updating...',
-
     open: 'open',
     close: 'close',
-
     openDaysSettingsTitle: 'Opening Days Settings',
     openDaysSettingsText1: 'MayDaisy is a hobbyist and independent artists friendly community. We understand that you have other responsibilities in life and may not want to open shop on everyday.',
     openDaysSettingsText2: 'Here, you can choose which days to allow customers to place orders on.',
-
     closeDaysSettingsTitle: 'Rest/Full Days Settings',
     closeDaysSettingsText1: 'If you already have many orders on specific days or if you are going on vacation, you might not want to take on orders.',
     closeDaysSettingsText2: 'Here, you can choose specific days to close your shop. The highlighted days are already set to close.',
     openShop: 'Open Shop',
     closeShop: 'Close Shop',
-
     shopInfoUpdated: 'shop information has been updated',
     errorOccured: 'An error occured when updating shop information',
-
     buttonToShop: 'My Shop',
     buttonToAccount: 'My Account',
-
     monday: 'Monday:',
     tuesday: 'Tuesday:',
     wednesday: 'Wednesday:',
@@ -103,30 +90,24 @@ let strings = new LocalizedStrings({
     friday: 'Friday:',
     saturday: 'Saturday:',
     sunday: 'Sunday:',
-
     chooseButton: 'Choose',
     shopProfile: 'Image:',
-
     facebook: 'Facebook:',
     instagram: 'Instagram:',
-
     blockedDay: 'Close shop on:',
-
     deliveryInfo: 'Delivery Policy:',
     deliveryInfoTip: 'A copy of this will be shown on the "Delivery Info" tab on each of your arrangement page. If you do not specify a delivery policy, the standard MayDaisy delivery policy will be displayed.',
-
     specialPickUp: 'Self-PickUp Policy:',
     specialPickUpTip: "If you offer free pickup at special locations, display location here and specify pickup policy. You would also need to enable 'Pick Up Spot' under 'Delivery Settings'.",
     leadTimeTip: '*Put ""1" if next day delivery is available, "0" if sameday delivery is available, so on. For sameday delivery, platform wise cutoff time is 1p.m. HKT.',
   },
-  ch: {
+  zh: {
     ordersDashboard1: ' ',
     ordersDashboard2: '定單列表',
     designs1: " ",
     designs2: '貨品列表',
     shopInformation1: ' ',
     shopInformation2: '店舖資料',
-
     shopName: '店舖名稱:',
     shopID: '店舖ID:',
     address: '地址:',
@@ -138,13 +119,10 @@ let strings = new LocalizedStrings({
     promoCodeBTip: '折扣碼建議為4-10個英文字母或數字，大小寫無分。客人可以用這個折扣碼解鎖貨品的價格B。如要關閉折扣碼功能請留空。',
     deliveryRegions: '送貨區域:',
     openDays: '辦公日:',
-
     setting: '設定',
     shopPage: '店舖主頁',
-
     deliveryRegionSettingsTitle: '區域送貨服務設定',
     deliveryRegionSettingsText1: '您可以在這裡選擇服務區域和設定送貨費用。',
-
     HK_CentralWestern: '中西區',
     HK_Eastern: '東區',
     HK_Southern: '南區',
@@ -164,7 +142,6 @@ let strings = new LocalizedStrings({
     NT_TuenMun: '屯門區',
     NT_YuenLong: '元朗區',
     specialPickUpLocation: '自取地點',
-
     n: '不覆蓋',
     free: '免費送貨',
     forty: '$40',
@@ -179,30 +156,23 @@ let strings = new LocalizedStrings({
     twohundredtwenty: '$220',
     twohundredforty: '$240',
     twohundredsixty: '$260',
-
     backButton: '返回',
     updateButton: '更新',
     updating: '更新中...',
-
     open: '營業',
     close: '休息',
-
     openDaysSettingsTitle: '營業日設定',
     openDaysSettingsText1: ' ',
     openDaysSettingsText2: '如果您不想每天開店，可以在這裡設定營業時間。',
-
     closeDaysSettingsTitle: '假期/休息設定',
     closeDaysSettingsText1: ' ',
     closeDaysSettingsText2: '如果您會放假或定單已滿，可以在這裡設定營業時間。亮起的日期已設定為休息日。',
     openShop: '開店',
     closeShop: '關店',
-
     shopInfoUpdated: '店舖資料已更新。',
     errorOccured: '系統錯誤，請稍後再試。',
-
     buttonToShop: '我的花店',
     buttonToAccount: '我的帳戶',
-
     monday: '星期一:',
     tuesday: '星期二:',
     wednesday: '星期三:',
@@ -210,31 +180,25 @@ let strings = new LocalizedStrings({
     friday: '星期五:',
     saturday: '星期六:',
     sunday: '星期日:',
-
     chooseButton: '選擇',
     shopProfile: '店舖標誌:',
-
     facebook: 'Facebook:',
     instagram: 'Instagram:',
-
     blockedDay: '休息｜已滿:',
-
     deliveryInfo: '送貨詳情:',
     deliveryInfoTip: '送貨詳情會在貨品頁中顯示給客人。如果您未有選寫送貨詳情，系統將會顯示五月菊的標準送貨政策。',
-
     specialPickUp: '自取條款:',
     specialPickUpTip: '如果您在特定地點給客人免費自取，請列出地點，並注明自取條款。不要忘記在區域送貨開啟自取地點噢。',
-
     leadTimeTip: '*如果最快交貨時間為下一天，請填"1"，如此類推。如您的店提供即日送貨，請填"0"。 所有五月菊的即日送貨的標準訂單截止時間為香港時間下午1時。'
   }
 });
 
-const ButtonToShop = ({ title, history }) => (
-  <Button bsStyle="" className="head-button-teal" onClick={() => history.push('/auth/ordersdashboard')}>{strings.buttonToShop}</Button>
+const ButtonToShop = ({ title, history, languageChanged }) => (
+  <Button bsStyle="" className="head-button-teal" onClick={() => history.push(`/${languageChanged}/auth/ordersdashboard`)}>{strings.buttonToShop}</Button>
 );
 
-const ButtonToAccount = ({ title, history }) => (
-  <Button bsStyle="" className="head-button-white" onClick={() => history.push('/auth/orderhistory')}>{strings.buttonToAccount}</Button>
+const ButtonToAccount = ({ title, history, languageChanged }) => (
+  <Button bsStyle="" className="head-button-white" onClick={() => history.push(`/${languageChanged}/auth/orderhistory`)}>{strings.buttonToAccount}</Button>
 );
 
 class FileUpload extends React.Component {
@@ -1009,8 +973,8 @@ export default class ShopInfo extends Component {
   }
 
   componentWillReceiveProps (nextProps) {
-      if (nextProps.languageChanged==='ch') {
-          strings.setLanguage('ch');
+      if (nextProps.languageChanged==='zh') {
+          strings.setLanguage('zh');
       } else if (nextProps.languageChanged==='en') {
           strings.setLanguage('en');
       }
@@ -1127,7 +1091,7 @@ export default class ShopInfo extends Component {
                     <div><strong>{strings.shopName}</strong></div>
                   </Col>
                   <Col sm={8}>
-                    <div>{this.state.name} (<Link to={`/florist/${this.props.designerCode}`} id="shop-link" target='_blank'>{strings.shopPage}</Link>)</div>
+                    <div>{this.state.name} (<Link to={`/${this.props.languageChanged}/florist/${this.props.designerCode}`} id="shop-link" target='_blank'>{strings.shopPage}</Link>)</div>
                   </Col>
                 </FormGroup>
               </Row>
@@ -1332,27 +1296,27 @@ export default class ShopInfo extends Component {
            <Grid>
             <Row className="head-button-inline">
               <div className="head-button-section">            
-                <Route path="/" render={(props) => <ButtonToShop {...props}/>} />
+                <Route path="/" render={(props) => <ButtonToShop {...props} languageChanged={this.props.languageChanged}/>} />
               </div>
               <div className="head-button-section">            
-                <Route path="/" render={(props) => <ButtonToAccount {...props}/>} />
+                <Route path="/" render={(props) => <ButtonToAccount {...props} languageChanged={this.props.languageChanged}/>} />
               </div>
             </Row>
             <Row className="show-grid loggedin-nav">
               <Col xs={4} className="loggedin-nav-button">
-                <Link to="/auth/ordersdashboard">
+                <Link to={`/${this.props.languageChanged}/auth/ordersdashboard`}>
                   <i className="fa fa-book fa-lg nav-icon"></i>
                   <div className="nav-icon-title">{strings.ordersDashboard1}<br/>{strings.ordersDashboard2}</div>
                 </Link>
               </Col>
               <Col xs={4} className="loggedin-nav-button">
-                <Link to="/auth/designs">
+                <Link to={`/${this.props.languageChanged}/auth/designs`}>
                   <i className="fa fa-star fa-lg nav-icon"></i>
                   <div className="nav-icon-title">{strings.designs1}<br/>{strings.designs2}</div>
                 </Link>
               </Col>
               <Col xs={4} className="loggedin-nav-button">
-                <Link to="/auth/shopinfo" className="nav-selected">
+                <Link to={`/${this.props.languageChanged}/auth/shopinfo`} className="nav-selected">
                   <i className="fa fa-home fa-lg nav-icon"></i>
                   <div className="nav-icon-title">{strings.shopInformation1}<br/>{strings.shopInformation2}</div>
                 </Link>

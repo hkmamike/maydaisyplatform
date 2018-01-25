@@ -5,7 +5,7 @@ import { Button } from 'react-bootstrap';
 import LocalizedStrings from 'react-localization';
 
 let strings = new LocalizedStrings({
-    ch: {
+    zh: {
         companyTitle: "五月菊",
         languageButton: 'Eng',
         accountButton: "我的帳戶",
@@ -21,21 +21,40 @@ let strings = new LocalizedStrings({
     }
   });
 
-const ButtonToLogin = ({ title, history }) => (
-    <Button bsStyle="" className="button" onClick={() => history.push('/auth/login')}>{strings.login}</Button>
-);
+const ButtonToLogin = ({ title, history, props }) => {
+    var currentPath = props.location.pathname;
+    var currentLang = currentPath.substring(0,3);
+    return <Button bsStyle="" className="button" onClick={() => history.push(`${currentLang}/auth/login`)}>{strings.login}</Button>
+}
 
-const ButtonToAccount = ({ title, history }) => (
-    <Button bsStyle="" className="button" onClick={() => history.push('/auth/orderhistory')}>{strings.accountButton}</Button>
-);
+const ButtonToAccount = ({ title, history, props }) => {
+    var currentPath = props.location.pathname;
+    var currentLang = currentPath.substring(0,3);
+    return <Button bsStyle="" className="button" onClick={() => history.push(`${currentLang}/auth/orderhistory`)}>{strings.accountButton}</Button>
+}
 
-const ButtonToEn = ({ title, history }) => (
-    <Button bsStyle="" className="button" onClick={() => history.push('/home-en')}>Eng</Button>
-);
+// const ButtonToEn = ({ title, history }) => (
+//     <Button bsStyle="" className="button" onClick={() => history.push('/en/')}>Eng</Button>
+// );
 
-const ButtonToCh = ({ title, history }) => (
-    <Button bsStyle="" className="button" onClick={() => history.push('/home-zh')}>中文</Button>
-);
+// const ButtonToCh = ({ title, history }) => (
+//     <Button bsStyle="" className="button" onClick={() => history.push('/zh/')}>中文</Button>
+// );
+
+var ButtonToToggleLang = ({ title, history, props, handleLanguageToggle }) => {
+
+    var currentPath = props.location.pathname;
+    var currentLang = currentPath.substring(0,3);
+    var cleanPath = currentPath.substring(3);
+
+    if (currentLang === '/zh') {
+        return <Button bsStyle="" className="button" onClick={() => {history.push('/en' + cleanPath); handleLanguageToggle();}}>{strings.languageButton}</Button>
+    } else if (currentLang === '/en') {
+        return <Button bsStyle="" className="button" onClick={() => {history.push('/zh' + cleanPath); handleLanguageToggle();}}>{strings.languageButton}</Button>
+    } else {
+        return <Button bsStyle="" className="button" onClick={() => {history.push('/zh' + currentPath); handleLanguageToggle();}}>{strings.languageButton}</Button>
+    }
+}
 
 export default class Header extends Component {
 
@@ -45,12 +64,12 @@ export default class Header extends Component {
       }
 
     handleLanguageToggle () {
-        if (strings.getLanguage()==='ch') {
+        if (strings.getLanguage()==='zh') {
             strings.setLanguage('en');
             this.props.onLanguageToggle('en');
           } else if (strings.getLanguage()==='en') {
-            strings.setLanguage('ch');
-            this.props.onLanguageToggle('ch');
+            strings.setLanguage('zh');
+            this.props.onLanguageToggle('zh');
           }
         this.setState({});
     }
@@ -66,39 +85,47 @@ export default class Header extends Component {
         return (
         <header>
 
-            {(this.props.onHomePage && currentPath.includes('home-zh')) && <div className="logo">
-                <Link to="/home-zh">五月菊</Link>
+            {(this.props.onHomePage && currentPath.includes('/zh/')) && <div className="logo">
+                <Link to="/zh/">五月菊</Link>
             </div>}
-            {(this.props.onHomePage && currentPath.includes('home-en')) && <div className="logo">
-                <Link to="/home-en">MayDaisy</Link>
+            {(this.props.onHomePage && currentPath.includes('/en/')) && <div className="logo">
+                <Link to="/en/">MayDaisy</Link>
             </div>}
             {(!this.props.onHomePage && this.props.languageChanged === 'en') && <div className="logo">
-                <Link to="/home-en">{strings.companyTitle}</Link>
+                <Link to="/en/">{strings.companyTitle}</Link>
             </div>}
-            {(!this.props.onHomePage && this.props.languageChanged === 'ch') && <div className="logo">
-                <Link to="/home-zh">{strings.companyTitle}</Link>
+            {(!this.props.onHomePage && this.props.languageChanged === 'zh') && <div className="logo">
+                <Link to="/zh/">{strings.companyTitle}</Link>
             </div>}
 
             <nav>
                 <ul>
-                    {(this.props.onHomePage && currentPath.includes('home-zh')) && <li>
+                    {/* {(this.props.onHomePage && currentPath.includes('/zh/')) && <li>
                         <Route path="/" render={(props) => <ButtonToEn {...props}/>} />
                     </li>}
-                    {(this.props.onHomePage && currentPath.includes('home-en')) && <li>
+                    {(this.props.onHomePage && currentPath.includes('/en/')) && <li>
                         <Route path="/" render={(props) => <ButtonToCh {...props}/>} />
-                    </li>}
-                    {!this.props.onHomePage && <li>
+                    </li>} */}
+                    {/* {!this.props.onHomePage && <li>
+                        <Route path="/" render={(props) => <ButtonToToggleLang {...props} props={props} handleLanguageToggle={this.handleLanguageToggle}/>} />
+                    </li>} */}
+                    {/* {!this.props.onHomePage && <li>
                         <Button bsStyle="" onClick={() => {this.handleLanguageToggle()}} className="button">{strings.languageButton}</Button>
-                    </li>}
+                    </li>} */}
+
+                    <li>
+                        <Route path="/" render={(props) => <ButtonToToggleLang {...props} props={props} handleLanguageToggle={this.handleLanguageToggle}/>} />
+                    </li>
+
                     <li>
                         {this.props.authed?
                         <span>
-                            <Route path="/" render={(props) => <ButtonToAccount {...props}/>} />
+                            <Route path="/" render={(props) => <ButtonToAccount {...props} props={props}/>} />
                             <Button bsStyle="" onClick={() => {logout()}} className="button">{strings.logout}</Button>
                         </span>
                         :
                         <span>
-                            <Route path="/" render={(props) => <ButtonToLogin {...props}/>} />
+                            <Route path="/" render={(props) => <ButtonToLogin {...props} props={props}/>} />
                         </span>}
                     </li>
                 </ul>

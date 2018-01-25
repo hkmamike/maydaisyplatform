@@ -47,7 +47,7 @@ let strings = new LocalizedStrings({
       metaTitle: 'MayDaisy - Flower MarketPlace',
       metaDescription: 'Flower marketplace and floral art community. Discover emerging artists and flower shops. We curate signature designs of bouquets, hampers, arrangements, dried flowers, and preserved flowers.',
     },
-    ch: {
+    zh: {
       signUp: '報名',
       homeImgTitle: '鮮花市集，一網搜盡最潮最優雅的花店和獨立花藝師。',
       homeImgSubtitle: '花卉送往哪裏?',
@@ -91,9 +91,9 @@ let strings = new LocalizedStrings({
     }
   });
 
-const ButtonToMarket = ({ title, history, marketRegion }) => (
-  <Button bsStyle="" className="button" onClick={() => history.push(`/arrangements/category/region/${marketRegion}`)}>{strings.go}</Button>
-);
+const ButtonToMarket = ({ title, history, marketRegion, language }) => {
+  return (<Button bsStyle="" className="button" onClick={() => history.push(`/${language}/arrangements/category/region/${marketRegion}`)}>{strings.go}</Button>);
+}
 
 // const ButtonToScrollUp = ({ title, history }) => (
 //   <Button bsStyle="" className="button" onClick={() => window.scrollTo(0, 0)}>{strings.signUp}</Button>
@@ -111,8 +111,8 @@ export default class Homepage extends Component {
   }
 
   componentWillReceiveProps (nextProps) {
-    if (nextProps.languageChanged==='ch') {
-      strings.setLanguage('ch');
+    if (nextProps.languageChanged==='zh') {
+      strings.setLanguage('zh');
     } else if (nextProps.languageChanged==='en') {
       strings.setLanguage('en');
     }
@@ -133,6 +133,7 @@ export default class Homepage extends Component {
 
   render() {
     const marketRegion = this.props.marketRegion;
+    const language = this.props.languageChanged;
 
     return (
       <div className="no-padding">
@@ -140,8 +141,8 @@ export default class Homepage extends Component {
         <MetaTags>
           <title>{strings.metaTitle}</title>
           <meta name="description" content={strings.metaDescription} />
-          <link rel="alternate" hrefLang="en" href="https://maydaisy.com/home-en"/>
-          <link rel="alternate" hrefLang="zh-Hant" href="https://maydaisy.com/home-zh"/>
+          <link rel="alternate" hrefLang="en" href="https://maydaisy.com/en"/>
+          <link rel="alternate" hrefLang="zh-Hant" href="https://maydaisy.com/zh"/>
         </MetaTags>
         
         <div className="home-image-container">
@@ -171,7 +172,7 @@ export default class Homepage extends Component {
                     <MenuItem eventKey="NT_TuenMun">{strings.NT_TuenMun}</MenuItem>
                     <MenuItem eventKey="NT_YuenLong">{strings.NT_YuenLong}</MenuItem>
                   </DropdownButton>
-                  <Route path="/" render={(props) => <ButtonToMarket marketRegion={marketRegion} {...props}/>} />
+                  <Route path="/" render={(props) => <ButtonToMarket marketRegion={marketRegion} language={language} {...props}/>} />
                 </Col>
               </Row>
             </Grid>

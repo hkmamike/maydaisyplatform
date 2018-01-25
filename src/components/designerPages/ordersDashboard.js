@@ -128,7 +128,7 @@ let strings = new LocalizedStrings({
     termsTip2: 'Terms of Services',
     termsTip3: '.',
   },
-  ch: {
+  zh: {
     HK_CentralWestern: '中西區',
     HK_Eastern: '東區',
     HK_Southern: '南區',
@@ -252,12 +252,12 @@ let strings = new LocalizedStrings({
   }
 });
 
-const ButtonToShop = ({ title, history }) => (
-  <Button bsStyle="" className="head-button-teal" onClick={() => history.push('/auth/ordersdashboard')}>{strings.buttonToShop}</Button>
+const ButtonToShop = ({ title, history, languageChanged }) => (
+  <Button bsStyle="" className="head-button-teal" onClick={() => history.push(`/${languageChanged}/auth/ordersdashboard`)}>{strings.buttonToShop}</Button>
 );
 
-const ButtonToAccount = ({ title, history }) => (
-  <Button bsStyle="" className="head-button-white" onClick={() => history.push('/auth/orderhistory')}>{strings.buttonToAccount}</Button>
+const ButtonToAccount = ({ title, history, languageChanged }) => (
+  <Button bsStyle="" className="head-button-white" onClick={() => history.push(`/${languageChanged}/auth/orderhistory`)}>{strings.buttonToAccount}</Button>
 );
 
 class SubmitButton extends React.Component {
@@ -504,7 +504,7 @@ class OrderDetails extends React.Component {
                       <div><strong>{strings.arrangement}</strong></div>
                   </Col>
                   <Col sm={8}>
-                  <div className="order-history-arrangement-name"><Link to={`/florist/${orderDetails.florist}/${orderDetails.arrangementCode}`}>{orderDetails.arrangementName}</Link></div>
+                  <div className="order-history-arrangement-name"><Link to={`/${this.props.languageChanged}/florist/${orderDetails.florist}/${orderDetails.arrangementCode}`}>{orderDetails.arrangementName}</Link></div>
                   </Col>
                 </FormGroup>
               </Row>
@@ -707,8 +707,8 @@ export default class OrdersDashboard extends Component {
     }
   }
   componentWillReceiveProps (nextProps) {
-    if (nextProps.languageChanged==='ch') {
-      strings.setLanguage('ch');
+    if (nextProps.languageChanged==='zh') {
+      strings.setLanguage('zh');
     } else if (nextProps.languageChanged==='en') {
       strings.setLanguage('en');
     }
@@ -909,19 +909,19 @@ export default class OrdersDashboard extends Component {
         <div>
           <Row className="show-grid loggedin-nav">
             <Col xs={4} className="loggedin-nav-button">
-              <Link to="/auth/ordersdashboard" className="nav-selected">
+              <Link to={`/${this.props.languageChanged}/auth/ordersdashboard`} className="nav-selected">
                 <i className="fa fa-book fa-lg nav-icon"></i>
                 <div className="nav-icon-title">{strings.ordersDashboard1}<br/>{strings.ordersDashboard2}</div>
               </Link>
             </Col>
             <Col xs={4} className="loggedin-nav-button">
-              <Link to="/auth/designs">
+              <Link to={`/${this.props.languageChanged}/auth/designs`}>
                 <i className="fa fa-star fa-lg nav-icon"></i>
                 <div className="nav-icon-title">{strings.designs1}<br/>{strings.designs2}</div>
               </Link>
             </Col>
             <Col xs={4} className="loggedin-nav-button">
-              <Link to="/auth/shopinfo">
+              <Link to={`/${this.props.languageChanged}/auth/shopinfo`}>
                 <i className="fa fa-home fa-lg nav-icon"></i>
                 <div className="nav-icon-title">{strings.shopInformation1}<br/>{strings.shopInformation2}</div>
               </Link>
@@ -1055,7 +1055,7 @@ export default class OrdersDashboard extends Component {
                         <FormControl.Feedback />
                       </FormGroup>
 
-                      <div className="register-tips"><strong>{strings.termsTip1}<Link to='/terms' target="_blank">{strings.termsTip2}</Link></strong>{strings.termsTip3}</div>
+                      <div className="register-tips"><strong>{strings.termsTip1}<Link to={`/${this.props.languageChanged}/terms`} target="_blank">{strings.termsTip2}</Link></strong>{strings.termsTip3}</div>
 
                       { this.state.formIncompleteMessage &&
                         <div className="error-message">{this.state.formIncompleteMessage}</div>
@@ -1075,10 +1075,10 @@ export default class OrdersDashboard extends Component {
         <Grid>
           <Row className="head-button-inline">
             <div className="head-button-section">            
-              <Route path="/" render={(props) => <ButtonToShop {...props}/>} />
+              <Route path="/" render={(props) => <ButtonToShop {...props}/>} languageChanged={this.props.languageChanged}/>
             </div>
             <div className="head-button-section">            
-              <Route path="/" render={(props) => <ButtonToAccount {...props}/>} />
+              <Route path="/" render={(props) => <ButtonToAccount {...props} languageChanged={this.props.languageChanged}/>} />
             </div>
           </Row>
           {headerNav}

@@ -17,6 +17,7 @@
     },
 
     "arrangementsList": {
+      ".indexOn": ["florist"],
       ".read" : true,
       "$arrangement" : {
         ".write": "!data.exists() && auth != null || data.child('floristUserID').val() === auth.uid"

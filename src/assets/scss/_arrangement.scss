@@ -348,7 +348,7 @@
                 }
             }
             button {
-                @include translateY(-2px);
+                @include translateY(-1px);
                 display: inline-block;
                 border-radius: 0;
                 background-color: $pink;

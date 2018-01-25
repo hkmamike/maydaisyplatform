@@ -13,7 +13,7 @@ let strings = new LocalizedStrings({
     checkOutLabel: 'Place Order'
 
   },
-  ch: {
+  zh: {
     subscribeButton: '訂購',
     checkOutName: '五月菊',
     checkOutDescription: '鮮花訂購',
@@ -38,8 +38,8 @@ export default class PlaceOrder extends React.Component {
     }
     
     componentWillReceiveProps (nextProps) {
-        if (nextProps.languageChanged==='ch') {
-            strings.setLanguage('ch');
+        if (nextProps.languageChanged==='zh') {
+            strings.setLanguage('zh');
         } else if (nextProps.languageChanged==='en') {
             strings.setLanguage('en');
         }

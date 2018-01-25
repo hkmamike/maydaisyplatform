@@ -20,7 +20,7 @@ let strings = new LocalizedStrings({
       weakPW: 'password strength does not meet the minimum standard.',
 
     },
-    ch: {
+    zh: {
       registerTitle: '登記',
       registerSubtitle: '請填寫帳戶登記表',
       email: '電郵',
@@ -60,8 +60,8 @@ export default class Register extends Component {
   }
 
   componentWillReceiveProps (nextProps) {
-    if (nextProps.languageChanged==='ch') {
-      strings.setLanguage('ch');
+    if (nextProps.languageChanged==='zh') {
+      strings.setLanguage('zh');
     } else if (nextProps.languageChanged==='en') {
       strings.setLanguage('en');
     }
@@ -132,7 +132,7 @@ export default class Register extends Component {
 
                   <Button bsStyle="" type="submit" className="button">{strings.createAccountButton}</Button>
                   <div className="link-group-register">
-                    <Link to="/auth/login" className="link-login">{strings.haveAccount}</Link>
+                    <Link to={`/${this.props.languageChanged}/auth/login`} className="link-login">{strings.haveAccount}</Link>
                   </div>
                 </form>
             </Col>

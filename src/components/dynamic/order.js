@@ -111,7 +111,7 @@ let strings = new LocalizedStrings({
     specialPickUpLocation: 'Self Pick Up',
 
   },
-  ch: {
+  zh: {
     navLogin: '登入',
     navCard: '心意卡',
     navDelivery: '配送資料',
@@ -558,8 +558,8 @@ export default class Order extends Component {
     }
 
     componentWillReceiveProps (nextProps) {
-        if (nextProps.languageChanged==='ch') {
-        strings.setLanguage('ch');
+        if (nextProps.languageChanged==='zh') {
+        strings.setLanguage('zh');
         } else if (nextProps.languageChanged==='en') {
         strings.setLanguage('en');
         }
@@ -1204,7 +1204,7 @@ export default class Order extends Component {
                         <Row className="show-grid">
                             <Col sm={2}></Col>
                             <Col sm={9}>
-                                <div className="order-tips"><strong>{strings.termsTip1}<Link to='/terms' target="_blank">{strings.termsTip2}</Link></strong>{strings.termsTip3}</div>
+                                <div className="order-tips"><strong>{strings.termsTip1}<Link to={`/${this.props.languageChanged}/terms`} target="_blank">{strings.termsTip2}</Link></strong>{strings.termsTip3}</div>
                             </Col>
                         </Row>
                         <Row className="show-grid">
@@ -1292,7 +1292,7 @@ export default class Order extends Component {
                             <div><strong>{strings.floristName}</strong></div>
                         </Col>
                         <Col sm={6}>
-                            <div>{this.state.arrangementFloristName} (<Link to={`/florist/${this.state.arrangementFlorist}`} id="shop-link" target='_blank'>{strings.shopPage}</Link>)</div>
+                            <div>{this.state.arrangementFloristName} (<Link to={`/${this.props.languageChanged}/florist/${this.state.arrangementFlorist}`} id="shop-link" target='_blank'>{strings.shopPage}</Link>)</div>
                         </Col>
                      
                     </Row>
@@ -1311,7 +1311,7 @@ export default class Order extends Component {
                         <Row className="show-grid">
                             <Col sm={5}></Col>
                             <Col sm={4}>
-                                <Button bsStyle="" className="button-new-sub button-back"><Link to="/auth/orderhistory">{strings.orderHistoryButton}</Link></Button>
+                                <Button bsStyle="" className="button-new-sub button-back"><Link to={`/${this.props.languageChanged}/auth/orderhistory`}>{strings.orderHistoryButton}</Link></Button>
                             </Col>
                         </Row>
                     }

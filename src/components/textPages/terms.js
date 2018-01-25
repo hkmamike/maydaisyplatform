@@ -9,14 +9,14 @@ let strings = new LocalizedStrings({
       returnHome: 'Back to Home',
       pageTitle: 'Terms of Services'
     },
-    ch: {
+    zh: {
       returnHome: '返回主頁',
       pageTitle: '服務條款'
     }
 });
 
-const ButtonToRegionList = ({ title, history }) => (
-    <Button bsStyle="" className="button" onClick={() => history.push('/')}>{strings.returnHome}</Button>
+const ButtonToRegionList = ({ title, history, languageChanged }) => (
+    <Button bsStyle="" className="button" onClick={() => history.push(`/${languageChanged}/`)}>{strings.returnHome}</Button>
   );
 
 export default class TermsOfServices extends Component {
@@ -26,8 +26,8 @@ export default class TermsOfServices extends Component {
     }
 
     componentWillReceiveProps (nextProps) {
-        if (nextProps.languageChanged==='ch') {
-            strings.setLanguage('ch');
+        if (nextProps.languageChanged==='zh') {
+            strings.setLanguage('zh');
         } else if (nextProps.languageChanged==='en') {
             strings.setLanguage('en');
         }
@@ -213,7 +213,7 @@ export default class TermsOfServices extends Component {
                                 <p>If you have any questions about this Agreement, please contact contact@maydaisy.com.</p>
 
                                 <div className="text-page-button-div">
-                                    <Route path="/" render={(props) => <ButtonToRegionList {...props}/>} />
+                                    <Route path="/" render={(props) => <ButtonToRegionList {...props} languageChanged={this.props.languageChanged}/>} />
                                 </div>
                             </div>
                             </Col>

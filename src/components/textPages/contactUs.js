@@ -13,18 +13,18 @@ let strings = new LocalizedStrings({
       email: 'Email : ',
       hotline: 'Hotline : '
     },
-    ch: {
+    zh: {
       returnHome: '返回主頁',
       pageTitle: '聯絡方法',
       lastUpdated: '最後更新: 2017年9月27日',
-      subtitle: "我們想聽到您的聲音! 告訴我們怎樣可以令您的體驗更完美，當然，我們也會答覆大家的查問和情信。",
+      subtitle: "我們想聽到您的聲音! 告訴我們怎樣可以令您的體驗更完美。",
       email: '電郵 : ',
       hotline: '熱線 : '
     }
 });
 
-const ButtonToRegionList = ({ title, history }) => (
-    <Button bsStyle="" className="button" onClick={() => history.push('/')}>{strings.returnHome}</Button>
+const ButtonToRegionList = ({ title, history, languageChanged }) => (
+    <Button bsStyle="" className="button" onClick={() => history.push(`/${languageChanged}/`)}>{strings.returnHome}</Button>
   );
 
 export default class ContactUs extends Component {
@@ -34,8 +34,8 @@ export default class ContactUs extends Component {
     }
 
     componentWillReceiveProps (nextProps) {
-        if (nextProps.languageChanged==='ch') {
-            strings.setLanguage('ch');
+        if (nextProps.languageChanged==='zh') {
+            strings.setLanguage('zh');
         } else if (nextProps.languageChanged==='en') {
             strings.setLanguage('en');
         }
@@ -60,7 +60,7 @@ export default class ContactUs extends Component {
                                 <p>{strings.email}<a href="mailto:contact@maydaisy.com">contact@maydaisy.com</a></p>
                                 <p>{strings.hotline}(852)9346-8427</p>
                                 <div className="text-page-button-div">
-                                    <Route path="/" render={(props) => <ButtonToRegionList {...props}/>} />
+                                    <Route path="/" render={(props) => <ButtonToRegionList {...props} languageChanged={this.props.languageChanged}/>} />
                                 </div>
                             </div>
                             </Col>

@@ -9,14 +9,14 @@ let strings = new LocalizedStrings({
       returnHome: 'Back to Home',
       pageTitle: 'Privacy Policy'
     },
-    ch: {
+    zh: {
       returnHome: '返回主頁',
       pageTitle: '私隱條款'
     }
 });
 
-const ButtonToRegionList = ({ title, history }) => (
-    <Button bsStyle="" className="button" onClick={() => history.push('/')}>{strings.returnHome}</Button>
+const ButtonToRegionList = ({ title, history, languageChanged }) => (
+    <Button bsStyle="" className="button" onClick={() => history.push(`/${languageChanged}/`)}>{strings.returnHome}</Button>
   );
 
 export default class PrivacyPolicy extends Component {
@@ -26,8 +26,8 @@ export default class PrivacyPolicy extends Component {
     }
 
     componentWillReceiveProps (nextProps) {
-        if (nextProps.languageChanged==='ch') {
-            strings.setLanguage('ch');
+        if (nextProps.languageChanged==='zh') {
+            strings.setLanguage('zh');
         } else if (nextProps.languageChanged==='en') {
             strings.setLanguage('en');
         }
@@ -126,7 +126,7 @@ export default class PrivacyPolicy extends Component {
                                 <p><strong>Contact Us</strong></p>
                                 <p>If you have any questions about this Privacy Policy, please contact us at our support hotline or by emailing us. Updated details about our contact information is available under the “Support” section of our website at <a href="https://www.maydaisy.com">maydaisy.com</a>.</p>                       
                                 <div className="text-page-button-div">
-                                    <Route path="/" render={(props) => <ButtonToRegionList {...props}/>} />
+                                    <Route path="/" render={(props) => <ButtonToRegionList {...props} languageChanged={this.props.languageChanged}/>} />
                                 </div>
                             </div>
                             </Col>
