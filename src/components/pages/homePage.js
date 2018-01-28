@@ -211,7 +211,7 @@ export default class Homepage extends Component {
         <div className="home-pic-section">
           <h2>{strings.shopByCategory}</h2>
           <Grid className="show-grid home-pic-container">
-            <Col xs={10} sm={4} xsOffset={1} smOffset={0} className="list-item">
+            <Col sm={4} className="list-item">
               <Link to={`/${language}/arrangements/category/wrappedBouquets/region/`}>
                 <div className="list-pic home-pic-1"></div>
                 <div className="text-box">
@@ -222,7 +222,7 @@ export default class Homepage extends Component {
               </Link>
             </Col>
 
-            <Col xs={10} sm={4} xsOffset={1} smOffset={0} className="list-item">
+            <Col sm={4} className="list-item">
               <Link to={`/${language}/arrangements/category/driedPreserved/region/`}>
                 <div className="list-pic home-pic-2"></div>
                 <div className="text-box">
@@ -233,7 +233,7 @@ export default class Homepage extends Component {
               </Link>
             </Col>
 
-            <Col xs={10} sm={4} xsOffset={1} smOffset={0} className="list-item">
+            <Col sm={4} className="list-item">
               <Link to={`/${language}/arrangements/category/hampers/region/`}>
                 <div className="list-pic home-pic-3"></div>
                 <div className="text-box">
@@ -249,17 +249,17 @@ export default class Homepage extends Component {
         <div className="home-pic-section">
           <h2>{strings.popularFlorists}</h2>
           <Grid className="show-grid home-pic-container">
-            <Col xs={10} sm={4} xsOffset={1} smOffset={0} className="list-item">
+            <Col sm={4} className="list-item">
                 <Link to={`/${language}/florist/gigiflorist`}>
                   <div className="list-pic home-pic-4"></div>
                 </Link>
               </Col>
-              <Col xs={10} sm={4} xsOffset={1} smOffset={0} className="list-item">
+              <Col sm={4} className="list-item">
                 <Link to={`/${language}/florist/ohjoyce`}>
                   <div className="list-pic home-pic-5"></div>
                 </Link>
               </Col>
-              <Col xs={10} sm={4} xsOffset={1} smOffset={0} className="list-item">
+              <Col sm={4} className="list-item">
                 <Link to={`/${language}/florist/symplegarten`}>
                   <div className="list-pic home-pic-6"></div>
                 </Link>
