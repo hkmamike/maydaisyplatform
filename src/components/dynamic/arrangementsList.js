@@ -15,7 +15,7 @@ import { connectRefinementList, connectMenu, connectRange, connectSearchBox } fr
 let strings = new LocalizedStrings({
     en: {
         seeDesignsButton: 'See Designs',
-        select_region: 'See All',
+        select_region: 'Anywhere in HK',
         specialPickUpLocation: 'Self Pick Up',
         HK_CentralWestern: 'Central & Western',
         HK_Eastern: 'Eastern',
@@ -81,11 +81,11 @@ let strings = new LocalizedStrings({
         titledriedPreserved: 'Dried Flowers Collection',
         titlecongratulatoryStand: 'Congratulatory/Funneral Stands Collection',
 
-        descriptwrappedBouquets: 'MayDaisy has curated wrapped bouquet designs in Hong Kong for you. ',
-        descriptarrangements: 'MayDaisy has curated flower arrangement designs in Hong Kong for you. ',
-        descripthampers: 'MayDaisy has curated hamper and gift designs in Hong Kong for you. ',
-        descriptdriedPreserved: 'MayDaisy has curated dried and preserved flower designs in Hong Kong for you. ',
-        descriptcongratulatoryStand: 'MayDaisy has curated congratulatory/funneral stand designs in Hong Kong for you. ',
+        descriptwrappedBouquets: 'MayDaisy has curated wrapped bouquet designs by the best artists in Hong Kong for you. ',
+        descriptarrangements: 'MayDaisy has curated flower arrangement designs by the best artists in Hong Kong for you. ',
+        descripthampers: 'MayDaisy has curated hamper and gift designs by the best artists in Hong Kong for you. ',
+        descriptdriedPreserved: 'MayDaisy has curated dried and preserved flower designs by the best artists in Hong Kong for you. ',
+        descriptcongratulatoryStand: 'MayDaisy has curated congratulatory/funneral stand designs by the best artists in Hong Kong for you. ',
 
         categoryHeaderwrappedBouquets: 'Tips for sending wrapped bouquets to Hong Kong:',
         categoryHeaderarrangements: 'Tips for sending floral arrangements to Hong Kong:',
@@ -101,7 +101,7 @@ let strings = new LocalizedStrings({
     },
     zh: {
         seeDesignsButton: '確定',
-        select_region: '全部地區',
+        select_region: '香港所有',
         specialPickUpLocation: '免費自取',
         HK_CentralWestern: '中西區',
         HK_Eastern: '東區',

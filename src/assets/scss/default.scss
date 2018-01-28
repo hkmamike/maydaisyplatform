@@ -203,12 +203,87 @@ header {
     }
 }
 
+.home-pic-section {
+    color: $darkGrey;
+    margin-top: 40px;
+    margin-bottom: 40px;
+    text-align: center;
+    .home-pic-container {
+        margin: auto;
+        max-width: 950px;
+        background-color: $white;
+        color: $darkGrey;
+        text-align: center;
+        overflow: auto;
+
+        .list-item {
+            padding: 10px;
+            min-width: 140px;
+            max-width: 350px;
+            font-size: 90%;
+            margin-bottom: 30px;
+            @media (max-width: 600px) {
+                padding: 2px;
+                margin-bottom: 20px;
+            }
+            a {
+                color: black !important;
+                &:hover {
+                    color: $darkpink !important;
+                }
+            }
+            .home-pic-title {
+                font-weight: bold;
+                margin-top: 10px;
+                font-size: 120%;
+            }
+        }
+
+        .list-pic {
+            padding: 0;
+            border-radius: 5px;
+            min-height: 280px;
+            max-height: 350px;
+            max-width: 350px;
+            background-position: center center;
+            background-repeat: no-repeat;
+            background-size: cover;
+            border-width: 0;
+            border-color: $white;
+            border-style: solid;
+            @media (max-width: 600px) {
+                min-height: 300px;
+            }
+        }
+
+        .home-pic-1 {
+            background-image: url('https://firebasestorage.googleapis.com/v0/b/maydaisy-platform.appspot.com/o/-L1vr107M0CSDcoqT0FV.jpg?alt=media&token=9a0f22ee-25e1-4766-bdae-bb81797a76f2');
+        }
+        .home-pic-2 {
+            background-image: url('https://firebasestorage.googleapis.com/v0/b/maydaisy-platform.appspot.com/o/-L3hD-Fbtglnqv6pRgqr.jpg?alt=media&token=4bb9408d-2c3f-4cf4-81fb-9de718340241');
+        }
+        .home-pic-3 {
+            background-image: url('https://firebasestorage.googleapis.com/v0/b/maydaisy-platform.appspot.com/o/-L2kc_tressmJYNrkhuX.jpg?alt=media&token=a18db270-33e9-44de-b97c-73d5e0104d00');
+        }
+        .home-pic-4 {
+            background-image: url('https://firebasestorage.googleapis.com/v0/b/maydaisy-platform.appspot.com/o/Website%20Photos%2FgigiFloristLogo.png?alt=media&token=2bed2e1c-154d-4f07-b628-fe25c30900e5');
+        }
+        .home-pic-5 {
+            background-image: url('https://firebasestorage.googleapis.com/v0/b/maydaisy-platform.appspot.com/o/Website%20Photos%2FOhJoyceLogo.jpg?alt=media&token=2f5328f6-9bb5-4db6-a0ef-a09f0ff0689e');
+        }
+        .home-pic-6 {
+            background-image: url('https://firebasestorage.googleapis.com/v0/b/maydaisy-platform.appspot.com/o/Website%20Photos%2FsympleGartenLogo.jpg?alt=media&token=d771caa9-8493-4b88-9610-1124f178d2f9');
+        }
+    }
+    
+}
+
 .how-it-works {
     background-color: $white;
     color: $darkGrey;
-    padding: 20px;
+    padding-top: 20px;
     text-align: center;
-    min-height: 400px;
+    min-height: 300px;
     .home-123 {
         margin-top: 0;
     }

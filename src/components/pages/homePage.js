@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import { Grid, Row, Col, DropdownButton, MenuItem, Button} from 'react-bootstrap';
-import { Route } from 'react-router-dom';
+import { Route, Link } from 'react-router-dom';
 import LocalizedStrings from 'react-localization';
 import { Helmet } from 'react-helmet';
 
@@ -10,7 +10,7 @@ let strings = new LocalizedStrings({
       homeImgTitle: 'Shop directly from emerging flower shops and independent artists.',
       homeImgSubtitle: 'Where are the flowers going?',
       go: 'Go',
-      select_region: 'See All',
+      select_region: 'Anywhere in HK',
       specialPickUpLocation: 'Self Pick Up',
       HK_CentralWestern: 'Central & Western',
       HK_Eastern: 'Eastern',
@@ -30,20 +30,27 @@ let strings = new LocalizedStrings({
       NT_TsuenWan: 'Tsuen Wan',
       NT_TuenMun: 'Tuen Mun',
       NT_YuenLong: 'Yuen Long',
-      howItWorks1: 'Why ',
-      howItWorks2: 'MayDaisy?',
+      howItWorks1: ' ',
+      howItWorks2: 'MayDaisy',
       howItWorks3: ' ',
-      howItWorks4: ' ',
+      howItWorks4: ' Marketplace',
       flowerShop: 'Flower Shops',
-      flowerShopText: "Find all the classiest flower shops in our marketplace, reference reviews to see how others' experience went.",
+      flowerShopText: "Find emerging flower shops and floral artists in our marketplace, reference reviews to see how others' experience went.",
       artist: 'Independent Artists',
-      artistText: "If planning ahead for special occasions, consider buying from our independent floral artists for their distinctive styles.",
+      artistText: "If planning ahead for special occasions, consider our independent floral artists for their distinctive styles.",
       trustAndConvenience: 'Trust and Convenience',
-      trustAndConvenienceText: 'We hold our florists to a high artistic and customer service standard; Shopping with us is convient with our quick checkout features and our detailed purchase log.',
+      trustAndConvenienceText: 'We hold our florists to a high artistic and customer service standard; Shopping with us is convient with our quick checkout features.',
       aboutUs1: 'About',
       aboutUs2: 'MayDaisy',
       aboutUsText: "MayDaisy is a marketplace and community to connect customers with great florists in their city. By bringing the best florists together in one place, we can focus resources on your flowers and spend less on reaching you. MayDaisy also provides a channel for established and emerging independent floral artists to reach a broader audience. Independent artists do not operate a flower shop full time, but they offer dinstinctive styles that cannot be found anywhere else!", 
       joinNow: "Join the flower lovers' MayDaisy movement now ",
+
+      shopByCategory: 'Shop by category',
+      bouquetsPicTitle: 'Bouquets',
+      driedPicTitle: 'Dried & Preserved',
+      hampersPicTitle: 'Hampers',
+
+      popularFlorists: 'Popular Florists',
       
       metaTitle: 'MayDaisy - Flower MarketPlace',
       metaDescription: 'Flower marketplace and floral art community. Discover emerging artists, flower shops, and online flower shops. We curate signature designs of bouquets, hampers, arrangements, dried flowers, and preserved flowers.',
@@ -53,7 +60,7 @@ let strings = new LocalizedStrings({
       homeImgTitle: '鮮花市集，一網搜盡最潮最優雅的花店和獨立花藝師。',
       homeImgSubtitle: '查看哪個服務區域的花藝師?',
       go: '去市集',
-      select_region: '全部地區',
+      select_region: '香港所有',
       specialPickUpLocation: '免費自取',
       HK_CentralWestern: '中西區',
       HK_Eastern: '東區',
@@ -73,20 +80,27 @@ let strings = new LocalizedStrings({
       NT_TsuenWan: '荃灣區',
       NT_TuenMun: '屯門區',
       NT_YuenLong: '元朗區',
-      howItWorks1: '為什麼用',
+      howItWorks1: ' ',
       howItWorks2: '五月菊',
       howItWorks3: ' ',
-      howItWorks4: '一站式花市集',
+      howItWorks4: '花藝市集',
       flowerShop: '大小花店',
       flowerShopText: '一網搜盡最潮最優雅的花店。看看評論令您對您的選擇更有信心。',
       artist: '獨立花藝師',
       artistText: '如果您是預早下單，可以考慮獨立花藝師們獨特風格的藝術花卉。',
       trustAndConvenience: '方便安心',
-      trustAndConvenienceText: '我們對花店和花藝師們有極高的顧客服務和藝術上的要求; 詳盡購買記錄和快速下單功能令您的購物體驗更暢快。',
+      trustAndConvenienceText: '五月菊對花藝師有極高的顧客服務和藝術要求; 快速下單功能令您的體驗更暢快。',
       aboutUs1: '關於',
       aboutUs2: '五月菊',
       aboutUsText: '五月菊是由花藝師們建立的一站式鮮花市集和花藝社群，我們的目標是為客人找到最好最適合他們的花卉設計。鮮花市集的模式令我們可以減低在市場推廣上花費的時間和資源，更集中的為您創造鮮花經驗。',
       joinNow: '快來加入愛花之人的五月菊運動 ',
+
+      shopByCategory: '分類購物',
+      bouquetsPicTitle: '花束',
+      driedPicTitle: '乾花/保鮮花',
+      hampersPicTitle: '禮品/花籃',
+
+      popularFlorists: '熱門花店、花藝師',
 
       metaTitle: '五月菊 - 花藝市集',
       metaDescription: '五月菊是一個花藝市集和花藝師社群，我們發掘最潮最優雅的花店和網上花店，搜羅花藝師的標誌性作品，範疇包括花束、禮品、花籃、插花、擺設、乾花和保鮮花。立即網上訂花。',
@@ -175,8 +189,7 @@ export default class Homepage extends Component {
         </div>
       
         <div className="how-it-works">
-          <h2> {strings.howItWorks1} <span className="home-company-name">{strings.howItWorks2}</span>{strings.howItWorks3}</h2>
-          <h3 className="home-123">{strings.howItWorks4}</h3>
+          <h2><span className="home-company-name">{strings.howItWorks2}</span>{strings.howItWorks4}</h2>
           <Grid>
             <Row className="show-grid">
               <Col sm={4}><i className="fa fa-list icons" aria-hidden="true"></i>
@@ -196,6 +209,62 @@ export default class Homepage extends Component {
         </div>
 
         <div className="home-pic-section">
+          <h2>{strings.shopByCategory}</h2>
+          <Grid className="show-grid home-pic-container">
+            <Col xs={10} sm={4} xsOffset={1} smOffset={0} className="list-item">
+              <Link to={`/${language}/arrangements/category/wrappedBouquets/region/`}>
+                <div className="list-pic home-pic-1"></div>
+                <div className="text-box">
+                  <div className="text-line">
+                    <div className="home-pic-title">{strings.bouquetsPicTitle}</div>
+                  </div>
+                </div>
+              </Link>
+            </Col>
+
+            <Col xs={10} sm={4} xsOffset={1} smOffset={0} className="list-item">
+              <Link to={`/${language}/arrangements/category/driedPreserved/region/`}>
+                <div className="list-pic home-pic-2"></div>
+                <div className="text-box">
+                  <div className="text-line">
+                    <div className="home-pic-title">{strings.driedPicTitle}</div>
+                  </div>
+                </div>
+              </Link>
+            </Col>
+
+            <Col xs={10} sm={4} xsOffset={1} smOffset={0} className="list-item">
+              <Link to={`/${language}/arrangements/category/hampers/region/`}>
+                <div className="list-pic home-pic-3"></div>
+                <div className="text-box">
+                  <div className="text-line">
+                    <div className="home-pic-title">{strings.hampersPicTitle}</div>
+                  </div>
+                </div>
+              </Link>
+            </Col>
+          </Grid>
+        </div>
+
+        <div className="home-pic-section">
+          <h2>{strings.popularFlorists}</h2>
+          <Grid className="show-grid home-pic-container">
+            <Col xs={10} sm={4} xsOffset={1} smOffset={0} className="list-item">
+                <Link to={`/${language}/florist/gigiflorist`}>
+                  <div className="list-pic home-pic-4"></div>
+                </Link>
+              </Col>
+              <Col xs={10} sm={4} xsOffset={1} smOffset={0} className="list-item">
+                <Link to={`/${language}/florist/ohjoyce`}>
+                  <div className="list-pic home-pic-5"></div>
+                </Link>
+              </Col>
+              <Col xs={10} sm={4} xsOffset={1} smOffset={0} className="list-item">
+                <Link to={`/${language}/florist/symplegarten`}>
+                  <div className="list-pic home-pic-6"></div>
+                </Link>
+              </Col>
+          </Grid>
         </div>
 
 

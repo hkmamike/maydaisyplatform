@@ -64,23 +64,22 @@ database.ref('/florists').once('value', florists => {
 		],
 	};
 	
-	paramsConfig['/florist/:floristCode'] = [];
-	paramsConfig['/florist/:floristCode'].push({});
-	paramsConfig['/florist/:floristCode'][0]['floristCode'] = floristsList;
+	// paramsConfig['/florist/:floristCode'] = [];
+	// paramsConfig['/florist/:floristCode'].push({});
+	// paramsConfig['/florist/:floristCode'][0]['floristCode'] = floristsList;
+	// paramsConfig['/florist/:floristCode/:arrangementCode'] = [];
 
-	paramsConfig['/florist/:floristCode/:arrangementCode'] = [];
+	// for (i = 0; i < floristsCount; i++) {
+	// 	paramsConfig['/florist/:floristCode/:arrangementCode'].push({});
+	// 	paramsConfig['/florist/:floristCode/:arrangementCode'][i]['floristCode'] = floristsList[i];
 
-	for (i = 0; i < floristsCount; i++) {
-		paramsConfig['/florist/:floristCode/:arrangementCode'].push({});
-		paramsConfig['/florist/:floristCode/:arrangementCode'][i]['floristCode'] = floristsList[i];
-
-		// console.log('florist code is ', floristsList[i]);
-		var florist = floristsList[i];
-		// console.log('florist is ', florist, ', and arrangements are: ', floristsDetails[florist]);
-		if (floristsDetails[florist]) {
-			paramsConfig['/florist/:floristCode/:arrangementCode'][i]['arrangementCode'] = floristsDetails[florist];
-		}
-	}
+	// 	// console.log('florist code is ', floristsList[i]);
+	// 	var florist = floristsList[i];
+	// 	// console.log('florist is ', florist, ', and arrangements are: ', floristsDetails[florist]);
+	// 	if (floristsDetails[florist]) {
+	// 		paramsConfig['/florist/:floristCode/:arrangementCode'][i]['arrangementCode'] = floristsDetails[florist];
+	// 	}
+	// }
 	
 	(
 		new Sitemap(router)

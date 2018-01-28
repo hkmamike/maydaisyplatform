@@ -4,6 +4,7 @@ import { Link } from 'react-router-dom';
 import LocalizedStrings from 'react-localization';
 import * as firebase from 'firebase';
 import StarRatingComponent from 'react-star-rating-component';
+import { Helmet } from 'react-helmet';
 
 let strings = new LocalizedStrings({
     en:{
@@ -13,7 +14,8 @@ let strings = new LocalizedStrings({
         verifiedPurchase: 'verified purchase',
         artist: 'Independent Artist',
         shop: 'Boutique Shop',
-        rating: 'Ave. Rating:'
+        rating: 'Ave. Rating:',
+        floristTitle: ', MayDaisy Florist Partner',
     },
     zh: {
         designs: '設計',
@@ -22,7 +24,8 @@ let strings = new LocalizedStrings({
         verifiedPurchase: '已驗證',
         artist: '獨立花藝師',
         shop: '精品花店',
-        rating: '平均評分:'
+        rating: '平均評分:',
+        floristTitle: ' - 五月菊夥伴花藝師',
     }
   });
 
@@ -271,6 +274,12 @@ export default class Florist extends Component {
 
     return (
         <div>
+            <Helmet>
+                <title>{this.state.floristName + strings.floristTitle}</title>
+                <link rel="alternate" hrefLang="en" href={`https://maydaisy.com/en/florist/${floristID}`}/>
+                <link rel="alternate" hrefLang="zh-Hant" href={`https://maydaisy.com/zh/florist/${floristID}`}/>
+                <link rel="alternate" hrefLang="x-default" href={`https://maydaisy.com/florist/${floristID}`}/>
+            </Helmet>
             <div>{content}</div>
         </div>
     )

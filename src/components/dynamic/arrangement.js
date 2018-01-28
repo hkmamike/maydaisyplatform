@@ -6,6 +6,7 @@ import * as firebase from 'firebase';
 import { SingleDatePicker } from 'react-dates';
 import moment from 'moment';
 import 'moment-timezone';
+import { Helmet } from 'react-helmet';
 
 let strings = new LocalizedStrings({
     en:{
@@ -422,6 +423,8 @@ export default class Arrangement extends Component {
 
     var loadingState = this.state.loading;
     var marketRegion = this.props.marketRegion;
+    var floristID = this.state.floristID;
+    var arrangementID = this.state.arrangementID;
     let content = null;
 
     var listOfArrangements = this.state.arrangementsList.map(arrangement => 
@@ -634,7 +637,15 @@ export default class Arrangement extends Component {
 
     return (
         <div>
-            {content}
+            <Helmet>
+                <title>{this.state.arrangementName}</title>
+                <link rel="alternate" hrefLang="en" href={`https://maydaisy.com/en/florist/${floristID}/${arrangementID}`}/>
+                <link rel="alternate" hrefLang="zh-Hant" href={`https://maydaisy.com/zh/florist/${floristID}/${arrangementID}`}/>
+                <link rel="alternate" hrefLang="x-default" href={`https://maydaisy.com/florist/${floristID}/${arrangementID}`}/>
+            </Helmet>
+            <div>
+                {content}
+            </div>
         </div>
     )
   }
