@@ -108,14 +108,6 @@ export default class App extends Component {
     }
   }
 
-  goHomePage = () => {
-    this.setState({onHomePage: true});
-  }
-
-  leaveHomePage = () => {
-    this.setState({onHomePage: false});
-  }
-
   handleMarketRegionSelect(region) {
     this.setState({marketRegion: region});
   }
@@ -212,10 +204,6 @@ export default class App extends Component {
 
   render() {
     const marketRegion = this.state.marketRegion;
-    const onHomePage = this.state.onHomePage
-    // var currentPath = window.location.pathname;
-
-    // console.log('this props is : ', currentPath);
     
     //for Google to load sitemap, not sure if needed
     const reload = () => window.location.reload();
@@ -223,8 +211,8 @@ export default class App extends Component {
     return (
       <BrowserRouter>
         <div className="App">
-          <AdminMessage languageChanged={this.state.languageChanged} onHomePage={onHomePage}/>
-          <Header authed={this.state.authed} languageChanged={this.state.languageChanged} onLanguageToggle={this.handleLanguageToggle} onHomePage={onHomePage}/>
+          <AdminMessage languageChanged={this.state.languageChanged}/>
+          <Header authed={this.state.authed} languageChanged={this.state.languageChanged} onLanguageToggle={this.handleLanguageToggle}/>
 
           <Switch>
 
@@ -232,84 +220,84 @@ export default class App extends Component {
             <Route path="/sitemap-0.xml" onEnter={reload} />
 
             {/*Auth pages */}
-            <Redirect exact from='/auth/login' to='/en/auth/login' />
+            <Redirect exact from='/auth/login' to='/zh/auth/login' />
             <PublicRoute authed={this.state.authed} isDesigner={this.state.isDesigner} path='/en/auth/login' component={Login} languageChanged='en'/>
             <PublicRoute authed={this.state.authed} isDesigner={this.state.isDesigner} path='/zh/auth/login' component={Login} languageChanged='zh'/>
-            <Redirect exact from='/auth/register' to='/en/auth/register' />
+            <Redirect exact from='/auth/register' to='/zh/auth/register' />
             <PublicRoute authed={this.state.authed} isDesigner={this.state.isDesigner} path='/en/auth/register' component={Register} languageChanged='en'/>
             <PublicRoute authed={this.state.authed} isDesigner={this.state.isDesigner} path='/zh/auth/register' component={Register} languageChanged='zh'/>
-            <Redirect exact from='/auth/artist-registration-login' to='/en/auth/artist-registration-login' />            
+            <Redirect exact from='/auth/artist-registration-login' to='/zh/auth/artist-registration-login' />            
             <FloristRegisterRoute authed={this.state.authed} path='/en/auth/artist-registration-login' component={Login} languageChanged='en'/>
             <FloristRegisterRoute authed={this.state.authed} path='/zh/auth/artist-registration-login' component={Login} languageChanged='zh'/>
-            <Redirect exact from='/auth/artist-registration-register' to='/en/auth/artist-registration-register' />       
+            <Redirect exact from='/auth/artist-registration-register' to='/zh/auth/artist-registration-register' />       
             <FloristRegisterRoute authed={this.state.authed} path='/en/auth/artist-registration-register' component={Register} languageChanged='en'/>
             <FloristRegisterRoute authed={this.state.authed} path='/zh/auth/artist-registration-register' component={Register} languageChanged='zh'/>
-            <Redirect exact from='/auth/admin-login' to='/en/auth/admin-login' />    
+            <Redirect exact from='/auth/admin-login' to='/zh/auth/admin-login' />    
             <AdminRoute authed={this.state.authed} path='/en/auth/admin-login' component={Login} languageChanged='en'/>
             <AdminRoute authed={this.state.authed} path='/zh/auth/admin-login' component={Login} languageChanged='zh'/>
-            <Redirect exact from='/auth/admin-registration' to='/en/auth/admin-registration' />  
+            <Redirect exact from='/auth/admin-registration' to='/zh/auth/admin-registration' />  
             <AdminPage authed={this.state.authed} path='/en/auth/admin-registration' component={FloristRegistration} languageChanged='en'/>
             <AdminPage authed={this.state.authed} path='/zh/auth/admin-registration' component={FloristRegistration} languageChanged='zh'/>
-            <Redirect exact from='/auth/admin-florists' to='/en/auth/admin-florists' /> 
+            <Redirect exact from='/auth/admin-florists' to='/zh/auth/admin-florists' /> 
             <AdminPage authed={this.state.authed} path='/en/auth/admin-florists' component ={FloristsDashboard} languageChanged='en'/>
             <AdminPage authed={this.state.authed} path='/zh/auth/admin-florists' component ={FloristsDashboard} languageChanged='zh'/>
 
             {/*Designer Pages */}
-            <Redirect exact from='/auth/ordersdashboard' to='/en/auth/ordersdashboard' /> 
+            <Redirect exact from='/auth/ordersdashboard' to='/zh/auth/ordersdashboard' /> 
             <PrivateRoute authed={this.state.authed} path='/en/auth/ordersdashboard' component={OrdersDashboard} designerCode={this.state.designerCode} onCreateShop={this.handleCreateShop} languageChanged='en'/>
             <PrivateRoute authed={this.state.authed} path='/zh/auth/ordersdashboard' component={OrdersDashboard} designerCode={this.state.designerCode} onCreateShop={this.handleCreateShop} languageChanged='zh'/>      
-            <Redirect exact from='/auth/designs' to='/en/auth/designs' />     
+            <Redirect exact from='/auth/designs' to='/zh/auth/designs' />     
             <PrivateRoute authed={this.state.authed} path='/en/auth/designs' component={Designs} designerCode={this.state.designerCode} languageChanged='en'/>
             <PrivateRoute authed={this.state.authed} path='/zh/auth/designs' component={Designs} designerCode={this.state.designerCode} languageChanged='zh'/>           
-            <Redirect exact from='/auth/shopinfo' to='/en/auth/shopinfo' />  
+            <Redirect exact from='/auth/shopinfo' to='/zh/auth/shopinfo' />  
             <PrivateRoute authed={this.state.authed} path='/en/auth/shopinfo' component={ShopInfo} designerCode={this.state.designerCode} languageChanged='en'/>
             <PrivateRoute authed={this.state.authed} path='/zh/auth/shopinfo' component={ShopInfo} designerCode={this.state.designerCode} languageChanged='zh'/>
 
             {/*Customer Pages */}
-            <Redirect exact from='/auth/orderhistory' to='/en/auth/orderhistory' /> 
+            <Redirect exact from='/auth/orderhistory' to='/zh/auth/orderhistory' /> 
             <PrivateRoute authed={this.state.authed} path='/en/auth/orderhistory' component={OrderHistory} languageChanged='en'/>
             <PrivateRoute authed={this.state.authed} path='/zh/auth/orderhistory' component={OrderHistory} languageChanged='zh'/>
-            <Redirect exact from='/auth/addressbook' to='/en/auth/addressbook' /> 
+            <Redirect exact from='/auth/addressbook' to='/zh/auth/addressbook' /> 
             <PrivateRoute authed={this.state.authed} path='/en/auth/addressbook' component={AddressBook} languageChanged='en'/>
             <PrivateRoute authed={this.state.authed} path='/zh/auth/addressbook' component={AddressBook} languageChanged='zh'/>
-            <Redirect exact from='/auth/userinfo' to='/en/auth/userinfo' />
+            <Redirect exact from='/auth/userinfo' to='/zh/auth/userinfo' />
             <PrivateRoute authed={this.state.authed} path='/en/auth/userinfo' component={MarketAccountInfo} languageChanged='en'/>
             <PrivateRoute authed={this.state.authed} path='/zh/auth/userinfo' component={MarketAccountInfo} languageChanged='zh'/>
 
             {/*Plain text pages */}
-            <Redirect exact from='/privacy-policy' to='/en/privacy-policy' />
+            <Redirect exact from='/privacy-policy' to='/zh/privacy-policy' />
             <Route path='/en/privacy-policy' exact render={(props) => (<PrivacyPolicy {...props} languageChanged='en'/>)}/>
             <Route path='/zh/privacy-policy' exact render={(props) => (<PrivacyPolicy {...props} languageChanged='zh'/>)}/>
-            <Redirect exact from='/terms' to='/en/terms' />
+            <Redirect exact from='/terms' to='/zh/terms' />
             <Route path='/en/terms' exact render={(props) => (<TermsOfServices {...props} languageChanged='en'/>)}/>
             <Route path='/zh/terms' exact render={(props) => (<TermsOfServices {...props} languageChanged='zh'/>)}/>
-            <Redirect exact from='/faq' to='/en/faq' />
+            <Redirect exact from='/faq' to='/zh/faq' />
             <Route path='/en/faq' exact render={(props) => (<FAQ {...props} languageChanged='en'/>)}/>
             <Route path='/zh/faq' exact render={(props) => (<FAQ {...props} languageChanged='zh'/>)}/>
-            <Redirect exact from='/contact' to='/en/contact' />
+            <Redirect exact from='/contact' to='/zh/contact' />
             <Route path='/en/contact' exact render={(props) => (<ContactUs {...props} languageChanged='en'/>)}/>
             <Route path='/zh/contact' exact render={(props) => (<ContactUs {...props} languageChanged='zh'/>)}/>
-            <Redirect exact from='/about' to='/en/about' />
+            <Redirect exact from='/about' to='/zh/about' />
             <Route path='/en/about' exact render={(props) => (<About {...props} languageChanged='en'/>)}/>
             <Route path='/zh/about' exact render={(props) => (<About {...props} languageChanged='zh'/>)}/>
 
             {/*Home page */}
-            <Redirect exact from='/' to='/en/' />
-            <Route path='/zh/' exact render={(props) => (<Homepage {...props} marketRegion={marketRegion} onMarketRegionSelect={this.handleMarketRegionSelect} languageChanged={'zh'} onHomePage={onHomePage} goHomePage={this.goHomePage} leaveHomePage={this.leaveHomePage}/>)}/>
-            <Route path='/en/' exact render={(props) => (<Homepage {...props} marketRegion={marketRegion} onMarketRegionSelect={this.handleMarketRegionSelect} languageChanged={'en'} onHomePage={onHomePage} goHomePage={this.goHomePage} leaveHomePage={this.leaveHomePage}/>)}/>
+            <Redirect exact from='/' to='/zh/' />
+            <Route path='/zh/' exact render={(props) => (<Homepage {...props} marketRegion={marketRegion} onMarketRegionSelect={this.handleMarketRegionSelect} languageChanged={'zh'}/>)}/>
+            <Route path='/en/' exact render={(props) => (<Homepage {...props} marketRegion={marketRegion} onMarketRegionSelect={this.handleMarketRegionSelect} languageChanged={'en'}/>)}/>
 
             {/*Design list */}
             <Route exact path="/arrangements/category/:chosenCategory?/region/:marketRegion?" render={({ match }) => {
               var paramCategory = match.params.chosenCategory;
               var paramMarketRegion = match.params.marketRegion;
               if (typeof paramCategory !== 'undefined' && typeof paramMarketRegion !== 'undefined') {
-                return (<Redirect to={`/en/arrangements/category/${paramCategory}/region/${paramMarketRegion}`} />)
+                return (<Redirect to={`/zh/arrangements/category/${paramCategory}/region/${paramMarketRegion}`} />)
               } else if (typeof paramCategory !== 'undefined' && typeof paramMarketRegion === 'undefined') {
-                return (<Redirect to={`/en/arrangements/category/${paramCategory}/region/`} />)
+                return (<Redirect to={`/zh/arrangements/category/${paramCategory}/region/`} />)
               } else if (typeof paramCategory === 'undefined' && typeof match.params.marketRegion !== 'undefined') {
-                return (<Redirect to={`/en/arrangements/category/region/${paramMarketRegion}`} />)
+                return (<Redirect to={`/zh/arrangements/category/region/${paramMarketRegion}`} />)
               } else {
-                return (<Redirect to={`/en/arrangements/category/region/`} />)
+                return (<Redirect to={`/zh/arrangements/category/region/`} />)
               }
             }} />
             <Route path='/en/arrangements/category/:chosenCategory?/region/:marketRegion?' exact render={(props) => (<ArrangementsList {...props} 
@@ -324,12 +312,19 @@ export default class App extends Component {
             />
 
             {/*Storefront */}
-            <Redirect exact from='/florist/:floristID' to='/en/florist/:floristID' />
+            <Route exact path="/florist/:floristID" render={({ match }) => {
+              var paramFloristID = match.params.floristID;
+              return (<Redirect to={`/zh/florist/${paramFloristID}/`} />)
+            }} />
             <Route path='/en/florist/:floristID' exact render={(props) => (<Florist {...props} languageChanged='en'/>)}/>
             <Route path='/zh/florist/:floristID' exact render={(props) => (<Florist {...props} languageChanged='zh'/>)}/>
 
             {/*Design */}
-            <Redirect exact from='/florist/:floristID/:arrangement' to='/en/florist/:floristID/:arrangement' />
+            <Route exact path="/florist/:floristID/:arrangement" render={({ match }) => {
+              var paramFloristID = match.params.floristID;
+              var paramArrangement = match.params.arrangement;
+              return (<Redirect to={`/zh/florist/${paramFloristID}/${paramArrangement}`} />)
+            }} />
             <Route path='/en/florist/:floristID/:arrangement' exact render={(props) => (<Arrangement {...props} 
               languageChanged='en'
               onDeliveryDateSelect={this.handleDeliveryDateSelect}
@@ -354,9 +349,9 @@ export default class App extends Component {
               var paramPromoCode = match.params.promoCode;
 
               if (typeof paramPromoCode !== 'undefined') {
-                return (<Redirect to={`/en/auth/order/${paramFloristID}/${paramArrangement}/${paramPromoCode}`} />)
+                return (<Redirect to={`/zh/auth/order/${paramFloristID}/${paramArrangement}/${paramPromoCode}`} />)
               } else {
-                return (<Redirect to={`/en/auth/order/${paramFloristID}/${paramArrangement}/`} />)
+                return (<Redirect to={`/zh/auth/order/${paramFloristID}/${paramArrangement}/`} />)
               }
             }} />
             <Route path='/en/auth/order/:floristID/:arrangement/:promoCode?' exact render={(props) => (
@@ -376,8 +371,10 @@ export default class App extends Component {
               />)}
             />
 
-            <Route render={() => <h3>Uhoh...we couldn't find your page</h3>} />
-            
+            <Route render={() =>
+                <h3 className='site-error'>Uhoh... we couldn't find your page </h3>
+            }/>
+
           </Switch>
 
           <Footer languageChanged={this.state.languageChanged}/>

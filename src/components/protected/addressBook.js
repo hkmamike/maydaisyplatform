@@ -15,7 +15,6 @@ let strings = new LocalizedStrings({
     accountInformation2: 'Information',
     allAddresses: 'All Addresses',
     detailsUpdate: 'Details & Update',
-    detailsButton: 'Details',
     company: 'Location Name:',
     deliveryInstruction: 'Delivery Instruction:',
     recipient: 'Recipient:',

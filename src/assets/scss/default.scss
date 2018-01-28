@@ -9,6 +9,12 @@
 @import "_orderHistory.scss";
 @import "_photoUpload.scss";
 
+.site-error {
+    text-align: center;
+    min-height: 400px;
+    @include translateY(40%);
+}
+
 .admin-message {
     background-color: $darkGrey;
     color: white;

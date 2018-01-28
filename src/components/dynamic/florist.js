@@ -267,11 +267,11 @@ export default class Florist extends Component {
                 <div className="sub-content list-container">{reviews}</div>
           </div>
         )
-      }
+    }
 
     return (
         <div>
-            {content}
+            <div>{content}</div>
         </div>
     )
   }

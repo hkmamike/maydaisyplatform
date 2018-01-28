@@ -18,7 +18,7 @@ let strings = new LocalizedStrings({
       resetSent1_2: '.',
       noAccountFound: 'No account is registered under this email.'
     },
-    ch: {
+    zh: {
       loginTitle: '歡迎回來',
       loginSubtitle: '如要繼續請登入',
       loginButton: '登入',
@@ -53,8 +53,8 @@ export default class DesignerLogin extends Component {
   }
 
   componentWillReceiveProps (nextProps) {
-    if (nextProps.languageChanged==='ch') {
-      strings.setLanguage('ch');
+    if (nextProps.languageChanged==='zh') {
+      strings.setLanguage('zh');
     } else if (nextProps.languageChanged==='en') {
       strings.setLanguage('en');
     }
@@ -109,7 +109,7 @@ export default class DesignerLogin extends Component {
                   <Button bsStyle="" type="submit" className="button">{strings.loginButton}</Button>
                   <div className="link-group">
                     <a onClick={this.resetPassword} className="alert-link link-forgot-pw">{strings.forgotPW}</a>
-                    <Link to="/auth/register" className="link-create-account">{strings.createAccount}</Link>
+                    <Link to={`/${this.props.languageChanged}/auth/register`} className="link-create-account">{strings.createAccount}</Link>
                   </div>
                 </form>
 

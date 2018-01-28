@@ -63,6 +63,14 @@ export default class Header extends Component {
         this.handleLanguageToggle = this.handleLanguageToggle.bind(this);
       }
 
+    componentWillReceiveProps (nextProps) {
+        if (nextProps.languageChanged==='zh') {
+            strings.setLanguage('zh');
+        } else if (nextProps.languageChanged==='en') {
+            strings.setLanguage('en');
+        }
+    }
+
     handleLanguageToggle () {
         if (strings.getLanguage()==='zh') {
             strings.setLanguage('en');
@@ -78,6 +86,16 @@ export default class Header extends Component {
         strings.setLanguage(this.props.languageChanged);
     }
 
+    componentDidMount() {
+        var currentPath = window.location.pathname;
+        var currentLang = currentPath.substring(0,3);
+        if (currentLang === '/zh') {
+            this.props.onLanguageToggle('zh');
+        } else if (currentLang === '/en') {
+            this.props.onLanguageToggle('en');
+        }
+    }
+
     render() {
 
         var currentPath = window.location.pathname;
@@ -85,18 +103,19 @@ export default class Header extends Component {
         return (
         <header>
 
-            {(this.props.onHomePage && currentPath.includes('/zh/')) && <div className="logo">
+            {currentPath.includes('/zh/') && <div className="logo">
                 <Link to="/zh/">五月菊</Link>
             </div>}
-            {(this.props.onHomePage && currentPath.includes('/en/')) && <div className="logo">
+            {currentPath.includes('/en/') && <div className="logo">
                 <Link to="/en/">MayDaisy</Link>
             </div>}
-            {(!this.props.onHomePage && this.props.languageChanged === 'en') && <div className="logo">
+
+            {/* {(!this.props.onHomePage && this.props.languageChanged === 'en') && <div className="logo">
                 <Link to="/en/">{strings.companyTitle}</Link>
             </div>}
             {(!this.props.onHomePage && this.props.languageChanged === 'zh') && <div className="logo">
                 <Link to="/zh/">{strings.companyTitle}</Link>
-            </div>}
+            </div>} */}
 
             <nav>
                 <ul>

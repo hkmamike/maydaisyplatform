@@ -2,15 +2,16 @@ import React, { Component } from 'react';
 import { Grid, Row, Col, DropdownButton, MenuItem, Button} from 'react-bootstrap';
 import { Route } from 'react-router-dom';
 import LocalizedStrings from 'react-localization';
-import MetaTags from 'react-meta-tags';
+import { Helmet } from 'react-helmet';
 
 let strings = new LocalizedStrings({
     en:{
       signUp: 'Sign Up',
-      homeImgTitle: 'Shop directly from emerging flower shops and independent floral artists.',
+      homeImgTitle: 'Shop directly from emerging flower shops and independent artists.',
       homeImgSubtitle: 'Where are the flowers going?',
       go: 'Go',
-      select_region: 'Select Region',
+      select_region: 'See All',
+      specialPickUpLocation: 'Self Pick Up',
       HK_CentralWestern: 'Central & Western',
       HK_Eastern: 'Eastern',
       HK_Southern: 'Southern',
@@ -42,17 +43,18 @@ let strings = new LocalizedStrings({
       aboutUs1: 'About',
       aboutUs2: 'MayDaisy',
       aboutUsText: "MayDaisy is a marketplace and community to connect customers with great florists in their city. By bringing the best florists together in one place, we can focus resources on your flowers and spend less on reaching you. MayDaisy also provides a channel for established and emerging independent floral artists to reach a broader audience. Independent artists do not operate a flower shop full time, but they offer dinstinctive styles that cannot be found anywhere else!", 
-      joinNow: "Join the flower lovers' MayDaisy movement now",
+      joinNow: "Join the flower lovers' MayDaisy movement now ",
       
       metaTitle: 'MayDaisy - Flower MarketPlace',
-      metaDescription: 'Flower marketplace and floral art community. Discover emerging artists and flower shops. We curate signature designs of bouquets, hampers, arrangements, dried flowers, and preserved flowers.',
+      metaDescription: 'Flower marketplace and floral art community. Discover emerging artists, flower shops, and online flower shops. We curate signature designs of bouquets, hampers, arrangements, dried flowers, and preserved flowers.',
     },
     zh: {
       signUp: '報名',
       homeImgTitle: '鮮花市集，一網搜盡最潮最優雅的花店和獨立花藝師。',
-      homeImgSubtitle: '花卉送往哪裏?',
+      homeImgSubtitle: '查看哪個服務區域的花藝師?',
       go: '去市集',
-      select_region: '選擇地區',
+      select_region: '全部地區',
+      specialPickUpLocation: '免費自取',
       HK_CentralWestern: '中西區',
       HK_Eastern: '東區',
       HK_Southern: '南區',
@@ -87,17 +89,13 @@ let strings = new LocalizedStrings({
       joinNow: '快來加入愛花之人的五月菊運動 ',
 
       metaTitle: '五月菊 - 花藝市集',
-      metaDescription: '五月菊是一個花藝市集和花藝師社群，我們發掘最潮最優雅的花店，搜羅花藝師的標誌性作品，範疇包括花束、禮品、花籃、插花、擺設、乾花和保鮮花。',
+      metaDescription: '五月菊是一個花藝市集和花藝師社群，我們發掘最潮最優雅的花店和網上花店，搜羅花藝師的標誌性作品，範疇包括花束、禮品、花籃、插花、擺設、乾花和保鮮花。立即網上訂花。',
     }
   });
 
 const ButtonToMarket = ({ title, history, marketRegion, language }) => {
   return (<Button bsStyle="" className="button" onClick={() => history.push(`/${language}/arrangements/category/region/${marketRegion}`)}>{strings.go}</Button>);
 }
-
-// const ButtonToScrollUp = ({ title, history }) => (
-//   <Button bsStyle="" className="button" onClick={() => window.scrollTo(0, 0)}>{strings.signUp}</Button>
-// );
 
 export default class Homepage extends Component {
 
@@ -124,11 +122,6 @@ export default class Homepage extends Component {
 
   componentWillMount() {
     strings.setLanguage(this.props.languageChanged);
-    this.props.goHomePage();
-  }
-
-  componentWillUnmount() {
-    this.props.leaveHomePage();
   }
 
   render() {
@@ -138,12 +131,13 @@ export default class Homepage extends Component {
     return (
       <div className="no-padding">
 
-        <MetaTags>
+        <Helmet>
           <title>{strings.metaTitle}</title>
           <meta name="description" content={strings.metaDescription} />
-          <link rel="alternate" hrefLang="en" href="https://maydaisy.com/en"/>
-          <link rel="alternate" hrefLang="zh-Hant" href="https://maydaisy.com/zh"/>
-        </MetaTags>
+          <link rel="alternate" hrefLang="en" href="https://maydaisy.com/en/"/>
+          <link rel="alternate" hrefLang="zh-Hant" href="https://maydaisy.com/zh/"/>
+          <link rel="alternate" hrefLang="x-default" href="https://maydaisy.com/"/>
+        </Helmet>
         
         <div className="home-image-container">
           <div className="home-image">
@@ -153,6 +147,7 @@ export default class Homepage extends Component {
                   <h3 className="home-image-title">{strings.homeImgTitle}</h3>
                   <div className="home-image-pink">{strings.homeImgSubtitle}</div>
                   <DropdownButton title={strings[marketRegion]} className="home-image-select" id="bg-nested-dropdown" onSelect={this.handleSelect}>
+                    <MenuItem eventKey="specialPickUpLocation">{strings.specialPickUpLocation}</MenuItem> 
                     <MenuItem eventKey="HK_CentralWestern">{strings.HK_CentralWestern}</MenuItem>
                     <MenuItem eventKey="HK_Eastern">{strings.HK_Eastern}</MenuItem>
                     <MenuItem eventKey="HK_Southern">{strings.HK_Southern}</MenuItem>

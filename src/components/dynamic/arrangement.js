@@ -37,7 +37,9 @@ let strings = new LocalizedStrings({
         deliverTo: 'Deliver to:',
         selectDate: 'Select date:',
         noCoverageTip1: 'Oh no! This florist does not deliver to ',
-        noCoverageTip2: ". Let's go back to the market to find one that does.", 
+        noCoverageTip2: ". Let's go back to the market to find one that does.",
+        noPickUpTip1: 'Oh no! This florist does not provide ',
+        noPickUpTip2: ". Let's go back to the market to find one that does.", 
         excludingDelivery: 'Excluding delivery',
         originalPriceTip: 'Original Price',
         discountedPriceTip: 'Promo-code Applied',
@@ -86,6 +88,8 @@ let strings = new LocalizedStrings({
         selectDate: '送花日期:',
         noCoverageTip1: '這位花匠暫時不送貨到',
         noCoverageTip2: "。我們返回市集再選購吧！",
+        noPickUpTip1: '這位花匠暫時不提供',
+        noPickUpTip2: "。我們返回市集再選購吧！",
         excludingDelivery: '不包括送貨費',
         originalPriceTip: '原價',
         discountedPriceTip: '折扣後',
@@ -526,13 +530,19 @@ export default class Arrangement extends Component {
                         </div>
                     </div>
 
-                    { this.state.arrangementDeliveryFee=== -1 &&
+                    { (this.state.arrangementDeliveryFee=== -1 && marketRegion !== 'specialPickUpLocation') &&
                         <div>
                             <div className="error-message">{strings.noCoverageTip1}{strings[marketRegion]}{strings.noCoverageTip2}</div>
                         </div>
                     }
 
-                    {marketRegion === 'specialPickUpLocation' &&
+                    { (this.state.arrangementDeliveryFee=== -1 && marketRegion === 'specialPickUpLocation') &&
+                        <div>
+                            <div className="error-message">{strings.noPickUpTip1}{strings[marketRegion]}{strings.noPickUpTip2}</div>
+                        </div>
+                    }
+
+                    {(marketRegion === 'specialPickUpLocation' && this.state.specialPickUpFlag !== -1) &&
                         <div>
                             <div className="special-pickup-info-title"><strong>{strings.specialPickUpTitle}</strong></div>
                             <div className="special-pickup-info">{this.state.specialPickUp}</div>

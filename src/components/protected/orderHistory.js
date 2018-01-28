@@ -26,7 +26,6 @@ let strings = new LocalizedStrings({
     recipientNum: "Recipient's # :",
     card: 'Card :',
     backButton: 'Back',
-    tip2: '**To change delivery address, flower type, or plan, please create a new subscription and unsubscribe from this one. Sorry for any inconvience caused.',
     submitReviewTitle: 'Review',
     submitReviewText1: 'Please share your experience, it helps good florists get more exposure!',
     submitReviewText2: 'Only verified customers with purchases are allowed to submit a review.',

@@ -1,34 +1,22 @@
 import React, { Component } from 'react';
 import ReactDOM from 'react-dom'
-import { Col } from 'react-bootstrap';
+import { Grid, Row, Col } from 'react-bootstrap';
 import { Link, Route } from 'react-router-dom';
 import LocalizedStrings from 'react-localization';
 import { Button, Overlay, ButtonToolbar, DropdownButton, MenuItem, Modal } from 'react-bootstrap';
-import MetaTags from 'react-meta-tags';
-
 import Slider, { Range } from 'rc-slider';
 // import Tooltip from 'rc-tooltip';
 import 'rc-slider/assets/index.css';
+import { Helmet } from 'react-helmet';
 
-import {
-    InstantSearch, 
-    Hits,
-    Pagination,
-    Configure,
-    ClearAll,
-} from 'react-instantsearch/dom';
-import {
-    connectRefinementList,
-    connectMenu,
-    connectRange,
-    connectSearchBox
-} from 'react-instantsearch/connectors';
+import { InstantSearch, Hits, Pagination, Configure, ClearAll } from 'react-instantsearch/dom';
+import { connectRefinementList, connectMenu, connectRange, connectSearchBox } from 'react-instantsearch/connectors';
 
 let strings = new LocalizedStrings({
     en: {
         seeDesignsButton: 'See Designs',
-
-        select_region: 'Select Region',
+        select_region: 'See All',
+        specialPickUpLocation: 'Self Pick Up',
         HK_CentralWestern: 'Central & Western',
         HK_Eastern: 'Eastern',
         HK_Southern: 'Southern',
@@ -48,7 +36,6 @@ let strings = new LocalizedStrings({
         NT_TuenMun: 'Tuen Mun',
         NT_YuenLong: 'Yuen Long',
         findDesignsButton: 'Find Designs',
-
         deliveringTo: 'Delivering To:',
         clearAllButton: 'Clear',
         flower: 'Flower',
@@ -73,7 +60,6 @@ let strings = new LocalizedStrings({
         callalilies: ' Calla Lilies:',
         gardenroses: ' Garden Roses:',
         lilies: ' Lilies:',
-
         red: 'Red',
         pink: 'Pink',
         green: 'Green',
@@ -83,17 +69,40 @@ let strings = new LocalizedStrings({
         yellow: 'Yellow',
         lavender: 'Lavender',
         blue: 'Blue',
-
         wrappedBouquets: 'Bouquets',
         arrangements: 'Arrangements',
+        congratulatoryStand: 'Stands',
         hampers: 'Hampers/Gifts',
         driedPreserved: 'Dried',
-        flowerBox: 'Box'
+
+        titlewrappedBouquets: 'Wrapped Bouquets Collection',
+        titlearrangements: 'Floral Arrangements Collection',
+        titlehampers: 'Hampers Collection',
+        titledriedPreserved: 'Dried Flowers Collection',
+        titlecongratulatoryStand: 'Congratulatory/Funneral Stands Collection',
+
+        descriptwrappedBouquets: 'MayDaisy has curated wrapped bouquet designs in Hong Kong for you. ',
+        descriptarrangements: 'MayDaisy has curated flower arrangement designs in Hong Kong for you. ',
+        descripthampers: 'MayDaisy has curated hamper and gift designs in Hong Kong for you. ',
+        descriptdriedPreserved: 'MayDaisy has curated dried and preserved flower designs in Hong Kong for you. ',
+        descriptcongratulatoryStand: 'MayDaisy has curated congratulatory/funneral stand designs in Hong Kong for you. ',
+
+        categoryHeaderwrappedBouquets: 'Tips for sending wrapped bouquets to Hong Kong:',
+        categoryHeaderarrangements: 'Tips for sending floral arrangements to Hong Kong:',
+        categoryHeaderhampers: 'Tips for sending hampers and gifts to Hong Kong:',
+        categoryHeaderdriedPreserved: 'Tips for sending dried or preserved flowers to Hong Kong:',
+        categoryHeadercongratulatoryStand: 'Tips for sending congratulatory/funneral stands to Hong KOng:',
+
+        categoryContentwrappedBouquets: "If you are choosing a bouquet for visting or congratulatory purposes, the common colours of choice are white, yellow, and orange. If used for romantic occasions, your first consideration would of course be your partner's preference, but pink, lavender, and red are very popular.",
+        categoryContentarrangements: 'When choosing a floral arrangement, the destination space should be part of the consideration. In general, office and home spaces are smaller in Hong Kong, but public commercial spaces such as restaurants should have no problem accommodating bigger arrangements. Typical indoor areas in Hong Kong have air conditioning, which is good for fresh flowers and let them last 6-8 days.',
+        categoryContenthampers: 'May of the hamper and gift basket designs include branded items such as tea leaves and chocolate. If you have a special request to switch out these items, you can raise it to your florist directly on the confirmation call. They will do their best to accommodate your customisation. ',
+        categoryContentdriedPreserved: 'Depending on the humidity, dried and preserved flowers can last 18 to 36 months. To optimise the preservation, your space should be as dry as possible. Preserved flowers have lower requirement on humidity compared to dried flowers and they preserve their colours better. ',
+        categoryContentcongratulatoryStand: "Congratulatory and funneral stands are actually big hampers with a stand, your recipients might pick some of their favorites and convert them into decorations after the event, so you might want to consider their space's theme when you make your selection. In Hong Kong, the typical congratulatory stand uses red as the theme color, white for funneral stands. Recently though, it has become acceptable to be more creative so the western and fusion designs stand out very well.",
     },
     zh: {
         seeDesignsButton: '確定',
-
-        select_region: '選擇地區',
+        select_region: '全部地區',
+        specialPickUpLocation: '免費自取',
         HK_CentralWestern: '中西區',
         HK_Eastern: '東區',
         HK_Southern: '南區',
@@ -113,7 +122,6 @@ let strings = new LocalizedStrings({
         NT_TuenMun: '屯門區',
         NT_YuenLong: '元朗區',
         findDesignsButton: '搵設計',
-
         deliveringTo: '送往:',
         clearAllButton: '重設篩選',
         flower: '花種',
@@ -137,7 +145,7 @@ let strings = new LocalizedStrings({
         lisianthus: ' 洋桔梗',
         callalilies: ' 馬蹄蘭',
         gardenroses: ' 庭園玫瑰',
-        lilies: '百合:',
+        lilies: ' 百合',
         red: '紅色',
         pink: '粉紅色',
         green: '綠色',
@@ -147,12 +155,35 @@ let strings = new LocalizedStrings({
         yellow: '黃色',
         lavender: '薰衣草色',
         blue: '藍色',
-
         wrappedBouquets: '花束',
         arrangements: '插花/擺設',
         hampers: '禮品/花籃',
         driedPreserved: '乾花/保鮮花',
-        flowerBox: '花盒'
+        congratulatoryStand: '祝賀/帛事花牌',
+
+        titlewrappedBouquets: '花束設計彙集',
+        titlearrangements: '插花/擺設設計彙集',
+        titlehampers: '禮品/花籃設計彙集',
+        titledriedPreserved: '乾花/保鮮花設計彙集',
+        titlecongratulatoryStand: '祝賀/帛事花牌設計彙集',
+
+        descriptwrappedBouquets: '五月菊為您搜羅了香港花藝師們最標誌性的花束設計。',
+        descriptarrangements: '五月菊為您搜羅了香港花藝師們最標誌性的插花/擺設設計。',
+        descripthampers: '五月菊為您搜羅了香港花藝師們最標誌性的禮品/花籃設計。',
+        descriptdriedPreserved: '五月菊為您搜羅了香港花藝師們最標誌性的乾花/保鮮花設計。',
+        descriptcongratulatoryStand: '五月菊為您搜羅了香港花藝師們最標誌性的祝賀/帛事花牌設計。',
+
+        categoryHeaderwrappedBouquets: '小提示-香港的花束:',
+        categoryHeaderarrangements: '小提示-香港的插花和擺設:',
+        categoryHeaderhampers: '小提示-香港的禮品和花籃:',
+        categoryHeaderdriedPreserved: '小提示-香港的乾花和保鮮花:',
+        categoryHeadercongratulatoryStand: '小提示-香港的祝賀和帛事花牌:',
+
+        categoryContentwrappedBouquets: '如果您在選購祝賀或探訪用途的花束，普遍的顏色為黃色、白色和橙色。如果您在選購浪漫主題的花束，顏色當然以你對象的喜好為主要考慮，但普遍最受歡迎的主色為粉紅、薰衣草和紅色。',
+        categoryContentarrangements: '挑選插花或擺設時，要考慮擺放空間，選擇一個大小和高度適合的設計。香港的辦公室和住宅空間一般比較小，但公共商務空間例如餐廳一般可以擺放較大的花卉設計。香港一般的室內空間有空調，鮮花可以擺放6-8天。如果您送花的地點沒有空調，可以考慮菊花為主的設計。',
+        categoryContenthampers: '很多禮品和花籃的設計有例如茶葉或巧克力的禮品，如果您對禮品有特別的要求，可以在下單之後的確認電話中向花藝師提出，一般可以更換價值一樣的禮品。',
+        categoryContentdriedPreserved: '乾花和保鮮花一般可以擺放18-36個月，視乎空氣濕度。如果想乾花和保鮮花狀態和顏色保持得更好，擺放空間應該要盡量乾燥。保鮮花一般對空氣濕度的要求比乾花低。',
+        categoryContentcongratulatoryStand: '祝賀和帛事花牌一般其實是有腳架的大花籃，主人可能會選擇一些喜歡的花牌拆除腳架作為擺設，所以挑選花牌時可以考慮主人家擺放空間。香港的祝賀花牌一般以紅色為主色，帛事花牌一般以白色為主色，但近年開始有人選擇西式／新式設計花牌，效果非常特出。',
     }
 });
 
@@ -594,7 +625,7 @@ const CustomSearchBox = ({currentRefinement, refine}) => (
     <div className="search-box small-screen-hide">
         <input 
             className="search-field"
-            placeholder='e.g. Gigiflorist'
+            placeholder='e.g. Homemade Floral'
             type="text"
             value={currentRefinement}
             onChange={e => refine(e.target.value)}
@@ -928,11 +959,13 @@ export default class ArrangementsList extends Component {
         return (
             <div className="no-padding">
 
-                {/* <MetaTags>
-                    <title>{strings[chosenCategory]}</title>
-                    <meta name="description" content={strings[]} />
-                    <link rel="alternate" hrefLang="x-default" href="https://maydaisy.com/home-en"/>
-                </MetaTags> */}
+                <Helmet>
+                    <title>{strings['title' + chosenCategory]}</title>
+                    <meta name="description" content={strings['descript' + chosenCategory]} />
+                    <link rel="alternate" hrefLang="en" href={`https://maydaisy.com/en/arrangements/category/${chosenCategory}/region/`}/>
+                    <link rel="alternate" hrefLang="zh-Hant" href={`https://maydaisy.com/zh/arrangements/category/${chosenCategory}/region/`}/>
+                    <link rel="alternate" hrefLang="x-default" href={`https://maydaisy.com/arrangements/category/${chosenCategory}/region/`}/>
+                </Helmet>
 
                 <div className="list-banner">
                     {(!this.state.showRegionSelect && typeof marketRegion !== 'undefined') &&
@@ -944,6 +977,7 @@ export default class ArrangementsList extends Component {
                     { (this.state.showRegionSelect || typeof marketRegion === 'undefined') &&
                         <span>
                             <DropdownButton title={strings[this.state.tempMarketRegion]} id="list-region-select" onSelect={this.handleSelectRegion}>
+                                <MenuItem eventKey="specialPickUpLocation">{strings.specialPickUpLocation}</MenuItem>                                
                                 <MenuItem eventKey="HK_CentralWestern">{strings.HK_CentralWestern}</MenuItem>
                                 <MenuItem eventKey="HK_Eastern">{strings.HK_Eastern}</MenuItem>
                                 <MenuItem eventKey="HK_Southern">{strings.HK_Southern}</MenuItem>
@@ -1026,6 +1060,16 @@ export default class ArrangementsList extends Component {
                         </div>
                     </div>
                 </InstantSearch>
+
+                <Grid className="category-tip-container">
+                    <Row>
+                        <Col xs={12} className="category-tip-header">{strings['categoryHeader' + chosenCategory]}</Col>
+                    </Row>
+                    <Row>
+                        <Col xs={12} className="category-tip-content">{strings['categoryContent' + chosenCategory]}</Col>
+                    </Row>
+                </Grid>
+
             </div>
         )
     }
