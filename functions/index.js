@@ -199,7 +199,7 @@ function sendEmailCustomerOnReceived (email, arrangementCode, arrangementName, d
         <p>Florist: <a href="https://maydaisy.com/florist/${floristCode}" target="_blank">${floristName}</a></p>
         <p>Status: Order Received</p>  
         <p>Delivery Date: ${deliveryDate}</p>
-        <p>For more details, please <a href="https://maydaisy.com/login">login</a> to access your order history.</p>`
+        <p>For more details, please <a href="https://maydaisy.com/en/auth/login">login</a> to access your order history.</p>`
         );
     } else if (language === 'ch') {
         mailOptions = {
@@ -216,7 +216,7 @@ function sendEmailCustomerOnReceived (email, arrangementCode, arrangementName, d
         <p>花匠: <a href="https://maydaisy.com/florist/${floristCode}" target="_blank">${floristName}</a></p>
         <p>狀態: 已收到訂單</p>  
         <p>送貨日期: ${deliveryDate}</p>
-        <p>如要查看詳情，請<a href="https://maydaisy.com/login">登入</a>五月菊。</p>`
+        <p>如要查看詳情，請<a href="https://maydaisy.com/en/auth/login">登入</a>五月菊。</p>`
         );
     }
     return mailTransport.sendMail(mailOptions).then(() => {
@@ -246,7 +246,7 @@ function sendEmailCustomerOnFulfilled (email, arrangementCode, arrangementName, 
         <p>Florist: <a href="https://maydaisy.com/florist/${floristCode}" target="_blank">${floristName}</a></p>
         <p>Status: Fulfilled</p>  
         <p>Delivery Date: ${deliveryDate}</p>
-        <p>For more details, please <a href="https://maydaisy.com/login">login</a>  to access your order history.</p>`
+        <p>For more details, please <a href="https://maydaisy.com/en/auth/login">login</a>  to access your order history.</p>`
         );
     } else if (language ==='ch') {
         mailOptions = {
@@ -263,7 +263,7 @@ function sendEmailCustomerOnFulfilled (email, arrangementCode, arrangementName, 
         <p>花匠: <a href="https://maydaisy.com/florist/${floristCode}" target="_blank">${floristName}</a></p>
         <p>狀態: Fulfilled</p>  
         <p>送貨日期: ${deliveryDate}</p>
-        <p>如要查看詳情，請<a href="https://maydaisy.com/login">登入</a>五月菊。</p>`
+        <p>如要查看詳情，請<a href="https://maydaisy.com/zh/auth/login">登入</a>五月菊。</p>`
         );
     }
     return mailTransport.sendMail(mailOptions).then(() => {
