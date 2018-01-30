@@ -404,7 +404,7 @@
                     max-height: 10em;
                     padding: .4em;
                     margin-top: 1em;
-                    margin-left: 20px;
+                    margin-left: 0;
                     border-radius: 2px;
                     background: #fff;
                     overflow: hidden;
@@ -426,13 +426,13 @@
                         // height: 200px;
                         .florist-info-container {
                             margin-left: 60px;
-                            text-align: left;
+                            text-align: center;
                             display: inline-block;
                             vertical-align: 200%;
                             @media (max-width: 576px) {
                                 margin-top: 10px;
                                 text-align: center;
-                                margin-left: 15px !important;
+                                margin-left: 0;
                             }
                             .florist-name {
                                 font-size: 120%;
