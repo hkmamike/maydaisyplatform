@@ -1,6 +1,4 @@
-
 .arrangement-container {
-
     margin-top: 20px;
     margin-bottom: 20px;
     background-color: $white;
@@ -303,19 +301,6 @@
         margin-left: 15px;
     }
 
-    .arrangement-section-title {
-        margin-top: 25px;
-        margin-bottom: 15px;
-        text-align: center;
-        font-size: 120%;
-        margin-left: 50px;
-        margin-right: 50px;
-        @media (max-width: 768px) {
-            font-size: 100%;
-            margin: 10px;
-        }
-    }
-
     .promo-code-button {
         margin-left: 15px;
         background-color: $teal;
@@ -371,5 +356,128 @@
             margin-bottom: 0 !important;
             padding: 5px !important;
         }
+    }
+}
+
+.florist-banner-container {
+    margin-top: 20px;
+    margin-bottom: 20px;
+    padding-left: 0;
+    padding-right: 0;
+    background-color: $white;
+    width: 100%;
+    .main-row {
+        width: 100%;
+        margin-left: 0;
+        margin-right: 0;
+        @media (max-width: 768px) {
+            margin-left: 0 !important;
+        }
+        .florist-banner {
+            margin-top: 20px;
+            width: 100%;
+            background: rgba(0,0,0,0.7);
+            .florist-info {
+                max-width: 850px;
+                margin: auto;
+                text-align: center;
+                a {
+                    color: white !important;
+                    &:hover {
+                        color: white !important;
+                    }
+                }
+                @media (max-width: 768px) {
+                    padding-bottom: 0px;
+                    padding-top: 15px;
+                    padding-left: 10px;
+                    padding-right: 10px;
+                }
+                @media (min-width: 769px) {
+                    padding: 20px;
+                }
+                .florist-pic-container {
+                    display: inline-block;
+                    box-sizing: border-box;
+                    width: 100%;
+                    max-width: 10em;
+                    max-height: 10em;
+                    padding: .4em;
+                    margin-top: 1em;
+                    margin-left: 20px;
+                    border-radius: 2px;
+                    background: #fff;
+                    overflow: hidden;
+                    @media (min-width: 576px) {
+                        width: 10em;
+                        height: 10em;
+                        padding: .5em;
+                        border-radius: 4px;
+                        margin-top: 0.5em;
+                    }
+                    img {
+                        width: 100%;
+                    }
+                }
+        
+                .justify-container {
+                    // position: relative;
+                    .inline-container {
+                        // height: 200px;
+                        .florist-info-container {
+                            margin-left: 60px;
+                            text-align: left;
+                            display: inline-block;
+                            vertical-align: 200%;
+                            @media (max-width: 576px) {
+                                margin-top: 10px;
+                                text-align: center;
+                                margin-left: 15px !important;
+                            }
+                            .florist-name {
+                                font-size: 120%;
+                                margin-bottom: 5px;
+                                color: white;
+                                min-width: 250px;
+                            }
+                            .florist-type {
+                                font-size: 80%;
+                                color: white;
+                            }
+                            .button-to-florist {
+                                font-weight: bold;
+                                border: none;
+                                border-radius: 0;
+                                margin-top: 10px;
+                                padding: 10px 20px;
+                                background-color: white;
+                                color: black !important;
+                                &:hover {
+                                    background-color: $lightGrey;
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        }
+    }
+}
+
+.arrangement-section-container {
+    .arrangement-section-title {
+        margin-top: 25px;
+        margin-bottom: 15px;
+        text-align: center;
+        font-size: 120%;
+        margin-left: 50px;
+        margin-right: 50px;
+        @media (max-width: 768px) {
+            font-size: 100%;
+            margin: 10px;
+        }
+    }
+    .sub-content {
+        margin-bottom: 25px;
     }
 }

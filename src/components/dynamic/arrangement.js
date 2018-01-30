@@ -59,6 +59,12 @@ let strings = new LocalizedStrings({
         substitutionPolicy: "Sometimes, florists' photo represent an overall theme or look and include a one-of-a-kind vase which cannot be exactly replicated. Although the delivered bouquet may not precisely match the photo, its temperament will. Occasionally, substitutions of flowers or containers happen due to weather, seasonality and market conditions which may affect availability. If this is the case with the gift you've selected, the local florist will ensure that the style, theme and color scheme of your arrangement is preserved and will only substitute items of equal or higher value.",
         standardDeliveryPolicy: "Every gift ordered through MayDaisy is personally hand-delivered by the local florist. Each local florist sets their own delivery area, and fee.\n\n Some florists offer same-day hand delivery, and the platform wide cut-off time for same-day delivery is 1 p.m local time at the destination city. Orders received after that time may be delivered the following day.\n\n To request a specific delivery time, please type it into the Delivery Instructions field during checkout. We will do our best to accommodate your preferences. Before major holidays and festive seasons, we recommend that you place your orders at least five days in advance.\n\n",
         standardDeliveryPolicyPlus: "The following is your florist's own delivery policy:\n\n",
+
+        artist: 'Independent Artist',
+        shop: 'Boutique Shop',
+        rating: 'Ave. Rating:',
+        ratingCount: ' reviews',
+        buttonToFlorist: 'Visit Shop',
     },
     zh: {
         select_region: '選擇地區',
@@ -110,6 +116,12 @@ let strings = new LocalizedStrings({
         substitutionPolicy: "花藝師的照片代表整體的主題或外觀。在某些情況下，花卉或花瓶不能被完全複製。雖然真正的花卉可能不完全符合照片，但它們的主題和外觀會。由於天氣，季節和市場條件可能會影響鮮花的供應，有時花匠會選用替代品。如果您選擇的定購遇到這種情況，花店將確保設計的風格，主題和配色方案得以保留，並且只會選用相同或更高價值的替代品。",
         standardDeliveryPolicy: "每一件設計貨品都是由您所選的當地花店或花藝師創作和親自送貨的。每一個花店和花藝師都有各自的服務區域和送貨收費。\n\n 有一些花店和花藝師提供當天送貨服務，五月菊的當天送貨截止時間為下午一時。下午一時以後收到的訂單有可能會在下一天送貨。\n\n 如果您想指定送貨時間，請在送貨指示中要求，花匠會在可行情況下盡量配合。在主要節日和假期前，我們建議客人在最少五天前下單。\n\n",
         standardDeliveryPolicyPlus: "以下為所選花店的送貨條款:\n\n",
+
+        artist: '獨立花藝師',
+        rating: '平均評分:',
+        shop: '精品花店',
+        ratingCount: ' 評價',
+        buttonToFlorist: '參觀花店',
     }
 });
 
@@ -147,6 +159,20 @@ class ButtonToSearch extends React.Component {
              </Button>
          )
      }
+}
+
+class ButtonToFlorist extends React.Component {
+    render() {
+       return( 
+            <Button bsStyle="" className="button-to-florist" 
+                onClick={() => {
+                    this.props.history.push(`/${this.props.languageChanged}/florist/${this.props.floristID}/`);
+                }}
+            >
+                {strings.buttonToFlorist}
+            </Button>
+        )
+    }
 }
 
 const deliveryTooltip = (
@@ -389,10 +415,23 @@ export default class Arrangement extends Component {
                     arrangementDeliveryLeadTime: snapshotVal.deliveryLeadTime,
                     arrangementDeliveryBlockedDays: snapshotVal.deliveryBlockedDays,
                     arrangementDeliveryClosedDays: snapshotVal.closedDays,
+                    floristProfilePic: snapshotVal.profilePic,
+                    floristType: snapshotVal.floristType,
                     arrangementDeliveryFee: snapshotVal.deliveryFee[marketRegion],
                     specialPickUp: snapshotVal.specialPickUp,
                     specialPickUpFlag: snapshotVal.deliveryFee['specialPickUpLocation'],
                 });
+            });
+
+            firebase.database().ref(`florists/${floristID}/reviewsStats`)
+            .once('value', function(snapshot) {
+                var snapshotVal = snapshot.val();
+                if (snapshotVal) {
+                    thisRef.setState({
+                        averageRating: snapshotVal.averageRating,
+                        ratingCount: snapshotVal.ratingCount,
+                    });
+                }
             });
         });
     }
@@ -450,6 +489,7 @@ export default class Arrangement extends Component {
     } else {
     
       content = (
+        <div>
         <Grid className="arrangement-container">
             <Row className="main-row">
                 <Col xs={12} sm={6}>
@@ -626,12 +666,37 @@ export default class Arrangement extends Component {
                     }
                 </Col>
             </Row>
+        </Grid>
+        <Grid className="florist-banner-container">
+            <Row className="main-row">
+                <div className="florist-banner">
+                    <div className="florist-info">
+                        <div className="justify-container">
+                            <div className="inline-container">
+                                <div className="florist-pic-container">
+                                    <img src={this.state.floristProfilePic} alt=""/>
+                                </div>
+                                <div className="florist-info-container">
+                                    <div className="florist-name">{this.state.arrangementFloristName}</div>
+                                    <div className="florist-type">{strings[this.state.floristType]}</div>
+                                    {this.state.averageRating && 
+                                        <div className="florist-type">{strings.rating}{' '}{this.state.averageRating} ({this.state.ratingCount}{strings.ratingCount})</div>
+                                    }
+                                    <Route path="/" render={(props) => <ButtonToFlorist floristID={this.state.arrangementFlorist} languageChanged={this.props.languageChanged} {...props} />} />
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </Row>
+        </Grid>
+        <Grid className="arrangement-section-container">
             <Row>
-                <div className="horizontal-line"></div>
                 <div className="arrangement-section-title">{strings.otherDesigns1}{this.state.arrangementFloristName}{strings.otherDesigns2}</div>
                 <div className="sub-content list-container">{listOfArrangements}</div>
             </Row>
         </Grid>
+        </div>
       )
     }
 
