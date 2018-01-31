@@ -94,22 +94,33 @@ export default class PlaceOrder extends React.Component {
         var senderEmailOnReg = this.props.email;
         var uid = '';
         var addressBookChecked = false;
-        var floristRevenueMin = (this.props.arrangementPrice * 0.8) + (this.props.deliveryFee * 0.96);
-        var floristRevenue85 = (this.props.arrangementPrice * 0.85) + (this.props.deliveryFee * 0.96);
-        var floristRevenue90 = (this.props.arrangementPrice * 0.9) + (this.props.deliveryFee * 0.96);
-        var floristRevenueBase = this.props.arrangementPrice + this.props.deliveryFee;
+        var platformDiscount = this.props.platformDiscount;
+        var platformDiscountRate = this.props.platformDiscountRate;
+        var floristRevenueMin;
+        var floristRevenue88;
+        var floristRevenue90;
+        var floristRevenueBase;
+
+        if (!platformDiscount) {
+            floristRevenueMin = (arrangementPrice * 0.8) + (deliveryFee * 0.96);
+            floristRevenue88 = (arrangementPrice * 0.88) + (deliveryFee * 0.96);
+            floristRevenue90 = (arrangementPrice * 0.9) + (deliveryFee * 0.96);
+            floristRevenueBase = arrangementPrice + deliveryFee;
+        } else if (platformDiscount) {
+            floristRevenueMin = (arrangementOriginalPrice * 0.8) + (deliveryFee * 0.96);
+            floristRevenue88 = (arrangementOriginalPrice * 0.88) + (deliveryFee * 0.96);
+            floristRevenue90 = (arrangementOriginalPrice * 0.9) + (deliveryFee * 0.96);
+            floristRevenueBase = arrangementOriginalPrice + deliveryFee;
+        }
 
         if (orderRoute === 'login') {
             addressBookChecked = this.props.addressBookChecked;
             uid = firebase.auth().currentUser.uid;
         }
 
-
-
         console.log('stripe created token. Forwarding to web server : ', token);
         console.log('reference code is :', referenceCode);
         this.showLoader();
-
         fetch('https://wt-47cf129daee3aa0bf6d4064463e232ef-0.run.webtask.io/web-task-stripe-order-marketplace'
         +'?paymentSource=' + token.id
         +'&paymentEmail=' + token.email, {
@@ -157,7 +168,7 @@ export default class PlaceOrder extends React.Component {
                                 promoCodeApplied: promoCodeApplied,
                                 deliveryFee: deliveryFee,
                                 floristRevenueBase: floristRevenueBase,
-                                floristRevenue85: floristRevenue85,
+                                floristRevenue88: floristRevenue88,
                                 floristRevenue90: floristRevenue90,
                                 floristRevenueMin: floristRevenueMin,
                                 arrangementName: arrangementName,
@@ -188,6 +199,8 @@ export default class PlaceOrder extends React.Component {
                                 orderRoute: orderRoute,
                                 orderReceivedEmailSent: 'false',
                                 orderFulfilledEmailSent: 'false',
+                                platformDiscount: platformDiscount,
+                                platformDiscountRate: platformDiscountRate,
                             }
                         });
                         if (orderRoute === 'login') {
@@ -233,6 +246,8 @@ export default class PlaceOrder extends React.Component {
                                     languageChanged: languageChanged,
                                     deliveryInstruction: deliveryInstruction,
                                     orderRoute: orderRoute,
+                                    platformDiscount: platformDiscount,
+                                    platformDiscountRate: platformDiscountRate,
                                 }
                             });
 
@@ -275,7 +290,7 @@ export default class PlaceOrder extends React.Component {
                                     arrangementOriginalPrice: arrangementOriginalPrice,
                                     promoCodeApplied: promoCodeApplied,
                                     floristRevenueBase: floristRevenueBase,
-                                    floristRevenue85: floristRevenue85,
+                                    floristRevenue88: floristRevenue88,
                                     floristRevenue90: floristRevenue90,
                                     floristRevenueMin: floristRevenueMin,
                                     deliveryFee: deliveryFee,
@@ -305,6 +320,8 @@ export default class PlaceOrder extends React.Component {
                                     languageChanged: languageChanged,
                                     deliveryInstruction: deliveryInstruction,
                                     orderRoute: orderRoute,
+                                    platformDiscount: platformDiscount,
+                                    platformDiscountRate: platformDiscountRate,
                                 }
                             });
                             base.push(`newsLetterList`, {

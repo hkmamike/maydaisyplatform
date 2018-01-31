@@ -2,6 +2,7 @@
   "rules": {
 
     "allTransactions": {
+      ".read" : "auth.uid === 'hVEu6IAgBUPuU3MCPWMG1xiqvUB3'",
       "$florist" : {
         ".read" : "root.child('users/'+ auth.uid + '/info/shop').val() === $florist",
         "$txn" : {
@@ -55,6 +56,10 @@
     "newsLetterList": {
       ".read" : "auth.uid === 'hVEu6IAgBUPuU3MCPWMG1xiqvUB3'",
       ".write" : true
+    },
+
+    "promoCode": {
+      ".read" : true
     },
 
     "users": {

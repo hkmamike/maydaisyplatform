@@ -195,6 +195,7 @@ export default class Arrangement extends Component {
             promoCodeMessage: null,
             promoCodeError: null,
             promoCode: '',
+            promoCodeList: [],
         };
     }
 
@@ -220,6 +221,10 @@ export default class Arrangement extends Component {
                     arrangementPrice: snapshot.val().price,
                     arrangementPrice2: snapshot.val().price2,
                     arrangementPrice3: snapshot.val().price3,
+                    arrangementPrice5Off: snapshot.val().price5Off,
+                    arrangementPrice7Off: snapshot.val().price7Off,
+                    arrangementPrice10Off: snapshot.val().price10Off,
+                    arrangementPrice15Off: snapshot.val().price15Off,
                     arrangementOriginalPrice: snapshot.val().price,
                     arrangementCurrency: snapshot.val().currency,
                     arrangementSeasonality: snapshot.val().seasonality,
@@ -278,7 +283,7 @@ export default class Arrangement extends Component {
     applyPromoCode = () => {
         var promoCode = this.state.promoCode;
 
-        if (promoCode === this.state.promoCodeA) {
+        if (promoCode === this.state.promoCodeA && promoCode !== '') {
             if (this.state.arrangementPrice2 >= 40) {
                 this.setState({
                     arrangementPrice: this.state.arrangementPrice2,
@@ -292,7 +297,7 @@ export default class Arrangement extends Component {
                     promoCodeError: strings.promoCodeNotApplicable,
                 });
             }
-        } else if (promoCode === this.state.promoCodeB) {
+        } else if (promoCode === this.state.promoCodeB && promoCode !== '') {
             if (this.state.arrangementPrice2 >= 40) {
                 this.setState({
                     arrangementPrice: this.state.arrangementPrice3,
@@ -307,10 +312,27 @@ export default class Arrangement extends Component {
                 });
             }
         } else {
-            this.setState({
-                promoCodeError: strings.promoCodeFailed,
-                promoCodeMessage: null,
+            var promoCodeFailed = true;
+
+            this.state.promoCodeList.forEach((element) => {
+                if (promoCode === this.state[element+'code'] && promoCode !== '') {
+                    var rate = this.state[element+'rate'];
+                    this.setState({
+                        arrangementPrice: this.state['arrangementPrice'+rate+'Off'],
+                        promoCodeMessage: strings.promoCodeApplied,
+                        promoCodeError: null,
+                        promoCodeApplied: true,
+                    });
+                    promoCodeFailed = false;
+                }
             });
+
+            if (promoCodeFailed) {
+                this.setState({
+                    promoCodeError: strings.promoCodeFailed,
+                    promoCodeMessage: null,
+                });
+            }
         }
     }
 
@@ -382,6 +404,10 @@ export default class Arrangement extends Component {
                     arrangementPrice: snapshotVal.price,
                     arrangementPrice2: snapshotVal.price2,
                     arrangementPrice3: snapshotVal.price3,
+                    arrangementPrice5Off: snapshotVal.price5Off,
+                    arrangementPrice7Off: snapshotVal.price7Off,
+                    arrangementPrice10Off: snapshotVal.price10Off,
+                    arrangementPrice15Off: snapshotVal.price15Off,
                     arrangementCurrency: snapshotVal.currency,
                     arrangementSeasonality: snapshotVal.seasonality,
                     arrangementID: snapshotVal.id,
@@ -420,6 +446,19 @@ export default class Arrangement extends Component {
                     arrangementDeliveryFee: snapshotVal.deliveryFee[marketRegion],
                     specialPickUp: snapshotVal.specialPickUp,
                     specialPickUpFlag: snapshotVal.deliveryFee['specialPickUpLocation'],
+                });
+            });
+
+            firebase.database().ref('promoCode').once('value', function(snapshot) {
+                snapshot.forEach(function(childSnapshot) {
+                    var childKey = childSnapshot.key;
+                    var childData = childSnapshot.val();
+                    thisRef.state.promoCodeList.push(childKey);
+                    thisRef.setState({
+                        [childKey+'name']: childKey,
+                        [childKey+'code']: childData.code,
+                        [childKey+'rate']: childData.rate,              
+                    });
                 });
             });
 

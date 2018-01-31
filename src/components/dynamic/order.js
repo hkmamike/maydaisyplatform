@@ -352,6 +352,9 @@ export default class Order extends Component {
             registerError: null,
             deliveryInstruction: '',
             promoCodeApplied: false,
+            promoCodeList: [],
+            platformDiscount: false,
+            platformDiscountRate: 0,
         }
     }
 
@@ -493,6 +496,12 @@ export default class Order extends Component {
                     arrangementPrice: Number(snapshotVal.price),
                     arrangementPrice2: Number(snapshotVal.price2),
                     arrangementPrice3: Number(snapshotVal.price3),
+
+                    arrangementPrice5Off: Number(snapshotVal.price5Off),
+                    arrangementPrice7Off: Number(snapshotVal.price7Off),
+                    arrangementPrice10Off: Number(snapshotVal.price10Off),
+                    arrangementPrice15Off: Number(snapshotVal.price15Off),
+
                     arrangementOriginalPrice: Number(snapshotVal.price),
                     arrangementCurrency: snapshotVal.currency,
                     arrangementSeasonality: snapshotVal.seasonality,
@@ -517,14 +526,14 @@ export default class Order extends Component {
                             promoCodeB: snapshotVal.promoCodeB,
                             specialPickUp: snapshotVal.specialPickUp,
                         }, () => {
-                            if (thisRef.state.promoCodeA === promoCode) {
+                            if (thisRef.state.promoCodeA === promoCode && promoCode !== '') {
                                 if (thisRef.state.arrangementPrice2 >= 40) {
                                     thisRef.setState({
                                         arrangementPrice: thisRef.state.arrangementPrice2,
                                         promoCodeApplied: true,
                                     });
                                 }
-                            } else if (thisRef.state.promoCodeB === promoCode) {
+                            } else if (thisRef.state.promoCodeB === promoCode && promoCode !== '') {
                                 if (thisRef.state.arrangementPrice3 >= 40) {
                                     thisRef.setState({
                                         arrangementPrice: thisRef.state.arrangementPrice3,
@@ -532,6 +541,37 @@ export default class Order extends Component {
                                     });
                                 }
                             }
+                        });
+                    });
+
+                    firebase.database().ref('promoCode').once('value', function(snapshot) {
+                        var snapshotLength = Object.keys(snapshot.val()).length;
+                        var count = 0;
+                        
+                        snapshot.forEach((childSnapshot, index) => {
+                            var childKey = childSnapshot.key;
+                            var childData = childSnapshot.val();
+                            thisRef.state.promoCodeList.push(childKey);
+                            thisRef.setState({
+                                [childKey+'name']: childKey,
+                                [childKey+'code']: childData.code,
+                                [childKey+'rate']: childData.rate,                       
+                            }, () => {
+                                count = count + 1;
+                                if (snapshotLength === count) {
+                                    thisRef.state.promoCodeList.forEach((element) => {
+                                        if (promoCode === thisRef.state[element+'code'] && promoCode !== '') {
+                                            var rate = thisRef.state[element+'rate'];
+                                            thisRef.setState({
+                                                arrangementPrice: thisRef.state['arrangementPrice'+rate+'Off'],
+                                                promoCodeApplied: true,
+                                                platformDiscount: true,
+                                                platformDiscountRate: rate,
+                                            });
+                                        }
+                                    });
+                                }
+                            });
                         });
                     });
                 });
@@ -1239,6 +1279,8 @@ export default class Order extends Component {
                                     arrangementPrice={this.state.arrangementPrice}
                                     arrangementOriginalPrice={this.state.arrangementOriginalPrice}
                                     promoCodeApplied={this.state.promoCodeApplied}
+                                    platformDiscount={this.state.platformDiscount}
+                                    platformDiscountRate={this.state.platformDiscountRate}
                                 />
                                 <Button bsStyle="" className="button-new-sub button-back" onClick={() => this.setState({orderStep: 3}, () => {window.scrollTo(0, 0);})}>{strings.backButton}</Button>
                             </Col>

@@ -477,7 +477,7 @@ class FloristOrdersList extends Component {
               <Col xs={4} sm={3} md={3}>Sender</Col>
               <Col xs={4} sm={3} md={3}>DeliveryDay</Col>
               <Col xs={4} sm={3} md={2}>Status</Col>
-              <Col xsHidden sm={3} md={2}>MinRevenue</Col>
+              <Col xsHidden sm={3} md={2}>Revenue88</Col>
               <Col xsHidden smHidden md={2}>Month</Col>
             </Row>
           </Grid>
@@ -499,7 +499,7 @@ class FloristOrdersList extends Component {
                         <div>{data[key].status}</div>
                       </Col>
                       <Col xsHidden sm={3} md={2}>
-                        <div>{data[key].floristRevenueMin}</div>
+                        <div>{data[key].floristRevenue88}</div>
                       </Col>
                       <Col xsHidden smHidden md={2}>
                         <div>{data[key].orderMonth}</div>
@@ -577,7 +577,6 @@ export default class FloristsDashboard extends Component {
       componentDidMount () {
         window.scrollTo(0, 0);
         this.fireBaseListenerForFlorists = firebaseAuth().onAuthStateChanged((user) => {
-          console.log('auth', firebase.auth());
           this.updateList();
         });
       }
