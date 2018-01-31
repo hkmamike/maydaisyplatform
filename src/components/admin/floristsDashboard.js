@@ -1,5 +1,4 @@
 import React, { Component } from 'react'
-import * as firebase from 'firebase';
 import { firebaseAuth } from '../config/constants';
 import { Link } from 'react-router-dom';
 import { FormGroup, Grid, Row, Col, Button} from 'react-bootstrap';
@@ -234,7 +233,7 @@ class OrderDetails extends React.Component {
                           <div><strong>{strings.arrangement}</strong></div>
                       </Col>
                       <Col sm={8}>
-                      <div className="order-history-arrangement-name"><Link to={`/florist/${orderDetails.florist}/${orderDetails.arrangementCode}`}>{orderDetails.arrangementName}</Link></div>
+                      <div className="order-history-arrangement-name"><Link to={`/${this.props.languageChanged}/florist/${orderDetails.florist}/${orderDetails.arrangementCode}`}>{orderDetails.arrangementName}</Link></div>
                       </Col>
                     </FormGroup>
                   </Row>
@@ -535,6 +534,7 @@ class FloristOrdersList extends Component {
               orderInfoMessage={this.state.orderInfoMessage} 
               onHandleBack={this.handleBack}
               designerCode={this.props.designerCode}
+              languageChanged={this.props.languageChanged}
             />
           </div>
         )
@@ -689,6 +689,7 @@ export default class FloristsDashboard extends Component {
                     <FloristOrdersList
                         designerCode={this.state.selectedFlorist} 
                         onHandleBack={this.handleBack}
+                        languageChanged={this.props.languageChanged}
                     />
                 </div>
             )

@@ -587,6 +587,7 @@ export default class OrderHistory extends Component {
             stripeTxnID = {this.state.stripeTxnID}
             orderInfoMessage={this.state.orderInfoMessage} 
             onHandleBack={this.handleBack}
+            languageChanged={this.props.languageChanged}
           />
         </div>
       )

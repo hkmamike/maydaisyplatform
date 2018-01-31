@@ -102,7 +102,7 @@ let strings = new LocalizedStrings({
     zh: {
         seeDesignsButton: '確定',
         select_region: '香港所有',
-        specialPickUpLocation: '免費自取',
+        specialPickUpLocation: '免運費自取',
         HK_CentralWestern: '中西區',
         HK_Eastern: '東區',
         HK_Southern: '南區',

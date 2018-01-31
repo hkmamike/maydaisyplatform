@@ -332,7 +332,7 @@ export default class PlaceOrder extends React.Component {
                                 }
                             });
                         }
-                        console.log ('subscriptioin processing succeeded.');
+                        console.log ('subscription processing succeeded.');
                         this.progressOrderStep(referenceCode, stripeTxnID, deliveryDate);
                     });
                 });

@@ -86,7 +86,7 @@ let strings = new LocalizedStrings({
         NT_TsuenWan: '荃灣區',
         NT_TuenMun: '屯門區',
         NT_YuenLong: '元朗區',
-        specialPickUpLocation: '免費自取',
+        specialPickUpLocation: '免運費自取',
         buttonToMarket: '返回市集',
         descriptionTab: '貨品描述',
         deliveryInfoTab: '送貨詳情',
@@ -241,7 +241,7 @@ export default class Arrangement extends Component {
             });
             firebase.database().ref('arrangementsList')
             .orderByChild('florist')
-            .equalTo(this.props.match.params.floristID)
+            .equalTo(this.props.match.params.floristID).limitToFirst(6)
             .once('value', function(snapshot) {
                 snapshot.forEach(function(childSnapshot) {
                     var childKey = childSnapshot.key;

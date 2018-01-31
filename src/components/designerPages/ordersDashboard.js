@@ -976,6 +976,7 @@ export default class OrdersDashboard extends Component {
             orderInfoMessage={this.state.orderInfoMessage} 
             onHandleBack={this.handleBack}
             designerCode={this.props.designerCode}
+            languageChanged={this.props.languageChanged}
           />
         </div>
       )

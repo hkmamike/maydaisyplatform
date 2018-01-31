@@ -73,7 +73,7 @@ function sendEmailFloristOnTxn (email, arrangementCode, arrangementName, deliver
         <p>Delivery Date: ${deliveryDate}</p>
         <p>Please <a href="https://maydaisy.com/login">login</a> to check details on your orders dashboard.</p>`
         );
-    } else if (language === 'ch') {
+    } else if (language === 'zh') {
         mailOptions = {
             from: `五月菊通知 <noreply@maydaisy.com>`, 
             to: email
@@ -114,7 +114,7 @@ function sendEmailCustomerOnTxn (email, arrangementCode, arrangementName, delive
             <p>Delivery Date: ${deliveryDate}</p>
             <p>Please <a href="https://maydaisy.com/login">login</a> to check details on your orders dashboard.</p>`
         );
-    } else if (language === 'ch') {
+    } else if (language === 'zh') {
         mailOptions = {
             from: `五月菊通知 <noreply@maydaisy.com>`, 
             to: email
@@ -172,6 +172,7 @@ exports.EmailOnTxn = functions.database.ref('/allTransactions/{FloristID}/{TxnRe
 
     admin.database().ref('/florists/' + FloristID + '/email/').once('value', function(snapshot) {
        floristEmail = snapshot.val();
+       console.log('floristEmail is ', floristEmail);
     }).then(() => {
         return sendEmailFloristOnTxn(floristEmail, arrangementCode, arrangementName, deliveryDate, referenceCode, language) 
             && sendEmailCustomerOnTxn(senderEmail, arrangementCode, arrangementName, deliveryDate, referenceCode, language)
@@ -201,7 +202,7 @@ function sendEmailCustomerOnReceived (email, arrangementCode, arrangementName, d
         <p>Delivery Date: ${deliveryDate}</p>
         <p>For more details, please <a href="https://maydaisy.com/en/auth/login">login</a> to access your order history.</p>`
         );
-    } else if (language === 'ch') {
+    } else if (language === 'zh') {
         mailOptions = {
             from: `五月菊通知 <noreply@maydaisy.com>`, 
             to: email
@@ -248,7 +249,7 @@ function sendEmailCustomerOnFulfilled (email, arrangementCode, arrangementName, 
         <p>Delivery Date: ${deliveryDate}</p>
         <p>For more details, please <a href="https://maydaisy.com/en/auth/login">login</a>  to access your order history.</p>`
         );
-    } else if (language ==='ch') {
+    } else if (language ==='zh') {
         mailOptions = {
             from: `五月菊通知 <noreply@maydaisy.com>`, 
             to: email
