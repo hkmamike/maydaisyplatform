@@ -1076,7 +1076,7 @@ export default class OrdersDashboard extends Component {
         <Grid>
           <Row className="head-button-inline">
             <div className="head-button-section">            
-              <Route path="/" render={(props) => <ButtonToShop {...props}/>} languageChanged={this.props.languageChanged}/>
+              <Route path="/" render={(props) => <ButtonToShop {...props} languageChanged={this.props.languageChanged}/>}/>
             </div>
             <div className="head-button-section">            
               <Route path="/" render={(props) => <ButtonToAccount {...props} languageChanged={this.props.languageChanged}/>} />

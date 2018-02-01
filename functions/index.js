@@ -334,30 +334,35 @@ exports.ReviewsStats = functions.database.ref('/florists/{FloristID}/reviews/{Re
 
 /////////
 
-exports.PromoCodeStats = functions.database.ref('/allTransactions/{FloristID}/{TxnID}').onUpdate(event => {
+exports.PromoCodeStats = functions.database.ref('/allTransactions/{FloristID}/{TxnID}').onCreate(event => {
     var TxnID = event.params.TxnID;
     var codeUsed = event.data.child('codeUsed').val();
     var referenceCode = event.data.child('referenceCode').val();
     var updates = {};
     var newUsedCount;
+    var txnReference;
 
+    console.log('codeUsed is : ', codeUsed);
+    console.log('referenceCode is : ', referenceCode);
     if (codeUsed !== '') {
-        console.log('codeUsed is : ', codeUsed);
+        console.log("log: codeUsed !== ''");
         admin.database().ref('/promoCode/' + codeUsed + '/').once('value', function(snapshot) {
-            var txnReference;
             var usedCount = snapshot.child('usedCount').val();
             newUsedCount = usedCount + 1;
             if (snapshot.hasChild('txnReference')) {
                 txnReference = snapshot.child('txnReference').val();
                 txnReference.push(referenceCode);
+                console.log('had node for txnRef, new TxnReference is : ', txnReference);
             } else {
                 txnReference = [];
                 txnReference.push(referenceCode);
+                console.log('no node for txnRef, new TxnReference is : ', txnReference);
             }
          }).then(() => {
-            updates['/promoCode' + codeUsed + '/usedCount'] = newUsedCount;
-            updates['/promoCode' + codeUsed + '/txnReference'] = txnReference;
+            updates['/promoCode/' + codeUsed + '/used/'] = newUsedCount;
+            updates['/promoCode/' + codeUsed + '/txnReference'] = txnReference;
             admin.database().ref().update(updates);
+            console.log('updates is ', updates);
          })
 
     } 
