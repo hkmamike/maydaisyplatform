@@ -19,9 +19,7 @@
     background-color: $darkGrey;
     color: white;
     padding: 5px;
-    @media (max-width: 600px) {
-        font-size: 80%;
-    }
+    font-size: 16px;
 }
 
 .small-screen-hide {
@@ -171,10 +169,11 @@ header {
         }
         .home-image-pink {
             color: $darkpink;
-            font-size: 80%;
+            font-size: 16px;
         }
         .home-image-select {
             margin-top: 15px;
+            font-size: 16px;
             width: 240px;
             background-color: $white;
             background-position: 0 !important;
@@ -184,14 +183,15 @@ header {
                 width: 240px;
                 max-height: 250px;
                 overflow: scroll;
+                font-size: 16px;
             }
         }
         .button {
             margin-left: 10px !important;
             margin-top: 15px !important;
             height: 35px !important;
-            background-color: $pink !important;
-            font-weight: bold !important;
+            background-color: $darkpink !important;
+            font-size: 16px !important;
             color: $white !important;
             @media (max-width: 768px) {
                 margin-left: 0 !important;
@@ -299,6 +299,9 @@ header {
         font-size: 300%;
         margin-top: 30px;
     }
+    .icon-description {
+        font-size: 16px;
+    }
     .icon-title {
         font-weight: bold;
     }
@@ -322,7 +325,7 @@ header {
         height: 40px !important;
         width: 100px !important;
         font-size: 110% !important;
-        background-color: $pink !important;
+        background-color: $darkpink !important;
         font-weight: bold !important;
         color: $white !important;
         &:hover {
@@ -347,17 +350,18 @@ header {
     color: $white;
     text-align: center;
     background-color:rgba(0,0,0,0.7);
+    font-weight: lighter;
     ul,li {
         list-style: none;
         padding: 0;
         margin-left: 0;
         margin-top: 10px;
-        font-size: 80%
+        font-size: 16px
     }
     .footer-title {
         margin-top: 15px;
-        font-weight: bold;
-        font-size: 85%
+        font-weight: normal;
+        font-size: 18px;
     }
 }
 .footer-end {

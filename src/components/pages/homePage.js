@@ -151,6 +151,7 @@ export default class Homepage extends Component {
           <link rel="alternate" hrefLang="en" href="https://maydaisy.com/en/"/>
           <link rel="alternate" hrefLang="zh-Hant" href="https://maydaisy.com/zh/"/>
           <link rel="alternate" hrefLang="x-default" href="https://maydaisy.com/"/>
+          <html lang={this.props.languageChanged} />
         </Helmet>
         
         <div className="home-image-container">
@@ -213,7 +214,7 @@ export default class Homepage extends Component {
           <Grid className="show-grid home-pic-container">
             <Col sm={4} className="list-item">
               <Link to={`/${language}/arrangements/category/wrappedBouquets/region/`}>
-                <div className="list-pic home-pic-1"></div>
+                <div className="list-pic home-pic-1 " alt="link to wrappedBouquets"></div>
                 <div className="text-box">
                   <div className="text-line">
                     <div className="home-pic-title">{strings.bouquetsPicTitle}</div>
@@ -224,7 +225,7 @@ export default class Homepage extends Component {
 
             <Col sm={4} className="list-item">
               <Link to={`/${language}/arrangements/category/driedPreserved/region/`}>
-                <div className="list-pic home-pic-2"></div>
+                <div className="list-pic home-pic-2" alt="link to dried flowers"></div>
                 <div className="text-box">
                   <div className="text-line">
                     <div className="home-pic-title">{strings.driedPicTitle}</div>
@@ -235,8 +236,8 @@ export default class Homepage extends Component {
 
             <Col sm={4} className="list-item">
               <Link to={`/${language}/arrangements/category/hampers/region/`}>
-                <div className="list-pic home-pic-3"></div>
-                <div className="text-box">
+                <div className="list-pic home-pic-3" alt="link to hampers"></div>
+                <div className="text-box"> 
                   <div className="text-line">
                     <div className="home-pic-title">{strings.hampersPicTitle}</div>
                   </div>
@@ -251,17 +252,32 @@ export default class Homepage extends Component {
           <Grid className="show-grid home-pic-container">
             <Col sm={4} className="list-item">
                 <Link to={`/${language}/florist/gigiflorist`}>
-                  <div className="list-pic home-pic-4"></div>
+                  <div className="list-pic home-pic-4" alt="link to Gigiflorist's shop"></div>
+                  <div className="text-box">
+                  <div className="text-line">
+                    <div className="home-pic-title">Gigiflorist</div>
+                  </div>
+                </div>
                 </Link>
               </Col>
               <Col sm={4} className="list-item">
                 <Link to={`/${language}/florist/ohjoyce`}>
-                  <div className="list-pic home-pic-5"></div>
+                  <div className="list-pic home-pic-5" alt="link to Oh Joyce's shop"></div>
+                  <div className="text-box">
+                  <div className="text-line">
+                    <div className="home-pic-title">::Oh Joyce::</div>
+                  </div>
+                </div>
                 </Link>
               </Col>
               <Col sm={4} className="list-item">
                 <Link to={`/${language}/florist/symplegarten`}>
-                  <div className="list-pic home-pic-6"></div>
+                  <div className="list-pic home-pic-6" alt="link to SYMPLE Garten's shop"></div>
+                  <div className="text-box">
+                  <div className="text-line">
+                    <div className="home-pic-title">SYMPLE GARTEN</div>
+                  </div>
+                </div>
                 </Link>
               </Col>
           </Grid>

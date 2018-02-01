@@ -3,13 +3,13 @@
   "name": "MayDaisy",
   "icons": [
     {
-      "src": "https://firebasestorage.googleapis.com/v0/b/onebloom-cfa9d.appspot.com/o/logo.png?alt=media&token=d3f89daa-2818-4ec2-9aed-b006e7cd9f24",
-      "sizes": "192x192",
+      "src": "https://firebasestorage.googleapis.com/v0/b/maydaisy-platform.appspot.com/o/Website%20Photos%2Flogo.jpg?alt=media&token=2363f348-8f88-4749-a192-3d6fbb25c211",
+      "sizes": "512x512",
       "type": "image/png"
     }
   ],
   "start_url": "./index.html",
   "display": "standalone",
-  "theme_color": "##d8247f",
+  "theme_color": "#d8247f",
   "background_color": "#ffffff"
 }
