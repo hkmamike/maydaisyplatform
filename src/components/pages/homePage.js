@@ -146,7 +146,7 @@ export default class Homepage extends Component {
           <link rel="alternate" hrefLang="en" href="https://maydaisy.com/en/"/>
           <link rel="alternate" hrefLang="zh-Hant" href="https://maydaisy.com/zh/"/>
           <link rel="alternate" hrefLang="x-default" href="https://maydaisy.com/"/>
-          {/* <html lang={this.props.languageChanged} /> */}
+          <html lang={this.props.languageChanged} />
         </Helmet>
         
         <div className="home-image-container">
