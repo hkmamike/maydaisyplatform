@@ -100,6 +100,7 @@ export default class PlaceOrder extends React.Component {
         var floristRevenue88;
         var floristRevenue90;
         var floristRevenueBase;
+        var codeUsed = this.props.codeUsed;
 
         if (!platformDiscount) {
             floristRevenueMin = (arrangementPrice * 0.8) + (deliveryFee * 0.96);
@@ -201,6 +202,7 @@ export default class PlaceOrder extends React.Component {
                                 orderFulfilledEmailSent: 'false',
                                 platformDiscount: platformDiscount,
                                 platformDiscountRate: platformDiscountRate,
+                                codeUsed: codeUsed,
                             }
                         });
                         if (orderRoute === 'login') {
@@ -248,6 +250,7 @@ export default class PlaceOrder extends React.Component {
                                     orderRoute: orderRoute,
                                     platformDiscount: platformDiscount,
                                     platformDiscountRate: platformDiscountRate,
+                                    codeUsed: codeUsed,
                                 }
                             });
 
@@ -270,7 +273,7 @@ export default class PlaceOrder extends React.Component {
                                         address: address,
                                         selectDeliveryType: selectDeliveryType,
                                         deliveryInstruction: deliveryInstruction,
-                                        defaultAddress: false
+                                        defaultAddress: false,
                                     }
                                 });
                             }
@@ -322,6 +325,7 @@ export default class PlaceOrder extends React.Component {
                                     orderRoute: orderRoute,
                                     platformDiscount: platformDiscount,
                                     platformDiscountRate: platformDiscountRate,
+                                    codeUsed: codeUsed,
                                 }
                             });
                             base.push(`newsLetterList`, {

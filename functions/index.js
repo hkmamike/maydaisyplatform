@@ -310,8 +310,6 @@ exports.ReviewsStats = functions.database.ref('/florists/{FloristID}/reviews/{Re
     var newRatingCount;
     var updates = {};
 
-    console.log('hi');
-
     admin.database().ref('/florists/' + FloristID + '/reviewsStats/').once('value', function(snapshot) {
         var ratingCount = snapshot.child('ratingCount').val();
         var averageRating = snapshot.child('averageRating').val();
@@ -332,6 +330,38 @@ exports.ReviewsStats = functions.database.ref('/florists/{FloristID}/reviews/{Re
         updates['/florists/' + FloristID + '/reviewsStats/averageRating'] = newAverageRating;
         admin.database().ref().update(updates);
      })
+});
+
+/////////
+
+exports.PromoCodeStats = functions.database.ref('/allTransactions/{FloristID}/{TxnID}').onUpdate(event => {
+    var TxnID = event.params.TxnID;
+    var codeUsed = event.data.child('codeUsed').val();
+    var referenceCode = event.data.child('referenceCode').val();
+    var updates = {};
+    var newUsedCount;
+
+    if (codeUsed !== '') {
+        console.log('codeUsed is : ', codeUsed);
+        admin.database().ref('/promoCode/' + codeUsed + '/').once('value', function(snapshot) {
+            var txnReference;
+            var usedCount = snapshot.child('usedCount').val();
+            newUsedCount = usedCount + 1;
+            if (snapshot.hasChild('txnReference')) {
+                txnReference = snapshot.child('txnReference').val();
+                txnReference.push(referenceCode);
+            } else {
+                txnReference = [];
+                txnReference.push(referenceCode);
+            }
+         }).then(() => {
+            updates['/promoCode' + codeUsed + '/usedCount'] = newUsedCount;
+            updates['/promoCode' + codeUsed + '/txnReference'] = txnReference;
+            admin.database().ref().update(updates);
+         })
+
+    } 
+        
 });
 
 /////////

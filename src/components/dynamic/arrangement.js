@@ -256,7 +256,9 @@ export default class Arrangement extends Component {
     }
 
     handlePromoCodeChange = (e) => {
-        this.setState({ promoCode: e.target.value });
+        var code = e.target.value;
+        code = code.toLowerCase();
+        this.setState({ promoCode: code });
     }
 
     handleSelectRegion = (eventKey) => {

@@ -355,6 +355,7 @@ export default class Order extends Component {
             promoCodeList: [],
             platformDiscount: false,
             platformDiscountRate: 0,
+            codeUsed: '',
         }
     }
 
@@ -496,12 +497,10 @@ export default class Order extends Component {
                     arrangementPrice: Number(snapshotVal.price),
                     arrangementPrice2: Number(snapshotVal.price2),
                     arrangementPrice3: Number(snapshotVal.price3),
-
                     arrangementPrice5Off: Number(snapshotVal.price5Off),
                     arrangementPrice7Off: Number(snapshotVal.price7Off),
                     arrangementPrice10Off: Number(snapshotVal.price10Off),
                     arrangementPrice15Off: Number(snapshotVal.price15Off),
-
                     arrangementOriginalPrice: Number(snapshotVal.price),
                     arrangementCurrency: snapshotVal.currency,
                     arrangementSeasonality: snapshotVal.seasonality,
@@ -531,6 +530,7 @@ export default class Order extends Component {
                                     thisRef.setState({
                                         arrangementPrice: thisRef.state.arrangementPrice2,
                                         promoCodeApplied: true,
+                                        codeUsed: promoCode,
                                     });
                                 }
                             } else if (thisRef.state.promoCodeB === promoCode && promoCode !== '') {
@@ -538,6 +538,7 @@ export default class Order extends Component {
                                     thisRef.setState({
                                         arrangementPrice: thisRef.state.arrangementPrice3,
                                         promoCodeApplied: true,
+                                        codeUsed: promoCode,
                                     });
                                 }
                             }
@@ -567,6 +568,7 @@ export default class Order extends Component {
                                                 promoCodeApplied: true,
                                                 platformDiscount: true,
                                                 platformDiscountRate: rate,
+                                                codeUsed: promoCode,
                                             });
                                         }
                                     });
@@ -1281,6 +1283,7 @@ export default class Order extends Component {
                                     promoCodeApplied={this.state.promoCodeApplied}
                                     platformDiscount={this.state.platformDiscount}
                                     platformDiscountRate={this.state.platformDiscountRate}
+                                    codeUsed={this.state.codeUsed}
                                 />
                                 <Button bsStyle="" className="button-new-sub button-back" onClick={() => this.setState({orderStep: 3}, () => {window.scrollTo(0, 0);})}>{strings.backButton}</Button>
                             </Col>
