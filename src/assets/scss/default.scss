@@ -208,6 +208,9 @@ header {
     margin-top: 40px;
     margin-bottom: 40px;
     text-align: center;
+    h2 {
+        margin-bottom: 25px;
+    }
     .home-pic-container {
         margin: auto;
         max-width: 950px;
@@ -215,7 +218,6 @@ header {
         color: $darkGrey;
         text-align: center;
         overflow: auto;
-
         .list-item {
             padding: 10px;
             min-width: 140px;
@@ -240,7 +242,6 @@ header {
                 font-size: 120%;
             }
         }
-
         .list-pic {
             padding: 0;
             border-radius: 5px;
@@ -260,7 +261,6 @@ header {
                 max-width: 240px;
             }
         }
-
         .home-pic-1 {
             background-image: url('https://firebasestorage.googleapis.com/v0/b/maydaisy-platform.appspot.com/o/-L1vr107M0CSDcoqT0FV.jpg?alt=media&token=9a0f22ee-25e1-4766-bdae-bb81797a76f2');
         }
@@ -280,7 +280,6 @@ header {
             background-image: url('https://firebasestorage.googleapis.com/v0/b/maydaisy-platform.appspot.com/o/Website%20Photos%2FsympleGartenLogo.jpg?alt=media&token=d771caa9-8493-4b88-9610-1124f178d2f9');
         }
     }
-    
 }
 
 .how-it-works {
@@ -311,17 +310,21 @@ header {
 .home-about {
     background-color: $white;
     margin: 40px;
-    padding-bottom: 20px;
+    padding-bottom: 35px;
     text-align: center;
     @media (max-width: 600px) {
         margin-left: 15px;
         margin-right: 15px;
     }
     .home-about-text {
-        margin-top: 25px;
+        margin: auto;
+        max-width: 850px;
     }
     .home-company-name {
         color: $darkpink;
+    }
+    h2 {
+        margin-bottom: 25px;
     }
 }
 

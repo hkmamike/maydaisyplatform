@@ -5,8 +5,6 @@ export default (
 	<Route>
 		<Route path='/en/' />
 		<Route path='/zh/' />
-		<Route path='/en/about/' />
-		<Route path='/zh/about/' />
         <Route path='/en/faq/' />
 		<Route path='/zh/faq/' />
         <Route path='/en/contact/' />
