@@ -310,27 +310,18 @@ header {
 
 .home-about {
     background-color: $white;
-    color: $darkGrey;
-    padding: 20px;
+    margin: 40px;
+    padding-bottom: 20px;
     text-align: center;
-    min-height: 400px;
+    @media (max-width: 600px) {
+        margin-left: 15px;
+        margin-right: 15px;
+    }
     .home-about-text {
         margin-top: 25px;
     }
     .home-company-name {
         color: $darkpink;
-    }
-    .button {
-        margin-top: 25px !important;
-        height: 40px !important;
-        width: 100px !important;
-        font-size: 110% !important;
-        background-color: $darkpink !important;
-        font-weight: bold !important;
-        color: $white !important;
-        &:hover {
-            background-color: $pinkhover !important;
-        }
     }
 }
 

@@ -3,6 +3,7 @@ import { Button } from 'react-bootstrap';
 import { Grid, Row, Col } from 'react-bootstrap';
 import { Route } from 'react-router-dom';
 import LocalizedStrings from 'react-localization';
+import { Helmet } from 'react-helmet';
 
 let strings = new LocalizedStrings({
     en:{
@@ -49,6 +50,11 @@ export default class About extends Component {
 
         return (
             <div className="no-padding text-page-container">
+                <Helmet>
+                    <title>About</title>
+                    <meta name="robots" content="Noindex"/>
+                </Helmet>
+
                 <div className="text-page-about">
                     <Grid>
                         <Row>

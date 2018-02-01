@@ -41,17 +41,14 @@ let strings = new LocalizedStrings({
       trustAndConvenience: 'Trust and Convenience',
       trustAndConvenienceText: 'We hold our florists to a high artistic and customer service standard; Shopping with us is convient with our quick checkout features.',
       aboutUs1: 'About',
-      aboutUs2: 'MayDaisy',
-      aboutUsText: "MayDaisy is a marketplace and community to connect customers with great florists in their city. By bringing the best florists together in one place, we can focus resources on your flowers and spend less on reaching you. MayDaisy also provides a channel for established and emerging independent floral artists to reach a broader audience. Independent artists do not operate a flower shop full time, but they offer dinstinctive styles that cannot be found anywhere else!", 
-      joinNow: "Join the flower lovers' MayDaisy movement now ",
-
+      aboutUs2: ' MayDaisy',
+      aboutUsText: "MayDaisy is a marketplace and community to connect customers with great florists in their city. By bringing the best florists together in one place, we can focus resources on your flowers and spend less on marketing. MayDaisy provides a channel for established and emerging independent floral artists alike to reach a broader audience, allowing them to focus on making the best floral arts for you.", 
+      joinNow: "Join the flower lovers' movement now ",
       shopByCategory: 'Shop by category',
       bouquetsPicTitle: 'Bouquets',
       driedPicTitle: 'Dried & Preserved',
       hampersPicTitle: 'Hampers',
-
       popularFlorists: 'Popular Florists',
-      
       metaTitle: 'MayDaisy - Flower MarketPlace',
       metaDescription: 'Flower marketplace and floral art community. Discover emerging artists, flower shops, and online flower shops. We curate signature designs of bouquets, hampers, arrangements, dried flowers, and preserved flowers.',
     },
@@ -92,18 +89,16 @@ let strings = new LocalizedStrings({
       trustAndConvenienceText: '五月菊對花藝師有極高的顧客服務和藝術要求; 快速下單功能令您的體驗更暢快。',
       aboutUs1: '關於',
       aboutUs2: '五月菊',
-      aboutUsText: '五月菊是由花藝師們建立的一站式鮮花市集和花藝社群，我們的目標是為客人找到最好最適合他們的花卉設計。鮮花市集的模式令我們可以減低在市場推廣上花費的時間和資源，更集中的為您創造鮮花經驗。',
+      aboutUsText: '五月菊是由花藝師們建立的一站式鮮花市集和花藝社群，我們的目標是為客人找到最好最適合他們的花卉設計。鮮花市集的模式令我們可以減低在市場推廣上花費的時間和資源，更集中的為您創造更好的花藝。',
       joinNow: '快來加入愛花之人的五月菊運動 ',
-
       shopByCategory: '分類購物',
       bouquetsPicTitle: '花束',
       driedPicTitle: '乾花/保鮮花',
       hampersPicTitle: '禮品/花籃',
-
       popularFlorists: '熱門花店、花藝師',
-
       metaTitle: '五月菊 - 花藝市集',
       metaDescription: '五月菊是一個花藝市集和花藝師社群，我們發掘最潮最優雅的花店和網上花店，搜羅花藝師的標誌性作品，範疇包括花束、禮品、花籃、插花、擺設、乾花和保鮮花。立即網上訂花。',
+    
     }
   });
 
@@ -280,6 +275,17 @@ export default class Homepage extends Component {
                 </div>
                 </Link>
               </Col>
+          </Grid>
+        </div>
+
+        <div className="home-about">
+          <Grid>
+            <Row>
+              <h2>{strings.aboutUs1}<span className="home-company-name">{strings.aboutUs2}</span></h2>
+              <Col sm={12}>
+                <div className="home-about-text">{strings.aboutUsText}</div>
+              </Col>
+            </Row>
           </Grid>
         </div>
 
