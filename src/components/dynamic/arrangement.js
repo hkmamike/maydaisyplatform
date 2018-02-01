@@ -241,13 +241,14 @@ export default class Arrangement extends Component {
             });
             firebase.database().ref('arrangementsList')
             .orderByChild('florist')
-            .equalTo(this.props.match.params.floristID).limitToFirst(6)
+            .equalTo(this.props.match.params.floristID).limitToFirst(7)
             .once('value', function(snapshot) {
                 snapshot.forEach(function(childSnapshot) {
                     var childKey = childSnapshot.key;
                     var childData = childSnapshot.val();
-                    if (childKey !== thisRef.props.match.params.arrangement){
+                    if (childKey !== thisRef.props.match.params.arrangement && (arrangementsList.length < 6)){
                         arrangementsList.push(childData);
+                        console.log(childData);
                     }
                 });
                 thisRef.setState({arrangementsList: arrangementsList});
@@ -422,13 +423,14 @@ export default class Arrangement extends Component {
             });
             firebase.database().ref('arrangementsList')
             .orderByChild('florist')
-            .equalTo(floristID).limitToFirst(6)
+            .equalTo(floristID).limitToFirst(7)
             .once('value', function(snapshot) {
                 snapshot.forEach(function(childSnapshot) {
                     var childKey = childSnapshot.key;
                     var childData = childSnapshot.val();
-                    if (childKey !== thisRef.props.match.params.arrangement){
+                    if (childKey !== thisRef.props.match.params.arrangement && (arrangementsList.length < 6)){
                         arrangementsList.push(childData);
+                        console.log(childData);
                     }
                 });
                 thisRef.setState({arrangementsList: arrangementsList});
