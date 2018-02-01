@@ -961,7 +961,7 @@ export default class ArrangementsList extends Component {
 
                 <Helmet>
                     <title>{strings['title' + chosenCategory]}</title>
-                    <html lang={this.props.languageChanged} />
+                    {/* <html lang={this.props.languageChanged} /> */}
                     <meta name="description" content={strings['descript' + chosenCategory]} />
                     <link rel="alternate" hrefLang="en" href={`https://maydaisy.com/en/arrangements/category/${chosenCategory}/region/`}/>
                     <link rel="alternate" hrefLang="zh-Hant" href={`https://maydaisy.com/zh/arrangements/category/${chosenCategory}/region/`}/>

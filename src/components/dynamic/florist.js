@@ -276,7 +276,7 @@ export default class Florist extends Component {
         <div>
             <Helmet>
                 <title>{this.state.floristName + strings.floristTitle}</title>
-                <html lang={this.props.languageChanged} />
+                {/* <html lang={this.props.languageChanged} /> */}
                 <link rel="alternate" hrefLang="en" href={`https://maydaisy.com/en/florist/${floristID}`}/>
                 <link rel="alternate" hrefLang="zh-Hant" href={`https://maydaisy.com/zh/florist/${floristID}`}/>
                 <link rel="alternate" hrefLang="x-default" href={`https://maydaisy.com/florist/${floristID}`}/>
