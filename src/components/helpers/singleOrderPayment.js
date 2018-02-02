@@ -353,7 +353,7 @@ export default class PlaceOrder extends React.Component {
                 panelLabel="Pay" // prepended to the amount in the bottom pay button
                 amount={this.props.price} // cents
                 currency={this.props.currency}
-                stripeKey="pk_test_5AFpArfSAWtcsdRPGtFItgiH" //live or testing key
+                stripeKey="pk_live_4DMkTz9So7I02XzeYkkKl6ye" //live or testing key
                 locale="auto"
                 label={strings.checkOutLabel}
                 allowRememberMe = {true} // "Remember Me" option (default true)
