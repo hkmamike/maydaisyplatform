@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import { Grid, Row, Col, DropdownButton, MenuItem, Button} from 'react-bootstrap';
 import { Route, Link } from 'react-router-dom';
 import LocalizedStrings from 'react-localization';
+import LazyLoad from 'react-lazy-load';
 import { Helmet } from 'react-helmet';
 
 let strings = new LocalizedStrings({
@@ -207,74 +208,82 @@ export default class Homepage extends Component {
         <div className="home-pic-section">
           <h2>{strings.shopByCategory}</h2>
           <Grid className="show-grid home-pic-container">
-            <Col sm={4} className="list-item">
-              <Link to={`/${language}/arrangements/category/wrappedBouquets/region/`}>
-                <div className="list-pic home-pic-1 " alt="link to wrappedBouquets"></div>
-                <div className="text-box">
-                  <div className="text-line">
-                    <div className="home-pic-title">{strings.bouquetsPicTitle}</div>
-                  </div>
-                </div>
-              </Link>
-            </Col>
+            <LazyLoad offsetVertical={100}>
+              <Row>
+                <Col sm={4} className="list-item">
+                  <Link to={`/${language}/arrangements/category/wrappedBouquets/region/`}>
+                    <div className="list-pic home-pic-1 " alt="link to wrappedBouquets"></div>
+                    <div className="text-box">
+                      <div className="text-line">
+                        <div className="home-pic-title">{strings.bouquetsPicTitle}</div>
+                      </div>
+                    </div>
+                  </Link>
+                </Col>
 
-            <Col sm={4} className="list-item">
-              <Link to={`/${language}/arrangements/category/driedPreserved/region/`}>
-                <div className="list-pic home-pic-2" alt="link to dried flowers"></div>
-                <div className="text-box">
-                  <div className="text-line">
-                    <div className="home-pic-title">{strings.driedPicTitle}</div>
-                  </div>
-                </div>
-              </Link>
-            </Col>
+                <Col sm={4} className="list-item">
+                  <Link to={`/${language}/arrangements/category/driedPreserved/region/`}>
+                    <div className="list-pic home-pic-2" alt="link to dried flowers"></div>
+                    <div className="text-box">
+                      <div className="text-line">
+                        <div className="home-pic-title">{strings.driedPicTitle}</div>
+                      </div>
+                    </div>
+                  </Link>
+                </Col>
 
-            <Col sm={4} className="list-item">
-              <Link to={`/${language}/arrangements/category/hampers/region/`}>
-                <div className="list-pic home-pic-3" alt="link to hampers"></div>
-                <div className="text-box"> 
-                  <div className="text-line">
-                    <div className="home-pic-title">{strings.hampersPicTitle}</div>
-                  </div>
-                </div>
-              </Link>
-            </Col>
+                <Col sm={4} className="list-item">
+                  <Link to={`/${language}/arrangements/category/hampers/region/`}>
+                    <div className="list-pic home-pic-3" alt="link to hampers"></div>
+                    <div className="text-box"> 
+                      <div className="text-line">
+                        <div className="home-pic-title">{strings.hampersPicTitle}</div>
+                      </div>
+                    </div>
+                  </Link>
+                </Col>
+              </Row>
+            </LazyLoad>
           </Grid>
         </div>
 
         <div className="home-pic-section">
           <h2>{strings.popularFlorists}</h2>
           <Grid className="show-grid home-pic-container">
-            <Col sm={4} className="list-item">
-                <Link to={`/${language}/florist/gigiflorist`}>
-                  <div className="list-pic home-pic-4" alt="link to Gigiflorist's shop"></div>
-                  <div className="text-box">
-                  <div className="text-line">
-                    <div className="home-pic-title">Gigiflorist</div>
+            <LazyLoad offsetVertical={100}>
+              <Row>
+                <Col sm={4} className="list-item">
+                  <Link to={`/${language}/florist/gigiflorist`}>
+                    <div className="list-pic home-pic-4" alt="link to Gigiflorist's shop"></div>
+                    <div className="text-box">
+                    <div className="text-line">
+                      <div className="home-pic-title">Gigiflorist</div>
+                    </div>
                   </div>
-                </div>
-                </Link>
-              </Col>
-              <Col sm={4} className="list-item">
-                <Link to={`/${language}/florist/ohjoyce`}>
-                  <div className="list-pic home-pic-5" alt="link to Oh Joyce's shop"></div>
-                  <div className="text-box">
-                  <div className="text-line">
-                    <div className="home-pic-title">::Oh Joyce::</div>
+                  </Link>
+                </Col>
+                <Col sm={4} className="list-item">
+                  <Link to={`/${language}/florist/ohjoyce`}>
+                    <div className="list-pic home-pic-5" alt="link to Oh Joyce's shop"></div>
+                    <div className="text-box">
+                    <div className="text-line">
+                      <div className="home-pic-title">::Oh Joyce::</div>
+                    </div>
                   </div>
-                </div>
-                </Link>
-              </Col>
-              <Col sm={4} className="list-item">
-                <Link to={`/${language}/florist/symplegarten`}>
-                  <div className="list-pic home-pic-6" alt="link to SYMPLE Garten's shop"></div>
-                  <div className="text-box">
-                  <div className="text-line">
-                    <div className="home-pic-title">SYMPLE GARTEN</div>
+                  </Link>
+                </Col>
+                <Col sm={4} className="list-item">
+                  <Link to={`/${language}/florist/symplegarten`}>
+                    <div className="list-pic home-pic-6" alt="link to SYMPLE Garten's shop"></div>
+                    <div className="text-box">
+                    <div className="text-line">
+                      <div className="home-pic-title">SYMPLE GARTEN</div>
+                    </div>
                   </div>
-                </div>
-                </Link>
-              </Col>
+                  </Link>
+                </Col>
+              </Row>
+            </LazyLoad>
           </Grid>
         </div>
 
