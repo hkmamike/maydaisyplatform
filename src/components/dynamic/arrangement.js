@@ -248,7 +248,6 @@ export default class Arrangement extends Component {
                     var childData = childSnapshot.val();
                     if (childKey !== thisRef.props.match.params.arrangement && (arrangementsList.length < 6)){
                         arrangementsList.push(childData);
-                        console.log(childData);
                     }
                 });
                 thisRef.setState({arrangementsList: arrangementsList});
@@ -430,7 +429,6 @@ export default class Arrangement extends Component {
                     var childData = childSnapshot.val();
                     if (childKey !== thisRef.props.match.params.arrangement && (arrangementsList.length < 6)){
                         arrangementsList.push(childData);
-                        console.log(childData);
                     }
                 });
                 thisRef.setState({arrangementsList: arrangementsList});
