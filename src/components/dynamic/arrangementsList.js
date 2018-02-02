@@ -59,7 +59,7 @@ let strings = new LocalizedStrings({
         lisianthus: ' Lisianthus:',
         callalilies: ' Calla Lilies:',
         gardenroses: ' Garden Roses:',
-        lilies: ' Lilies:',
+        lilies: ' Lilies',
         red: 'Red',
         pink: 'Pink',
         green: 'Green',

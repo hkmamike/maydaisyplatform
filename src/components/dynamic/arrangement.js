@@ -392,6 +392,8 @@ export default class Arrangement extends Component {
     }
 
     componentDidMount() {
+        this.props.onDeliveryDateSelect(false);
+        
         window.scrollTo(0, 0);
         var thisRef = this;
         var floristID = this.props.match.params.floristID;
@@ -684,12 +686,12 @@ export default class Arrangement extends Component {
                         </div>
                     </Panel>
 
-                    { (typeof this.props.deliveryDate === 'undefined' && this.state.orderButtonPressed) &&
+                    { (!this.props.deliveryDate && this.state.orderButtonPressed) &&
                         <div>
                             <div className="error-message">{strings.dateRequired}</div>
                         </div>
                     }
-                    { (typeof this.props.deliveryDate !== 'undefined' && this.state.orderButtonPressed && this.props.marketRegion==='select_region') &&
+                    { (this.props.deliveryDate && this.state.orderButtonPressed && this.props.marketRegion==='select_region') &&
                         <div>
                             <div className="error-message">{strings.marketRegionRequired}</div>
                         </div>
