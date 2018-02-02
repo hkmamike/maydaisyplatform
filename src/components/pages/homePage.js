@@ -2,7 +2,6 @@ import React, { Component } from 'react';
 import { Grid, Row, Col, DropdownButton, MenuItem, Button} from 'react-bootstrap';
 import { Route, Link } from 'react-router-dom';
 import LocalizedStrings from 'react-localization';
-import LazyLoad from 'react-lazy-load';
 import { Helmet } from 'react-helmet';
 
 let strings = new LocalizedStrings({
@@ -208,11 +207,10 @@ export default class Homepage extends Component {
         <div className="home-pic-section">
           <h2>{strings.shopByCategory}</h2>
           <Grid className="show-grid home-pic-container">
-            <LazyLoad offsetVertical={100}>
               <Row>
                 <Col sm={4} className="list-item">
                   <Link to={`/${language}/arrangements/category/wrappedBouquets/region/`}>
-                    <div className="list-pic home-pic-1 " alt="link to wrappedBouquets"></div>
+                      <div className="list-pic home-pic-1 " alt="link to wrappedBouquets"></div>
                     <div className="text-box">
                       <div className="text-line">
                         <div className="home-pic-title">{strings.bouquetsPicTitle}</div>
@@ -243,14 +241,12 @@ export default class Homepage extends Component {
                   </Link>
                 </Col>
               </Row>
-            </LazyLoad>
           </Grid>
         </div>
 
         <div className="home-pic-section">
           <h2>{strings.popularFlorists}</h2>
           <Grid className="show-grid home-pic-container">
-            <LazyLoad offsetVertical={100}>
               <Row>
                 <Col sm={4} className="list-item">
                   <Link to={`/${language}/florist/gigiflorist`}>
@@ -283,7 +279,6 @@ export default class Homepage extends Component {
                   </Link>
                 </Col>
               </Row>
-            </LazyLoad>
           </Grid>
         </div>
 
