@@ -109,7 +109,7 @@ const ButtonToMarket = ({ title, history, marketRegion, language }) => {
 
 class ShopByCategory extends React.Component {
   render() {
-    const language = this.props.languageChanged;
+    const language = this.props.language;
     return (
       <div className="home-pic-section">
         <h2>{strings.shopByCategory}</h2>
@@ -154,7 +154,7 @@ class ShopByCategory extends React.Component {
 
 class ShopByFlorist extends React.Component {
   render() {
-    const language = this.props.languageChanged;
+    const language = this.props.language;
     return (
       <div className="home-pic-section">
         <h2>{strings.popularFlorists}</h2>
