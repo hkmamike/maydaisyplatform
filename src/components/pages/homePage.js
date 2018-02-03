@@ -295,11 +295,11 @@ export default class Homepage extends Component {
           </Grid>
         </div>
 
-        <LazyLoad offsetVertical={200}>
+        <LazyLoad offsetVertical={100}>
           <ShopByCategory language={language}/>
         </LazyLoad>
 
-        <LazyLoad offsetVertical={200}>
+        <LazyLoad offsetVertical={100}>
           <ShopByFlorist language={language}/>
         </LazyLoad>
 
