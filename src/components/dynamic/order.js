@@ -8,6 +8,9 @@ import LocalizedStrings from 'react-localization';
 import * as firebase from 'firebase';
 import { base } from '../config/constants';
 import { auth } from '../helpers/auth'
+import ReactPixel from 'react-facebook-pixel';
+ReactPixel.init('814639808740001');
+ReactPixel.fbq('track');
 
 let strings = new LocalizedStrings({
   en:{
@@ -1158,6 +1161,10 @@ export default class Order extends Component {
                 </div>
             )
         } else {
+            ReactPixel.track('Purchase', {
+                value: 1,
+                currency: 'HKD'
+            });
             content = (
                 <div>
                     <Grid>
