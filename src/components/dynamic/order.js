@@ -1161,10 +1161,6 @@ export default class Order extends Component {
                 </div>
             )
         } else {
-            ReactPixel.track('Purchase', {
-                value: 1,
-                currency: 'HKD'
-            });
             content = (
                 <div>
                     <Grid>
@@ -1300,6 +1296,10 @@ export default class Order extends Component {
             )
         }
     }   else if (orderStep===5){
+        ReactPixel.track('Purchase', {
+            value: 1,
+            currency: 'HKD'
+        });
         content = (
             <div>
                 <div className="order-succeed">            
