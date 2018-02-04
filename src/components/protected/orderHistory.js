@@ -136,7 +136,7 @@ const ButtonToAccount = ({ title, history, languageChanged }) => (
 );
 
 const ButtonToMarket = ({ title, history, languageChanged }) => (
-  <Button bsStyle="" className="no-order-button" onClick={() => history.push(`/${languageChanged}/arrangements`)}>{strings.browseMarket}</Button>
+  <Button bsStyle="" className="no-order-button" onClick={() => history.push(`/${languageChanged}/arrangements/category/region/`)}>{strings.browseMarket}</Button>
 );
 
 class SubmitReview extends React.Component {

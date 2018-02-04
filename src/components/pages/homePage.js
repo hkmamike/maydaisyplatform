@@ -55,7 +55,7 @@ let strings = new LocalizedStrings({
     },
     zh: {
       signUp: '報名',
-      homeImgTitle: '鮮花市集，一網搜盡最潮最優雅的花店和獨立花藝師。',
+      homeImgTitle: '花藝市集，一網搜盡最潮最優雅的花店和獨立花藝師。',
       homeImgSubtitle: '查看哪個服務區域的花藝師?',
       go: '睇設計',
       select_region: '香港所有',
