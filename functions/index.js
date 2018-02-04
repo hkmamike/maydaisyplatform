@@ -71,7 +71,7 @@ function sendEmailFloristOnTxn (email, arrangementCode, arrangementName, deliver
         <p>Arrangement: ${arrangementName}</p>
         <p>Arrangement ID: ${arrangementCode}</p>
         <p>Delivery Date: ${deliveryDate}</p>
-        <p>Please <a href="https://maydaisy.com/login">login</a> to check details on your orders dashboard.</p>`
+        <p>Please <a href="https://maydaisy.com/en/auth/login">login</a> to check details on your orders dashboard.</p>`
         );
     } else if (language === 'zh') {
         mailOptions = {
@@ -86,7 +86,7 @@ function sendEmailFloristOnTxn (email, arrangementCode, arrangementName, deliver
         <p>設計: ${arrangementName}</p>
         <p>設計ID: ${arrangementCode}</p>
         <p>送貨日期: ${deliveryDate}</p>
-        <p>如要查看詳情，請<a href="https://maydaisy.com/login">登入</a>五月菊。</p>`
+        <p>如要查看詳情，請<a href="https://maydaisy.com/zh/auth/login">登入</a>五月菊。</p>`
         );
     }
 
@@ -112,7 +112,7 @@ function sendEmailCustomerOnTxn (email, arrangementCode, arrangementName, delive
             <p>Arrangement: ${arrangementName}</p>
             <p>Arrangement ID: ${arrangementCode}</p>
             <p>Delivery Date: ${deliveryDate}</p>
-            <p>Please <a href="https://maydaisy.com/login">login</a> to check details on your orders dashboard.</p>`
+            <p>Please <a href="https://maydaisy.com/en/auth/login">login</a> to check details on your orders dashboard.</p>`
         );
     } else if (language === 'zh') {
         mailOptions = {
@@ -127,7 +127,7 @@ function sendEmailCustomerOnTxn (email, arrangementCode, arrangementName, delive
             <p>設計: ${arrangementName}</p>
             <p>設計ID: ${arrangementCode}</p>
             <p>送貨日期: ${deliveryDate}</p>
-            <p>如要查看詳情，請<a href="https://maydaisy.com/login">登入</a>五月菊。</p>`
+            <p>如要查看詳情，請<a href="https://maydaisy.com/en/auth/login">登入</a>五月菊。</p>`
         );
     }
     return mailTransport.sendMail(mailOptions).then(() => {
@@ -152,7 +152,7 @@ function sendEmailAdminOnTxn (FloristID, arrangementCode, arrangementName, deliv
             <p>Arrangement: ${arrangementName}</p>
             <p>Arrangement ID: ${arrangementCode}</p>
             <p>Delivery Date: ${deliveryDate}</p>
-            <p>Please <a href="https://maydaisy.com/login">login</a> to check details.</p>`
+            <p>Please <a href="https://maydaisy.com/en/auth/login">login</a> to check details.</p>`
         );
        
         return mailTransport.sendMail(mailOptions).then(() => {
