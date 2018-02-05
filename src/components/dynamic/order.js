@@ -212,7 +212,7 @@ let strings = new LocalizedStrings({
     NT_TsuenWan: '荃灣區',
     NT_TuenMun: '屯門區',
     NT_YuenLong: '元朗區',
-    specialPickUpLocation: '免費自取',
+    specialPickUpLocation: '免運費自取',
   }
 });
 

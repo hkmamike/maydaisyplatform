@@ -6,7 +6,7 @@ let strings = new LocalizedStrings({
         adminMessage: "五月菊開業喇！如有任何疑問，可以致電我們的下單／客戶服務專家: (852) 9346-8427",
     },
     en:{
-        adminMessage: "Welcome! If you have any question, please call out order & customer service expert @ (852) 9346-8427",
+        adminMessage: "MayDaisy just launched! If you have any question, our order & customer service expert is available @ (852) 9346-8427",
     }
   });
 
