@@ -3,10 +3,10 @@ import LocalizedStrings from 'react-localization';
 
 let strings = new LocalizedStrings({
     zh: {
-        adminMessage: "歡迎來到五月菊！如有任何疑問，可以致電我們的下單／客戶服務專家: (852) 9346-8427",
+        adminMessage: "如有任何疑問，可以致電我們的下單／客戶服務專家: (852)9346-8427",
     },
     en:{
-        adminMessage: "Welcome to MayDaisy! If you have any question, our order & customer service expert is available at (852)9346-8427 or contact@maydaisy.com",
+        adminMessage: "Our order & customer service expert is available at (852)9346-8427 or contact@maydaisy.com",
     }
   });
 
