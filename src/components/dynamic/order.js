@@ -391,7 +391,7 @@ export default class Order extends Component {
     handleSubmitLogin = (e) => {
         e.preventDefault();
         login(this.state.email, this.state.password).then(() => {
-                this.setState({orderStep:1});
+                this.setState({orderStep:1}, () => {window.scrollTo(0, 0)});
             }).catch((error) => {
             this.setState(setErrorMsgLogin(strings.invalidCredential));
         })
@@ -403,7 +403,7 @@ export default class Order extends Component {
         this.setState({passwordNotMatch: false});
         if (this.state.password === this.state.passwordConfirm) {
             auth(this.state.email, this.state.password, this.props.languageChanged).then(() => {
-                this.setState({orderStep:1});
+                this.setState({orderStep:1}, () => {window.scrollTo(0, 0)});
             }).catch((e) => {
             if (e.code==="auth/email-already-in-use") {
                 this.setState(setErrorMsgRegister(strings.emailInUse));
