@@ -48,7 +48,7 @@ let strings = new LocalizedStrings({
       shopByCategory: 'Shop by category',
       bouquetsPicTitle: 'Bouquets',
       driedPicTitle: 'Dried & Preserved',
-      hampersPicTitle: 'Hampers',
+      hampersPicTitle: 'Hampers & Gifts',
       popularFlorists: 'Popular Florists',
       metaTitle: 'MayDaisy - Flower MarketPlace',
       metaDescription: 'Flower marketplace and floral art community. Discover emerging artists, flower shops, and online flower shops. We curate signature designs of bouquets, hampers, arrangements, dried flowers, and preserved flowers.',
