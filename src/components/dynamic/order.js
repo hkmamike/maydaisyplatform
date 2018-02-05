@@ -402,7 +402,7 @@ export default class Order extends Component {
 
         this.setState({passwordNotMatch: false});
         if (this.state.password === this.state.passwordConfirm) {
-            auth(this.state.email, this.state.password).then(() => {
+            auth(this.state.email, this.state.password, this.props.languageChanged).then(() => {
                 this.setState({orderStep:1});
             }).catch((e) => {
             if (e.code==="auth/email-already-in-use") {
