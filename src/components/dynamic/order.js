@@ -393,8 +393,10 @@ export default class Order extends Component {
         login(this.state.email, this.state.password).then(() => {
                 this.setState({orderStep:1}, () => {window.scrollTo(0, 0)});
             }).catch((error) => {
-            this.setState(setErrorMsgLogin(strings.invalidCredential));
-        })
+                window.scrollTo(0, 0);
+                this.setState(setErrorMsgLogin(strings.invalidCredential));
+            }
+        )
     }
 
     handleSubmitRegister = (e) => {
@@ -405,16 +407,17 @@ export default class Order extends Component {
             auth(this.state.email, this.state.password, this.props.languageChanged).then(() => {
                 this.setState({orderStep:1}, () => {window.scrollTo(0, 0)});
             }).catch((e) => {
-            if (e.code==="auth/email-already-in-use") {
-                this.setState(setErrorMsgRegister(strings.emailInUse));
-            } else if (e.code==="auth/invalid-email") {
-                this.setState(setErrorMsgRegister(strings.invalidEmail));
-            } else if (e.code==="auth/operation-not-allowed") {
-                this.setState(setErrorMsgRegister(strings.operationNotAllowed));
-            } else if (e.code==="auth/weak-password") {
-                this.setState(setErrorMsgRegister(strings.weakPW));
-            }
-            })
+                window.scrollTo(0, 0);
+                if (e.code==="auth/email-already-in-use") {
+                    this.setState(setErrorMsgRegister(strings.emailInUse));
+                } else if (e.code==="auth/invalid-email") {
+                    this.setState(setErrorMsgRegister(strings.invalidEmail));
+                } else if (e.code==="auth/operation-not-allowed") {
+                    this.setState(setErrorMsgRegister(strings.operationNotAllowed));
+                } else if (e.code==="auth/weak-password") {
+                    this.setState(setErrorMsgRegister(strings.weakPW));
+                }
+                })
         } else {
             this.setState({passwordNotMatch: true});
         }
