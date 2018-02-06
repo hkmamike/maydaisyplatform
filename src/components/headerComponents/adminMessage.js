@@ -3,10 +3,10 @@ import LocalizedStrings from 'react-localization';
 
 let strings = new LocalizedStrings({
     zh: {
-        adminMessage: "如有任何疑問，可以致電我們的下單/客戶服務專家: (852) 9346-8427",
+        adminMessage: "Gigiflorist, Symple Garten, Petite Fleur, Glamorous FLoral 在情人節還有檔期。",
     },
     en:{
-        adminMessage: "Our order & customer service expert is available at (852) 9346-8427 or contact@maydaisy.com",
+        adminMessage: "Gigiflorist, Symple Garten, Petite Fleur, & Glamorous Floral still have slots on Feb14.",
     }
   });
 
