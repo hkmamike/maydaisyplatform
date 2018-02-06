@@ -234,9 +234,12 @@ export default class Homepage extends Component {
         <Helmet>
           <title>{strings.metaTitle}</title>
           <meta name="description" content={strings.metaDescription} />
+          <meta property="og:title" content={strings.metaTitle} />
+          <meta property="og:description" content={strings.metaDescription} />
+          <meta property="og:image" content="https://firebasestorage.googleapis.com/v0/b/maydaisy-platform.appspot.com/o/Website%20Photos%2Flogo.jpg?alt=media&token=2363f348-8f88-4749-a192-3d6fbb25c211" />
+          <meta property="og:type" content="website" />
           <link rel="alternate" hrefLang="en" href="https://maydaisy.com/en/"/>
           <link rel="alternate" hrefLang="zh-Hant" href="https://maydaisy.com/zh/"/>
-          <link rel="alternate" hrefLang="x-default" href="https://maydaisy.com/"/>
           <html lang={this.props.languageChanged} />
         </Helmet>
         
