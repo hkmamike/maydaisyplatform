@@ -1016,10 +1016,14 @@ export default class ShopInfo extends Component {
     this.setState({ leadTime: e.target.value });
   }
   handlePromoCodeAChange = (e) => {
-    this.setState({ promoCodeA: e.target.value });
+    var code = e.target.value;
+    code = code.toLowerCase();
+    this.setState({ promoCodeA: code });
   }
   handlePromoCodeBChange = (e) => {
-    this.setState({ promoCodeB: e.target.value });
+    var code = e.target.value;
+    code = code.toLowerCase();
+    this.setState({ promoCodeB: code });
   }
   handleFacebookChange = (e) => {
     this.setState({ facebook: e.target.value });
