@@ -60,6 +60,8 @@ let strings = new LocalizedStrings({
         standardDeliveryPolicy: "Every gift ordered through MayDaisy is personally hand-delivered by the local florist. Each local florist sets their own delivery area, and fee.\n\n Some florists offer same-day hand delivery, and the platform wide cut-off time for same-day delivery is 1 p.m local time at the destination city. Orders received after that time may be delivered the following day.\n\n To request a specific delivery time, please type it into the Delivery Instructions field during checkout. We will do our best to accommodate your preferences. Before major holidays and festive seasons, we recommend that you place your orders at least five days in advance.\n\n",
         standardDeliveryPolicyPlus: "The following is your florist's own delivery policy:\n\n",
 
+        calendarTip: " This florist's schedule is full on greyed out days.",
+
         artist: 'Independent Artist',
         shop: 'Boutique Shop',
         rating: 'Ave. Rating:',
@@ -116,6 +118,8 @@ let strings = new LocalizedStrings({
         substitutionPolicy: "花藝師的照片代表整體的主題或外觀。在某些情況下，花卉或花瓶不能被完全複製。雖然真正的花卉可能不完全符合照片，但它們的主題和外觀會。由於天氣，季節和市場條件可能會影響鮮花的供應，有時花匠會選用替代品。如果您選擇的定購遇到這種情況，花店將確保設計的風格，主題和配色方案得以保留，並且只會選用相同或更高價值的替代品。",
         standardDeliveryPolicy: "每一件設計貨品都是由您所選的當地花店或花藝師創作和親自送貨的。每一個花店和花藝師都有各自的服務區域和送貨收費。\n\n 有一些花店和花藝師提供當天送貨服務，五月菊的當天送貨截止時間為下午一時。下午一時以後收到的訂單有可能會在下一天送貨。\n\n 如果您想指定送貨時間，請在送貨指示中要求，花匠會在可行情況下盡量配合。在主要節日和假期前，我們建議客人在最少五天前下單。\n\n",
         standardDeliveryPolicyPlus: "以下為所選花店的送貨條款:\n\n",
+
+        calendarTip: ' 這個花藝師的檔期在灰色的日期已滿。',
 
         artist: '獨立花藝師',
         rating: '平均評分:',
@@ -340,6 +344,12 @@ export default class Arrangement extends Component {
 
     closeLightbox = () => {
         this.setState({lightboxIsOpen: false});
+    }
+
+    renderCalendarInfo = () => {
+        return (
+            <div className="calendar-tip"><i className="fa fa-question-circle" aria-hidden="true"></i>{strings.calendarTip}</div>
+        )
     }
 
     checkFloristCalendar(day) {
@@ -599,7 +609,9 @@ export default class Arrangement extends Component {
                                 <MenuItem eventKey="NT_YuenLong">{strings.NT_YuenLong}</MenuItem>
                             </DropdownButton>
                         </div>
+                    </div>
 
+                    <div className="delivery-inline">
                         <div className="select-date-block">
                             <div className="date-select-tip">{strings.selectDate}</div> 
                             <SingleDatePicker
@@ -609,6 +621,8 @@ export default class Arrangement extends Component {
                                     this.setState({date});
                                     this.handleDeliveryDateSelect(date);
                                 }} // PropTypes.func.isRequired
+                                withPortal
+                                renderCalendarInfo={this.renderCalendarInfo}
                                 focused={this.state.focused} // PropTypes.bool
                                 onFocusChange={({ focused }) => this.setState({ focused })} // PropTypes.func.isRequired
                                 isDayBlocked={this.checkFloristCalendar}

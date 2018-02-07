@@ -163,6 +163,7 @@
             }
             .region-select {
                 height: 50px;
+                width: 130px;
                 border-radius: 0;
                 background-image: none !important;
             }
@@ -480,4 +481,9 @@
     .sub-content {
         margin-bottom: 25px;
     }
+}
+
+.calendar-tip {
+    margin: 0 20px 10px 20px;
+    font-size: 85%;
 }
