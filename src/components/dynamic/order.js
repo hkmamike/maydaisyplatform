@@ -43,7 +43,7 @@ let strings = new LocalizedStrings({
     deliveryInstructionPlaceholder: "Florists will try their best to accommodate. Please reference selected florist's delivery policy.",
     senderNum: "Sender's number:",
     senderNumPlaceholder: 'your phone number',
-    senderNumTip: '*We will use this to update your account information and to service your subscription.',
+    senderNumTip: '*We will use this to update your account information and to service your order.',
     total: 'Total:',
     arrangementPrice: 'Subtotal:',
     deliveryFee: 'Delivery Fee:',
@@ -112,6 +112,7 @@ let strings = new LocalizedStrings({
     NT_TuenMun: 'Tuen Mun',
     NT_YuenLong: 'Yuen Long',
     specialPickUpLocation: 'Self Pick Up',
+    guestLoginError: '*please fill in your email.',
 
   },
   zh: {
@@ -213,6 +214,7 @@ let strings = new LocalizedStrings({
     NT_TuenMun: '屯門區',
     NT_YuenLong: '元朗區',
     specialPickUpLocation: '免運費自取',
+    guestLoginError: '*請提供您的電郵地址。',
   }
 });
 
@@ -359,6 +361,7 @@ export default class Order extends Component {
             platformDiscount: false,
             platformDiscountRate: 0,
             codeUsed: '',
+            guestLoginError: '',
         }
     }
 
@@ -366,6 +369,13 @@ export default class Order extends Component {
         resetPassword(this.state.email)
         .then(() => this.setState(setErrorMsgLogin(`${strings.resetSent1_1}${this.state.email}${strings.resetSent1_2}`)))
         .catch((error) => this.setState(setErrorMsgLogin(strings.noAccountFound)))
+    }
+
+    getEmailValidationState = () => {
+        const email = this.state.email;
+        const emailLength = this.state.email.length;
+        if (emailLength >= 5 && email.indexOf("@") >= 0) return 'success';
+        else if (emailLength > 0) return 'warning';
     }
 
     handleEmailChange(e) {
@@ -382,10 +392,17 @@ export default class Order extends Component {
 
     handleGuestSubmit = (e) => {
         e.preventDefault();
-        this.setState({
-            orderStep: 1,
-            orderRoute: 'guest'
-        });
+        if (this.getEmailValidationState() === 'success') {
+            this.setState({
+                orderStep: 1,
+                orderRoute: 'guest',
+                guestLoginError: '',
+            });
+        } else {
+            this.setState({
+                guestLoginError: strings.guestLoginError
+            });
+        }
     }
 
     handleSubmitLogin = (e) => {
@@ -672,10 +689,11 @@ export default class Order extends Component {
                         <Col sm={5} xs={12}>
                             <form className="guest-check-out-form" onSubmit={this.handleGuestSubmit}>
                                 <h2 className="login-title"><strong>{strings.orderLoginGuestTitle}</strong></h2>
-                                <FormGroup>
+                                <FormGroup controlId="guest-email-id" validationState={this.getEmailValidationState()}>
                                     <ControlLabel>{strings.email}</ControlLabel>
                                     <FormControl className="login-form-field" type="text" value={this.state.email} placeholder={strings.email} onChange={this.handleEmailChange}/>
                                 </FormGroup>
+                                {this.state.guestLoginError && <div className="error-message">{this.state.guestLoginError}</div>}
                                 <Button bsStyle="" type="submit" id="guest-order" className="button">{strings.proceedAsGuestButton}</Button>
                                 <div className="order-tips">{strings.proceedAsGuestTip}</div>
                             </form>
@@ -1102,7 +1120,7 @@ export default class Order extends Component {
                             </Col>
                         </FormGroup>
                     </Row>
-                    <Row className="show-grid">
+                    { this.state.selectDeliveryType === 'delivery_gift' && <Row className="show-grid">
                         <FormGroup>
                             <Col sm={2}></Col>
                             <Col sm={3}>
@@ -1112,8 +1130,8 @@ export default class Order extends Component {
                                 <div>{this.state.cardMessage}</div>
                             </Col>
                         </FormGroup>
-                    </Row>
-                    <Row className="show-grid">
+                    </Row>}
+                    { this.state.selectDeliveryType === 'delivery_gift' && <Row className="show-grid">
                         <FormGroup>
                             <Col sm={2}></Col>
                             <Col sm={3}>
@@ -1123,8 +1141,8 @@ export default class Order extends Component {
                             <div>{this.state.sender}</div>
                             </Col>
                         </FormGroup>
-                    </Row>
-                    <Row className="show-grid">
+                    </Row>}
+                    { this.state.selectDeliveryType === 'delivery_gift' && <Row className="show-grid">
                         <FormGroup>
                             <Col sm={2}></Col>
                             <Col sm={3}>
@@ -1134,7 +1152,7 @@ export default class Order extends Component {
                                 <div>{this.state.senderNum}</div>
                             </Col>
                         </FormGroup>
-                    </Row>
+                    </Row>}
                     <Row className="show-grid">
                         <Col sm={5}></Col>
                         <Col sm={4}>
