@@ -487,7 +487,12 @@ export default class Order extends Component {
         window.scrollTo(0, 0);
         var thisRef = this;
         var marketRegion = this.props.marketRegion;
-        var promoCode = this.props.match.params.promoCode;
+        var promoCode;
+        if (this.props.match.params.promoCode) {
+            promoCode = this.props.match.params.promoCode;
+        } else {
+            promoCode = '';
+        }
         var floristID = this.props.match.params.floristID;
         if (firebase.auth().currentUser !== null) {
             this.setState({orderStep:1});
@@ -569,6 +574,7 @@ export default class Order extends Component {
                                     thisRef.state.promoCodeList.forEach((element) => {
                                         if (promoCode === thisRef.state[element+'code'] && promoCode !== '') {
                                             var rate = thisRef.state[element+'rate'];
+                                            console.log('hello ',thisRef.state[element+'code']);
                                             thisRef.setState({
                                                 arrangementPrice: thisRef.state['arrangementPrice'+rate+'Off'],
                                                 promoCodeApplied: true,
