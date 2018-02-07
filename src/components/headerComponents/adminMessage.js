@@ -3,10 +3,10 @@ import LocalizedStrings from 'react-localization';
 
 let strings = new LocalizedStrings({
     zh: {
-        adminMessage: "Gigiflorist, Symple Garten, Petite Fleur, Glamorous Floral 在情人節還有檔期。",
+        adminMessage: "Gigiflorist, Symple Garten, Petite Fleur, Glamorous Floral, Floraline 在情人節還有檔期。",
     },
     en:{
-        adminMessage: "Gigiflorist, Symple Garten, Petite Fleur, & Glamorous Floral still have slots on Feb14.",
+        adminMessage: "Gigiflorist, Symple Garten, Petite Fleur, & Glamorous Floral, Floraline still have slots on Feb14.",
     }
   });
 
