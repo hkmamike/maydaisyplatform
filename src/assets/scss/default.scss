@@ -141,13 +141,19 @@ header {
 .home-image {
     height: 555px;
     width: 100%;
-    background-image: url('https://firebasestorage.googleapis.com/v0/b/maydaisy-platform.appspot.com/o/OneBloomHome.jpg?alt=media&token=e365bfdd-3791-40c0-aae7-8d570bb5e8d0');
+    // background-image: url('https://firebasestorage.googleapis.com/v0/b/maydaisy-platform.appspot.com/o/OneBloomHome.jpg?alt=media&token=e365bfdd-3791-40c0-aae7-8d570bb5e8d0');
+    background-image: url('https://firebasestorage.googleapis.com/v0/b/maydaisy-platform.appspot.com/o/Website%20Photos%2FFB_Header-tiny.jpg?alt=media&token=a1b0d129-f7b7-4ae3-8364-8554dd7d62d6');
     background-position: center center;
     background-repeat: no-repeat;
     background-size: cover;
     background-color: $lightGrey;
+    .home-image-shade {
+        width: 100%;
+        height: 100%;
+        background-color: rgba(230,230,230,0.45);
+    }
     .home-image-prompt {
-        background-color:rgba(250,250,250,0.8);
+        background-color:rgba(250,250,250,0.9);
         text-align: center;
         float: right;
         min-height: 200px;

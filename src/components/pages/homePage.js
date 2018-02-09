@@ -8,7 +8,7 @@ import LazyLoad from 'react-lazy-load';
 let strings = new LocalizedStrings({
     en:{
       signUp: 'Sign Up',
-      homeImgTitle: 'Shop directly from emerging flower shops and independent artists.',
+      homeImgTitle: 'Discover distinctive styles. Shop directly from emerging independent florists.',
       homeImgSubtitle: 'Where are the flowers going?',
       go: 'See Designs',
       select_region: 'Anywhere in HK',
@@ -55,8 +55,8 @@ let strings = new LocalizedStrings({
     },
     zh: {
       signUp: '報名',
-      homeImgTitle: '花藝市集，一網搜盡最潮最優雅的花店和獨立花藝師。',
-      homeImgSubtitle: '查看哪個服務區域的花藝師?',
+      homeImgTitle: '花藝市集，發掘最潮最熱門花藝師的獨特設計。',
+      homeImgSubtitle: '查看哪個服務區域的設計?',
       go: '瀏覽設計',
       select_region: '香港所有',
       specialPickUpLocation: '免費自取',
@@ -241,36 +241,38 @@ export default class Homepage extends Component {
         
         <div className="home-image-container">
           <div className="home-image">
-            <Grid>
-              <Row className="show-grid">
-                <Col md={5} className="home-image-prompt">
-                  <h3 className="home-image-title">{strings.homeImgTitle}</h3>
-                  <div className="home-image-pink">{strings.homeImgSubtitle}</div>
-                  <DropdownButton title={strings[marketRegion]} className="home-image-select" id="bg-nested-dropdown" onSelect={this.handleSelect}>
-                    <MenuItem eventKey="specialPickUpLocation">{strings.specialPickUpLocation}</MenuItem> 
-                    <MenuItem eventKey="HK_CentralWestern">{strings.HK_CentralWestern}</MenuItem>
-                    <MenuItem eventKey="HK_Eastern">{strings.HK_Eastern}</MenuItem>
-                    <MenuItem eventKey="HK_Southern">{strings.HK_Southern}</MenuItem>
-                    <MenuItem eventKey="HK_WanChai">{strings.HK_WanChai}</MenuItem>
-                    <MenuItem eventKey="KL_ShamShuiPo">{strings.KL_ShamShuiPo}</MenuItem>
-                    <MenuItem eventKey="KL_KowloonCity">{strings.KL_KowloonCity}</MenuItem>
-                    <MenuItem eventKey="KL_KwunTong">{strings.KL_KwunTong}</MenuItem>
-                    <MenuItem eventKey="KL_WongTaiSin">{strings.KL_WongTaiSin}</MenuItem>
-                    <MenuItem eventKey="KL_YauTsimMong">{strings.KL_YauTsimMong}</MenuItem>
-                    <MenuItem eventKey="NT_Islands">{strings.NT_Islands}</MenuItem>
-                    <MenuItem eventKey="NT_KwaiTsing">{strings.NT_KwaiTsing}</MenuItem>
-                    <MenuItem eventKey="NT_North">{strings.NT_North}</MenuItem>
-                    <MenuItem eventKey="NT_SaiKung">{strings.NT_SaiKung}</MenuItem>
-                    <MenuItem eventKey="NT_ShaTin">{strings.NT_ShaTin}</MenuItem>
-                    <MenuItem eventKey="NT_TaiPo">{strings.NT_TaiPo}</MenuItem>
-                    <MenuItem eventKey="NT_TsuenWan">{strings.NT_TsuenWan}</MenuItem>
-                    <MenuItem eventKey="NT_TuenMun">{strings.NT_TuenMun}</MenuItem>
-                    <MenuItem eventKey="NT_YuenLong">{strings.NT_YuenLong}</MenuItem>
-                  </DropdownButton>
-                  <Route path="/" render={(props) => <ButtonToMarket marketRegion={marketRegion} language={language} {...props}/>} />
-                </Col>
-              </Row>
-            </Grid>
+            <div className="home-image-shade">
+              <Grid>
+                <Row className="show-grid">
+                  <Col md={5} className="home-image-prompt">
+                    <h3 className="home-image-title">{strings.homeImgTitle}</h3>
+                    <div className="home-image-pink">{strings.homeImgSubtitle}</div>
+                    <DropdownButton title={strings[marketRegion]} className="home-image-select" id="bg-nested-dropdown" onSelect={this.handleSelect}>
+                      <MenuItem eventKey="specialPickUpLocation">{strings.specialPickUpLocation}</MenuItem> 
+                      <MenuItem eventKey="HK_CentralWestern">{strings.HK_CentralWestern}</MenuItem>
+                      <MenuItem eventKey="HK_Eastern">{strings.HK_Eastern}</MenuItem>
+                      <MenuItem eventKey="HK_Southern">{strings.HK_Southern}</MenuItem>
+                      <MenuItem eventKey="HK_WanChai">{strings.HK_WanChai}</MenuItem>
+                      <MenuItem eventKey="KL_ShamShuiPo">{strings.KL_ShamShuiPo}</MenuItem>
+                      <MenuItem eventKey="KL_KowloonCity">{strings.KL_KowloonCity}</MenuItem>
+                      <MenuItem eventKey="KL_KwunTong">{strings.KL_KwunTong}</MenuItem>
+                      <MenuItem eventKey="KL_WongTaiSin">{strings.KL_WongTaiSin}</MenuItem>
+                      <MenuItem eventKey="KL_YauTsimMong">{strings.KL_YauTsimMong}</MenuItem>
+                      <MenuItem eventKey="NT_Islands">{strings.NT_Islands}</MenuItem>
+                      <MenuItem eventKey="NT_KwaiTsing">{strings.NT_KwaiTsing}</MenuItem>
+                      <MenuItem eventKey="NT_North">{strings.NT_North}</MenuItem>
+                      <MenuItem eventKey="NT_SaiKung">{strings.NT_SaiKung}</MenuItem>
+                      <MenuItem eventKey="NT_ShaTin">{strings.NT_ShaTin}</MenuItem>
+                      <MenuItem eventKey="NT_TaiPo">{strings.NT_TaiPo}</MenuItem>
+                      <MenuItem eventKey="NT_TsuenWan">{strings.NT_TsuenWan}</MenuItem>
+                      <MenuItem eventKey="NT_TuenMun">{strings.NT_TuenMun}</MenuItem>
+                      <MenuItem eventKey="NT_YuenLong">{strings.NT_YuenLong}</MenuItem>
+                    </DropdownButton>
+                    <Route path="/" render={(props) => <ButtonToMarket marketRegion={marketRegion} language={language} {...props}/>} />
+                  </Col>
+                </Row>
+              </Grid>
+            </div>
           </div>
         </div>
       
