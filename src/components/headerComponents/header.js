@@ -6,7 +6,7 @@ import LocalizedStrings from 'react-localization';
 
 let strings = new LocalizedStrings({
     zh: {
-        companyTitle: "五月菊",
+        companyTitle: "MayDaisy",
         languageButton: 'Eng',
         accountButton: "我的帳戶",
         login: "登入",
@@ -104,7 +104,7 @@ export default class Header extends Component {
         <header>
 
             {currentPath.includes('/zh/') && <div className="logo">
-                <Link to="/zh/">五月菊</Link>
+                <Link to="/zh/">MayDaisy</Link>
             </div>}
             {currentPath.includes('/en/') && <div className="logo">
                 <Link to="/en/">MayDaisy</Link>

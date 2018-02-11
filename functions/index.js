@@ -339,19 +339,20 @@ exports.PromoCodeStats = functions.database.ref('/allTransactions/{FloristID}/{T
     var codeUsed = event.data.child('codeUsed').val();
     var referenceCode = event.data.child('referenceCode').val();
     var originalPrice = event.data.child('arrangementOriginalPrice').val();
+    var platformDiscount = event.data.child('platformDiscount').val();
     var updates = {};
     var newUsedCount;
+    var usedCount
     var txnReference;
     var originalPrices;
 
     console.log('codeUsed is : ', codeUsed);
     console.log('referenceCode is : ', referenceCode);
     console.log('originalPrice is : ', originalPrice);
-    if (codeUsed !== '') {
+    if (codeUsed !== '' && platformDiscount === 'true') {
         console.log("log: codeUsed !== ''");
         admin.database().ref('/promoCode/' + codeUsed + '/').once('value', function(snapshot) {
-            var usedCount = snapshot.child('usedCount').val();
-            newUsedCount = usedCount + 1;
+            usedCount = snapshot.child('usedCount').val();
             if (snapshot.hasChild('txnReference')) {
                 txnReference = snapshot.child('txnReference').val();
                 txnReference.push(referenceCode);
@@ -371,6 +372,7 @@ exports.PromoCodeStats = functions.database.ref('/allTransactions/{FloristID}/{T
                 console.log('no node for originalPrices, new originalPrice is : ', originalPrice);
             }
          }).then(() => {
+            newUsedCount = usedCount + 1;
             updates['/promoCode/' + codeUsed + '/used/'] = newUsedCount;
             updates['/promoCode/' + codeUsed + '/txnReference'] = txnReference;
             updates['/promoCode/' + codeUsed + '/originalPrices'] = originalPrices;
