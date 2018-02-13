@@ -6,7 +6,7 @@ let strings = new LocalizedStrings({
         adminMessage: "小提示: 花藝師會在檔期已滿的日期停止接受訂單。如果您的訂花日期顯示為已滿，請考慮其他的花藝師。",
     },
     en:{
-        adminMessage: "Tip: Florists will stop accepting orders on full days. If your day is greyed out on the calendar, please check out other florists.",
+        adminMessage: "Tip: Florists will stop accepting orders on days that they are full. If your day is greyed out on the calendar, please check out other florists.",
     }
   });
 
