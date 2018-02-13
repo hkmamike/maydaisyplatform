@@ -15,6 +15,16 @@
     @include translateY(40%);
 }
 
+.hotline-message {
+    background-color: $darkGrey;
+    color: white;
+    padding-top: 10px;
+    padding-bottom: 10px;
+    margin-bottom: 70px;
+    font-size: 18px;
+    text-align: center;
+}
+
 .admin-message {
     background-color: $darkGrey;
     color: white;
@@ -291,7 +301,8 @@ header {
 .how-it-works {
     background-color: $white;
     color: $darkGrey;
-    padding-top: 20px;
+    padding-top: 50px;
+    padding-bottom: 70px;
     text-align: center;
     min-height: 300px;
     .home-123 {

@@ -313,6 +313,13 @@
     } 
 }
 
+.list-container-padding {
+    @media (max-width: 600px) {
+        padding-left: 10px;
+        padding-right: 10px;
+    }
+}
+
 .list-container {
     margin: auto;
     max-width: 850px;

@@ -3,10 +3,10 @@ import LocalizedStrings from 'react-localization';
 
 let strings = new LocalizedStrings({
     zh: {
-        adminMessage: "Gigiflorist, Symple Garten, Petite Fleur, Glamorous Floral, Floraline 在情人節還有檔期。",
+        adminMessage: "小提示: 花藝師會在檔期已滿的日期停止接受訂單。如果您的訂花日期顯示為已滿，請考慮其他的花藝師。",
     },
     en:{
-        adminMessage: "Gigiflorist, Symple Garten, Petite Fleur, & Glamorous Floral, Floraline still have slots on Feb14.",
+        adminMessage: "Tip: Florists will stop accepting orders on full days. If your day is greyed out on the calendar, please check out other florists.",
     }
   });
 

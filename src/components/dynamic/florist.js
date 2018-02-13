@@ -78,7 +78,7 @@ export default class Florist extends Component {
         .once('value', function(snapshot) {
             snapshot.forEach(function(childSnapshot) {
                 var childData = childSnapshot.val();
-                reviews.push(childData);
+                reviews.unshift(childData);
             });
             thisRef.setState({reviews: reviews});
         });
@@ -267,7 +267,7 @@ export default class Florist extends Component {
                         </Row>
                     </Grid>
                 </div>
-                <div className="sub-content list-container">{reviews}</div>
+                <div className="sub-content list-container list-container-padding">{reviews}</div>
           </div>
         )
     }

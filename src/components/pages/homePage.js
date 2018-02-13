@@ -52,6 +52,7 @@ let strings = new LocalizedStrings({
       popularFlorists: 'Popular Florists',
       metaTitle: 'MayDaisy - Flower MarketPlace',
       metaDescription: 'Flower marketplace and floral art community. Discover emerging artists, flower shops, and online flower shops. We curate signature designs of bouquets, hampers, arrangements, dried flowers, and preserved flowers.',
+      hotlineTip: 'Need help？ Please call our customer service hotline: (852) 9346-8427 or email us at contact@maydaisy.com',
     },
     zh: {
       signUp: '報名',
@@ -99,7 +100,7 @@ let strings = new LocalizedStrings({
       popularFlorists: '熱門花店、花藝師',
       metaTitle: 'MayDaisy - 花藝市集',
       metaDescription: 'MayDaisy 是一個花藝市集和花藝師社群，我們發掘最潮最優雅的花店和網上花店，搜羅花藝師的標誌性作品，範疇包括花束、禮品、花籃、插花、擺設、乾花和保鮮花。立即網上訂花。',
-    
+      hotlineTip: '有疑問？請致電客戶服務熱線: (852) 9346-8427',
     }
   });
 
@@ -295,6 +296,8 @@ export default class Homepage extends Component {
             </Row>
           </Grid>
         </div>
+
+        <div className="hotline-message">{strings.hotlineTip}</div>
 
         <LazyLoad offsetVertical={100}>
           <ShopByCategory language={language}/>
