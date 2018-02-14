@@ -8,7 +8,7 @@ import LazyLoad from 'react-lazy-load';
 let strings = new LocalizedStrings({
     en:{
       signUp: 'Sign Up',
-      homeImgTitle: 'Discover distinctive styles. Shop directly from emerging independent florists.',
+      homeImgTitle: 'Discover distinctive floral designs. Shop directly from emerging independent florists.',
       homeImgSubtitle: 'Where are the flowers going?',
       go: 'See Designs',
       select_region: 'Anywhere in HK',
@@ -35,12 +35,14 @@ let strings = new LocalizedStrings({
       howItWorks2: 'MayDaisy',
       howItWorks3: ' ',
       howItWorks4: ' Marketplace',
-      flowerShop: 'Flower Shops',
-      flowerShopText: "Find emerging flower shops and floral artists in our marketplace, reference reviews to see how others' experience went.",
-      artist: 'Independent Artists',
-      artistText: "If planning ahead for special occasions, consider our independent floral artists for their distinctive styles.",
+
+      artist: 'Independent Florists',
+      artistText: "Browse designs by emerging floral artists on one website. Discover distinctive styles and place orders directly.",
+      transparency: 'Transparency',
+      transparencyText: 'Search designs by colour, category, keywords, and price, then compare your options.',
       trustAndConvenience: 'Trust and Convenience',
-      trustAndConvenienceText: 'We hold our florists to a high artistic and customer service standard; Shopping with us is convient with our quick checkout features.',
+      trustAndConvenienceText: 'We hold our florists to a high artistic and customer service standard; Shopping with us is safe and convenient.',
+      
       aboutUs1: 'About',
       aboutUs2: ' MayDaisy',
       aboutUsText: "MayDaisy is a marketplace and community to connect customers with great florists in their city. By bringing the best florists together in one place, we can focus resources on your flowers and spend less on marketing. MayDaisy provides a channel for established and emerging independent floral artists alike to reach a broader audience, allowing them to focus on making the best floral arts for you.", 
@@ -83,12 +85,15 @@ let strings = new LocalizedStrings({
       howItWorks2: 'MayDaisy',
       howItWorks3: ' ',
       howItWorks4: '花藝市集',
-      flowerShop: '大小花店',
-      flowerShopText: '一網搜盡最潮最優雅的花店。看看評論令您對您的選擇更有信心。',
+
       artist: '獨立花藝師',
-      artistText: '如果您是預早下單，可以考慮獨立花藝師們獨特風格的藝術花卉。',
+      artistText: '一網搜盡最潮最優雅的花藝設計，發掘風格獨特的花藝師並直接網上下單。',
+      transparency: '高透明度',
+      transparencyText: '以您想要的顏色、花種、關鍵字和價格搜尋花卉設計，比較一吓不同的選擇。',
       trustAndConvenience: '方便安心',
-      trustAndConvenienceText: 'MayDaisy對花藝師有極高的顧客服務和藝術要求; 快速下單功能令您的體驗更暢快。',
+      trustAndConvenienceText: 'MayDaisy 對花藝師有極高的顧客服務和藝術要求; 快速下單功能令您的體驗更暢快。',
+
+
       aboutUs1: '關於',
       aboutUs2: 'MayDaisy',
       aboutUsText: 'MayDaisy 是由花藝師們建立的一站式花藝市集，我們的目標是為客人找到最好最適合他們的花卉設計。鮮花市集的模式令我們可以減低在市場推廣上花費的時間和資源，更集中的為您創造更好的花藝。',
@@ -281,13 +286,13 @@ export default class Homepage extends Component {
           <h2><span className="home-company-name">{strings.howItWorks2}</span>{strings.howItWorks4}</h2>
           <Grid>
             <Row className="show-grid">
-              <Col sm={4}><i className="fa fa-list icons" aria-hidden="true"></i>
-                <h3 className="icon-title">{strings.flowerShop}</h3>
-                <div className="icon-description">{strings.flowerShopText}</div>
-              </Col>
               <Col sm={4}><i className="fa fa-users icons" aria-hidden="true"></i>
                 <h3 className="icon-title">{strings.artist}</h3>
                 <div className="icon-description">{strings.artistText}</div>
+              </Col>
+              <Col sm={4}><i className="fa fa-list icons" aria-hidden="true"></i>
+                <h3 className="icon-title">{strings.transparency}</h3>
+                <div className="icon-description">{strings.transparencyText}</div>
               </Col>
               <Col sm={4}><i className="fa fa-heart icons" aria-hidden="true"></i>
                 <h3 className="icon-title">{strings.trustAndConvenience}</h3>

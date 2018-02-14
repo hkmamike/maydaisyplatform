@@ -66,6 +66,7 @@ let strings = new LocalizedStrings({
     createAccount: 'Create Account',
     email: 'Email',
     password: 'Password',
+    NewPassword: 'New Password',
     passwordConfirm: 'Confirm Password',
     passwordNotMatch: '*The passwords do not match. Please try again.',
     invalidCredential: 'Invalid username/password.',
@@ -168,6 +169,7 @@ let strings = new LocalizedStrings({
     createAccount: '建立帳戶', 
     email: '電郵',
     password: '密碼',
+    NewPassword: '新密碼',
     passwordConfirm: '確認密碼',
     passwordNotMatch: '*密碼不一致，請再嘗試。',
     invalidCredential: '電郵或密碼錯誤。',
@@ -733,8 +735,8 @@ export default class Order extends Component {
                                     </FormGroup>
 
                                     <FormGroup>
-                                        <ControlLabel>{strings.password}</ControlLabel>
-                                        <FormControl className="login-form-field" type="password" value={this.state.password} placeholder={strings.password} onChange={this.handlePWChange}/>
+                                        <ControlLabel>{strings.newPassword}</ControlLabel>
+                                        <FormControl className="login-form-field" type="password" value={this.state.newPassword} placeholder={strings.password} onChange={this.handlePWChange}/>
                                     </FormGroup>
 
                                     <FormGroup>

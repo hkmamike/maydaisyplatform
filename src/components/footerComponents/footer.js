@@ -26,7 +26,7 @@ let strings = new LocalizedStrings({
     terms: '條款',
     termsOfStervices: '服務條款',
     privacyPolicy: '私隱條款',
-    companyName: '五月菊'
+    companyName: 'MayDaisy Co.'
   }
 });
 export default class Footer extends Component {
