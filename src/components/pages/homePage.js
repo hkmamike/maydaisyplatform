@@ -82,7 +82,7 @@ let strings = new LocalizedStrings({
       NT_TuenMun: '屯門區',
       NT_YuenLong: '元朗區',
       howItWorks1: ' ',
-      howItWorks2: 'MayDaisy',
+      howItWorks2: 'MayDaisy ',
       howItWorks3: ' ',
       howItWorks4: '花藝市集',
 
@@ -95,7 +95,7 @@ let strings = new LocalizedStrings({
 
 
       aboutUs1: '關於',
-      aboutUs2: 'MayDaisy',
+      aboutUs2: ' MayDaisy',
       aboutUsText: 'MayDaisy 是由花藝師們建立的一站式花藝市集，我們的目標是為客人找到最好最適合他們的花卉設計。鮮花市集的模式令我們可以減低在市場推廣上花費的時間和資源，更集中的為您創造更好的花藝。',
       joinNow: '快來加入愛花之人的 MayDaisy 運動 ',
       shopByCategory: '分類購物',
