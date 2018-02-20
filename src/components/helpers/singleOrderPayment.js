@@ -333,6 +333,7 @@ export default class PlaceOrder extends React.Component {
                                     email: senderEmail,
                                     language: languageChanged,
                                     dateAdded: dateNow,
+                                    source: 'guest-checkout',
                                 }
                             });
                         }

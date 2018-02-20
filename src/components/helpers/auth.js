@@ -8,7 +8,7 @@ export function auth (email, pw, languageChanged) {
 
   //saving email to newsletter list, to be combined with guest txn list
   var currentTime = new Date().getTime();
-  var newEmail = {email: email, language: languageChanged, dateAdded: currentTime};
+  var newEmail = {email: email, language: languageChanged, dateAdded: currentTime, source: 'auth',};
   var newPostKey = ref.child(`newsLetterList/${languageChanged}`).push().key;
   var updates = {};
   updates['newsLetterList/' + newPostKey] = newEmail;

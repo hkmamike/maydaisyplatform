@@ -15,8 +15,12 @@
     @include translateY(40%);
 }
 
+.inline-block {
+    display: inline-block;
+}
+
 .hotline-message {
-    background-color: $darkGrey;
+    background-color: $darkerpink;
     color: white;
     padding-top: 10px;
     padding-bottom: 10px;
@@ -345,13 +349,62 @@ header {
     }
 }
 
-.bar-pink {
-    background-color: $darkpink;
+.bar-subscribe {
+    background-color: $darkerpink;
+    text-shadow: none;
     color: $white;
     padding: 10px;
     text-align: center;
     min-height: 50px;
-    font-weight: bold;
+
+    .subscription-title {
+        margin-top: 20px;
+        margin-bottom: 5px;
+        font-size: 24px;
+    }
+
+    .subscription-subtitle {
+        font-size: 16px;
+        margin-bottom: 15px;
+        font-weight: 150;
+    }
+
+    .subscription-inline-box {
+        margin-bottom: 20px;
+        .subscription-email {
+            height: 40px;
+            border: none;
+            border-radius: 0;
+            color: white;
+            background-color: $darkerpinkhover;
+            outline: none;
+        }
+        .subscription-button {
+            height: 40px;
+            border-radius: 0;
+            margin-left: 10px;
+            background-color: $darkGrey;
+            padding-left: 15px;
+            padding-right: 15px;
+            color: white;
+            @include translateY(-1px);
+        }
+        ::placeholder {
+            color:white;
+            font-size: 14px;
+            padding-left: 0px;
+            font-weight: 250px;
+        }
+        input[value] {
+            padding-left: 10px;
+        }
+    }
+
+    .subscription-thankyou {
+        margin-top: 20px;
+        margin-bottom: 20px;
+        font-size: 24px;
+    }
 }
 
 .footer-contact {

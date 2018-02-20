@@ -1,9 +1,10 @@
 import React, { Component } from 'react';
-import { Grid, Row, Col, DropdownButton, MenuItem, Button} from 'react-bootstrap';
+import { Grid, Row, Col, DropdownButton, MenuItem, Button, FormGroup, FormControl, ControlLabel } from 'react-bootstrap';
 import { Route, Link } from 'react-router-dom';
 import LocalizedStrings from 'react-localization';
 import { Helmet } from 'react-helmet';
 import LazyLoad from 'react-lazy-load';
+import { base } from '../config/constants';
 
 let strings = new LocalizedStrings({
     en:{
@@ -46,7 +47,6 @@ let strings = new LocalizedStrings({
       aboutUs1: 'About',
       aboutUs2: ' MayDaisy',
       aboutUsText: "MayDaisy is a marketplace and community to connect customers with great florists in their city. By bringing the best florists together in one place, we can focus resources on your flowers and spend less on marketing. MayDaisy provides a channel for established and emerging independent floral artists alike to reach a broader audience, allowing them to focus on making the best floral arts for you.", 
-      joinNow: "Join the flower lovers' movement now ",
       shopByCategory: 'Shop by category',
       bouquetsPicTitle: 'Bouquets',
       driedPicTitle: 'Dried & Preserved',
@@ -55,6 +55,12 @@ let strings = new LocalizedStrings({
       metaTitle: 'MayDaisy - Flower MarketPlace',
       metaDescription: 'Flower marketplace and floral art community. Discover emerging artists, flower shops, and online flower shops. We curate signature designs of bouquets, hampers, arrangements, dried flowers, and preserved flowers.',
       hotlineTip: 'Need help？ Please call our customer service hotline: (852) 9346-8427 or email us at contact@maydaisy.com',
+    
+      subscriptionTitle: 'Sign Up for Our Newsletter',
+      subscriptionSubTitle: 'receive quarterly update on floral tips and seasonal exclusive offers.',
+      email: 'Email',
+      subscribe: 'Subscribe Now',
+      thankyou: 'Thank you for subscribing!',
     },
     zh: {
       signUp: '報名',
@@ -93,11 +99,9 @@ let strings = new LocalizedStrings({
       trustAndConvenience: '方便安心',
       trustAndConvenienceText: 'MayDaisy 對花藝師有極高的顧客服務和藝術要求; 快速下單功能令您的體驗更暢快。',
 
-
       aboutUs1: '關於',
       aboutUs2: ' MayDaisy',
-      aboutUsText: 'MayDaisy 是由花藝師們建立的一站式花藝市集，我們的目標是為客人找到最好最適合他們的花卉設計。鮮花市集的模式令我們可以減低在市場推廣上花費的時間和資源，更集中的為您創造更好的花藝。',
-      joinNow: '快來加入愛花之人的 MayDaisy 運動 ',
+      aboutUsText: 'MayDaisy 是由花藝師們建立的一站式花藝市集，我們的目標是為客人找到最好最適合他們的花卉設計。花藝市集的模式令我們可以減低在市場推廣上花費的時間和資源，更集中的為您創造更好的花藝。',
       shopByCategory: '分類購物',
       bouquetsPicTitle: '花束',
       driedPicTitle: '乾花/保鮮花',
@@ -106,6 +110,12 @@ let strings = new LocalizedStrings({
       metaTitle: 'MayDaisy - 花藝市集',
       metaDescription: 'MayDaisy 是一個花藝市集和花藝師社群，我們發掘最潮最優雅的花店和網上花店，搜羅花藝師的標誌性作品，範疇包括花束、禮品、花籃、插花、擺設、乾花和保鮮花。立即網上訂花。',
       hotlineTip: '有疑問？請致電客戶服務熱線: (852) 9346-8427',
+    
+      subscriptionTitle: '訂閱 MayDaisy 電子報',
+      subscriptionSubTitle: '每季一次的電子報提供花藝資訊和折扣優惠。別錯過噢！',
+      email: '電郵地址',
+      subscribe: '立即訂閱',
+      thankyou: '謝謝您的訂閱!',
     }
   });
 
@@ -208,6 +218,11 @@ export default class Homepage extends Component {
   constructor() {
     super();
     this.handleSelect = this.handleSelect.bind(this);
+    this.state = {
+      email: '',
+      emailValid: false,
+      subscribed: false,
+    }
   }
 
   handleSelect = (eventKey) => {
@@ -228,6 +243,31 @@ export default class Homepage extends Component {
 
   componentWillMount() {
     strings.setLanguage(this.props.languageChanged);
+  }
+
+  handleEmailChange = (e) => {
+    this.setState({ email: e.target.value });
+    const emailLength = this.state.email.length;
+    if (emailLength >= 5 && e.target.value.indexOf("@") >= 0 && e.target.value.indexOf(".") >= 0) {
+      this.setState({ emailValid: true });
+    } else {
+      this.setState({ emailValid: false });
+    }
+  }
+
+  handleSubscription = (e) => {
+    e.preventDefault();
+    this.setState({subscribed: true}, () => {
+      var dateNow = new Date().getTime();
+      base.push(`newsLetterList`, {
+        data: {
+            email: this.state.email,
+            language: this.props.languageChanged,
+            dateAdded: dateNow,
+            source: 'homepage',
+        }
+      });
+    });
   }
 
   render() {
@@ -323,10 +363,22 @@ export default class Homepage extends Component {
           </Grid>
         </div>
 
+        {!this.state.subscribed && 
+          <div className="bar-subscribe">
+            <div className="subscription-title">{strings.subscriptionTitle}</div>
+            <div className="subscription-subtitle">{strings.subscriptionSubTitle}</div>
+            <div className="subscription-inline-box">
+              <input className="inline-block subscription-email" placeholder={strings.email} value={this.state.email} onChange={this.handleEmailChange}/>
+              <Button bsStyle="" type="submit" className="button inline-block subscription-button" onClick={this.handleSubscription} disabled={!this.state.emailValid}>{strings.subscribe}</Button>
+            </div>
+          </div>
+        }
 
-        <div className="bar-pink">
-          {strings.joinNow}<i className="fa fa-users"></i>
-        </div>
+        {this.state.subscribed && 
+          <div className="bar-subscribe">
+            <div className="subscription-thankyou">{strings.thankyou}</div>
+          </div>
+        }
 
       </div>
     )
