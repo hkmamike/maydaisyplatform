@@ -182,7 +182,7 @@ let strings = new LocalizedStrings({
     noRecord: '沒有記錄',
     orderLoginGuestTitle: '訪客結帳',
     orderLoginSignIn: "登入結帳",
-    orderLoginRegister: '新用戶登記',
+    orderLoginRegister: '新用戶',
     proceedAsGuestButton: '繼續訪客結帳',
     proceedAsGuestTip: '*某些系統功能需要登入後才可使用（例如地址簿）。',
     emailInUse: '電郵已被另一個帳戶使用。',
