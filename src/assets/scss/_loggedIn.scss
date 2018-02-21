@@ -62,40 +62,27 @@ textarea.data-field-description {
             background-color: $pinkhover !important;
         }
     }
-    .login-link-group {
+    .link-group-login {
         display: block;
-        font-size: 75%;
+        text-align: center;
+        font-size: 80%;
+        margin-bottom: 30px;
         @media (max-width: 768px) {
             margin-top: 5px;
         }
         .link-forgot-pw {
-            float: left;
-            color: $black !important;
-        }
-        .link-create-account {
-            float: right;
-            color: $black !important;
-        }
-    }
-    .login-link-group-register {
-        display: block;
-        text-align: center;
-        font-size: 75%;
-        @media (max-width: 768px) {
-            margin-top: 5px;
-        }
-        .link-login {
             color: $black !important;
         }
     }
     .link-group-register {
-        padding-top: 15px;
         padding-bottom: 0;
-        text-align: center;
+        text-align: left;
         display: block;
         font-size: 80%;
+        margin-top: -10px;
+
         .link-login {
-            color: $black !important;
+            color: $darkpink !important;
         }
     }
     .vertical-line {
@@ -126,13 +113,13 @@ textarea.data-field-description {
     .guest-check-out-form {
         float: right;
         width: 275px;
-        #guest-order {
+        #register-button {
             margin-left: 0 !important;
         }
         @media (max-width: 768px) {
             float: none;
             margin: auto;
-            padding-bottom: 15px;
+            padding-bottom: 30px;
             border-bottom: 1px solid $grey;
         }
     }

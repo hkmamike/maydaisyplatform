@@ -90,10 +90,9 @@ export default class PlaceOrder extends React.Component {
         var dateNow = new Date().getTime();
         var monthNow = new Date().getMonth() + 1;
         var referenceCode = "" + dateNow + referenceRan;
-        var orderRoute = this.props.orderRoute;
         var senderEmailOnReg = this.props.email;
-        var uid = '';
-        var addressBookChecked = false;
+        var uid = firebase.auth().currentUser.uid;
+        var addressBookChecked = this.props.addressBookChecked;
         var platformDiscount = this.props.platformDiscount;
         var platformDiscountRate = this.props.platformDiscountRate;
         var floristRevenueMin;
@@ -112,11 +111,6 @@ export default class PlaceOrder extends React.Component {
             floristRevenue88 = (arrangementOriginalPrice * 0.88) + (deliveryFee * 0.96);
             floristRevenue90 = (arrangementOriginalPrice * 0.9) + (deliveryFee * 0.96);
             floristRevenueBase = arrangementOriginalPrice + deliveryFee;
-        }
-
-        if (orderRoute === 'login') {
-            addressBookChecked = this.props.addressBookChecked;
-            uid = firebase.auth().currentUser.uid;
         }
 
         console.log('stripe created token. Forwarding to web server : ', token);
@@ -197,7 +191,6 @@ export default class PlaceOrder extends React.Component {
                                 selectDeliveryType: selectDeliveryType,
                                 languageChanged: languageChanged,
                                 deliveryInstruction: deliveryInstruction,
-                                orderRoute: orderRoute,
                                 orderReceivedEmailSent: 'false',
                                 orderFulfilledEmailSent: 'false',
                                 platformDiscount: platformDiscount,
@@ -205,138 +198,78 @@ export default class PlaceOrder extends React.Component {
                                 codeUsed: codeUsed,
                             }
                         });
-                        if (orderRoute === 'login') {
-                            base.post(`users/${uid}/transactions/${referenceCode}`, {
-                                data: {
-                                    city: 'HK',
-                                    reviewed: false,
-                                    status: 'order_submitted',
-                                    florist: floristID,
-                                    floristName: floristName,
-                                    uid: uid,
-                                    marketRegion: marketRegion,
-                                    price: price,
-                                    orderMonth: monthNow,
-                                    currency: currency,
-                                    arrangementPrice: arrangementPrice,
-                                    arrangementOriginalPrice: arrangementOriginalPrice,
-                                    promoCodeApplied: promoCodeApplied,
-                                    deliveryFee: deliveryFee,
-                                    arrangementName: arrangementName,
-                                    arrangementImage: arrangementImage,
-                                    arrangementCode: arrangementCode,
-                                    deliveryDate: deliveryDate,
-                                    senderName: senderName,
-                                    senderNum: senderNum,
-                                    senderEmail: senderEmail,
-                                    senderEmailOnReg: senderEmailOnReg,
-                                    recipient: recipient,
-                                    recipientNum: recipientNum,
-                                    company: company,
-                                    address: address,
-                                    cardMessage: cardMessage,
-                                    stripeTokID: stripeTokID,
-                                    stripeCusID: stripeCusID,
-                                    stripeTxnID: stripeTxnID,
-                                    orderReceivedAt: dateNow,
-                                    last4: last4,
-                                    cardType: cardType,
-                                    cardExpYear: cardExpYear,
-                                    cardExpMonth: cardExpMonth,
-                                    referenceCode: referenceCode,
-                                    selectDeliveryType: selectDeliveryType,
-                                    languageChanged: languageChanged,
-                                    deliveryInstruction: deliveryInstruction,
-                                    orderRoute: orderRoute,
-                                    platformDiscount: platformDiscount,
-                                    platformDiscountRate: platformDiscountRate,
-                                    codeUsed: codeUsed,
-                                }
-                            });
 
-                            base.update(`users/${uid}/info/`, {
-                                data: {
-                                    name: senderName,
-                                    phone: senderNum,
-                                }
-                            });
-
-                            if (addressBookChecked) {
-                                base.post(`users/${uid}/address/${referenceCode}`, {
-                                    data: {
-                                        city: 'HK',
-                                        uid: uid,
-                                        referenceCode: referenceCode,
-                                        recipient: recipient,
-                                        recipientNum: recipientNum,
-                                        company: company,
-                                        address: address,
-                                        selectDeliveryType: selectDeliveryType,
-                                        deliveryInstruction: deliveryInstruction,
-                                        defaultAddress: false,
-                                    }
-                                });
+                        base.post(`users/${uid}/transactions/${referenceCode}`, {
+                            data: {
+                                city: 'HK',
+                                reviewed: false,
+                                status: 'order_submitted',
+                                florist: floristID,
+                                floristName: floristName,
+                                uid: uid,
+                                marketRegion: marketRegion,
+                                price: price,
+                                orderMonth: monthNow,
+                                currency: currency,
+                                arrangementPrice: arrangementPrice,
+                                arrangementOriginalPrice: arrangementOriginalPrice,
+                                promoCodeApplied: promoCodeApplied,
+                                deliveryFee: deliveryFee,
+                                arrangementName: arrangementName,
+                                arrangementImage: arrangementImage,
+                                arrangementCode: arrangementCode,
+                                deliveryDate: deliveryDate,
+                                senderName: senderName,
+                                senderNum: senderNum,
+                                senderEmail: senderEmail,
+                                senderEmailOnReg: senderEmailOnReg,
+                                recipient: recipient,
+                                recipientNum: recipientNum,
+                                company: company,
+                                address: address,
+                                cardMessage: cardMessage,
+                                stripeTokID: stripeTokID,
+                                stripeCusID: stripeCusID,
+                                stripeTxnID: stripeTxnID,
+                                orderReceivedAt: dateNow,
+                                last4: last4,
+                                cardType: cardType,
+                                cardExpYear: cardExpYear,
+                                cardExpMonth: cardExpMonth,
+                                referenceCode: referenceCode,
+                                selectDeliveryType: selectDeliveryType,
+                                languageChanged: languageChanged,
+                                deliveryInstruction: deliveryInstruction,
+                                platformDiscount: platformDiscount,
+                                platformDiscountRate: platformDiscountRate,
+                                codeUsed: codeUsed,
                             }
-                        } else if (orderRoute === 'guest') {
-                            base.post(`guestTransactions/${referenceCode}`, {
+                        });
+
+                        base.update(`users/${uid}/info/`, {
+                            data: {
+                                name: senderName,
+                                phone: senderNum,
+                            }
+                        });
+
+                        if (addressBookChecked) {
+                            base.post(`users/${uid}/address/${referenceCode}`, {
                                 data: {
                                     city: 'HK',
-                                    reviewed: false,
-                                    status: 'order_submitted',
-                                    florist: floristID,
-                                    floristName: floristName,
-                                    price: price,
-                                    orderMonth: monthNow,
-                                    marketRegion: marketRegion,
-                                    currency: currency,
-                                    arrangementPrice: arrangementPrice,
-                                    arrangementOriginalPrice: arrangementOriginalPrice,
-                                    promoCodeApplied: promoCodeApplied,
-                                    floristRevenueBase: floristRevenueBase,
-                                    floristRevenue88: floristRevenue88,
-                                    floristRevenue90: floristRevenue90,
-                                    floristRevenueMin: floristRevenueMin,
-                                    deliveryFee: deliveryFee,
-                                    arrangementName: arrangementName,
-                                    arrangementImage: arrangementImage,
-                                    arrangementCode: arrangementCode,
-                                    deliveryDate: deliveryDate,
-                                    senderName: senderName,
-                                    senderNum: senderNum,
-                                    senderEmail: senderEmail,
-                                    senderEmailOnReg: senderEmailOnReg,
+                                    uid: uid,
+                                    referenceCode: referenceCode,
                                     recipient: recipient,
                                     recipientNum: recipientNum,
                                     company: company,
                                     address: address,
-                                    cardMessage: cardMessage,
-                                    stripeTokID: stripeTokID,
-                                    stripeCusID: stripeCusID,
-                                    stripeTxnID: stripeTxnID,
-                                    orderReceivedAt: dateNow,
-                                    last4: last4,
-                                    cardType: cardType,
-                                    cardExpYear: cardExpYear,
-                                    cardExpMonth: cardExpMonth,
-                                    referenceCode: referenceCode,
                                     selectDeliveryType: selectDeliveryType,
-                                    languageChanged: languageChanged,
                                     deliveryInstruction: deliveryInstruction,
-                                    orderRoute: orderRoute,
-                                    platformDiscount: platformDiscount,
-                                    platformDiscountRate: platformDiscountRate,
-                                    codeUsed: codeUsed,
-                                }
-                            });
-                            base.push(`newsLetterList`, {
-                                data: {
-                                    email: senderEmail,
-                                    language: languageChanged,
-                                    dateAdded: dateNow,
-                                    source: 'guest-checkout',
+                                    defaultAddress: false,
                                 }
                             });
                         }
+
                         console.log ('subscription processing succeeded.');
                         this.progressOrderStep(referenceCode, stripeTxnID, deliveryDate);
                     });
