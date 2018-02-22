@@ -8,6 +8,10 @@ import moment from 'moment';
 import 'moment-timezone';
 import { Helmet } from 'react-helmet';
 
+import ReactPixel from 'react-facebook-pixel';
+ReactPixel.init('814639808740001');
+ReactPixel.fbq('track');
+
 let strings = new LocalizedStrings({
     en:{
         select_region: 'Select Region',
@@ -402,9 +406,17 @@ export default class Arrangement extends Component {
     }
 
     componentDidMount() {
+        window.scrollTo(0, 0);
+
+        var arrangementID = this.state.arrangement;
+
+        ReactPixel.track('ViewContent', {
+            content_ids: this.props.match.params.arrangement,
+            content_type: 'product'
+        });
+
         this.props.onDeliveryDateSelect(false);
         
-        window.scrollTo(0, 0);
         var thisRef = this;
         var floristID = this.props.match.params.floristID;
         var marketRegion = this.props.marketRegion;

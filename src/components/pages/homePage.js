@@ -6,6 +6,10 @@ import { Helmet } from 'react-helmet';
 import LazyLoad from 'react-lazy-load';
 import { base } from '../config/constants';
 
+import ReactPixel from 'react-facebook-pixel';
+ReactPixel.init('814639808740001');
+ReactPixel.fbq('track');
+
 let strings = new LocalizedStrings({
     en:{
       signUp: 'Sign Up',
@@ -239,6 +243,9 @@ export default class Homepage extends Component {
 
   componentDidMount() {
     window.scrollTo(0, 0);
+    ReactPixel.track('ViewContent', {
+      content_name: 'home page',
+    });
   }
 
   componentWillMount() {
@@ -256,10 +263,13 @@ export default class Homepage extends Component {
   }
 
   handleSubscription = (e) => {
+
     e.preventDefault();
+    ReactPixel.track('Lead');
+
     this.setState({subscribed: true}, () => {
       var dateNow = new Date().getTime();
-      base.push(`newsLetterList`, {
+      base.push(`newsLetterList/${this.props.languageChanged}`, {
         data: {
             email: this.state.email,
             language: this.props.languageChanged,

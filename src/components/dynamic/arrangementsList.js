@@ -12,6 +12,10 @@ import { Helmet } from 'react-helmet';
 import { InstantSearch, Hits, Pagination, Configure, ClearAll } from 'react-instantsearch/dom';
 import { connectRefinementList, connectMenu, connectRange, connectSearchBox } from 'react-instantsearch/connectors';
 
+import ReactPixel from 'react-facebook-pixel';
+ReactPixel.init('814639808740001');
+ReactPixel.fbq('track');
+
 let strings = new LocalizedStrings({
     en: {
         seeDesignsButton: 'See Designs',
@@ -863,6 +867,9 @@ export default class ArrangementsList extends Component {
 
     componentDidMount() {
         window.scrollTo(0, 0);
+        ReactPixel.track('ViewContent', {
+            content_name: 'arrangements list',
+        });
     }
     
     componentWillReceiveProps (nextProps) {

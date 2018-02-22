@@ -8,6 +8,7 @@ import LocalizedStrings from 'react-localization';
 import * as firebase from 'firebase';
 import { base } from '../config/constants';
 import { auth } from '../helpers/auth'
+
 import ReactPixel from 'react-facebook-pixel';
 ReactPixel.init('814639808740001');
 ReactPixel.fbq('track');
@@ -1268,10 +1269,14 @@ export default class Order extends Component {
             )
         }
     }   else if (orderStep===5){
+
+        var totalPrice = this.state.arrangementPrice + this.state.arrangementDeliveryFee;
+
         ReactPixel.track('Purchase', {
-            value: 1,
+            value: totalPrice,
             currency: 'HKD'
         });
+        
         content = (
             <div>
                 <div className="order-succeed">            
