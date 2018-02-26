@@ -424,13 +424,15 @@
         
                 .justify-container {
                     // position: relative;
+                    .inline-container > * {
+                        vertical-align: middle;
+                    }
                     .inline-container {
                         // height: 200px;
                         .florist-info-container {
                             margin-left: 60px;
                             text-align: center;
                             display: inline-block;
-                            vertical-align: 200%;
                             @media (max-width: 576px) {
                                 margin-top: 10px;
                                 text-align: center;
